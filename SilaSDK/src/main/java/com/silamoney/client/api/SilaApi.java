@@ -156,4 +156,39 @@ public class SilaApi {
 
         return ResponseUtil.prepareResponse(response);
     }
+
+    /**
+     * Returns whether entity attached to user handle is verified, not valid, or
+     * still pending.
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     */
+    public ApiResponse CheckKYC(String userHandle, String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException {
+        HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
+        String path = "/check_kyc";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response);
+    }
 }

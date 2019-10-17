@@ -1,5 +1,6 @@
 package com.silamoney.client.tests;
 
+import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.matchers.MatchType;
 import org.mockserver.model.HttpRequest;
@@ -29,7 +30,7 @@ public class MockServer {
                                                 "{\"header\":"
                                                 + "{"
                                                 + "\"auth_handle\":\"handle.silamoney.eth\","
-                                                + "\"user_handle\":\"user.silamoney.eth\","
+                                                + "\"user_handle\":\"" + DefaultConfigurations.userHandle + "\","
                                                 + "\"version\":\"0.2\","
                                                 + "\"crypto\":\"ETH\","
                                                 + "\"reference\":\"ref\""
@@ -41,10 +42,11 @@ public class MockServer {
                 .respond(
                         HttpResponse.response()
                                 .withStatusCode(200)
-                                .withBody("{\"reference\":\"ref\","
-                                        + "\"message\":\"user.silamoney."
-                                        + "eth is available.\",\"status"
-                                        + "\":\"SUCCESS\"}")
+                                .withBody("{\n"
+                                        + "  \"reference\": \"ref\",\n"
+                                        + "  \"message\": \"" + DefaultConfigurations.userHandle + " is available.\",\n"
+                                        + "  \"status\": \"SUCCESS\"\n"
+                                        + "}")
                 );
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Response 200 failure">
@@ -70,10 +72,11 @@ public class MockServer {
                 .respond(
                         HttpResponse.response()
                                 .withStatusCode(200)
-                                .withBody("{\"reference\":\"ref\","
-                                        + "\"message\":\"taken.silamoney."
-                                        + "eth is already taken.\",\"status"
-                                        + "\":\"FAILURE\"}")
+                                .withBody("{\n"
+                                        + "  \"reference\": \"ref\",\n"
+                                        + "  \"message\": \"" + DefaultConfigurations.userHandle + " is already taken.\",\n"
+                                        + "  \"status\": \"SUCCESS\"\n"
+                                        + "}")
                 );
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Response 400">
@@ -146,7 +149,7 @@ public class MockServer {
                                                 "{"
                                                 + "\"header\": {"
                                                 + "\"reference\": \"ref\","
-                                                + "\"user_handle\": \"user.silamoney.eth\","
+                                                + "\"user_handle\": \"" + DefaultConfigurations.userHandle + "\","
                                                 + "\"auth_handle\": \"handle.silamoney.eth\","
                                                 + "\"version\": \"0.2\","
                                                 + "\"crypto\": \"ETH\""
@@ -190,7 +193,7 @@ public class MockServer {
                                 .withStatusCode(200)
                                 .withBody("{"
                                         + "  \"reference\":\"ref\","
-                                        + "  \"message\":\"user.silamoney.eth was successfully registered \","
+                                        + "  \"message\":\"" + DefaultConfigurations.userHandle + " was successfully registered \","
                                         + "  \"status\":\"SUCCESS\""
                                         + "}")
                 );
@@ -329,7 +332,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"user.silamoney.eth\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\", "
                                                 + "    \"reference\": \"ref\""
@@ -344,7 +347,7 @@ public class MockServer {
                                 .withStatusCode(200)
                                 .withBody("{"
                                         + "  \"reference\":\"ref\","
-                                        + "  \"message\":\"user.silamoney.eth submitted for KYC review\","
+                                        + "  \"message\":\"" + DefaultConfigurations.userHandle + " submitted for KYC review\","
                                         + "  \"status\":\"SUCCESS\""
                                         + "}")
                 );
@@ -386,6 +389,133 @@ public class MockServer {
                         HttpRequest.request()
                                 .withMethod("POST")
                                 .withPath("/request_kyc")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"header_msg\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(401)
+                                .withBody("{"
+                                        + "  \"reference\":\"ref\","
+                                        + "  \"message\":\"Invalid signature message.\","
+                                        + "  \"status\":\"FAILURE\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="CheckKYC">
+        //<editor-fold defaultstate="collapsed" desc="Response 200 Success">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/check_kyc")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"header_msg\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("{"
+                                        + "  \"reference\":\"ref\","
+                                        + "  \"message\":\"KYC passed for " + DefaultConfigurations.userHandle + "\","
+                                        + "  \"status\":\"SUCCESS\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Response 200 Failure">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/check_kyc")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"notpassed.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"header_msg\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("{"
+                                        + "  \"reference\":\"ref\","
+                                        + "  \"message\":\"KYC not passed for notpassed.silamoney.eth\","
+                                        + "  \"status\":\"FAILURE\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Response 400">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/check_kyc")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"badrequest.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"header_msg\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(400)
+                                .withBody("{"
+                                        + "  \"reference\":\"ref\","
+                                        + "  \"message\":\"Bad request message.\","
+                                        + "  \"status\":\"FAILURE\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Response 401">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/check_kyc")
                                 .withBody(
                                         JsonBody.json(
                                                 "{"
