@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.silamoney.client.tests;
 
 import com.silamoney.client.api.ApiResponse;
@@ -23,7 +18,7 @@ import org.mockserver.junit.MockServerRule;
 
 /**
  *
- * @author loren
+ * @author Karlo Lorenzana
  */
 public class CheckHandleTests {
 
@@ -39,7 +34,7 @@ public class CheckHandleTests {
     @Before
     public void setUp() {
         mockServer = ClientAndServer.startClientAndServer(1080);
-        MockServer.checkHandleServer();
+        MockServer.MockServer();
     }
 
     @After
