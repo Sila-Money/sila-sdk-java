@@ -15,18 +15,24 @@ import java.net.http.HttpResponse;
 public class ResponseUtil {
 
     /**
-     *Creates an ApiResponse based on the sent HttpResponse.
+     * Creates an ApiResponse based on the sent HttpResponse.
+     *
      * @param response
      * @return ApiResponse
+     * @throws com.silamoney.client.exceptions.BadRequestException
+     * @throws com.silamoney.client.exceptions.InvalidSignatureException
+     * @throws com.silamoney.client.exceptions.ServerSideException
      */
-    public static ApiResponse prepareResponse(HttpResponse response) {
+    public static ApiResponse prepareResponse(HttpResponse response) 
+            throws BadRequestException, 
+            InvalidSignatureException, 
+            ServerSideException {
         int statusCode = response.statusCode();
-        
-        try {
-            BaseResponse baseResponse = (BaseResponse) Serialization
+
+        BaseResponse baseResponse = (BaseResponse) Serialization
                 .deserialize(response.body().toString(), BaseResponse.class);
-            
-            switch (statusCode) {
+
+        switch (statusCode) {
             case 400:
                 throw new BadRequestException(baseResponse.message);
             case 401:
@@ -35,14 +41,10 @@ public class ResponseUtil {
                 throw new ServerSideException(response.body().toString());
             default:
                 break;
-            }
-            
-            return new ApiResponse(statusCode, 
-                    response.headers().map(), 
-                    baseResponse);
-        } catch (Exception e) {
         }
-        
-        return null;
+
+        return new ApiResponse(statusCode,
+                response.headers().map(),
+                baseResponse);
     }
 }

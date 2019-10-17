@@ -15,7 +15,7 @@ public class DefaultConfigurations {
     /**
      * Default appHandle for testing.
      */
-    public static String appHandle = "functionalSilaSDKTesst";
+    public static String appHandle = "handle.silamoney.eth";
 
     /**
      * Default private key for testing.

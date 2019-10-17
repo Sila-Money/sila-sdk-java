@@ -1,7 +1,6 @@
 package com.silamoney.client.api;
 
 import com.silamoney.client.config.Configuration;
-import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.Environments;
 import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.exceptions.BadRequestException;
@@ -63,9 +62,18 @@ public class SilaApi {
      *
      * @param handle
      * @return API response.
-     * @throws java.lang.Exception
+     * @throws com.silamoney.client.exceptions.BadRequestException
+     * @throws com.silamoney.client.exceptions.InvalidSignatureException
+     * @throws com.silamoney.client.exceptions.ServerSideException
+     * @throws java.io.IOException
+     * @throws java.lang.InterruptedException
      */
-    public ApiResponse CheckHandle(String handle) throws Exception {
+    public ApiResponse CheckHandle(String handle) throws 
+            BadRequestException, 
+            InvalidSignatureException, 
+            ServerSideException, 
+            IOException, 
+            InterruptedException {
         HeaderMsg body = new HeaderMsg(handle,
                 this.configuration.getAuthHandle());
         String path = "/check_handle";
@@ -75,14 +83,9 @@ public class SilaApi {
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
                 this.configuration.getPrivateKey()));
 
-        try {
-            HttpResponse response = this.configuration.getApiClient()
-                    .CallApi(path, headers, _body);
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
 
-            return ResponseUtil.prepareResponse(response);
-
-        } catch (IOException | InterruptedException ex) {
-            throw new Exception(ex);
-        }
+        return ResponseUtil.prepareResponse(response);
     }
 }
