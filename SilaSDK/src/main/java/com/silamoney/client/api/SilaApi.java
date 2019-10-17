@@ -102,11 +102,11 @@ public class SilaApi {
      * @throws com.silamoney.client.exceptions.BadRequestException
      * @throws com.silamoney.client.exceptions.InvalidSignatureException
      */
-    public ApiResponse Register(User user) throws 
-            IOException, 
-            InterruptedException, 
-            BadRequestException, 
-            InvalidSignatureException, 
+    public ApiResponse Register(User user) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
             ServerSideException {
         EntityMsg body = new EntityMsg(user,
                 this.configuration.getAuthHandle());
@@ -116,6 +116,40 @@ public class SilaApi {
 
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
                 this.configuration.getPrivateKey()));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response);
+    }
+
+    /**
+     * Starts KYC verification process on a registered user handle.
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     */
+    public ApiResponse RequestKYC(String userHandle, String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException {
+        HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
+        String path = "/request_kyc";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
 
         HttpResponse response = this.configuration.getApiClient()
                 .CallApi(path, headers, _body);

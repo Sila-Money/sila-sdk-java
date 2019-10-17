@@ -9,7 +9,6 @@ import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import java.io.IOException;
-import java.util.Date;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
@@ -48,7 +47,7 @@ public class RegisterTests {
     @Test
     public void Response200() throws Exception {
         LocalDate birthdate = new LocalDate(1900, 01, 31);
-        User user = new User("user.silamoney.eth", 
+        User user = new User(DefaultConfigurations.userHandle, 
                 "Example", 
                 "User", 
                 "123 Main Street", 
@@ -64,9 +63,9 @@ public class RegisterTests {
         
         ApiResponse response = api.Register(user);
 
-        assertEquals(response.statusCode, 200);
-        assertEquals(((BaseResponse) response.data).message, "user.silamoney.eth was successfully registered ");
-        assertEquals(((BaseResponse) response.data).status, "SUCCESS");
+        assertEquals(200, response.statusCode);
+        assertEquals(DefaultConfigurations.userHandle + " was successfully registered ", ((BaseResponse) response.data).message);
+        assertEquals("SUCCESS", ((BaseResponse) response.data).status);
     }
 
     @Test(expected = BadRequestException.class)

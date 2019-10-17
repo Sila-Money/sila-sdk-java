@@ -20,7 +20,7 @@ import org.mockserver.junit.MockServerRule;
  *
  * @author Karlo Lorenzana
  */
-public class CheckHandleTests {
+public class RequestKYCTests {
 
     SilaApi api = new SilaApi(DefaultConfigurations.host,
             DefaultConfigurations.appHandle,
@@ -43,40 +43,31 @@ public class CheckHandleTests {
     }
 
     @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api.CheckHandle(DefaultConfigurations.userHandle);
+    public void Response200() throws Exception {
+        ApiResponse response = api.RequestKYC(DefaultConfigurations.userHandle, DefaultConfigurations.userPrivateKey);
 
         assertEquals(200, response.statusCode);
-        assertEquals(DefaultConfigurations.userHandle + " is available.", ((BaseResponse) response.data).message);
+        assertEquals(DefaultConfigurations.userHandle + " submitted for KYC review", ((BaseResponse) response.data).message);
         assertEquals("SUCCESS", ((BaseResponse) response.data).status);
     }
 
-    @Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api.CheckHandle("taken.silamoney.eth");
-
-        assertEquals(200, response.statusCode);
-        assertEquals("taken.silamoney.eth is already taken.", ((BaseResponse) response.data).message);
-        assertEquals("FAILURE", ((BaseResponse) response.data).status);
-    }
-
     @Test(expected = BadRequestException.class)
-    public void Response400() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException  {
-        api.CheckHandle("badrequest.silamoney.eth");
+    public void Response400() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException {
+        api.RequestKYC("badrequest.silamoney.eth", DefaultConfigurations.userPrivateKey);
     }
-    
+
     @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException  {
-        api.CheckHandle("invalidsignature.silamoney.eth");
+    public void Response401() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException {
+        api.RequestKYC("invalidsignature.silamoney.eth", DefaultConfigurations.userPrivateKey);
     }
 }
