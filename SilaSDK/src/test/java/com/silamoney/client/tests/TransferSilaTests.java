@@ -8,34 +8,18 @@ import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import java.io.IOException;
-import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
-import org.mockserver.integration.ClientAndServer;
 
 /**
  *
  * @author Karlo Lorenzana
  */
-public class TransferSilaTest {
+public class TransferSilaTests {
 
     SilaApi api = new SilaApi(DefaultConfigurations.host,
             DefaultConfigurations.appHandle,
             DefaultConfigurations.privateKey);
-
-    private static ClientAndServer mockServer;
-
-    @BeforeClass
-    public static void setUp() {
-        mockServer = ClientAndServer.startClientAndServer(1080);
-        MockServer.MockServer();
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        mockServer.stop();
-    }
 
     @Test
     public void Response200Success() throws Exception {

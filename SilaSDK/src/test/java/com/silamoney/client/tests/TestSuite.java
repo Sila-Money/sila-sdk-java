@@ -1,0 +1,33 @@
+package com.silamoney.client.tests;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+import org.mockserver.integration.ClientAndServer;
+
+/**
+ *
+ * @author Karlo Lorenzana
+ */
+@RunWith(Suite.class)
+@SuiteClasses({CheckHandleTests.class, CheckKYCTests.class, GetAccountsTests.class,
+    IssueSilaTests.class, LinkAccountTests.class, RegisterTests.class,
+    RequestKYCTests.class, TransferSilaTests.class})
+public class TestSuite {
+
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void setUp() {
+        mockServer = ClientAndServer.startClientAndServer(1080);
+        MockServer.MockServer();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        mockServer.stop();
+    }
+
+}
