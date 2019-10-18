@@ -8,13 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * @author loren
  */
 public class CryptoEntry {
-
-    /**
-     * String field used for the crypto alias.
-     */
-    @SerializedName("crypto_alias")
-    public String cryptoAlias;
-
+    
     private enum CryptoCodeEnum {
         ETH("ETH");
 
@@ -24,22 +18,19 @@ public class CryptoEntry {
             this.value = value;
         }
 
-        public String getValue() {
+        private String getValue() {
             return value;
         }
     }
 
-    /**
-     * String field used for the crypto address.
-     */
-    @SerializedName("crypto_address")
-    public String cryptoAddress;
+    @SerializedName("crypto_alias")
+    private final String cryptoAlias;
 
-    /**
-     * String field used for the crypto code.
-     */
+    @SerializedName("crypto_address")
+    private final String cryptoAddress;
+
     @SerializedName("crypto_code")
-    public String cryptoCode;
+    private final String cryptoCode;
 
     /**
      * Constructor for the CryptoEntry object.

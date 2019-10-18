@@ -9,17 +9,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public class HeaderMsg {
 
-    /**
-     * Header object used in the header msg.
-     */
     @SerializedName("header")
-    public Header header;
+    private final Header header;
 
-    /**
-     * String property used for the message field.
-     */
     @SerializedName("message")
-    public String message;
+    private final String message;
 
     /**
      * HeaderMsg constructor.

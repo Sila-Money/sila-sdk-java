@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Object used in the entity msg.
  *
- * @author loren
+ * @author Karlo Lorenzana
  */
 public class Identity {
 
@@ -25,17 +25,11 @@ public class Identity {
         }
     }
 
-    /**
-     * String field used for the identity alias.
-     */
     @SerializedName("identity_alias")
-    public String identityAlias;
+    private final String identityAlias;
 
-    /**
-     * String field used for the identity value.
-     */
     @SerializedName("identity_value")
-    public String identityValue;
+    private final String identityValue;
 
     /**
      * Constructor for the Identity object.

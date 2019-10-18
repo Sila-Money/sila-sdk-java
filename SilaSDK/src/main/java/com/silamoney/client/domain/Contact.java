@@ -9,23 +9,14 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Contact {
 
-    /**
-     * String field used for the phone.
-     */
     @SerializedName("phone")
-    public String phone;
+    private final String phone;
 
-    /**
-     * String field used for the contact alias.
-     */
     @SerializedName("contact_alias")
-    public String contactAlias;
+    private final String contactAlias;
 
-    /**
-     * String field used for the email.
-     */
     @SerializedName("email")
-    public String email;
+    private final String email;
 
     /**
      * Constructor for contact object.

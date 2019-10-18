@@ -2,7 +2,6 @@ package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Object used in the entity msg.
@@ -10,25 +9,7 @@ import java.util.Date;
  * @author Karlo Lorenzana
  */
 public class Entity {
-
-    /**
-     * Date field used for the birthdate.
-     */
-    @SerializedName("birthdate")
-    public String birthdate;
-
-    /**
-     * String field used for the entity name.
-     */
-    @SerializedName("entity_name")
-    public String entityName;
-
-    /**
-     * String field used for the last name.
-     */
-    @SerializedName("last_name")
-    public String lastName;
-
+    
     private enum RelationshipEnum {
         ORGANIZATION("organization"),
         DEVELOPER("developer"),
@@ -41,22 +22,25 @@ public class Entity {
             this.value = value;
         }
 
-        public String getValue() {
+        private String getValue() {
             return value;
         }
     }
 
-    /**
-     * String field used for the entity relationship.
-     */
-    @SerializedName("relationship")
-    public String relationship;
+    @SerializedName("birthdate")
+    private final String birthdate;
 
-    /**
-     * String field used for the first name.
-     */
+    @SerializedName("entity_name")
+    private final String entityName;
+
+    @SerializedName("last_name")
+    private final String lastName;
+
+    @SerializedName("relationship")
+    private final String relationship;
+
     @SerializedName("first_name")
-    public String firstName;
+    private final String firstName;
 
     /**
      * Constructor for Entity object.

@@ -4,33 +4,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 /**
+ * Object used in the Header msg.
  *
  * @author Karlo Lorenzana
  */
 public class Header {
 
-    /**
-     * String property used for reference field
-     */
-    @SerializedName("reference")
-    public String reference;
-
-    /**
-     * Integer property used for the created field
-     */
-    @SerializedName("created")
-    public Integer created;
-
-    /**
-     * String property used for user handle field.
-     */
-    @SerializedName("user_handle")
-    public String userHandle;
-
-    @SerializedName("auth_handle")
-    public String authHandle = null;
-
-    public enum VersionEnum {
+    private enum VersionEnum {
         _0_2("0.2"),
         V0_2("v0.2");
 
@@ -41,16 +21,7 @@ public class Header {
         }
     }
 
-    /**
-     * Enum property used for the version field.
-     */
-    @SerializedName("version")
-    public String version;
-
-    /**
-     * Enum used to set possible crypto options.
-     */
-    public enum CryptoEnum {
+    private enum CryptoEnum {
         ETH("ETH");
 
         public String value;
@@ -60,11 +31,23 @@ public class Header {
         }
     }
 
-    /**
-     * Enum property used for crypto field.
-     */
+    @SerializedName("reference")
+    private final String reference;
+
+    @SerializedName("created")
+    private final Integer created;
+
+    @SerializedName("user_handle")
+    private final String userHandle;
+
+    @SerializedName("auth_handle")
+    private final String authHandle;
+
+    @SerializedName("version")
+    private final String version;
+
     @SerializedName("crypto")
-    public String crypto;
+    private final String crypto;
 
     /**
      * Constructor for header object.

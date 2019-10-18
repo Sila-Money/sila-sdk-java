@@ -18,52 +18,31 @@ public class Address {
             this.value = value;
         }
 
-        public String getValue() {
+        private String getValue() {
             return value;
         }
     }
 
-    /**
-     * String field used for the country.
-     */
     @SerializedName("country")
-    public String country;
+    private final String country;
 
-    /**
-     * String field used for the city.
-     */
     @SerializedName("city")
-    public String city;
+    private final String city;
 
-    /**
-     * String field used for the address alias.
-     */
     @SerializedName("address_alias")
-    public String addressAlias;
+    private final String addressAlias;
 
-    /**
-     * String field used for the street address 1.
-     */
     @SerializedName("street_address_1")
-    public String streetAddress1;
+    private final String streetAddress1;
 
-    /**
-     * String field used for the street address 2.
-     */
     @SerializedName("street_address_2")
-    public String streetAddress2;
+    private final String streetAddress2;
 
-    /**
-     * String field used for the state.
-     */
     @SerializedName("state")
-    public String state;
+    private final String state;
 
-    /**
-     * String field used for the postal code.
-     */
     @SerializedName("postal_code")
-    public String postalCode;
+    private final String postalCode;
 
     /**
      * Constructor for address object.

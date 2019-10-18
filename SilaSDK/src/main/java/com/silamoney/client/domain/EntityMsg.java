@@ -5,51 +5,30 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Object sent in the register endpoint.
  *
- * @author loren
+ * @author Karlo Lorenzana
  */
 public class EntityMsg {
 
-    /**
-     * Address object used in the entity msg.
-     */
     @SerializedName("address")
-    public Address address;
+    private final Address address;
 
-    /**
-     * Identity object used in the entity msg.
-     */
     @SerializedName("identity")
-    public Identity identity;
+    private final Identity identity;
 
-    /**
-     * Contact object used in the entity msg.
-     */
     @SerializedName("contact")
-    public Contact contact;
+    private final Contact contact;
 
-    /**
-     * Header object used in the entity msg.
-     */
     @SerializedName("header")
-    public Header header;
+    private final Header header;
 
-    /**
-     * CryptoEntry object used in the entity msg.
-     */
     @SerializedName("crypto_entry")
-    public CryptoEntry cryptoEntry;
+    private final CryptoEntry cryptoEntry;
 
-    /**
-     * String field used for the message.
-     */
     @SerializedName("message")
-    public String message;
+    private final String message;
 
-    /**
-     * Entity object used in the entity msg.
-     */
     @SerializedName("entity")
-    public Entity entity;
+    private final Entity entity;
 
     /**
      * Constructor for the EntityMsg object.

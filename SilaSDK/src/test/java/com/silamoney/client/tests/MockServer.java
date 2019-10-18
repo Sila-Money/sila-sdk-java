@@ -42,10 +42,10 @@ public class MockServer {
                 .respond(
                         HttpResponse.response()
                                 .withStatusCode(200)
-                                .withBody("{\n"
-                                        + "  \"reference\": \"ref\",\n"
-                                        + "  \"message\": \"" + DefaultConfigurations.userHandle + " is available.\",\n"
-                                        + "  \"status\": \"SUCCESS\"\n"
+                                .withBody("{"
+                                        + "  \"reference\": \"ref\","
+                                        + "  \"message\": \"" + DefaultConfigurations.userHandle + " is available.\","
+                                        + "  \"status\": \"SUCCESS\""
                                         + "}")
                 );
         //</editor-fold>
@@ -72,10 +72,10 @@ public class MockServer {
                 .respond(
                         HttpResponse.response()
                                 .withStatusCode(200)
-                                .withBody("{\n"
-                                        + "  \"reference\": \"ref\",\n"
-                                        + "  \"message\": \"taken.silamoney.eth is already taken.\",\n"
-                                        + "  \"status\": \"FAILURE\"\n"
+                                .withBody("{"
+                                        + "  \"reference\": \"ref\","
+                                        + "  \"message\": \"taken.silamoney.eth is already taken.\","
+                                        + "  \"status\": \"FAILURE\""
                                         + "}")
                 );
         //</editor-fold>
@@ -538,6 +538,133 @@ public class MockServer {
                                         + "  \"reference\":\"ref\","
                                         + "  \"message\":\"Invalid signature message.\","
                                         + "  \"status\":\"FAILURE\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="LinkAccount">
+        //<editor-fold defaultstate="collapsed" desc="Response 200 success">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/link_account")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"user.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"link_account_msg\","
+                                                + "  \"public_token\": \"public-xxx-xxx\","
+                                                + "  \"account_name\": \"Custom Account Name\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("{"
+                                        + "  \"status\": \"SUCCESS\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Response 200 failure">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/link_account")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"failure.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"link_account_msg\","
+                                                + "  \"public_token\": \"public-xxx-xxx\","
+                                                + "  \"account_name\": \"Custom Account Name\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("{"
+                                        + "  \"status\": \"FAILURE\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Response 400">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/link_account")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"badrequest.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"link_account_msg\","
+                                                + "  \"public_token\": \"public-xxx-xxx\","
+                                                + "  \"account_name\": \"Custom Account Name\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(400)
+                                .withBody("{"
+                                        + "  \"status\": \"FAILURE\""
+                                        + "}")
+                );
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Response 401">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/link_account")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"link_account_msg\","
+                                                + "  \"public_token\": \"public-xxx-xxx\","
+                                                + "  \"account_name\": \"Custom Account Name\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(401)
+                                .withBody("{"
+                                        + "  \"status\": \"FAILURE\""
                                         + "}")
                 );
         //</editor-fold>

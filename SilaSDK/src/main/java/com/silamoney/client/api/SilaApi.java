@@ -4,6 +4,8 @@ import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.EntityMsg;
 import com.silamoney.client.domain.Environments;
 import com.silamoney.client.domain.HeaderMsg;
+import com.silamoney.client.domain.LinkAccountMsg;
+import com.silamoney.client.domain.Message;
 import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -88,7 +90,7 @@ public class SilaApi {
         HttpResponse response = this.configuration.getApiClient()
                 .CallApi(path, headers, _body);
 
-        return ResponseUtil.prepareResponse(response);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());
     }
 
     /**
@@ -120,7 +122,7 @@ public class SilaApi {
         HttpResponse response = this.configuration.getApiClient()
                 .CallApi(path, headers, _body);
 
-        return ResponseUtil.prepareResponse(response);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());
     }
 
     /**
@@ -154,7 +156,7 @@ public class SilaApi {
         HttpResponse response = this.configuration.getApiClient()
                 .CallApi(path, headers, _body);
 
-        return ResponseUtil.prepareResponse(response);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());
     }
 
     /**
@@ -189,6 +191,31 @@ public class SilaApi {
         HttpResponse response = this.configuration.getApiClient()
                 .CallApi(path, headers, _body);
 
-        return ResponseUtil.prepareResponse(response);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());
+    }
+
+    public ApiResponse LinkAccount(String userHandle, String accountName, String publicToken, String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException {
+        LinkAccountMsg body = new LinkAccountMsg(userHandle,
+                accountName,
+                publicToken, userPrivateKey,
+                this.configuration.getAuthHandle());
+        String path = "/link_account";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_ACCOUNT_MSG.getValue());
     }
 }
