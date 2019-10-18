@@ -5,6 +5,7 @@ import com.silamoney.client.domain.EntityMsg;
 import com.silamoney.client.domain.Environments;
 import com.silamoney.client.domain.GetAccountsMsg;
 import com.silamoney.client.domain.HeaderMsg;
+import com.silamoney.client.domain.IssueMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
 import com.silamoney.client.domain.Message;
 import com.silamoney.client.domain.User;
@@ -14,6 +15,7 @@ import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
+import io.reactivex.annotations.Nullable;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
@@ -235,6 +237,18 @@ public class SilaApi {
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_ACCOUNT_MSG.getValue());
     }
 
+    /**
+     * Gets basic bank account names linked to user handle.
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     */
     public ApiResponse GetAccounts(String userHandle, String userPrivateKey) throws
             IOException,
             InterruptedException,
@@ -256,5 +270,48 @@ public class SilaApi {
                 .CallApi(path, headers, _body);
 
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
+    }
+
+    /**
+     * Debits a specified account and issues tokens to the address belonging to
+     * the requested handle.
+     *
+     * @param userHandle
+     * @param amount
+     * @param accountName
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     */
+    public ApiResponse IssueSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException {
+        if (accountName == null || accountName.isBlank()) {
+            accountName = "default";
+        }
+        IssueMsg body = new IssueMsg(userHandle,
+                accountName,
+                amount,
+                this.configuration.getAuthHandle());
+        String path = "/issue_sila";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.ISSUE_MSG.getValue());
     }
 }
