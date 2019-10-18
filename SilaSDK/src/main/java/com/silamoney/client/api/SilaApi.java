@@ -8,6 +8,7 @@ import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.domain.IssueMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
 import com.silamoney.client.domain.Message;
+import com.silamoney.client.domain.TransferMsg;
 import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -50,7 +51,9 @@ public class SilaApi {
      * @param appHandler
      * @param privateKey
      */
-    public SilaApi(Environments.SilaEnvironment environment, String appHandler, String privateKey) {
+    public SilaApi(Environments.SilaEnvironment environment,
+            String appHandler,
+            String privateKey) {
         this.configuration = new Configuration(environment.getUrl(), privateKey, appHandler);
     }
 
@@ -140,7 +143,8 @@ public class SilaApi {
      * @throws InvalidSignatureException
      * @throws ServerSideException
      */
-    public ApiResponse RequestKYC(String userHandle, String userPrivateKey) throws
+    public ApiResponse RequestKYC(String userHandle,
+            String userPrivateKey) throws
             IOException,
             InterruptedException,
             BadRequestException,
@@ -212,7 +216,10 @@ public class SilaApi {
      * @throws InvalidSignatureException
      * @throws ServerSideException
      */
-    public ApiResponse LinkAccount(String userHandle, String accountName, String publicToken, String userPrivateKey) throws
+    public ApiResponse LinkAccount(String userHandle,
+            String accountName,
+            String publicToken,
+            String userPrivateKey) throws
             IOException,
             InterruptedException,
             BadRequestException,
@@ -249,7 +256,8 @@ public class SilaApi {
      * @throws InvalidSignatureException
      * @throws ServerSideException
      */
-    public ApiResponse GetAccounts(String userHandle, String userPrivateKey) throws
+    public ApiResponse GetAccounts(String userHandle,
+            String userPrivateKey) throws
             IOException,
             InterruptedException,
             BadRequestException,
@@ -287,7 +295,10 @@ public class SilaApi {
      * @throws InvalidSignatureException
      * @throws ServerSideException
      */
-    public ApiResponse IssueSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey) throws
+    public ApiResponse IssueSila(String userHandle,
+            int amount,
+            @Nullable String accountName,
+            String userPrivateKey) throws
             IOException,
             InterruptedException,
             BadRequestException,
@@ -313,5 +324,49 @@ public class SilaApi {
                 .CallApi(path, headers, _body);
 
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.ISSUE_MSG.getValue());
+    }
+
+    /**
+     * Starts a transfer of the requested amount of SILA to the requested
+     * destination handle.
+     *
+     * @param userHandle
+     * @param amount
+     * @param destination
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     */
+    public ApiResponse TransferSila(String userHandle,
+            int amount,
+            String destination,
+            String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException {
+        TransferMsg body = new TransferMsg(userHandle,
+                destination,
+                amount,
+                this.configuration.getAuthHandle());
+        String path = "/transfer_sila";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response,
+                Message.ValueEnum.TRANSFER_MSG.getValue());
     }
 }

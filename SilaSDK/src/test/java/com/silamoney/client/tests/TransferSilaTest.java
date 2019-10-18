@@ -18,7 +18,7 @@ import org.mockserver.integration.ClientAndServer;
  *
  * @author Karlo Lorenzana
  */
-public class CheckHandleTest {
+public class TransferSilaTest {
 
     SilaApi api = new SilaApi(DefaultConfigurations.host,
             DefaultConfigurations.appHandle,
@@ -39,39 +39,57 @@ public class CheckHandleTest {
 
     @Test
     public void Response200Success() throws Exception {
-        ApiResponse response = api.CheckHandle(DefaultConfigurations.userHandle);
+        ApiResponse response = api
+                .TransferSila(DefaultConfigurations.userHandle,
+                        13,
+                        "user2.silamoney.eth",
+                        DefaultConfigurations.userPrivateKey);
 
         assertEquals(200, response.statusCode);
-        assertEquals(DefaultConfigurations.userHandle + " is available.", ((BaseResponse) response.data).message);
+        assertEquals("ref submitted to ETH queue", 
+                ((BaseResponse) response.data).message);
         assertEquals("SUCCESS", ((BaseResponse) response.data).status);
     }
 
     @Test
     public void Response200Failure() throws Exception {
-        ApiResponse response = api.CheckHandle("taken.silamoney.eth");
+        ApiResponse response = api
+                .TransferSila("failure.silamoney.eth",
+                        13,
+                        "user2.silamoney.eth",
+                        DefaultConfigurations.userPrivateKey);
 
         assertEquals(200, response.statusCode);
-        assertEquals("taken.silamoney.eth is already taken.", ((BaseResponse) response.data).message);
+        assertEquals("ref not submitted to ETH queue", 
+                ((BaseResponse) response.data).message);
         assertEquals("FAILURE", ((BaseResponse) response.data).status);
     }
 
     @Test(expected = BadRequestException.class)
-    public void Response400() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException  {
-        api.CheckHandle("badrequest.silamoney.eth");
+    public void Response400() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException {
+        ApiResponse response = api
+                .TransferSila("badrequest.silamoney.eth",
+                        13,
+                        "user2.silamoney.eth",
+                        DefaultConfigurations.userPrivateKey);
     }
-    
+
     @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException  {
-        api.CheckHandle("invalidsignature.silamoney.eth");
+    public void Response401() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException {
+        ApiResponse response = api
+                .TransferSila("invalidsignature.silamoney.eth",
+                        13,
+                        "user2.silamoney.eth",
+                        DefaultConfigurations.userPrivateKey);
     }
 }

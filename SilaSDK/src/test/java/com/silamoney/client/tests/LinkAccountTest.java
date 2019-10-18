@@ -2,20 +2,17 @@ package com.silamoney.client.tests;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import java.io.IOException;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Rule;
+import org.junit.BeforeClass;
 import org.mockserver.integration.ClientAndServer;
-import org.mockserver.junit.MockServerRule;
 
 /**
  *
@@ -27,19 +24,16 @@ public class LinkAccountTest {
             DefaultConfigurations.appHandle,
             DefaultConfigurations.privateKey);
 
-    private ClientAndServer mockServer;
+    private static ClientAndServer mockServer;
 
-    @Rule
-    public MockServerRule mockServerRule = new MockServerRule(this);
-
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         mockServer = ClientAndServer.startClientAndServer(1080);
         MockServer.MockServer();
     }
 
-    @After
-    public void tearDown() {
+    @AfterClass
+    public static void tearDown() {
         mockServer.stop();
     }
 

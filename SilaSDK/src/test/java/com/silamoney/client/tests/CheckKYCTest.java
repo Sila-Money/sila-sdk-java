@@ -9,9 +9,11 @@ import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import java.io.IOException;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.junit.MockServerRule;
@@ -26,19 +28,16 @@ public class CheckKYCTest {
             DefaultConfigurations.appHandle,
             DefaultConfigurations.privateKey);
 
-    private ClientAndServer mockServer;
+    private static ClientAndServer mockServer;
 
-    @Rule
-    public MockServerRule mockServerRule = new MockServerRule(this);
-
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         mockServer = ClientAndServer.startClientAndServer(1080);
         MockServer.MockServer();
     }
 
-    @After
-    public void tearDown() {
+    @AfterClass
+    public static void tearDown() {
         mockServer.stop();
     }
 
