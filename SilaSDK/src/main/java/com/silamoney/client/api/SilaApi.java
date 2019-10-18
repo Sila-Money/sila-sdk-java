@@ -8,6 +8,7 @@ import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.domain.IssueMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
 import com.silamoney.client.domain.Message;
+import com.silamoney.client.domain.RedeemMsg;
 import com.silamoney.client.domain.TransferMsg;
 import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
@@ -355,6 +356,53 @@ public class SilaApi {
                 amount,
                 this.configuration.getAuthHandle());
         String path = "/transfer_sila";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response,
+                Message.ValueEnum.TRANSFER_MSG.getValue());
+    }
+
+    /**
+     * Burns given amount of SILA at the handle's blockchain address and credits
+     * their named bank account in the equivalent monetary amount.
+     *
+     * @param userHandle
+     * @param amount
+     * @param accountName
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     */
+    public ApiResponse RedeemSila(String userHandle,
+            int amount,
+            @Nullable String accountName,
+            String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException {
+        if (accountName == null || accountName.isBlank()) {
+            accountName = "default";
+        }
+        RedeemMsg body = new RedeemMsg(userHandle,
+                amount,
+                accountName,
+                this.configuration.getAuthHandle());
+        String path = "/redeem_sila";
         String _body = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
 

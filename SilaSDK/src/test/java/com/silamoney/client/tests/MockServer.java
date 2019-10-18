@@ -1024,5 +1024,135 @@ public class MockServer {
                 );
         //</editor-fold>
         //</editor-fold>
+    
+        //<editor-fold defaultstate="collapsed" desc="RedeemSila">
+        //<editor-fold defaultstate="collapsed" desc="Response 200 Success">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/redeem_sila")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"redeem_msg\","
+                                                + "  \"amount\": 1000,"
+                                                + "  \"account_name\": \"default\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("{"
+                                        + "  \"reference\": \"ref\","
+                                        + "  \"message\": \"ref submitted to ETH queue\","
+                                        + "  \"status\": \"SUCCESS\""
+                                        + "}")
+                );
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Response 200 Failure">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/redeem_sila")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"failure.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"redeem_msg\","
+                                                + "  \"amount\": 1000,"
+                                                + "  \"account_name\": \"default\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("{"
+                                        + "  \"reference\": \"ref\","
+                                        + "  \"message\": \"ref not submitted to ETH queue\","
+                                        + "  \"status\": \"FAILURE\""
+                                        + "}")
+                );
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Response 400">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/redeem_sila")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"badrequest.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"redeem_msg\","
+                                                + "  \"amount\": 1000,"
+                                                + "  \"account_name\": \"default\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(400)
+                                .withBody("Bad request message.")
+                );
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Response 401">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/redeem_sila")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"redeem_msg\","
+                                                + "  \"amount\": 1000,"
+                                                + "  \"account_name\": \"default\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(401)
+                                .withBody("Invalid signature message.")
+                );
+        //</editor-fold>
+        //</editor-fold>
     }
 }

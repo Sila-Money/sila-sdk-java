@@ -12,9 +12,16 @@ import org.mockserver.integration.ClientAndServer;
  * @author Karlo Lorenzana
  */
 @RunWith(Suite.class)
-@SuiteClasses({CheckHandleTests.class, CheckKYCTests.class, GetAccountsTests.class,
-    IssueSilaTests.class, LinkAccountTests.class, RegisterTests.class,
-    RequestKYCTests.class, TransferSilaTests.class})
+@SuiteClasses({
+    CheckHandleTests.class, 
+    CheckKYCTests.class, 
+    GetAccountsTests.class,
+    IssueSilaTests.class, 
+    LinkAccountTests.class, 
+    RegisterTests.class,
+    RequestKYCTests.class, 
+    TransferSilaTests.class, 
+    RedeemSilaTests.class})
 public class TestSuite {
 
     private static ClientAndServer mockServer;
