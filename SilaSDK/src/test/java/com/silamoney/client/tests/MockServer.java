@@ -669,5 +669,98 @@ public class MockServer {
                 );
         //</editor-fold>
         //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="GetAccounts">
+        //<editor-fold defaultstate="collapsed" desc="Response 200">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/get_accounts")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"user.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\","
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"get_accounts_msg\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("["
+                                        + "  {"
+                                        + "    \"account_number\": \"*1234\","
+                                        + "    \"account_name\": \"default\","
+                                        + "    \"account_type\": \"CHECKING\","
+                                        + "    \"account_status\": \"active\""
+                                        + "  }"
+                                        + "]")
+                );
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Response 400">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/get_accounts")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"badrequest.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\","
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"get_accounts_msg\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(400)
+                                .withBody("Bad request message.")
+                );
+        //</editor-fold>
+        
+        //<editor-fold defaultstate="collapsed" desc="Response 401">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/get_accounts")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\","
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"get_accounts_msg\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(400)
+                                .withBody("Invalid signature message.")
+                );
+        //</editor-fold>
+        //</editor-fold>
     }
 }

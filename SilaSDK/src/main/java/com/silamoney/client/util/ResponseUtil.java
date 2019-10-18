@@ -1,6 +1,7 @@
 package com.silamoney.client.util;
 
 import com.silamoney.client.api.ApiResponse;
+import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.Message;
@@ -8,6 +9,7 @@ import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import java.net.http.HttpResponse;
+import java.util.List;
 
 /**
  * Class to manage the different kinds of responses.
@@ -50,6 +52,12 @@ public class ResponseUtil {
                 return new ApiResponse(statusCode,
                         response.headers().map(),
                         linkAccountResponse);
+            case "get_accounts_msg":
+                List<Account> accounts = (List<Account>) Serialization
+                        .deserialize(response.body().toString(), List.class);
+                return new ApiResponse(statusCode,
+                        response.headers().map(),
+                        accounts);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization
                         .deserialize(response.body().toString(), BaseResponse.class);

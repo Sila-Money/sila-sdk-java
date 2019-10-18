@@ -3,6 +3,7 @@ package com.silamoney.client.api;
 import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.EntityMsg;
 import com.silamoney.client.domain.Environments;
+import com.silamoney.client.domain.GetAccountsMsg;
 import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
 import com.silamoney.client.domain.Message;
@@ -232,5 +233,28 @@ public class SilaApi {
                 .CallApi(path, headers, _body);
 
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_ACCOUNT_MSG.getValue());
+    }
+
+    public ApiResponse GetAccounts(String userHandle, String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException {
+        GetAccountsMsg body = new GetAccountsMsg(userHandle,
+                this.configuration.getAuthHandle());
+        String path = "/get_accounts";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
     }
 }

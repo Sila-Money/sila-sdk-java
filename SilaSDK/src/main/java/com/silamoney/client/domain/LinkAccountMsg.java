@@ -31,12 +31,12 @@ public class LinkAccountMsg {
      * @param accountName
      * @param publicToken
      * @param userPrivateKey
-     * @param authHandle
+     * @param appHandle
      */
-    public LinkAccountMsg(String userHandle, String accountName, String publicToken, String userPrivateKey, String authHandle) {
+    public LinkAccountMsg(String userHandle, String accountName, String publicToken, String userPrivateKey, String appHandle) {
         this.publicToken = publicToken;
         this.accountName = accountName;
-        this.header = new Header(userHandle, authHandle);
+        this.header = new Header(userHandle, appHandle);
         this.message = Message.ValueEnum.LINK_ACCOUNT_MSG.getValue();
     }
 }
