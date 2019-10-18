@@ -20,6 +20,7 @@ public class ResponseUtil {
      * Creates an ApiResponse based on the sent HttpResponse.
      *
      * @param response
+     * @param msg
      * @return ApiResponse
      * @throws com.silamoney.client.exceptions.BadRequestException
      * @throws com.silamoney.client.exceptions.InvalidSignatureException

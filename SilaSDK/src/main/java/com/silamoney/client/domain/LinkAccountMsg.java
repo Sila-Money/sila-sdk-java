@@ -24,6 +24,15 @@ public class LinkAccountMsg {
     @SerializedName("message")
     private final String message;
 
+    /**
+     * Constructor for LinkAccountMsg object.
+     *
+     * @param userHandle
+     * @param accountName
+     * @param publicToken
+     * @param userPrivateKey
+     * @param authHandle
+     */
     public LinkAccountMsg(String userHandle, String accountName, String publicToken, String userPrivateKey, String authHandle) {
         this.publicToken = publicToken;
         this.accountName = accountName;

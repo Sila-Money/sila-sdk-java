@@ -194,6 +194,21 @@ public class SilaApi {
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());
     }
 
+    /**
+     * Uses a provided Plaid public token to link a bank account to a verified
+     * entity.
+     *
+     * @param userHandle
+     * @param accountName
+     * @param publicToken
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     */
     public ApiResponse LinkAccount(String userHandle, String accountName, String publicToken, String userPrivateKey) throws
             IOException,
             InterruptedException,
