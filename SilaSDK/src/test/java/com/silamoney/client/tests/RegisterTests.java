@@ -5,6 +5,7 @@ import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
@@ -53,7 +54,8 @@ public class RegisterTests {
             InvalidSignatureException, 
             ServerSideException, 
             IOException, 
-            InterruptedException  {
+            InterruptedException,
+            ForbiddenException  {
         LocalDate birthdate = new LocalDate(1900, 01, 31);
         User user = new User("badrequest.silamoney.eth", 
                 "Example", 
@@ -78,7 +80,8 @@ public class RegisterTests {
             InvalidSignatureException, 
             ServerSideException, 
             IOException, 
-            InterruptedException  {
+            InterruptedException,
+            ForbiddenException  {
         LocalDate birthdate = new LocalDate(1900, 01, 31);
         User user = new User("invalidsignature.silamoney.eth", 
                 "Example", 

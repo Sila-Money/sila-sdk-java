@@ -4,15 +4,13 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import java.io.IOException;
-import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
-import org.mockserver.integration.ClientAndServer;
 
 /**
  *
@@ -39,7 +37,8 @@ public class RequestKYCTests {
             InvalidSignatureException,
             ServerSideException,
             IOException,
-            InterruptedException {
+            InterruptedException,
+            ForbiddenException {
         api.RequestKYC("badrequest.silamoney.eth", DefaultConfigurations.userPrivateKey);
     }
 
@@ -49,7 +48,8 @@ public class RequestKYCTests {
             InvalidSignatureException,
             ServerSideException,
             IOException,
-            InterruptedException {
+            InterruptedException,
+            ForbiddenException {
         api.RequestKYC("invalidsignature.silamoney.eth", DefaultConfigurations.userPrivateKey);
     }
 }

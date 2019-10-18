@@ -4,6 +4,7 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
@@ -45,7 +46,8 @@ public class CheckHandleTests {
             InvalidSignatureException, 
             ServerSideException, 
             IOException, 
-            InterruptedException  {
+            InterruptedException,
+            ForbiddenException  {
         api.CheckHandle("badrequest.silamoney.eth");
     }
     
@@ -55,7 +57,8 @@ public class CheckHandleTests {
             InvalidSignatureException, 
             ServerSideException, 
             IOException, 
-            InterruptedException  {
+            InterruptedException,
+            ForbiddenException  {
         api.CheckHandle("invalidsignature.silamoney.eth");
     }
 }

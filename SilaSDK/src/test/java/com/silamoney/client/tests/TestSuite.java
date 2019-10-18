@@ -21,7 +21,9 @@ import org.mockserver.integration.ClientAndServer;
     RegisterTests.class,
     RequestKYCTests.class, 
     TransferSilaTests.class, 
-    RedeemSilaTests.class})
+    RedeemSilaTests.class,
+    GetTransactionsTests.class
+})
 public class TestSuite {
 
     private static ClientAndServer mockServer;

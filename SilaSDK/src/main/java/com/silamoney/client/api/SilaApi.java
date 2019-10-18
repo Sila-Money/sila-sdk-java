@@ -4,14 +4,17 @@ import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.EntityMsg;
 import com.silamoney.client.domain.Environments;
 import com.silamoney.client.domain.GetAccountsMsg;
+import com.silamoney.client.domain.GetTransactionsMsg;
 import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.domain.IssueMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
 import com.silamoney.client.domain.Message;
 import com.silamoney.client.domain.RedeemMsg;
+import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.domain.TransferMsg;
 import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.security.EcdsaUtil;
@@ -84,7 +87,8 @@ public class SilaApi {
             InvalidSignatureException,
             ServerSideException,
             IOException,
-            InterruptedException {
+            InterruptedException,
+            ForbiddenException {
         HeaderMsg body = new HeaderMsg(handle,
                 this.configuration.getAuthHandle());
         String path = "/check_handle";
@@ -110,13 +114,15 @@ public class SilaApi {
      * @throws com.silamoney.client.exceptions.ServerSideException
      * @throws com.silamoney.client.exceptions.BadRequestException
      * @throws com.silamoney.client.exceptions.InvalidSignatureException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
     public ApiResponse Register(User user) throws
             IOException,
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         EntityMsg body = new EntityMsg(user,
                 this.configuration.getAuthHandle());
         String path = "/register";
@@ -150,7 +156,8 @@ public class SilaApi {
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
         String path = "/request_kyc";
         String _body = Serialization.serialize(body);
@@ -185,7 +192,8 @@ public class SilaApi {
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
         String path = "/check_kyc";
         String _body = Serialization.serialize(body);
@@ -225,7 +233,8 @@ public class SilaApi {
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         LinkAccountMsg body = new LinkAccountMsg(userHandle,
                 accountName,
                 publicToken, userPrivateKey,
@@ -263,7 +272,8 @@ public class SilaApi {
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle,
                 this.configuration.getAuthHandle());
         String path = "/get_accounts";
@@ -304,7 +314,8 @@ public class SilaApi {
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         if (accountName == null || accountName.isBlank()) {
             accountName = "default";
         }
@@ -350,7 +361,8 @@ public class SilaApi {
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         TransferMsg body = new TransferMsg(userHandle,
                 destination,
                 amount,
@@ -394,7 +406,8 @@ public class SilaApi {
             InterruptedException,
             BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         if (accountName == null || accountName.isBlank()) {
             accountName = "default";
         }
@@ -416,5 +429,33 @@ public class SilaApi {
 
         return ResponseUtil.prepareResponse(response,
                 Message.ValueEnum.TRANSFER_MSG.getValue());
+    }
+
+    public ApiResponse GetTransactions(String userHandle,
+            SearchFilters filters,
+            String userPrivateKey) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            ForbiddenException {
+        GetTransactionsMsg body = new GetTransactionsMsg(userHandle,
+                this.configuration.getAuthHandle(),
+                filters);
+        String path = "/get_transactions";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
+                this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(_body,
+                userPrivateKey));
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response,
+                Message.ValueEnum.GET_TRANSACTIONS_MSG.getValue());
     }
 }

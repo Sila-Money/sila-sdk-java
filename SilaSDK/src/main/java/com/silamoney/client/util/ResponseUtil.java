@@ -3,9 +3,11 @@ package com.silamoney.client.util;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.Message;
 import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import java.net.http.HttpResponse;
@@ -31,7 +33,8 @@ public class ResponseUtil {
     public static ApiResponse prepareResponse(HttpResponse response, String msg)
             throws BadRequestException,
             InvalidSignatureException,
-            ServerSideException {
+            ServerSideException,
+            ForbiddenException {
         int statusCode = response.statusCode();
 
         switch (statusCode) {
@@ -39,6 +42,8 @@ public class ResponseUtil {
                 throw new BadRequestException(response.body().toString());
             case 401:
                 throw new InvalidSignatureException(response.body().toString());
+            case 403:
+                throw new ForbiddenException(response.body().toString());
             case 500:
                 throw new ServerSideException(response.body().toString());
             default:
@@ -58,6 +63,12 @@ public class ResponseUtil {
                 return new ApiResponse(statusCode,
                         response.headers().map(),
                         accounts);
+            case "get_transactions_msg":
+                GetTransactionsResponse getTransactionsResponse = (GetTransactionsResponse) Serialization
+                        .deserialize(response.body().toString(), GetTransactionsResponse.class);
+                return new ApiResponse(statusCode,
+                        response.headers().map(),
+                        getTransactionsResponse);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization
                         .deserialize(response.body().toString(), BaseResponse.class);

@@ -4,6 +4,7 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
@@ -51,7 +52,8 @@ public class RedeemSilaTests {
             InvalidSignatureException, 
             ServerSideException, 
             IOException, 
-            InterruptedException  {
+            InterruptedException,
+            ForbiddenException  {
         ApiResponse response = api.RedeemSila("badrequest.silamoney.eth",
                 1000,
                 null,
@@ -64,7 +66,8 @@ public class RedeemSilaTests {
             InvalidSignatureException, 
             ServerSideException, 
             IOException, 
-            InterruptedException  {
+            InterruptedException,
+            ForbiddenException  {
         ApiResponse response = api.RedeemSila("invalidsignature.silamoney.eth",
                 1000,
                 null,

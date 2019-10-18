@@ -4,6 +4,7 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
@@ -47,7 +48,8 @@ public class LinkAccountTests {
             InvalidSignatureException,
             ServerSideException,
             IOException,
-            InterruptedException {
+            InterruptedException,
+            ForbiddenException {
         api.LinkAccount("badrequest.silamoney.eth",
                 "Custom Account Name", "public-xxx-xxx",
                 DefaultConfigurations.userPrivateKey);
@@ -59,7 +61,8 @@ public class LinkAccountTests {
             InvalidSignatureException,
             ServerSideException,
             IOException,
-            InterruptedException {
+            InterruptedException,
+            ForbiddenException {
         api.LinkAccount("invalidsignature.silamoney.eth",
                 "Custom Account Name", "public-xxx-xxx",
                 DefaultConfigurations.userPrivateKey);

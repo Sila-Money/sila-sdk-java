@@ -1024,7 +1024,7 @@ public class MockServer {
                 );
         //</editor-fold>
         //</editor-fold>
-    
+
         //<editor-fold defaultstate="collapsed" desc="RedeemSila">
         //<editor-fold defaultstate="collapsed" desc="Response 200 Success">
         new MockServerClient("localhost", 1080)
@@ -1151,6 +1151,230 @@ public class MockServer {
                         HttpResponse.response()
                                 .withStatusCode(401)
                                 .withBody("Invalid signature message.")
+                );
+        //</editor-fold>
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="GetTransactions">
+        //<editor-fold defaultstate="collapsed" desc="Response 200">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/get_transactions")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"user.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"get_transactions_msg\","
+                                                + "  \"search_filters\": {"
+                                                + "    \"transaction_id\": \"some UUID string assigned by Sila\","
+                                                + "    \"reference_id\": \"the reference string sent in the header object when transaction request was made\","
+                                                + "    \"show_timelines\": true,"
+                                                + "    \"sort_ascending\": false,"
+                                                + "    \"max_sila_amount\": 1300,"
+                                                + "    \"min_sila_amount\": 1000,"
+                                                + "    \"statuses\": [\"pending\", \"successful\", \"failed\", \"complete\"],"
+                                                + "    \"start_epoch\": 1234567860,"
+                                                + "    \"end_epoch\": 1234567891,"
+                                                + "    \"page\": 1,"
+                                                + "    \"per_page\": 20,"
+                                                + "    \"transaction_types\": [\"issue\", \"redeem\", \"transfer\"]"
+                                                + "  }"
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("{"
+                                        + "  \"success\": true,"
+                                        + "  \"page\": 1,"
+                                        + "  \"returned_count\": 1,"
+                                        + "  \"total_count\": 1,"
+                                        + "  \"transactions\": ["
+                                        + "    {"
+                                        + "      \"user_handle\": \"user.silamoney.eth\","
+                                        + "      \"reference_id\": \"ref\","
+                                        + "      \"transaction_id\": \"12345678-abcd-1234-abcd-1234567890ab\","
+                                        + "      \"transaction_hash\": \"0x1234567890abcdef1234567890abcdef\","
+                                        + "      \"transaction_type\": \"issue\","
+                                        + "      \"sila_amount\": 1000,"
+                                        + "      \"bank_account_name\": \"default\","
+                                        + "      \"handle_address\": \"0x65a796a4bD3AaF6370791BefFb1A86EAcfdBc3C1\","
+                                        + "      \"status\": \"success\","
+                                        + "      \"usd_status\": \"success\","
+                                        + "      \"token_status\": \"success\","
+                                        + "      \"created\": \"2019-04-03T00:00:00.000Z\","
+                                        + "      \"last_update\": \"2019-04-03T00:00:00.003Z\","
+                                        + "      \"created_epoch\": 1234567890,"
+                                        + "      \"last_update_epoch\": 1234567899,"
+                                        + "      \"timeline\": ["
+                                        + "        {"
+                                        + "          \"date\": \"2019-04-03T00:00:00.000Z\","
+                                        + "          \"date_epoch\": 1234567890,"
+                                        + "          \"status\": \"queued\","
+                                        + "          \"usd_status\": \"not started\","
+                                        + "          \"token_status\": \"not started\""
+                                        + "        },"
+                                        + "        {"
+                                        + "          \"date\": \"2019-04-03T00:00:00.001Z\","
+                                        + "          \"date_epoch\": 1234567890,"
+                                        + "          \"status\": \"pending\","
+                                        + "          \"usd_status\": \"pending\","
+                                        + "          \"token_status\": \"not started\""
+                                        + "        },"
+                                        + "        {"
+                                        + "          \"date\": \"2019-04-03T00:00:00.002Z\","
+                                        + "          \"date_epoch\": 1234567890,"
+                                        + "          \"status\": \"pending\","
+                                        + "          \"usd_status\": \"success\","
+                                        + "          \"token_status\": \"pending\""
+                                        + "        },"
+                                        + "        {"
+                                        + "          \"date\": \"2019-04-03T00:00:00.003Z\","
+                                        + "          \"date_epoch\": 1234567899,"
+                                        + "          \"status\": \"success\","
+                                        + "          \"usd_status\": \"success\","
+                                        + "          \"token_status\": \"success\""
+                                        + "        }"
+                                        + "      ]"
+                                        + "    }"
+                                        + "  ]"
+                                        + "}")
+                );
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Response 400">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/get_transactions")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"badrequest.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"get_transactions_msg\","
+                                                + "  \"search_filters\": {"
+                                                + "    \"transaction_id\": \"some UUID string assigned by Sila\","
+                                                + "    \"reference_id\": \"the reference string sent in the header object when transaction request was made\","
+                                                + "    \"show_timelines\": true,"
+                                                + "    \"sort_ascending\": false,"
+                                                + "    \"max_sila_amount\": 1300,"
+                                                + "    \"min_sila_amount\": 1000,"
+                                                + "    \"statuses\": [\"pending\", \"successful\", \"failed\", \"complete\"],"
+                                                + "    \"start_epoch\": 1234567860,"
+                                                + "    \"end_epoch\": 1234567891,"
+                                                + "    \"page\": 1,"
+                                                + "    \"per_page\": 20,"
+                                                + "    \"transaction_types\": [\"issue\", \"redeem\", \"transfer\"]"
+                                                + "  }"
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(400)
+                                .withBody("Bad request message.")
+                );
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Response 403">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/get_transactions")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"forbidden.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"get_transactions_msg\","
+                                                + "  \"search_filters\": {"
+                                                + "    \"transaction_id\": \"some UUID string assigned by Sila\","
+                                                + "    \"reference_id\": \"the reference string sent in the header object when transaction request was made\","
+                                                + "    \"show_timelines\": true,"
+                                                + "    \"sort_ascending\": false,"
+                                                + "    \"max_sila_amount\": 1300,"
+                                                + "    \"min_sila_amount\": 1000,"
+                                                + "    \"statuses\": [\"pending\", \"successful\", \"failed\", \"complete\"],"
+                                                + "    \"start_epoch\": 1234567860,"
+                                                + "    \"end_epoch\": 1234567891,"
+                                                + "    \"page\": 1,"
+                                                + "    \"per_page\": 20,"
+                                                + "    \"transaction_types\": [\"issue\", \"redeem\", \"transfer\"]"
+                                                + "  }"
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(403)
+                                .withBody("Forbidden message.")
+                );
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Response 500">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/get_transactions")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"header\": {"
+                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"user_handle\":\"serverside.silamoney.eth\", "
+                                                + "    \"version\": \"0.2\", "
+                                                + "    \"crypto\": \"ETH\", "
+                                                + "    \"reference\": \"ref\""
+                                                + "  }, "
+                                                + "  \"message\": \"get_transactions_msg\","
+                                                + "  \"search_filters\": {"
+                                                + "    \"transaction_id\": \"some UUID string assigned by Sila\","
+                                                + "    \"reference_id\": \"the reference string sent in the header object when transaction request was made\","
+                                                + "    \"show_timelines\": true,"
+                                                + "    \"sort_ascending\": false,"
+                                                + "    \"max_sila_amount\": 1300,"
+                                                + "    \"min_sila_amount\": 1000,"
+                                                + "    \"statuses\": [\"pending\", \"successful\", \"failed\", \"complete\"],"
+                                                + "    \"start_epoch\": 1234567860,"
+                                                + "    \"end_epoch\": 1234567891,"
+                                                + "    \"page\": 1,"
+                                                + "    \"per_page\": 20,"
+                                                + "    \"transaction_types\": [\"issue\", \"redeem\", \"transfer\"]"
+                                                + "  }"
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(500)
+                                .withBody("Server side error message.")
                 );
         //</editor-fold>
         //</editor-fold>
