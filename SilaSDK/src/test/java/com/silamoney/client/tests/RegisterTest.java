@@ -22,7 +22,7 @@ import org.mockserver.junit.MockServerRule;
  *
  * @author Karlo Lorenzana
  */
-public class RegisterTests {
+public class RegisterTest {
 
     SilaApi api = new SilaApi(DefaultConfigurations.host,
             DefaultConfigurations.appHandle,

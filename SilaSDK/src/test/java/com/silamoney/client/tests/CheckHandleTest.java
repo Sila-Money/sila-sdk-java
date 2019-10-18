@@ -20,7 +20,7 @@ import org.mockserver.junit.MockServerRule;
  *
  * @author Karlo Lorenzana
  */
-public class CheckHandleTests {
+public class CheckHandleTest {
 
     SilaApi api = new SilaApi(DefaultConfigurations.host,
             DefaultConfigurations.appHandle,

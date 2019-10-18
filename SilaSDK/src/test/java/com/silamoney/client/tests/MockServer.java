@@ -74,8 +74,8 @@ public class MockServer {
                                 .withStatusCode(200)
                                 .withBody("{\n"
                                         + "  \"reference\": \"ref\",\n"
-                                        + "  \"message\": \"" + DefaultConfigurations.userHandle + " is already taken.\",\n"
-                                        + "  \"status\": \"SUCCESS\"\n"
+                                        + "  \"message\": \"taken.silamoney.eth is already taken.\",\n"
+                                        + "  \"status\": \"FAILURE\"\n"
                                         + "}")
                 );
         //</editor-fold>

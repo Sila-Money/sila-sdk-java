@@ -20,7 +20,7 @@ import org.mockserver.junit.MockServerRule;
  *
  * @author Karlo Lorenzana
  */
-public class CheckKYCTests {
+public class RequestKYCTest {
 
     SilaApi api = new SilaApi(DefaultConfigurations.host,
             DefaultConfigurations.appHandle,
@@ -43,21 +43,12 @@ public class CheckKYCTests {
     }
 
     @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api.CheckKYC(DefaultConfigurations.userHandle, DefaultConfigurations.userPrivateKey);
+    public void Response200() throws Exception {
+        ApiResponse response = api.RequestKYC(DefaultConfigurations.userHandle, DefaultConfigurations.userPrivateKey);
 
         assertEquals(200, response.statusCode);
-        assertEquals("KYC passed for " + DefaultConfigurations.userHandle, ((BaseResponse) response.data).message);
+        assertEquals(DefaultConfigurations.userHandle + " submitted for KYC review", ((BaseResponse) response.data).message);
         assertEquals("SUCCESS", ((BaseResponse) response.data).status);
-    }
-    
-    @Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api.CheckKYC("notpassed.silamoney.eth", DefaultConfigurations.userPrivateKey);
-
-        assertEquals(200, response.statusCode);
-        assertEquals("KYC not passed for notpassed.silamoney.eth", ((BaseResponse) response.data).message);
-        assertEquals("FAILURE", ((BaseResponse) response.data).status);
     }
 
     @Test(expected = BadRequestException.class)
@@ -67,7 +58,7 @@ public class CheckKYCTests {
             ServerSideException,
             IOException,
             InterruptedException {
-        api.CheckKYC("badrequest.silamoney.eth", DefaultConfigurations.userPrivateKey);
+        api.RequestKYC("badrequest.silamoney.eth", DefaultConfigurations.userPrivateKey);
     }
 
     @Test(expected = InvalidSignatureException.class)
@@ -77,6 +68,6 @@ public class CheckKYCTests {
             ServerSideException,
             IOException,
             InterruptedException {
-        api.CheckKYC("invalidsignature.silamoney.eth", DefaultConfigurations.userPrivateKey);
+        api.RequestKYC("invalidsignature.silamoney.eth", DefaultConfigurations.userPrivateKey);
     }
 }
