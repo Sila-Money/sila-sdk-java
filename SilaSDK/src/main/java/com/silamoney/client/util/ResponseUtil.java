@@ -6,14 +6,12 @@ import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
-import com.silamoney.client.domain.Message;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to manage the different kinds of responses.

@@ -95,7 +95,7 @@ public class SilaApi {
                 this.configuration.getAuthHandle());
         String path = "/check_handle";
         String _body = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
+        Map<String, String> headers = new HashMap<String, String>();
 
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(_body,
                 this.configuration.getPrivateKey()));

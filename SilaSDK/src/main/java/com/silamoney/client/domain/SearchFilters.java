@@ -38,7 +38,7 @@ public class SearchFilters {
         /**
          * Gets the enum value.
          *
-         * @return string value.
+         * @return SearchFilters  string value.
          */
         public String getValue() {
             return value;
@@ -76,7 +76,7 @@ public class SearchFilters {
         /**
          * Gets the enum value.
          *
-         * @return string value.
+         * @return SearchFilters  string value.
          */
         public String getValue() {
             return value;
@@ -84,83 +84,179 @@ public class SearchFilters {
     }
 
     @SerializedName("transaction_id")
-    private final String transactionId;
+    private String transactionId = null;
 
     @SerializedName("per_page")
-    private final Integer perPage;
+    private Integer perPage = null;
 
     @SerializedName("transaction_types")
     private List<String> transactionTypes = null;
 
     @SerializedName("max_sila_amount")
-    private final Integer maxSilaAmount;
+    private Integer maxSilaAmount = null;
 
     @SerializedName("reference_id")
-    private final String referenceId;
+    private String referenceId = null;
 
     @SerializedName("show_timelines")
-    private final Boolean showTimelines;
+    private Boolean showTimelines = false;
 
     @SerializedName("sort_ascending")
-    private final Boolean sortAscending;
+    private Boolean sortAscending = false;
 
     @SerializedName("end_epoch")
-    private final Integer endEpoch;
+    private Integer endEpoch = null;
 
     @SerializedName("start_epoch")
-    private final Integer startEpoch;
+    private Integer startEpoch = null;
 
     @SerializedName("statuses")
-    private List<String> statuses;
+    private List<String> statuses = null;
 
     @SerializedName("page")
-    private final Integer page;
+    private Integer page = null;
 
     @SerializedName("min_sila_amount")
-    private final Integer minSilaAmount;
+    private Integer minSilaAmount = null;
 
     /**
-     * Constructor for SearchFilters object.
+     * Sets the transaction id to the filters.
      *
      * @param transactionId
-     * @param perPage
-     * @param transactionTypes
-     * @param maxSilaAmount
-     * @param referenceId
-     * @param showTimelines
-     * @param sortAscending
-     * @param endEpoch
-     * @param startEpoch
-     * @param statuses
-     * @param page
-     * @param minSilaAmount
+     * @return SearchFilters 
      */
-    public SearchFilters(String transactionId, Integer perPage, List<TransactionTypesEnum> transactionTypes, Integer maxSilaAmount, String referenceId, Boolean showTimelines, Boolean sortAscending, Integer endEpoch, Integer startEpoch, List<StatusesEnum> statuses, Integer page, Integer minSilaAmount) {
+    public SearchFilters setTransactionId(String transactionId) {
         this.transactionId = transactionId;
-        this.perPage = perPage;
-        if (transactionTypes != null) {
-            for (TransactionTypesEnum type : transactionTypes) {
-                if (this.transactionTypes == null) {
-                    this.transactionTypes = new ArrayList<>();
-                }
-                this.transactionTypes.add(type.getValue());
-            }
-        }
-        this.maxSilaAmount = maxSilaAmount;
-        this.referenceId = referenceId;
-        this.showTimelines = showTimelines;
-        this.sortAscending = sortAscending;
-        this.endEpoch = endEpoch;
-        this.startEpoch = startEpoch;
-        if (statuses != null) {
-            for (StatusesEnum status : statuses) {
-                if (this.statuses == null) {
-                    this.statuses = new ArrayList<>();
-                }
-                this.statuses.add(status.getValue());
-            }
-        }
-        this.page = page;
-        this.minSilaAmount = minSilaAmount;
+        return this;
     }
+
+    /**
+     * Sets the transactions per page to the filters.
+     *
+     * @param perPage
+     * @return SearchFilters 
+     */
+    public SearchFilters setPerPage(Integer perPage) {
+        this.perPage = perPage;
+        return this;
+    }
+
+    /**
+     * Sets the transaction types to the filters.
+     *
+     * @param transactionTypes
+     * @return SearchFilters 
+     */
+    public SearchFilters setTransactionTypes(List<TransactionTypesEnum> transactionTypes) {
+        if (transactionTypes != null) {
+            this.transactionTypes = new ArrayList<>();
+            transactionTypes.forEach((transactionType) -> {
+                this.transactionTypes.add(transactionType.getValue());
+            });
+        }
+        return this;
+    }
+
+    /**
+     * Sets the max amount to the filters.
+     *
+     * @param maxSilaAmount
+     * @return SearchFilters 
+     */
+    public SearchFilters setMaxSilaAmount(Integer maxSilaAmount) {
+        this.maxSilaAmount = maxSilaAmount;
+        return this;
+    }
+
+    /**
+     * Sets the reference id to the filters.
+     *
+     * @param referenceId
+     * @return SearchFilters 
+     */
+    public SearchFilters setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+        return this;
+    }
+
+    /**
+     * Sets the show time lines to true in the filters.
+     *
+     * @return SearchFilters 
+     */
+    public SearchFilters showTimelines() {
+        this.showTimelines = true;
+        return this;
+    }
+
+    /**
+     * Sets the sort ascending to true in the filters.
+     *
+     * @return SearchFilters 
+     */
+    public SearchFilters sortAscending() {
+        this.sortAscending = true;
+        return this;
+    }
+
+    /**
+     * Sets the end epoch to the filters.
+     *
+     * @param endEpoch
+     * @return SearchFilters 
+     */
+    public SearchFilters setEndEpoch(Integer endEpoch) {
+        this.endEpoch = endEpoch;
+        return this;
+    }
+
+    /**
+     * Sets the start epoch to the filters.
+     *
+     * @param startEpoch
+     * @return SearchFilters 
+     */
+    public SearchFilters setStartEpoch(Integer startEpoch) {
+        this.startEpoch = startEpoch;
+        return this;
+    }
+
+    /**
+     * Sets the statuses to the filters.
+     *
+     * @param statuses
+     * @return SearchFilters 
+     */
+    public SearchFilters setStatuses(List<StatusesEnum> statuses) {
+        if (statuses != null) {
+            this.statuses = new ArrayList<>();
+            statuses.forEach((status) -> {
+                this.statuses.add(status.getValue());
+            });
+        }
+        return this;
+    }
+
+    /**
+     * Sets the page to be retreived to the filters.
+     *
+     * @param page
+     * @return SearchFilters 
+     */
+    public SearchFilters setPage(Integer page) {
+        this.page = page;
+        return this;
+    }
+
+    /**
+     * Sets the min amount to the filters.
+     *
+     * @param minSilaAmount
+     * @return SearchFilters 
+     */
+    public SearchFilters setMinSilaAmount(Integer minSilaAmount) {
+        this.minSilaAmount = minSilaAmount;
+        return this;
+    }
+
 }
