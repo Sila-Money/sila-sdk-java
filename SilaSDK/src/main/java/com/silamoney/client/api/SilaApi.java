@@ -77,11 +77,12 @@ public class SilaApi {
      *
      * @param handle
      * @return API response.
-     * @throws com.silamoney.client.exceptions.BadRequestException
-     * @throws com.silamoney.client.exceptions.InvalidSignatureException
-     * @throws com.silamoney.client.exceptions.ServerSideException
-     * @throws java.io.IOException
-     * @throws java.lang.InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ForbiddenException
      */
     public ApiResponse CheckHandle(String handle) throws
             BadRequestException,
@@ -110,12 +111,12 @@ public class SilaApi {
      *
      * @param user
      * @return API response.
-     * @throws java.io.IOException
-     * @throws java.lang.InterruptedException
-     * @throws com.silamoney.client.exceptions.ServerSideException
-     * @throws com.silamoney.client.exceptions.BadRequestException
-     * @throws com.silamoney.client.exceptions.InvalidSignatureException
-     * @throws com.silamoney.client.exceptions.ForbiddenException
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ServerSideException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ForbiddenException
      */
     public ApiResponse Register(User user) throws
             IOException,
@@ -150,7 +151,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
-     * @throws com.silamoney.client.exceptions.ForbiddenException
+     * @throws ForbiddenException
      */
     public ApiResponse RequestKYC(String userHandle,
             String userPrivateKey) throws
@@ -188,7 +189,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
-     * @throws com.silamoney.client.exceptions.ForbiddenException
+     * @throws ForbiddenException
      */
     public ApiResponse CheckKYC(String userHandle, String userPrivateKey) throws
             IOException,
@@ -227,7 +228,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
-     * @throws com.silamoney.client.exceptions.ForbiddenException
+     * @throws ForbiddenException
      */
     public ApiResponse LinkAccount(String userHandle,
             String accountName,
@@ -269,7 +270,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
-     * @throws com.silamoney.client.exceptions.ForbiddenException
+     * @throws ForbiddenException
      */
     public ApiResponse GetAccounts(String userHandle,
             String userPrivateKey) throws
@@ -310,7 +311,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
-     * @throws com.silamoney.client.exceptions.ForbiddenException
+     * @throws ForbiddenException
      */
     public ApiResponse IssueSila(String userHandle,
             int amount,

@@ -15,8 +15,18 @@ public class SearchFilters {
      * Available values for the Transaction Types.
      */
     public enum TransactionTypesEnum {
+
+        /**
+         * String value for issue type.
+         */
         ISSUE("issue"),
+        /**
+         * String value for redeem type.
+         */
         REDEEM("redeem"),
+        /**
+         * String value for transfer type.
+         */
         TRANSFER("transfer");
 
         private final String value;
@@ -39,9 +49,22 @@ public class SearchFilters {
      * Available values for the Statuses.
      */
     public enum StatusesEnum {
+
+        /**
+         * String value for pending status.
+         */
         PENDING("pending"),
+        /**
+         * String value for complete status.
+         */
         COMPLETE("complete"),
+        /**
+         * String value for successful status.
+         */
         SUCCESSFUL("successful"),
+        /**
+         * String value for failed status.
+         */
         FAILED("failed");
 
         private final String value;
