@@ -138,11 +138,13 @@ public class SearchFilters {
     public SearchFilters(String transactionId, Integer perPage, List<TransactionTypesEnum> transactionTypes, Integer maxSilaAmount, String referenceId, Boolean showTimelines, Boolean sortAscending, Integer endEpoch, Integer startEpoch, List<StatusesEnum> statuses, Integer page, Integer minSilaAmount) {
         this.transactionId = transactionId;
         this.perPage = perPage;
-        for (TransactionTypesEnum type : transactionTypes) {
-            if (this.transactionTypes == null) {
-                this.transactionTypes = new ArrayList<>();
+        if (transactionTypes != null) {
+            for (TransactionTypesEnum type : transactionTypes) {
+                if (this.transactionTypes == null) {
+                    this.transactionTypes = new ArrayList<>();
+                }
+                this.transactionTypes.add(type.getValue());
             }
-            this.transactionTypes.add(type.getValue());
         }
         this.maxSilaAmount = maxSilaAmount;
         this.referenceId = referenceId;
@@ -150,11 +152,13 @@ public class SearchFilters {
         this.sortAscending = sortAscending;
         this.endEpoch = endEpoch;
         this.startEpoch = startEpoch;
-        for (StatusesEnum status : statuses) {
-            if (this.statuses == null) {
-                this.statuses = new ArrayList<>();
+        if (statuses != null) {
+            for (StatusesEnum status : statuses) {
+                if (this.statuses == null) {
+                    this.statuses = new ArrayList<>();
+                }
+                this.statuses.add(status.getValue());
             }
-            this.statuses.add(status.getValue());
         }
         this.page = page;
         this.minSilaAmount = minSilaAmount;

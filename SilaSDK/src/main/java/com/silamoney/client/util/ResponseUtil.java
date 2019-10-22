@@ -1,5 +1,6 @@
 package com.silamoney.client.util;
 
+import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
@@ -11,6 +12,7 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,8 +61,9 @@ public class ResponseUtil {
                         response.headers().map(),
                         linkAccountResponse);
             case "get_accounts_msg":
-                List<Account> accounts = (List<Account>) Serialization
-                        .deserialize(response.body().toString(), List.class);
+                TypeToken<ArrayList<Account>> token = new TypeToken<ArrayList<Account>>(){};
+                ArrayList<Account> accounts = (ArrayList<Account>) Serialization
+                        .deserialize(response.body().toString(), token);
                 return new ApiResponse(statusCode,
                         response.headers().map(),
                         accounts);

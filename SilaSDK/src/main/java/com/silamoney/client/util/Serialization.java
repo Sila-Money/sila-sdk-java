@@ -1,6 +1,7 @@
 package com.silamoney.client.util;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
 /**
@@ -31,5 +32,16 @@ public class Serialization {
      */
     public static Object deserialize(String str, Type type) {
         return Serializer.fromJson(str, type);
+    }
+    
+    /**
+     * Converts a json into an object.
+     *
+     * @param str
+     * @param token
+     * @return an instance of the specified object.
+     */
+    public static Object deserialize(String str, TypeToken token) {
+        return Serializer.fromJson(str, token.getType());
     }
 }

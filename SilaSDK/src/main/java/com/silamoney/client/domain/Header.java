@@ -61,7 +61,7 @@ public class Header {
 
         this.created = (int) (((new Date()).getTime() / 1000) - 100);
         this.crypto = CryptoEnum.ETH.value;
-        this.reference = "ref";
+        this.reference = ((int)(Math.random()*((999999)+1))) + "";
         this.version = VersionEnum._0_2.value;
     }
 }
