@@ -1378,5 +1378,28 @@ public class MockServer {
                 );
         //</editor-fold>
         //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="SilaBalance">
+        //<editor-fold defaultstate="collapsed" desc="Response">
+        new MockServerClient("localhost", 1080)
+                .when(
+                        HttpRequest.request()
+                                .withMethod("POST")
+                                .withPath("/silaBalance")
+                                .withBody(
+                                        JsonBody.json(
+                                                "{"
+                                                + "  \"address\": \"0xabc123abc123abc123\""
+                                                + "}",
+                                                MatchType.ONLY_MATCHING_FIELDS)
+                                )
+                )
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withBody("1000")
+                );
+        //</editor-fold>
+        //</editor-fold>
     }
 }

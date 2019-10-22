@@ -29,6 +29,7 @@ public class ResponseUtil {
      * @throws com.silamoney.client.exceptions.BadRequestException
      * @throws com.silamoney.client.exceptions.InvalidSignatureException
      * @throws com.silamoney.client.exceptions.ServerSideException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
     public static ApiResponse prepareResponse(HttpResponse response, String msg)
             throws BadRequestException,
@@ -69,6 +70,10 @@ public class ResponseUtil {
                 return new ApiResponse(statusCode,
                         response.headers().map(),
                         getTransactionsResponse);
+            case "SilaBalance":
+                return new ApiResponse(statusCode,
+                        response.headers().map(),
+                        response.body());
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization
                         .deserialize(response.body().toString(), BaseResponse.class);

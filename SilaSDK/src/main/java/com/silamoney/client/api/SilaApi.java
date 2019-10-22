@@ -8,6 +8,7 @@ import com.silamoney.client.domain.GetTransactionsMsg;
 import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.domain.IssueMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
+import com.silamoney.client.domain.SilaBalanceMsg;
 import com.silamoney.client.domain.Message;
 import com.silamoney.client.domain.RedeemMsg;
 import com.silamoney.client.domain.SearchFilters;
@@ -149,6 +150,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
     public ApiResponse RequestKYC(String userHandle,
             String userPrivateKey) throws
@@ -186,6 +188,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
     public ApiResponse CheckKYC(String userHandle, String userPrivateKey) throws
             IOException,
@@ -224,6 +227,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
     public ApiResponse LinkAccount(String userHandle,
             String accountName,
@@ -265,6 +269,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
     public ApiResponse GetAccounts(String userHandle,
             String userPrivateKey) throws
@@ -305,6 +310,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
     public ApiResponse IssueSila(String userHandle,
             int amount,
@@ -352,6 +358,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
+     * @throws ForbiddenException
      */
     public ApiResponse TransferSila(String userHandle,
             int amount,
@@ -397,6 +404,7 @@ public class SilaApi {
      * @throws BadRequestException
      * @throws InvalidSignatureException
      * @throws ServerSideException
+     * @throws ForbiddenException
      */
     public ApiResponse RedeemSila(String userHandle,
             int amount,
@@ -431,6 +439,21 @@ public class SilaApi {
                 Message.ValueEnum.TRANSFER_MSG.getValue());
     }
 
+    /**
+     * Gets array of user handle's transactions with detailed status
+     * information.
+     *
+     * @param userHandle
+     * @param filters
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     * @throws ForbiddenException
+     */
     public ApiResponse GetTransactions(String userHandle,
             SearchFilters filters,
             String userPrivateKey) throws
@@ -457,5 +480,35 @@ public class SilaApi {
 
         return ResponseUtil.prepareResponse(response,
                 Message.ValueEnum.GET_TRANSACTIONS_MSG.getValue());
+    }
+
+    /**
+     * Gets Sila balance for a given blockchain address.
+     *
+     * @param address
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     * @throws ForbiddenException
+     */
+    public ApiResponse SilaBalance(String address) throws
+            IOException,
+            InterruptedException,
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            ForbiddenException {
+        SilaBalanceMsg body = new SilaBalanceMsg(address);
+        String path = "/silaBalance";
+        String _body = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        HttpResponse response = this.configuration.getApiClient()
+                .CallApi(path, headers, _body);
+
+        return ResponseUtil.prepareResponse(response, "SilaBalance");
     }
 }

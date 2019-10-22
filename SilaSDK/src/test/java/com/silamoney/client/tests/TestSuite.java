@@ -22,7 +22,8 @@ import org.mockserver.integration.ClientAndServer;
     RequestKYCTests.class, 
     TransferSilaTests.class, 
     RedeemSilaTests.class,
-    GetTransactionsTests.class
+    GetTransactionsTests.class,
+    SilaBalanceTests.class
 })
 public class TestSuite {
 
