@@ -8,7 +8,7 @@ package com.silamoney.client.domain;
 public class Message {
     
     private Message(){
-        throw new IllegalStateException("Utility class");
+        
     }
 
     /**

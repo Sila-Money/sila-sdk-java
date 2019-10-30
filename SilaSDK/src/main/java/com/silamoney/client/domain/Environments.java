@@ -7,7 +7,7 @@ package com.silamoney.client.domain;
 public class Environments {
     
     private Environments(){
-        throw new IllegalStateException("Utility class");
+        
     }
 
     /**

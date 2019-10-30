@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 public class Serialization {
     
     private Serialization(){
-        throw new IllegalStateException("Utility class");
+        
     }
 
     private static final Gson Serializer = new Gson();

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ResponseUtil {
     
    private ResponseUtil(){
-       throw new IllegalStateException("Utility class");
+       
    }
 
     /**

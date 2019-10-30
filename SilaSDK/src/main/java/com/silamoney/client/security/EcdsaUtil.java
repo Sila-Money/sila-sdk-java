@@ -13,7 +13,7 @@ import org.web3j.utils.Numeric;
 public class EcdsaUtil {
     
     private EcdsaUtil(){
-        throw new IllegalStateException("Utility class");
+        
     }
 
     /**
