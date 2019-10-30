@@ -30,7 +30,7 @@ public class Configuration {
         this.timeout = 10000;
 
         this.apiClient = new ApiClient();
-        this.apiClient.BasePath = this.basePath;
+        this.apiClient.setBasePath(basePath);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Configuration {
      */
     public void setBasePath(String basePath) {
         this.basePath = basePath;
-        this.apiClient.BasePath = basePath;
+        this.apiClient.setBasePath(basePath);
     }
 
     /**

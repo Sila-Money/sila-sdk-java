@@ -26,18 +26,18 @@ public class CheckKYCTests {
     public void Response200Success() throws Exception {
         ApiResponse response = api.CheckKYC(DefaultConfigurations.userHandle, DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals("KYC passed for " + DefaultConfigurations.userHandle, ((BaseResponse) response.data).message);
-        assertEquals("SUCCESS", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("KYC passed for " + DefaultConfigurations.userHandle, ((BaseResponse) response.getData()).getMessage());
+        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
     
     @Test
     public void Response200Failure() throws Exception {
         ApiResponse response = api.CheckKYC("notpassed.silamoney.eth", DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals("KYC not passed for notpassed.silamoney.eth", ((BaseResponse) response.data).message);
-        assertEquals("FAILURE", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("KYC not passed for notpassed.silamoney.eth", ((BaseResponse) response.getData()).getMessage());
+        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)

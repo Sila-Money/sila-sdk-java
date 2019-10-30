@@ -43,9 +43,9 @@ public class RegisterTests {
         
         ApiResponse response = api.Register(user);
 
-        assertEquals(200, response.statusCode);
-        assertEquals(DefaultConfigurations.userHandle + " was successfully registered ", ((BaseResponse) response.data).message);
-        assertEquals("SUCCESS", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals(DefaultConfigurations.userHandle + " was successfully registered ", ((BaseResponse) response.getData()).getMessage());
+        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)

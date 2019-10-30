@@ -242,7 +242,7 @@ public class SilaApi {
             ForbiddenException {
         LinkAccountMsg body = new LinkAccountMsg(userHandle,
                 accountName,
-                publicToken, userPrivateKey,
+                publicToken, 
                 this.configuration.getAuthHandle());
         String path = "/link_account";
         String _body = Serialization.serialize(body);

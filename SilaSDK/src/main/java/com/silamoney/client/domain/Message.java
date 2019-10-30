@@ -6,6 +6,10 @@ package com.silamoney.client.domain;
  * @author Karlo Lorenzana
  */
 public class Message {
+    
+    private Message(){
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Enum that contains the message options.

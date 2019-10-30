@@ -38,7 +38,7 @@ public class Identity {
      */
     public Identity(User user) {
         this.identityAlias = IdentityAliasEnum.SSN.getValue();
-        this.identityValue = user.identityNumber;
+        this.identityValue = user.getIdentityNumber();
     }
 
 }

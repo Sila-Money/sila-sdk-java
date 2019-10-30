@@ -25,7 +25,7 @@ public class Contact {
      */
     public Contact(User user) {
         this.contactAlias = "";
-        this.email = user.email;
-        this.phone = user.phone;
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
     }
 }

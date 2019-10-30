@@ -28,8 +28,8 @@ public class LinkAccountTests {
                 "Custom Account Name", "public-xxx-xxx",
                 DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals("SUCCESS", ((LinkAccountResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("SUCCESS", ((LinkAccountResponse) response.getData()).getStatus());
     }
 
     @Test
@@ -38,8 +38,8 @@ public class LinkAccountTests {
                 "Custom Account Name", "public-xxx-xxx",
                 DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals("FAILURE", ((LinkAccountResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("FAILURE", ((LinkAccountResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)

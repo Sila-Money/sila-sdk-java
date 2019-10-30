@@ -11,12 +11,12 @@ import java.util.Date;
 public class Header {
 
     private enum VersionEnum {
-        _0_2("0.2"),
+        ZERO_2("0.2"),
         V0_2("v0.2");
 
-        public String value;
+        private final String value;
 
-        VersionEnum(String value) {
+        private VersionEnum(String value) {
             this.value = value;
         }
     }
@@ -24,9 +24,9 @@ public class Header {
     private enum CryptoEnum {
         ETH("ETH");
 
-        public String value;
+        private String value;
 
-        CryptoEnum(String value) {
+        private CryptoEnum(String value) {
             this.value = value;
         }
     }
@@ -62,6 +62,6 @@ public class Header {
         this.created = (int) (((new Date()).getTime() / 1000) - 100);
         this.crypto = CryptoEnum.ETH.value;
         this.reference = ((int)(Math.random()*((999999)+1))) + "";
-        this.version = VersionEnum._0_2.value;
+        this.version = VersionEnum.ZERO_2.value;
     }
 }

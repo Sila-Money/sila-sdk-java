@@ -26,9 +26,9 @@ public class RequestKYCTests {
     public void Response200() throws Exception {
         ApiResponse response = api.RequestKYC(DefaultConfigurations.userHandle, DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals(DefaultConfigurations.userHandle + " submitted for KYC review", ((BaseResponse) response.data).message);
-        assertEquals("SUCCESS", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals(DefaultConfigurations.userHandle + " submitted for KYC review", ((BaseResponse) response.getData()).getMessage());
+        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)

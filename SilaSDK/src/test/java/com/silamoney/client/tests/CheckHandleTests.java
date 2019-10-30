@@ -26,18 +26,18 @@ public class CheckHandleTests {
     public void Response200Success() throws Exception {
         ApiResponse response = api.CheckHandle(DefaultConfigurations.userHandle);
 
-        assertEquals(200, response.statusCode);
-        assertEquals(DefaultConfigurations.userHandle + " is available.", ((BaseResponse) response.data).message);
-        assertEquals("SUCCESS", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals(DefaultConfigurations.userHandle + " is available.", ((BaseResponse) response.getData()).getMessage());
+        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test
     public void Response200Failure() throws Exception {
         ApiResponse response = api.CheckHandle("taken.silamoney.eth");
 
-        assertEquals(200, response.statusCode);
-        assertEquals("taken.silamoney.eth is already taken.", ((BaseResponse) response.data).message);
-        assertEquals("FAILURE", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("taken.silamoney.eth is already taken.", ((BaseResponse) response.getData()).getMessage());
+        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)

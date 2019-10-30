@@ -50,10 +50,10 @@ public class Entity {
     public Entity(User user) {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String date = simpleDateFormat.format(user.birthdate);
+        String date = simpleDateFormat.format(user.getBirthdate());
         this.birthdate = date;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
         this.entityName = this.firstName + " " + this.lastName;
         this.relationship = RelationshipEnum.USER.getValue();
     }

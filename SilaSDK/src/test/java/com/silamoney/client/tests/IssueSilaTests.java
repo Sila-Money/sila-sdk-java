@@ -29,9 +29,9 @@ public class IssueSilaTests {
                 null,
                 DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals("ref submitted to ACH queue", ((BaseResponse) response.data).message);
-        assertEquals("SUCCESS", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("ref submitted to ACH queue", ((BaseResponse) response.getData()).getMessage());
+        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test
@@ -41,9 +41,9 @@ public class IssueSilaTests {
                 null,
                 DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals("ref not submitted to ACH queue", ((BaseResponse) response.data).message);
-        assertEquals("FAILURE", ((BaseResponse) response.data).status);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("ref not submitted to ACH queue", ((BaseResponse) response.getData()).getMessage());
+        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)

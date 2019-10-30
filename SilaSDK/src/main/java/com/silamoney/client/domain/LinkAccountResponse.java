@@ -7,8 +7,13 @@ package com.silamoney.client.domain;
  */
 public class LinkAccountResponse {
 
+    private String status;
+
     /**
-     * String field to map status.
+     * Gets the response status.
+     * @return status
      */
-    public String status;
+    public String getStatus() {
+        return status;
+    }
 }

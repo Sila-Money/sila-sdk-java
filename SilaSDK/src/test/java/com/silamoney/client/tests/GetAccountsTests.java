@@ -28,8 +28,8 @@ public class GetAccountsTests {
         ApiResponse response = api.GetAccounts(DefaultConfigurations.userHandle,
                 DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
-        assertEquals(1, ((List<Account>) response.data).size());
+        assertEquals(200, response.getStatusCode());
+        assertEquals(1, ((List<Account>) response.getData()).size());
     }
 
     @Test(expected = BadRequestException.class)

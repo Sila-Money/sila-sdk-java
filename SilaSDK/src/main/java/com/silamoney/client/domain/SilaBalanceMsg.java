@@ -7,10 +7,7 @@ package com.silamoney.client.domain;
  */
 public class SilaBalanceMsg {
 
-    /**
-     * String field used for addess.
-     */
-    public String address;
+    private final String address;
 
     /**
      * Constructor for SilaBalanceMsg.

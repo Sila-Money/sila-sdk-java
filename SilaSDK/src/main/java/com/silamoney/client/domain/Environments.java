@@ -5,6 +5,10 @@ package com.silamoney.client.domain;
  * @author Karlo Lorenzana
  */
 public class Environments {
+    
+    private Environments(){
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Enum used to get accepted Sila environments.

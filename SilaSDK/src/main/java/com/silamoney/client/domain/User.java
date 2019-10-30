@@ -10,70 +10,31 @@ import java.util.Date;
  */
 public class User {
 
-    /**
-     * String field use for handle value.
-     */
-    public String handle;
+    private final String handle;
 
-    /**
-     * String field use for first name.
-     */
-    public String firstName;
+    private final String firstName;
 
-    /**
-     * String field use for last name.
-     */
-    public String lastName;
+    private final String lastName;
 
-    /**
-     * String field use for address.
-     */
-    public String address;
+    private final String address;
 
-    /**
-     **String field use for address 2.
-     */
-    public String address2;
+    private final String address2;
 
-    /**
-     * String field use for city.
-     */
-    public String city;
+    private final String city;
 
-    /**
-     * String field use for state.
-     */
-    public String state;
+    private final String state;
 
-    /**
-     * String field use for first zip code.
-     */
-    public String zipCode;
+    private final String zipCode;
 
-    /**
-     * String field use for phone.
-     */
-    public String phone;
+    private final String phone;
 
-    /**
-     * String field use for email.
-     */
-    public String email;
+    private final String email;
 
-    /**
-     * String field use for identity number.
-     */
-    public String identityNumber;
+    private final String identityNumber;
 
-    /**
-     * String field use for crypto address.
-     */
-    public String cryptoAddress;
+    private final String cryptoAddress;
     
-    /**
-     *Date field use for the birthdate.
-     */
-    public Date birthdate;
+    private final Date birthdate;
 
     /**
      * Constructor for user object.
@@ -107,4 +68,110 @@ public class User {
         this.cryptoAddress = cryptoAddress;
         this.birthdate = birthdate;
     }
+
+    /**
+     * Gets the user handle.
+     * @return handle
+     */
+    public String getHandle() {
+        return handle;
+    }
+
+    /**
+     * Gets the user first name.
+     * @return first name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Gets the user last name.
+     * @return last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Gets the user street address 1.
+     * @return address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * Gets the user street address 2.
+     * @return street address 2
+     */
+    public String getAddress2() {
+        return address2;
+    }
+
+    /**
+     * Gets the user city.
+     * @return city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * Gets the user state.
+     * @return state
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * Gets the user zip code.
+     * @return zip code
+     */
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    /**
+     * Gets the user phone.
+     * @return phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * Gets the user email.
+     * @return email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Gets the user identity number.
+     * @return identity number
+     */
+    public String getIdentityNumber() {
+        return identityNumber;
+    }
+
+    /**
+     * Gets the user crypto address.
+     * @return crypto address
+     */
+    public String getCryptoAddress() {
+        return cryptoAddress;
+    }
+
+    /**
+     * Gets the user birthdate.
+     * @return birthdate
+     */
+    public Date getBirthdate() {
+        return birthdate;
+    }
+    
+    
 }

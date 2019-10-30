@@ -19,6 +19,10 @@ import java.util.ArrayList;
  * @author Karlo Lorenzana
  */
 public class ResponseUtil {
+    
+   private ResponseUtil(){
+       throw new IllegalStateException("Utility class");
+   }
 
     /**
      * Creates an ApiResponse based on the sent HttpResponse.

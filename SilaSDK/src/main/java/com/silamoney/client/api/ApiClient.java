@@ -14,15 +14,28 @@ import java.util.Map;
  */
 public class ApiClient {
 
+    private String BasePath;
+
     /**
-     * Host for the silamoney API.
+     * Gets the api base path.
+     * @return
      */
-    public String BasePath;
+    public String getBasePath() {
+        return BasePath;
+    }
+
+    /**
+     * Sets the api base path.
+     * @param BasePath
+     */
+    public void setBasePath(String BasePath) {
+        this.BasePath = BasePath;
+    }
 
     /**
      * HTTP client used to make the API calls.
      */
-    public HttpClient httpClient;
+    private HttpClient httpClient;
 
     /**
      * API client constructor.

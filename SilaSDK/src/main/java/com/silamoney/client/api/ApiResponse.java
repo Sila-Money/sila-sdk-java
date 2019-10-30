@@ -10,20 +10,11 @@ import java.util.Map;
  */
 public class ApiResponse {
 
-    /**
-     * Response status code.
-     */
-    public int statusCode;
+    private final int statusCode;
 
-    /**
-     * Response headers.
-     */
-    public Map<String, List<String>> headers;
+    private final Map<String, List<String>> headers;
 
-    /**
-     * Response data.
-     */
-    public Object data;
+    private final Object data;
 
     /**
      * Constructor for ApiResponse.
@@ -36,5 +27,29 @@ public class ApiResponse {
         this.statusCode = statusCode;
         this.headers = headers;
         this.data = data;
+    }
+
+    /**
+     * Gets the response status code.
+     * @return status code.
+     */
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    /**
+     * Gets the response headers.
+     * @return
+     */
+    public Map<String, List<String>> getHeaders() {
+        return headers;
+    }
+
+    /**
+     * Gets the response data.
+     * @return
+     */
+    public Object getData() {
+        return data;
     }
 }

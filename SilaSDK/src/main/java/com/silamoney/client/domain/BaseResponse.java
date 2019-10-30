@@ -7,18 +7,33 @@ package com.silamoney.client.domain;
  */
 public class BaseResponse {
 
-    /**
-     *String field use for the response reference.
-     */
-    public String reference;
+    private String reference;
+
+    private String message;
+
+    private String status;
 
     /**
-     *String field use for the response message.
+     * Gets the response reference.
+     * @return reference
      */
-    public String message;
+    public String getReference() {
+        return reference;
+    }
 
     /**
-     *String field use for the response status.
+     * Gets the response message.
+     * @return message
      */
-    public String status;
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Gets the response status.
+     * @return status
+     */
+    public String getStatus() {
+        return status;
+    }
 }

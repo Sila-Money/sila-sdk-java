@@ -38,7 +38,7 @@ public class CryptoEntry {
      * @param user
      */
     public CryptoEntry(User user) {
-        this.cryptoAddress = user.cryptoAddress;
+        this.cryptoAddress = user.getCryptoAddress();
         this.cryptoAlias = "";
         this.cryptoCode = CryptoCodeEnum.ETH.getValue();
     }

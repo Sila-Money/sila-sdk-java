@@ -30,10 +30,9 @@ public class LinkAccountMsg {
      * @param userHandle
      * @param accountName
      * @param publicToken
-     * @param userPrivateKey
      * @param appHandle
      */
-    public LinkAccountMsg(String userHandle, String accountName, String publicToken, String userPrivateKey, String appHandle) {
+    public LinkAccountMsg(String userHandle, String accountName, String publicToken, String appHandle) {
         this.publicToken = publicToken;
         this.accountName = accountName;
         this.header = new Header(userHandle, appHandle);

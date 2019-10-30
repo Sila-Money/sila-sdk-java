@@ -30,10 +30,10 @@ public class TransferSilaTests {
                         "user2.silamoney.eth",
                         DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
+        assertEquals(200, response.getStatusCode());
         assertEquals("ref submitted to ETH queue", 
-                ((BaseResponse) response.data).message);
-        assertEquals("SUCCESS", ((BaseResponse) response.data).status);
+                ((BaseResponse) response.getData()).getMessage());
+        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test
@@ -44,10 +44,10 @@ public class TransferSilaTests {
                         "user2.silamoney.eth",
                         DefaultConfigurations.userPrivateKey);
 
-        assertEquals(200, response.statusCode);
+        assertEquals(200, response.getStatusCode());
         assertEquals("ref not submitted to ETH queue", 
-                ((BaseResponse) response.data).message);
-        assertEquals("FAILURE", ((BaseResponse) response.data).status);
+                ((BaseResponse) response.getData()).getMessage());
+        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)

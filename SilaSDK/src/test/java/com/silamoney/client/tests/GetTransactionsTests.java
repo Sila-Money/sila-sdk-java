@@ -30,8 +30,8 @@ public class GetTransactionsTests {
                 DefaultConfigurations.userPrivateKey
         );
 
-        assertEquals(200, response.statusCode);
-        assertTrue(((GetTransactionsResponse) response.data).success);
+        assertEquals(200, response.getStatusCode());
+        assertTrue(((GetTransactionsResponse) response.getData()).success);
     }
 
     @Test(expected = BadRequestException.class)

@@ -10,6 +10,10 @@ import java.lang.reflect.Type;
  * @author Karlo Lorenzana
  */
 public class Serialization {
+    
+    private Serialization(){
+        throw new IllegalStateException("Utility class");
+    }
 
     private static final Gson Serializer = new Gson();
 

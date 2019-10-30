@@ -37,7 +37,7 @@ public class EntityMsg {
      * @param appHandle
      */
     public EntityMsg(User user, String appHandle) {
-        this.header = new Header(user.handle, appHandle);
+        this.header = new Header(user.getHandle(), appHandle);
         this.message = Message.ValueEnum.ENTITY_MSG.getValue();
         this.address = new Address(user);
         this.identity = new Identity(user);

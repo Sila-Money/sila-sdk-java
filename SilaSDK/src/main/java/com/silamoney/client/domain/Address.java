@@ -51,11 +51,11 @@ public class Address {
      */
     public Address(User user) {
         this.addressAlias = "";
-        this.streetAddress1 = user.address;
-        this.streetAddress2 = user.address2;
-        this.city = user.city;
-        this.state = user.state;
+        this.streetAddress1 = user.getAddress();
+        this.streetAddress2 = user.getAddress2();
+        this.city = user.getCity();
+        this.state = user.getState();
         this.country = CountryEnum.US.getValue();
-        this.postalCode = user.zipCode;
+        this.postalCode = user.getZipCode();
     }
 }

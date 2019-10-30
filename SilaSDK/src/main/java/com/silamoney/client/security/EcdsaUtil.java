@@ -11,6 +11,10 @@ import org.web3j.utils.Numeric;
  * @author loren
  */
 public class EcdsaUtil {
+    
+    private EcdsaUtil(){
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Hash and signs the received message with the received private key.
