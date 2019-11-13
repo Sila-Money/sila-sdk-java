@@ -487,6 +487,7 @@ public class SilaApi {
      * Gets Sila balance for a given blockchain address.
      *
      * @param address
+     * @param host
      * @return
      * @throws IOException
      * @throws InterruptedException
@@ -495,7 +496,7 @@ public class SilaApi {
      * @throws ServerSideException
      * @throws ForbiddenException
      */
-    public ApiResponse SilaBalance(String address) throws
+    public ApiResponse SilaBalance(String host, String address) throws
             IOException,
             InterruptedException,
             BadRequestException,
@@ -506,9 +507,15 @@ public class SilaApi {
         String path = "/silaBalance";
         String _body = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
-
+        
+        String initialBasePath = this.configuration.getBasePath();
+        
+        this.configuration.setBasePath(host);
+        
         HttpResponse response = this.configuration.getApiClient()
                 .CallApi(path, headers, _body);
+        
+        this.configuration.setBasePath(initialBasePath);
 
         return ResponseUtil.prepareResponse(response, "SilaBalance");
     }
