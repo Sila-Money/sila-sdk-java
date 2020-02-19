@@ -12,6 +12,7 @@ pipeline {
                 sh 'mvn --version'
                 dir('SilaSDK') {
                     sh 'mvn clean install'
+                    sh 'mvn test'
                 }
             }
         }
