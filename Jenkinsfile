@@ -11,8 +11,17 @@ pipeline {
             steps {
                 sh 'mvn --version'
                 dir('SilaSDK') {
-                    sh 'mvn clean install'
-                    sh 'mvn test'
+                    withSonarQubeEnv('GekoSonar') {
+                        sh 'mvn clean install sonar:sonar'
+                    }
+                }
+            }
+        }
+        stage("Quality Gate") {
+            agent any
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
