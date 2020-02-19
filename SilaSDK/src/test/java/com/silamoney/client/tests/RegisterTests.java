@@ -20,83 +20,43 @@ import static org.junit.Assert.*;
  */
 public class RegisterTests {
 
-    SilaApi api = new SilaApi(DefaultConfigurations.host,
-            DefaultConfigurations.appHandle,
-            DefaultConfigurations.privateKey);
+	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+			DefaultConfigurations.privateKey);
 
-    @Test
-    public void Response200() throws Exception {
-        LocalDate birthdate = new LocalDate(1900, 01, 31);
-        User user = new User(DefaultConfigurations.userHandle, 
-                "Example", 
-                "User", 
-                "123 Main Street", 
-                null, 
-                "New City", 
-                "OR", 
-                "97204-1234", 
-                "503-123-4567", 
-                "example@silamoney.com", 
-                "123452222", 
-                "0x1234567890abcdef1234567890abcdef12345678", 
-                birthdate.toDate());
-        
-        ApiResponse response = api.Register(user);
+	@Test
+	public void Response200() throws Exception {
+		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals(DefaultConfigurations.userHandle + " was successfully registered ", ((BaseResponse) response.getData()).getMessage());
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
+		ApiResponse response = api.Register(user);
 
-    @Test(expected = BadRequestException.class)
-    public void Response400() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        LocalDate birthdate = new LocalDate(1900, 01, 31);
-        User user = new User("badrequest.silamoney.eth", 
-                "Example", 
-                "User", 
-                "123 Main Street", 
-                null, 
-                "New City", 
-                "OR", 
-                "97204-1234", 
-                "503-123-4567", 
-                "example@silamoney.com", 
-                "123452222", 
-                "0x1234567890abcdef1234567890abcdef12345678", 
-                birthdate.toDate());
-        
-        api.Register(user);
-    }
-    
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        LocalDate birthdate = new LocalDate(1900, 01, 31);
-        User user = new User("invalidsignature.silamoney.eth", 
-                "Example", 
-                "User", 
-                "123 Main Street", 
-                null, 
-                "New City", 
-                "OR", 
-                "97204-1234", 
-                "503-123-4567", 
-                "example@silamoney.com", 
-                "123452222", 
-                "0x1234567890abcdef1234567890abcdef12345678", 
-                birthdate.toDate());
-        
-        api.Register(user);
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
+
+	@Test(expected = BadRequestException.class)
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		User user = new User("badrequest.silamoney.eth", "Example", "User", "123 Main Street", null, "New City", "OR",
+				"97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "", birthdate.toDate());
+
+		api.Register(user);
+	}
+
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		User user = new User("invalidsignature.silamoney.eth", "Example", "User", "123 Main Street", null, "New City",
+				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				"0x1234567890abcdef1234567890abcdef12345678", birthdate.toDate());
+
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+
+		api.Register(user);
+	}
 }

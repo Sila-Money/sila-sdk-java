@@ -9,6 +9,8 @@ import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -23,21 +25,17 @@ public class CheckKYCTests {
             DefaultConfigurations.privateKey);
 
     @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api.CheckKYC(DefaultConfigurations.userHandle, DefaultConfigurations.userPrivateKey);
+    public void Response200() throws Exception {
+        ApiResponse response = api.CheckKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
-        assertEquals("KYC passed for " + DefaultConfigurations.userHandle, ((BaseResponse) response.getData()).getMessage());
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
-    
-    @Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api.CheckKYC("notpassed.silamoney.eth", DefaultConfigurations.userPrivateKey);
-
-        assertEquals(200, response.getStatusCode());
-        assertEquals("KYC not passed for notpassed.silamoney.eth", ((BaseResponse) response.getData()).getMessage());
         assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+        while (!((BaseResponse) response.getData()).getStatus().contains("SUCCESS")) {
+        	
+        	TimeUnit.SECONDS.sleep(5);
+        	response = api.CheckKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
+		}
+        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
     @Test(expected = BadRequestException.class)
@@ -48,10 +46,10 @@ public class CheckKYCTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.CheckKYC("badrequest.silamoney.eth", DefaultConfigurations.userPrivateKey);
+        api.CheckKYC("", DefaultConfigurations.getUserPrivateKey());
     }
 
-    @Test(expected = InvalidSignatureException.class)
+    /*@Test(expected = InvalidSignatureException.class)
     public void Response401() throws
             BadRequestException,
             InvalidSignatureException,
@@ -59,6 +57,20 @@ public class CheckKYCTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.CheckKYC("invalidsignature.silamoney.eth", DefaultConfigurations.userPrivateKey);
+    	api.CheckKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.privateKey);
+    }*/
+    
+    @Test(expected = InvalidSignatureException.class)
+    public void Response401User() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException,
+            ForbiddenException {
+    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+    	
+        api.CheckKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
     }
 }

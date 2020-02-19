@@ -25,8 +25,8 @@ public class GetAccountsTests {
 
     @Test
     public void Response200Success() throws Exception {
-        ApiResponse response = api.GetAccounts(DefaultConfigurations.userHandle,
-                DefaultConfigurations.userPrivateKey);
+        ApiResponse response = api.GetAccounts(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
         assertEquals(1, ((List<Account>) response.getData()).size());
@@ -40,10 +40,22 @@ public class GetAccountsTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.GetAccounts("badrequest.silamoney.eth",
-                DefaultConfigurations.userPrivateKey);
+        api.GetAccounts("",
+                DefaultConfigurations.getUserPrivateKey());
     }
 
+    /*@Test(expected = InvalidSignatureException.class)
+    public void Response401User() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException,
+            ForbiddenException {
+    	api.GetAccounts(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.privateKey);
+    }*/
+    
     @Test(expected = InvalidSignatureException.class)
     public void Response401() throws
             BadRequestException,
@@ -52,8 +64,10 @@ public class GetAccountsTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.LinkAccount("invalidsignature.silamoney.eth",
-                "Custom Account Name", "public-xxx-xxx",
-                DefaultConfigurations.userPrivateKey);
+    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+    	
+    	api.GetAccounts(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey());
     }
 }

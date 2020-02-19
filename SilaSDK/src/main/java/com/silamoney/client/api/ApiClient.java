@@ -73,9 +73,6 @@ public class ApiClient {
             request.header(entry.getKey(), entry.getValue());
         });
 
-        request.POST(HttpRequest.BodyPublishers.ofString(body))
-                .build();
-
         return request.POST(HttpRequest.BodyPublishers
                 .ofString(body))
                 .build();

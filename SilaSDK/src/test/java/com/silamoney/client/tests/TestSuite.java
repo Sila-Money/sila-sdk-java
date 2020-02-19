@@ -13,21 +13,21 @@ import org.mockserver.integration.ClientAndServer;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-    CheckHandleTests.class, 
-    CheckKYCTests.class, 
-    GetAccountsTests.class,
-    IssueSilaTests.class, 
-    LinkAccountTests.class, 
+    CheckHandleTests.class,
     RegisterTests.class,
-    RequestKYCTests.class, 
+    RequestKYCTests.class,
+    CheckKYCTests.class,
+    LinkAccountTests.class,
+    GetAccountsTests.class,
+    IssueSilaTests.class,
     TransferSilaTests.class, 
     RedeemSilaTests.class,
-    GetTransactionsTests.class,
-    SilaBalanceTests.class
+    GetTransactionsTests.class/*,
+    SilaBalanceTests.class*/
 })
 public class TestSuite {
 
-    private static ClientAndServer mockServer;
+    /*private static ClientAndServer mockServer;
 
     @BeforeClass
     public static void setUp() {
@@ -38,6 +38,6 @@ public class TestSuite {
     @AfterClass
     public static void tearDown() {
         mockServer.stop();
-    }
+    }*/
 
 }

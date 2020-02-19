@@ -24,27 +24,25 @@ public class IssueSilaTests {
 
     @Test
     public void Response200Success() throws Exception {
-        ApiResponse response = api.IssueSila(DefaultConfigurations.userHandle,
-                1000,
-                null,
-                DefaultConfigurations.userPrivateKey);
+        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
+                100,
+                "Custom Account Name",
+                DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
-        assertEquals("ref submitted to ACH queue", ((BaseResponse) response.getData()).getMessage());
         assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
-    @Test
+    /*@Test
     public void Response200Failure() throws Exception {
-        ApiResponse response = api.IssueSila("failure.silamoney.eth",
-                1000,
-                null,
-                DefaultConfigurations.userPrivateKey);
+        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
+                100,
+                "Custom Account Name",
+                DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
-        assertEquals("ref not submitted to ACH queue", ((BaseResponse) response.getData()).getMessage());
         assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-    }
+    }*/
 
     @Test(expected = BadRequestException.class)
     public void Response400() throws 
@@ -54,10 +52,24 @@ public class IssueSilaTests {
             IOException, 
             InterruptedException,
             ForbiddenException  {
-        ApiResponse response = api.IssueSila("badrequest.silamoney.eth",
+        ApiResponse response = api.IssueSila("",
                 1000,
                 null,
-                DefaultConfigurations.userPrivateKey);
+                DefaultConfigurations.getUserPrivateKey());
+    }
+    
+    @Test(expected = InvalidSignatureException.class)
+    public void Response401User() throws 
+            BadRequestException, 
+            InvalidSignatureException, 
+            ServerSideException, 
+            IOException, 
+            InterruptedException,
+            ForbiddenException  {
+        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
+                1000,
+                null,
+                DefaultConfigurations.privateKey);
     }
     
     @Test(expected = InvalidSignatureException.class)
@@ -68,9 +80,12 @@ public class IssueSilaTests {
             IOException, 
             InterruptedException,
             ForbiddenException  {
-        ApiResponse response = api.IssueSila("invalidsignature.silamoney.eth",
+    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+    	
+        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
                 1000,
                 null,
-                DefaultConfigurations.userPrivateKey);
+                DefaultConfigurations.getUserPrivateKey());
     }
 }

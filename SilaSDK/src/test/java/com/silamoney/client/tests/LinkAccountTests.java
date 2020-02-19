@@ -24,23 +24,23 @@ public class LinkAccountTests {
 
     @Test
     public void Response200Success() throws Exception {
-        ApiResponse response = api.LinkAccount(DefaultConfigurations.userHandle,
-                "Custom Account Name", "public-xxx-xxx",
-                DefaultConfigurations.userPrivateKey);
+        ApiResponse response = api.LinkAccount(DefaultConfigurations.getUserHandle(),
+                "Custom Account Name", DefaultConfigurations.getPlaidToken(),
+                DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
         assertEquals("SUCCESS", ((LinkAccountResponse) response.getData()).getStatus());
     }
 
-    @Test
+    /*@Test
     public void Response200Failure() throws Exception {
         ApiResponse response = api.LinkAccount("failure.silamoney.eth",
                 "Custom Account Name", "public-xxx-xxx",
-                DefaultConfigurations.userPrivateKey);
+                DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
         assertEquals("FAILURE", ((LinkAccountResponse) response.getData()).getStatus());
-    }
+    }*/
 
     @Test(expected = BadRequestException.class)
     public void Response400() throws
@@ -50,9 +50,23 @@ public class LinkAccountTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.LinkAccount("badrequest.silamoney.eth",
-                "Custom Account Name", "public-xxx-xxx",
-                DefaultConfigurations.userPrivateKey);
+        api.LinkAccount("",
+                "Custom Account Name", "",
+                DefaultConfigurations.getUserPrivateKey());
+    }
+    
+    @Test(expected = InvalidSignatureException.class)
+    public void Response401User() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException,
+            ForbiddenException {
+    	
+    	api.LinkAccount(DefaultConfigurations.getUserHandle(),
+                "Custom Account Name", DefaultConfigurations.getPlaidToken(),
+                DefaultConfigurations.privateKey);
     }
 
     @Test(expected = InvalidSignatureException.class)
@@ -63,8 +77,11 @@ public class LinkAccountTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.LinkAccount("invalidsignature.silamoney.eth",
-                "Custom Account Name", "public-xxx-xxx",
-                DefaultConfigurations.userPrivateKey);
+    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+    	
+    	api.LinkAccount(DefaultConfigurations.getUserHandle(),
+                "Custom Account Name", DefaultConfigurations.getPlaidToken(),
+                DefaultConfigurations.getUserPrivateKey());
     }
 }

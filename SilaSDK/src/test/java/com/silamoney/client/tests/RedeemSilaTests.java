@@ -18,59 +18,47 @@ import static org.junit.Assert.*;
  */
 public class RedeemSilaTests {
 
-    SilaApi api = new SilaApi(DefaultConfigurations.host,
-            DefaultConfigurations.appHandle,
-            DefaultConfigurations.privateKey);
+	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+			DefaultConfigurations.privateKey);
 
-    @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api.RedeemSila(DefaultConfigurations.userHandle,
-                1000,
-                null,
-                DefaultConfigurations.userPrivateKey);
+	@Test
+	public void Response200Success() throws Exception {
+		ApiResponse response = api.RedeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
+				DefaultConfigurations.getUserPrivateKey());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("ref submitted to ETH queue", ((BaseResponse) response.getData()).getMessage());
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 
-    @Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api.RedeemSila("failure.silamoney.eth",
-                1000,
-                null,
-                DefaultConfigurations.userPrivateKey);
+	/*
+	 * @Test public void Response200Failure() throws Exception { ApiResponse
+	 * response = api.RedeemSila(DefaultConfigurations.getUserHandle(), 1000,
+	 * "Custom Account Name", DefaultConfigurations.getUserPrivateKey());
+	 * 
+	 * assertEquals(200, response.getStatusCode()); assertEquals("FAILURE",
+	 * ((BaseResponse) response.getData()).getStatus()); }
+	 */
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("ref not submitted to ETH queue", ((BaseResponse) response.getData()).getMessage());
-        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-    }
+	@Test(expected = BadRequestException.class)
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api.RedeemSila("", 1000, "Custom Account Name", DefaultConfigurations.getUserPrivateKey());
+	}
 
-    @Test(expected = BadRequestException.class)
-    public void Response400() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        ApiResponse response = api.RedeemSila("badrequest.silamoney.eth",
-                1000,
-                null,
-                DefaultConfigurations.userPrivateKey);
-    }
-    
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        ApiResponse response = api.RedeemSila("invalidsignature.silamoney.eth",
-                1000,
-                null,
-                DefaultConfigurations.userPrivateKey);
-    }
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
+			IOException, InterruptedException, ForbiddenException {
+		api.RedeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
+				DefaultConfigurations.privateKey);
+	}
+
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+
+		api.RedeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
+				DefaultConfigurations.getUserPrivateKey());
+	}
 }

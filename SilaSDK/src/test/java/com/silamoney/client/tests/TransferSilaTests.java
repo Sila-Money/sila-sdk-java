@@ -18,65 +18,47 @@ import static org.junit.Assert.*;
  */
 public class TransferSilaTests {
 
-    SilaApi api = new SilaApi(DefaultConfigurations.host,
-            DefaultConfigurations.appHandle,
-            DefaultConfigurations.privateKey);
+	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+			DefaultConfigurations.privateKey);
 
-    @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api
-                .TransferSila(DefaultConfigurations.userHandle,
-                        13,
-                        "user2.silamoney.eth",
-                        DefaultConfigurations.userPrivateKey);
+	@Test
+	public void Response200Success() throws Exception {
+		ApiResponse response = api.TransferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
+				DefaultConfigurations.getUserPrivateKey());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("ref submitted to ETH queue", 
-                ((BaseResponse) response.getData()).getMessage());
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 
-    @Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api
-                .TransferSila("failure.silamoney.eth",
-                        13,
-                        "user2.silamoney.eth",
-                        DefaultConfigurations.userPrivateKey);
+	/*@Test
+	public void Response200Failure() throws Exception {
+		ApiResponse response = api.TransferSila(DefaultConfigurations.getUserHandle(), 100,
+				"failure" + DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("ref not submitted to ETH queue", 
-                ((BaseResponse) response.getData()).getMessage());
-        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+	}*/
 
-    @Test(expected = BadRequestException.class)
-    public void Response400() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-        ApiResponse response = api
-                .TransferSila("badrequest.silamoney.eth",
-                        13,
-                        "user2.silamoney.eth",
-                        DefaultConfigurations.userPrivateKey);
-    }
+	@Test(expected = BadRequestException.class)
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api.TransferSila("", 100, "", DefaultConfigurations.getUserPrivateKey());
+	}
 
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-        ApiResponse response = api
-                .TransferSila("invalidsignature.silamoney.eth",
-                        13,
-                        "user2.silamoney.eth",
-                        DefaultConfigurations.userPrivateKey);
-    }
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
+			IOException, InterruptedException, ForbiddenException {
+		api.TransferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
+				DefaultConfigurations.privateKey);
+	}
+
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+
+		api.TransferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
+				DefaultConfigurations.getUserPrivateKey());
+	}
 }

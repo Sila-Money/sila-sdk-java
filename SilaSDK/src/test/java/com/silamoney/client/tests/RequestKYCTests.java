@@ -24,10 +24,9 @@ public class RequestKYCTests {
 
     @Test
     public void Response200() throws Exception {
-        ApiResponse response = api.RequestKYC(DefaultConfigurations.userHandle, DefaultConfigurations.userPrivateKey);
+        ApiResponse response = api.RequestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
-        assertEquals(DefaultConfigurations.userHandle + " submitted for KYC review", ((BaseResponse) response.getData()).getMessage());
         assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
     }
 
@@ -39,7 +38,7 @@ public class RequestKYCTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.RequestKYC("badrequest.silamoney.eth", DefaultConfigurations.userPrivateKey);
+        api.RequestKYC("", DefaultConfigurations.getUserPrivateKey());
     }
 
     @Test(expected = InvalidSignatureException.class)
@@ -50,6 +49,20 @@ public class RequestKYCTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.RequestKYC("invalidsignature.silamoney.eth", DefaultConfigurations.userPrivateKey);
+        api.RequestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.privateKey);
+    }
+    
+    @Test(expected = InvalidSignatureException.class)
+    public void Response401User() throws
+            BadRequestException,
+            InvalidSignatureException,
+            ServerSideException,
+            IOException,
+            InterruptedException,
+            ForbiddenException {
+    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+    	
+        api.RequestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
     }
 }

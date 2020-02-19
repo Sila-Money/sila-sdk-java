@@ -30,7 +30,7 @@ public class MockServer {
                                                 "{\"header\":"
                                                 + "{"
                                                 + "\"auth_handle\":\"handle.silamoney.eth\","
-                                                + "\"user_handle\":\"" + DefaultConfigurations.userHandle + "\","
+                                                + "\"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\","
                                                 + "\"version\":\"0.2\","
                                                 + "\"crypto\":\"ETH\""
                                                 + "}"
@@ -43,7 +43,7 @@ public class MockServer {
                                 .withStatusCode(200)
                                 .withBody("{"
                                         + "  \"reference\": \"ref\","
-                                        + "  \"message\": \"" + DefaultConfigurations.userHandle + " is available.\","
+                                        + "  \"message\": \"" + DefaultConfigurations.getUserHandle() + " is available.\","
                                         + "  \"status\": \"SUCCESS\""
                                         + "}")
                 );
@@ -144,7 +144,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "\"header\": {"
-                                                + "\"user_handle\": \"" + DefaultConfigurations.userHandle + "\","
+                                                + "\"user_handle\": \"" + DefaultConfigurations.getUserHandle() + "\","
                                                 + "\"auth_handle\": \"handle.silamoney.eth\","
                                                 + "\"version\": \"0.2\","
                                                 + "\"crypto\": \"ETH\""
@@ -188,7 +188,7 @@ public class MockServer {
                                 .withStatusCode(200)
                                 .withBody("{"
                                         + "  \"reference\":\"ref\","
-                                        + "  \"message\":\"" + DefaultConfigurations.userHandle + " was successfully registered \","
+                                        + "  \"message\":\"" + DefaultConfigurations.getUserHandle() + " was successfully registered \","
                                         + "  \"status\":\"SUCCESS\""
                                         + "}")
                 );
@@ -325,7 +325,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
                                                 + "  }, "
@@ -339,7 +339,7 @@ public class MockServer {
                                 .withStatusCode(200)
                                 .withBody("{"
                                         + "  \"reference\":\"ref\","
-                                        + "  \"message\":\"" + DefaultConfigurations.userHandle + " submitted for KYC review\","
+                                        + "  \"message\":\"" + DefaultConfigurations.getUserHandle() + " submitted for KYC review\","
                                         + "  \"status\":\"SUCCESS\""
                                         + "}")
                 );
@@ -418,7 +418,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
                                                 + "  }, "
@@ -432,7 +432,7 @@ public class MockServer {
                                 .withStatusCode(200)
                                 .withBody("{"
                                         + "  \"reference\":\"ref\","
-                                        + "  \"message\":\"KYC passed for " + DefaultConfigurations.userHandle + "\","
+                                        + "  \"message\":\"KYC passed for " + DefaultConfigurations.getUserHandle() + "\","
                                         + "  \"status\":\"SUCCESS\""
                                         + "}")
                 );
@@ -541,7 +541,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
                                                 + "  }, "
@@ -664,7 +664,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\","
                                                 + "    \"crypto\": \"ETH\""
                                                 + "  }, "
@@ -754,7 +754,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
                                                 + "  }, "
@@ -880,7 +880,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
                                                 + "  }, "
@@ -1006,7 +1006,7 @@ public class MockServer {
                                                 "{"
                                                 + "  \"header\": {"
                                                 + "    \"auth_handle\": \"handle.silamoney.eth\", "
-                                                + "    \"user_handle\":\"" + DefaultConfigurations.userHandle + "\", "
+                                                + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
                                                 + "  }, "

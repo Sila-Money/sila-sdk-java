@@ -18,47 +18,37 @@ import static org.junit.Assert.*;
  */
 public class CheckHandleTests {
 
-    SilaApi api = new SilaApi(DefaultConfigurations.host,
-            DefaultConfigurations.appHandle,
-            DefaultConfigurations.privateKey);
+	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+			DefaultConfigurations.privateKey);
 
-    @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api.CheckHandle(DefaultConfigurations.userHandle);
+	@Test
+	public void Response200Success() throws Exception {
+		ApiResponse response = api.CheckHandle(DefaultConfigurations.getUserHandle());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals(DefaultConfigurations.userHandle + " is available.", ((BaseResponse) response.getData()).getMessage());
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 
-    @Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api.CheckHandle("taken.silamoney.eth");
+	@Test
+	public void Response200Failure() throws Exception {
+		ApiResponse response = api.CheckHandle("user.silamoney.eth");
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("taken.silamoney.eth is already taken.", ((BaseResponse) response.getData()).getMessage());
-        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+	}
 
-    @Test(expected = BadRequestException.class)
-    public void Response400() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        api.CheckHandle("badrequest.silamoney.eth");
-    }
-    
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        api.CheckHandle("invalidsignature.silamoney.eth");
-    }
+	@Test(expected = BadRequestException.class)
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api.CheckHandle("");
+	}
+
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+		
+		api.CheckHandle(DefaultConfigurations.getUserHandle());
+	}
 }
