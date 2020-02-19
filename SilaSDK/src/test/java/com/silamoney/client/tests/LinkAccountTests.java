@@ -18,70 +18,48 @@ import static org.junit.Assert.*;
  */
 public class LinkAccountTests {
 
-    SilaApi api = new SilaApi(DefaultConfigurations.host,
-            DefaultConfigurations.appHandle,
-            DefaultConfigurations.privateKey);
+	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+			DefaultConfigurations.privateKey);
 
-    @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api.LinkAccount(DefaultConfigurations.getUserHandle(),
-                "Custom Account Name", DefaultConfigurations.getPlaidToken(),
-                DefaultConfigurations.getUserPrivateKey());
+	@Test
+	public void Response200Success() throws Exception {
+		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(), "Custom Account Name",
+				DefaultConfigurations.getPlaidToken(), DefaultConfigurations.getUserPrivateKey());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("SUCCESS", ((LinkAccountResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((LinkAccountResponse) response.getData()).getStatus());
+	}
 
-    /*@Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api.LinkAccount("failure.silamoney.eth",
-                "Custom Account Name", "public-xxx-xxx",
-                DefaultConfigurations.getUserPrivateKey());
+	/*
+	 * @Test public void Response200Failure() throws Exception { ApiResponse
+	 * response = api.LinkAccount("failure.silamoney.eth", "Custom Account Name",
+	 * "public-xxx-xxx", DefaultConfigurations.getUserPrivateKey());
+	 * 
+	 * assertEquals(200, response.getStatusCode()); assertEquals("FAILURE",
+	 * ((LinkAccountResponse) response.getData()).getStatus()); }
+	 */
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("FAILURE", ((LinkAccountResponse) response.getData()).getStatus());
-    }*/
+	@Test(expected = BadRequestException.class)
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api.linkAccount("", "Custom Account Name", "", DefaultConfigurations.getUserPrivateKey());
+	}
 
-    @Test(expected = BadRequestException.class)
-    public void Response400() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-        api.LinkAccount("",
-                "Custom Account Name", "",
-                DefaultConfigurations.getUserPrivateKey());
-    }
-    
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401User() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-    	
-    	api.LinkAccount(DefaultConfigurations.getUserHandle(),
-                "Custom Account Name", DefaultConfigurations.getPlaidToken(),
-                DefaultConfigurations.privateKey);
-    }
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
+			IOException, InterruptedException, ForbiddenException {
 
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+		api.linkAccount(DefaultConfigurations.getUserHandle(), "Custom Account Name",
+				DefaultConfigurations.getPlaidToken(), DefaultConfigurations.privateKey);
+	}
+
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-    	
-    	api.LinkAccount(DefaultConfigurations.getUserHandle(),
-                "Custom Account Name", DefaultConfigurations.getPlaidToken(),
-                DefaultConfigurations.getUserPrivateKey());
-    }
+
+		api.linkAccount(DefaultConfigurations.getUserHandle(), "Custom Account Name",
+				DefaultConfigurations.getPlaidToken(), DefaultConfigurations.getUserPrivateKey());
+	}
 }

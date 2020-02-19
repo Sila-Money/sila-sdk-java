@@ -1,6 +1,5 @@
 package com.silamoney.client.api;
 
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 

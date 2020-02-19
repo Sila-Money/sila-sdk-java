@@ -14,7 +14,7 @@ public class Message {
     /**
      * Enum that contains the message options.
      */
-    public static enum ValueEnum {
+    public enum ValueEnum {
 
         /**
          * String value for HeaderMsg.

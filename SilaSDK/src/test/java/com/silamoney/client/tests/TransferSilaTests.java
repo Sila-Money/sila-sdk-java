@@ -23,32 +23,33 @@ public class TransferSilaTests {
 
 	@Test
 	public void Response200Success() throws Exception {
-		ApiResponse response = api.TransferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
+		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
 
-	/*@Test
-	public void Response200Failure() throws Exception {
-		ApiResponse response = api.TransferSila(DefaultConfigurations.getUserHandle(), 100,
-				"failure" + DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
-
-		assertEquals(200, response.getStatusCode());
-		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-	}*/
+	/*
+	 * @Test public void Response200Failure() throws Exception { ApiResponse
+	 * response = api.TransferSila(DefaultConfigurations.getUserHandle(), 100,
+	 * "failure" + DefaultConfigurations.getUserHandle(),
+	 * DefaultConfigurations.getUserPrivateKey());
+	 * 
+	 * assertEquals(200, response.getStatusCode()); assertEquals("FAILURE",
+	 * ((BaseResponse) response.getData()).getStatus()); }
+	 */
 
 	@Test(expected = BadRequestException.class)
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		api.TransferSila("", 100, "", DefaultConfigurations.getUserPrivateKey());
+		api.transferSila("", 100, "", DefaultConfigurations.getUserPrivateKey());
 	}
 
 	@Test(expected = InvalidSignatureException.class)
 	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
 			IOException, InterruptedException, ForbiddenException {
-		api.TransferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
+		api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
 				DefaultConfigurations.privateKey);
 	}
 
@@ -58,7 +59,7 @@ public class TransferSilaTests {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
-		api.TransferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
+		api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth",
 				DefaultConfigurations.getUserPrivateKey());
 	}
 }

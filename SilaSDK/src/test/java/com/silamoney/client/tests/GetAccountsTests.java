@@ -25,7 +25,7 @@ public class GetAccountsTests {
 
     @Test
     public void Response200Success() throws Exception {
-        ApiResponse response = api.GetAccounts(DefaultConfigurations.getUserHandle(),
+        ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
@@ -40,7 +40,7 @@ public class GetAccountsTests {
             IOException,
             InterruptedException,
             ForbiddenException {
-        api.GetAccounts("",
+        api.getAccounts("",
                 DefaultConfigurations.getUserPrivateKey());
     }
 
@@ -67,7 +67,7 @@ public class GetAccountsTests {
     	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
     	
-    	api.GetAccounts(DefaultConfigurations.getUserHandle(),
+    	api.getAccounts(DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey());
     }
 }

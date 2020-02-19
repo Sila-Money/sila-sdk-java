@@ -23,7 +23,7 @@ public class RedeemSilaTests {
 
 	@Test
 	public void Response200Success() throws Exception {
-		ApiResponse response = api.RedeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
+		ApiResponse response = api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
@@ -42,13 +42,13 @@ public class RedeemSilaTests {
 	@Test(expected = BadRequestException.class)
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		api.RedeemSila("", 1000, "Custom Account Name", DefaultConfigurations.getUserPrivateKey());
+		api.redeemSila("", 1000, "Custom Account Name", DefaultConfigurations.getUserPrivateKey());
 	}
 
 	@Test(expected = InvalidSignatureException.class)
 	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
 			IOException, InterruptedException, ForbiddenException {
-		api.RedeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
+		api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
 				DefaultConfigurations.privateKey);
 	}
 
@@ -58,7 +58,7 @@ public class RedeemSilaTests {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
-		api.RedeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
+		api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "Custom Account Name",
 				DefaultConfigurations.getUserPrivateKey());
 	}
 }

@@ -1,7 +1,5 @@
 package com.silamoney.client.tests;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.GetTransactionsResponse;
@@ -12,7 +10,6 @@ import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import java.io.IOException;
 
-import org.json.JSONObject;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -27,7 +24,7 @@ public class GetTransactionsTests {
 
 	@Test
 	public void Response200() throws Exception {		
-		ApiResponse response = api.GetTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
@@ -36,7 +33,7 @@ public class GetTransactionsTests {
 
 	@Test(expected = BadRequestException.class)
 	public void Response400() throws Exception {
-		api.GetTransactions("", DefaultConfigurations.filters, DefaultConfigurations.getUserPrivateKey());
+		api.getTransactions("", DefaultConfigurations.filters, DefaultConfigurations.getUserPrivateKey());
 	}
 
 	/*@Test(expected = ForbiddenException.class)
@@ -52,7 +49,7 @@ public class GetTransactionsTests {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 		
-		api.GetTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+		api.getTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
 				DefaultConfigurations.getUserPrivateKey());
 	}
 

@@ -1,6 +1,8 @@
 package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.security.SecureRandom;
 import java.util.Date;
 
 /**
@@ -61,7 +63,7 @@ public class Header {
 
         this.created = (int) (((new Date()).getTime() / 1000) - 100);
         this.crypto = CryptoEnum.ETH.value;
-        this.reference = ((int)(Math.random()*((999999)+1))) + "";
+        this.reference = new SecureRandom().nextInt() + "";
         this.version = VersionEnum.ZERO_2.value;
     }
 }

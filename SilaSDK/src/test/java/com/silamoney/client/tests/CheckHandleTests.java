@@ -23,7 +23,7 @@ public class CheckHandleTests {
 
 	@Test
 	public void Response200Success() throws Exception {
-		ApiResponse response = api.CheckHandle(DefaultConfigurations.getUserHandle());
+		ApiResponse response = api.checkHandle(DefaultConfigurations.getUserHandle());
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
@@ -31,7 +31,7 @@ public class CheckHandleTests {
 
 	@Test
 	public void Response200Failure() throws Exception {
-		ApiResponse response = api.CheckHandle("user.silamoney.eth");
+		ApiResponse response = api.checkHandle("user.silamoney.eth");
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
@@ -40,7 +40,7 @@ public class CheckHandleTests {
 	@Test(expected = BadRequestException.class)
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		api.CheckHandle("");
+		api.checkHandle("");
 	}
 
 	@Test(expected = InvalidSignatureException.class)
@@ -49,6 +49,6 @@ public class CheckHandleTests {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 		
-		api.CheckHandle(DefaultConfigurations.getUserHandle());
+		api.checkHandle(DefaultConfigurations.getUserHandle());
 	}
 }

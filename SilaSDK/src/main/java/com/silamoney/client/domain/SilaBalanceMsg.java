@@ -18,4 +18,8 @@ public class SilaBalanceMsg {
         this.address = address;
     }
 
+	public String getAddress() {
+		return address;
+	}
+
 }

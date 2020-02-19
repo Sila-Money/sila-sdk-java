@@ -30,7 +30,7 @@ public class RegisterTests {
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
 
-		ApiResponse response = api.Register(user);
+		ApiResponse response = api.register(user);
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
@@ -43,7 +43,7 @@ public class RegisterTests {
 		User user = new User("badrequest.silamoney.eth", "Example", "User", "123 Main Street", null, "New City", "OR",
 				"97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "", birthdate.toDate());
 
-		api.Register(user);
+		api.register(user);
 	}
 
 	@Test(expected = InvalidSignatureException.class)
@@ -57,6 +57,6 @@ public class RegisterTests {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
-		api.Register(user);
+		api.register(user);
 	}
 }

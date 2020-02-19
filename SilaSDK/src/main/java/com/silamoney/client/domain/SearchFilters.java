@@ -150,9 +150,9 @@ public class SearchFilters {
     public SearchFilters setTransactionTypes(List<TransactionTypesEnum> transactionTypes) {
         if (transactionTypes != null) {
             this.transactionTypes = new ArrayList<>();
-            transactionTypes.forEach((transactionType) -> {
-                this.transactionTypes.add(transactionType.getValue());
-            });
+            transactionTypes.forEach(transactionType -> 
+                this.transactionTypes.add(transactionType.getValue())
+            );
         }
         return this;
     }
@@ -230,9 +230,9 @@ public class SearchFilters {
     public SearchFilters setStatuses(List<StatusesEnum> statuses) {
         if (statuses != null) {
             this.statuses = new ArrayList<>();
-            statuses.forEach((status) -> {
-                this.statuses.add(status.getValue());
-            });
+            statuses.forEach(status -> 
+                this.statuses.add(status.getValue())
+            );
         }
         return this;
     }

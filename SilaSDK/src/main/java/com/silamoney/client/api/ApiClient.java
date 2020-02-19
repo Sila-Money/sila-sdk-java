@@ -14,67 +14,60 @@ import java.util.Map;
  */
 public class ApiClient {
 
-    private String BasePath;
+	private String basePath;
 
-    /**
-     * Gets the api base path.
-     * @return
-     */
-    public String getBasePath() {
-        return BasePath;
-    }
+	/**
+	 * Gets the api base path.
+	 * 
+	 * @return
+	 */
+	public String getBasePath() {
+		return basePath;
+	}
 
-    /**
-     * Sets the api base path.
-     * @param BasePath
-     */
-    public void setBasePath(String BasePath) {
-        this.BasePath = BasePath;
-    }
+	/**
+	 * Sets the api base path.
+	 * 
+	 * @param BasePath
+	 */
+	public void setBasePath(String basePath) {
+		this.basePath = basePath;
+	}
 
-    /**
-     * HTTP client used to make the API calls.
-     */
-    private HttpClient httpClient;
+	/**
+	 * HTTP client used to make the API calls.
+	 */
+	private HttpClient httpClient;
 
-    /**
-     * API client constructor.
-     */
-    public ApiClient() {
-        httpClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
-                .build();
-    }
+	/**
+	 * API client constructor.
+	 */
+	public ApiClient() {
+		httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
+	}
 
-    /**
-     * Makes the call to the sila API.
-     *
-     * @param path
-     * @param headers
-     * @param body
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public HttpResponse CallApi(String path, Map<String, String> headers,
-            String body) throws IOException, InterruptedException {
-        HttpRequest finalRequest = PrepareRequest(path, headers, body);
+	/**
+	 * Makes the call to the sila API.
+	 *
+	 * @param path
+	 * @param headers
+	 * @param body
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public HttpResponse<?> callApi(String path, Map<String, String> headers, String body)
+			throws IOException, InterruptedException {
+		HttpRequest finalRequest = prepareRequest(path, headers, body);
 
-        return httpClient.send(finalRequest,
-                BodyHandlers.ofString());
-    }
+		return httpClient.send(finalRequest, BodyHandlers.ofString());
+	}
 
-    private HttpRequest PrepareRequest(String path, Map<String, String> headers,
-            String body) throws IOException, InterruptedException {
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create(BasePath + path));
+	private HttpRequest prepareRequest(String path, Map<String, String> headers, String body) {
+		var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
 
-        headers.entrySet().forEach((entry) -> {
-            request.header(entry.getKey(), entry.getValue());
-        });
+		headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
 
-        return request.POST(HttpRequest.BodyPublishers
-                .ofString(body))
-                .build();
-    }
+		return request.POST(HttpRequest.BodyPublishers.ofString(body)).build();
+	}
 }

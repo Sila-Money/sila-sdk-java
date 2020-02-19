@@ -18,74 +18,45 @@ import static org.junit.Assert.*;
  */
 public class IssueSilaTests {
 
-    SilaApi api = new SilaApi(DefaultConfigurations.host,
-            DefaultConfigurations.appHandle,
-            DefaultConfigurations.privateKey);
+	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+			DefaultConfigurations.privateKey);
 
-    @Test
-    public void Response200Success() throws Exception {
-        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
-                100,
-                "Custom Account Name",
-                DefaultConfigurations.getUserPrivateKey());
+	@Test
+	public void Response200Success() throws Exception {
+		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 100, "Custom Account Name",
+				DefaultConfigurations.getUserPrivateKey());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 
-    /*@Test
-    public void Response200Failure() throws Exception {
-        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
-                100,
-                "Custom Account Name",
-                DefaultConfigurations.getUserPrivateKey());
+	/*
+	 * @Test public void Response200Failure() throws Exception { ApiResponse
+	 * response = api.IssueSila(DefaultConfigurations.getUserHandle(), 100,
+	 * "Custom Account Name", DefaultConfigurations.getUserPrivateKey());
+	 * 
+	 * assertEquals(200, response.getStatusCode()); assertEquals("FAILURE",
+	 * ((BaseResponse) response.getData()).getStatus()); }
+	 */
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-    }*/
+	@Test(expected = BadRequestException.class)
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api.issueSila("", 1000, null, DefaultConfigurations.getUserPrivateKey());
+	}
 
-    @Test(expected = BadRequestException.class)
-    public void Response400() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        ApiResponse response = api.IssueSila("",
-                1000,
-                null,
-                DefaultConfigurations.getUserPrivateKey());
-    }
-    
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401User() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
-                1000,
-                null,
-                DefaultConfigurations.privateKey);
-    }
-    
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws 
-            BadRequestException, 
-            InvalidSignatureException, 
-            ServerSideException, 
-            IOException, 
-            InterruptedException,
-            ForbiddenException  {
-    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
+			IOException, InterruptedException, ForbiddenException {
+		api.issueSila(DefaultConfigurations.getUserHandle(), 1000, null, DefaultConfigurations.privateKey);
+	}
+
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-    	
-        ApiResponse response = api.IssueSila(DefaultConfigurations.getUserHandle(),
-                1000,
-                null,
-                DefaultConfigurations.getUserPrivateKey());
-    }
+
+		api.issueSila(DefaultConfigurations.getUserHandle(), 1000, null, DefaultConfigurations.getUserPrivateKey());
+	}
 }

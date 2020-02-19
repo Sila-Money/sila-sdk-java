@@ -18,51 +18,36 @@ import static org.junit.Assert.*;
  */
 public class RequestKYCTests {
 
-    SilaApi api = new SilaApi(DefaultConfigurations.host,
-            DefaultConfigurations.appHandle,
-            DefaultConfigurations.privateKey);
+	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+			DefaultConfigurations.privateKey);
 
-    @Test
-    public void Response200() throws Exception {
-        ApiResponse response = api.RequestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
+	@Test
+	public void Response200() throws Exception {
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(),
+				DefaultConfigurations.getUserPrivateKey());
 
-        assertEquals(200, response.getStatusCode());
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 
-    @Test(expected = BadRequestException.class)
-    public void Response400() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-        api.RequestKYC("", DefaultConfigurations.getUserPrivateKey());
-    }
+	@Test(expected = BadRequestException.class)
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api.requestKYC("", DefaultConfigurations.getUserPrivateKey());
+	}
 
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-        api.RequestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.privateKey);
-    }
-    
-    @Test(expected = InvalidSignatureException.class)
-    public void Response401User() throws
-            BadRequestException,
-            InvalidSignatureException,
-            ServerSideException,
-            IOException,
-            InterruptedException,
-            ForbiddenException {
-    	api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		api.requestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.privateKey);
+	}
+
+	@Test(expected = InvalidSignatureException.class)
+	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
+			IOException, InterruptedException, ForbiddenException {
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-    	
-        api.RequestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
-    }
+
+		api.requestKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
+	}
 }

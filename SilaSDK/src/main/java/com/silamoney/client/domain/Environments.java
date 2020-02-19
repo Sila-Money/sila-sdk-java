@@ -13,7 +13,7 @@ public class Environments {
     /**
      * Enum used to get accepted Sila environments.
      */
-    public static enum SilaEnvironment {
+    public enum SilaEnvironment {
 
         /**
          * Sila sandbox environment.

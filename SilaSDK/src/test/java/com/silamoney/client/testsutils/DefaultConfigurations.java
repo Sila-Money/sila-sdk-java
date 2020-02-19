@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-import org.bouncycastle.crypto.generators.ECKeyPairGenerator;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
