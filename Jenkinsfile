@@ -13,7 +13,7 @@ pipeline {
                 dir('SilaSDK') {
                     sh 'mvn clean install test'
                     withSonarQubeEnv('GekoSonar') {
-                        sh 'mvn sonar:sonar'
+                        sh 'mvn sonar:sonar Dsonar.projectKey=SilamoneySDKJava'
                     }
                 }
             }
