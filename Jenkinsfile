@@ -8,6 +8,7 @@ pipeline {
             steps {
                 sh 'mvn --version'
                 sh 'cd SilaSDK'
+                sh 'pwd'
                 sh 'mvn clean install'
             }
         }
