@@ -11,8 +11,9 @@ pipeline {
             steps {
                 sh 'mvn --version'
                 dir('SilaSDK') {
+                    sh 'mvn clean install test'
                     withSonarQubeEnv('GekoSonar') {
-                        sh 'mvn clean install sonar:sonar'
+                        sh 'mvn sonar:sonar'
                     }
                 }
             }
