@@ -3,7 +3,10 @@ pipeline {
     stages {
         stage('Build') {
             agent {
-                docker { image 'maven:3.6.3-jdk-11-openj9' }
+                docker {
+                    image 'maven:3.6.3-jdk-11-openj9'
+                    args '-u root'
+                }
             }
             steps {
                 sh 'mvn --version'
