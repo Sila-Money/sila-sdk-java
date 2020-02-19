@@ -28,7 +28,7 @@ public class ApiClient {
 	/**
 	 * Sets the api base path.
 	 * 
-	 * @param BasePath
+	 * @param basePath
 	 */
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
