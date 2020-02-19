@@ -24,7 +24,7 @@ public class SilaBalanceTests {
 
     @Test
     public void Response200Success() throws Exception {
-        ApiResponse response = api.SilaBalance("0xabc123abc123abc123");
+        ApiResponse response = api.SilaBalance(DefaultConfigurations.host, "0xabc123abc123abc123");
 
         assertEquals(200, response.getStatusCode());
         assertEquals("1000", response.getData());
