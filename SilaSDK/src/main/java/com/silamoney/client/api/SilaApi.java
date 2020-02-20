@@ -35,9 +35,9 @@ import java.util.Map;
 public class SilaApi {
 
 	private final Configuration configuration;
-	private final static String AUTH_SIGNATURE = "authsignature";
-	private final static String USER_SIGNATURE = "usersignature";
-	private final static String defaultEnvironment = Environments.SilaEnvironment.SANDBOX.getUrl();
+	private static final String AUTH_SIGNATURE = "authsignature";
+	private static final String USER_SIGNATURE = "usersignature";
+	private static final String DEFAULT_ENVIRONMENT = Environments.SilaEnvironment.SANDBOX.getUrl();
 
 	/**
 	 * Constructor for SilaApi using custom environment.
@@ -68,7 +68,7 @@ public class SilaApi {
 	 * @param privateKey
 	 */
 	public SilaApi(String appHandler, String privateKey) {
-		this.configuration = new Configuration(defaultEnvironment, privateKey, appHandler);
+		this.configuration = new Configuration(DEFAULT_ENVIRONMENT, privateKey, appHandler);
 	}
 
 	/**
