@@ -1,4 +1,7 @@
 # Sila Java SDK
+
+NOTE: This SDK is beta.
+
 For this SDK you will need to use JDK 11 or later.
 
 ### Usage
