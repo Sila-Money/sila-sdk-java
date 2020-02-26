@@ -16,7 +16,9 @@ pipeline {
         }
         stage('Unit Test'){
             steps {
-                sh 'mvn test'
+                dir('SilaSDK') {
+                    sh 'mvn test'
+                }
             }
             post {
                 always {
