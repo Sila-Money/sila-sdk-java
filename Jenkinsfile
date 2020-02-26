@@ -10,7 +10,17 @@ pipeline {
             steps {
                 sh 'mvn --version'
                 dir('SilaSDK') {
-                    sh 'mvn clean install test'
+                    sh 'mvn -B -DskipTests clean package'
+                }
+            }
+        }
+        stage('Unit Test'){
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
