@@ -22,7 +22,9 @@ pipeline {
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    dir('SilaSDK'){   
+                        junit 'target/surefire-reports/*.xml'
+                    }    
                 }
             }
         }
