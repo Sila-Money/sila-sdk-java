@@ -66,7 +66,7 @@ public class DefaultConfigurations {
 			});
 
 	public static String getUserHandle() {
-		userHandle = userHandle == null || userHandle.isBlank() ? "geko" + new Random().nextInt() : userHandle;
+		userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
 		return userHandle;
 	}
 
