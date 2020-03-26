@@ -12,6 +12,7 @@ import org.mockserver.model.JsonBody;
  *
  * @author Karlo Lorenzana
  */
+@SuppressWarnings("all")
 public class MockServer {
 
     /**

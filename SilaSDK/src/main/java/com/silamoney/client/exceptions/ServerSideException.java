@@ -8,6 +8,11 @@ package com.silamoney.client.exceptions;
 public class ServerSideException extends Exception {
 
     /**
+     *
+     */
+    private static final long serialVersionUID = 8124844664921246754L;
+
+    /**
      * Constructor for ServerSideException.
      *
      * @param errorMessage

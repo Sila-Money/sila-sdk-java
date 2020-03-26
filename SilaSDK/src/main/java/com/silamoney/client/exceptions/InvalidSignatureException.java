@@ -8,6 +8,11 @@ package com.silamoney.client.exceptions;
 public class InvalidSignatureException extends Exception {
 
     /**
+     *
+     */
+    private static final long serialVersionUID = 7432937517249399754L;
+
+    /**
      * Constructor for InvalidSignatureException.
      *
      * @param errorMessage

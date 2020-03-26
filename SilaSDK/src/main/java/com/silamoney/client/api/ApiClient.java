@@ -56,6 +56,7 @@ public class ApiClient {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
+	@SuppressWarnings("all")
 	public HttpResponse callApi(String path, Map<String, String> headers, String body)
 			throws IOException, InterruptedException {
 		HttpRequest finalRequest = prepareRequest(path, headers, body);

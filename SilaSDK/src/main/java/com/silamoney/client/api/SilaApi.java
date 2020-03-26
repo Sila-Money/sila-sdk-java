@@ -391,6 +391,7 @@ public class SilaApi {
 	/**
 	 * Gets Sila balance for a given blockchain address.
 	 *
+	 * @param host
 	 * @param address
 	 * @return
 	 * @throws IOException
@@ -452,7 +453,6 @@ public class SilaApi {
 	 * Gets details about the user wallet used to generate the usersignature header..
 	 * 
 	 * @param userHandle
-	 * @param accountName
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException

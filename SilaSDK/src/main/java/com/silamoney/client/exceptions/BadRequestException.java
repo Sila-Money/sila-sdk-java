@@ -8,6 +8,11 @@ package com.silamoney.client.exceptions;
 public class BadRequestException extends Exception {
 
     /**
+     *
+     */
+    private static final long serialVersionUID = 4559785420326242558L;
+
+    /**
      * Constructor for BadRequestException.
      *
      * @param errorMessage
