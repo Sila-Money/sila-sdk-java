@@ -26,7 +26,6 @@ public class PlaidTokenHelper {
 			
 			return data.getString("public_token");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

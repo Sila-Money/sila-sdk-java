@@ -1,20 +1,27 @@
 package com.silamoney.client.api;
 
 import com.silamoney.client.config.Configuration;
+import com.silamoney.client.domain.DeleteWalletMsg;
 import com.silamoney.client.domain.Endpoints;
 import com.silamoney.client.domain.EntityMsg;
 import com.silamoney.client.domain.Environments;
 import com.silamoney.client.domain.GetAccountsMsg;
 import com.silamoney.client.domain.GetTransactionsMsg;
+import com.silamoney.client.domain.GetWalletMsg;
+import com.silamoney.client.domain.GetWalletsMsg;
 import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.domain.IssueMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
 import com.silamoney.client.domain.SilaBalanceMsg;
 import com.silamoney.client.domain.Message;
+import com.silamoney.client.domain.PlaidSameDayAuthMsg;
 import com.silamoney.client.domain.RedeemMsg;
+import com.silamoney.client.domain.RegisterWalletMsg;
 import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.domain.TransferMsg;
+import com.silamoney.client.domain.UpdateWalletMsg;
 import com.silamoney.client.domain.User;
+import com.silamoney.client.domain.Wallet;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -136,9 +143,9 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse requestKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
+	public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey) throws IOException, InterruptedException,
 			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
-		HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
+		HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());
 		String path = Endpoints.REQUEST_KYC.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -196,10 +203,17 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse linkAccount(String userHandle, String accountName, String publicToken, String userPrivateKey)
+	public ApiResponse linkAccount(String userHandle, 
+	String accountName, 
+	String publicToken, 
+	String accountNumber,
+	String routingNumber,
+	String accountType,
+	String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
 		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken,
+				accountNumber, routingNumber, accountType,
 				this.configuration.getAuthHandle());
 		String path = Endpoints.LINK_ACCOUNT.getUri();
 		String sBody = Serialization.serialize(body);
@@ -279,10 +293,11 @@ public class SilaApi {
 	/**
 	 * Starts a transfer of the requested amount of SILA to the requested
 	 * destination handle.
-	 *
+	 * 
 	 * @param userHandle
 	 * @param amount
 	 * @param destination
+	 * @param destinationAddress
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
@@ -292,10 +307,10 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse transferSila(String userHandle, int amount, String destination, String userPrivateKey)
+	public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress, String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
-		TransferMsg body = new TransferMsg(userHandle, destination, amount, this.configuration.getAuthHandle());
+		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, this.configuration.getAuthHandle());
 		String path = Endpoints.TRANSFER_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -388,7 +403,7 @@ public class SilaApi {
 	public ApiResponse silaBalance(String host, String address) throws IOException, InterruptedException,
 			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
 		SilaBalanceMsg body = new SilaBalanceMsg(address);
-		String path = Endpoints.SILA_BALANCE.getUri();
+		String path = Endpoints.GET_SILA_BALANCE.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
 
@@ -400,6 +415,186 @@ public class SilaApi {
 
 		this.configuration.setBasePath(initialBasePath);
 
-		return ResponseUtil.prepareResponse(response, "SilaBalance");
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_SILA_BALANCE.getValue());
 	}
+
+	/**
+	 * Request a public_token for plaid's same day microdeposit auth.
+	 * 
+	 * @param userHandle
+	 * @param accountName
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse plaidSameDayAuth(String userHandle, @Nullable String accountName, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		PlaidSameDayAuthMsg body = new PlaidSameDayAuthMsg(userHandle, accountName, this.configuration.getAuthHandle());
+		String path = Endpoints.PLAID_SAMEDAY_AUTH.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_SAMEDAY_AUTH_MSG.getValue());
+	}	
+
+	/**
+	 * Gets details about the user wallet used to generate the usersignature header..
+	 * 
+	 * @param userHandle
+	 * @param accountName
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getWallet(String userHandle, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		GetWalletMsg body = new GetWalletMsg(userHandle, this.configuration.getAuthHandle());
+		String path = Endpoints.GET_WALLET.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLET_MSG.getValue());
+	}	
+
+	/**
+	 * Adds another "wallet"/blockchain address to a user handle.
+	 * 
+	 * @param userHandle
+	 * @param wallet
+	 * @param walletVerificationSignature
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature, this.configuration.getAuthHandle());
+		String path = Endpoints.REGISTER_WALLET.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_WALLET_MSG.getValue());
+	}
+	
+	/**
+	 * Updates nickname and/or default status of a wallet.
+	 * 
+	 * @param userHandle
+	 * @param nickname
+	 * @param status
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle());
+		String path = Endpoints.UPDATE_WALLET.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_WALLET_MSG.getValue());
+	}	
+
+	/**
+	 * 
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse deleteWallet(String userHandle, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		DeleteWalletMsg body = new DeleteWalletMsg(userHandle, this.configuration.getAuthHandle());
+		String path = Endpoints.DELETE_WALLET.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_WALLET_MSG.getValue());
+	}	
+
+	/**
+	 * Gets a paginated list of "wallets"/blockchain addresses attached to a user handle.
+	 *
+	 * @param userHandle
+	 * @param filters
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getWallets(String userHandle, SearchFilters filters, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		GetWalletsMsg body = new GetWalletsMsg(userHandle, filters,  this.configuration.getAuthHandle());
+		String path = Endpoints.GET_WALLETS.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLETS_MSG.getValue());
+	}	
 }

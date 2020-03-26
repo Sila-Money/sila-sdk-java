@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Object used in the GetTransactionsMsg object.
+ * Object used in the GetTransactionsMsg, GetWalletsMsg object.
  *
  * @author loren
  */
@@ -118,6 +118,18 @@ public class SearchFilters {
 
     @SerializedName("min_sila_amount")
     private Integer minSilaAmount = null;
+
+    /**
+     * Fields for get wallets endpoint
+     */
+    @SerializedName("block_chain_address")
+    public String blockChainAddress;
+    
+    @SerializedName("block_chain_network")
+    public String blockChainNetwork;
+
+    @SerializedName("nickname")
+    public String nickname;
 
     /**
      * Sets the transaction id to the filters.
@@ -259,4 +271,36 @@ public class SearchFilters {
         return this;
     }
 
+    /**
+     * Sets the block chain address for get wallets endpoint filter
+     * 
+     * @param blockChainAddress
+     * @return SearchFilters
+     */
+    public SearchFilters setBlockChainAddress(String blockChainAddress) {
+        this.blockChainAddress = blockChainAddress;
+        return this;
+    }
+
+    /**
+     * Sets the block chain network for get wallets endpoint filter
+     * 
+     * @param blockChainNetwork
+     * @return SearchFilters
+     */
+    public SearchFilters setBlockChainNetwork(String blockChainNetwork) {
+        this.blockChainNetwork = blockChainNetwork;
+        return this;
+    }
+
+    /**
+     * Sets the nickname for get wallets endpoint filter
+     * 
+     * @param nickname
+     * @return SearchFilters
+     */
+    public SearchFilters setNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
 }

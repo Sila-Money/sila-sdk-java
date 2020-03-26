@@ -1,9 +1,9 @@
 package com.silamoney.client.domain;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.security.SecureRandom;
 import java.util.Date;
+import java.util.UUID;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Object used in the Header msg.
@@ -63,7 +63,7 @@ public class Header {
 
         this.created = (int) (((new Date()).getTime() / 1000) - 100);
         this.crypto = CryptoEnum.ETH.value;
-        this.reference = new SecureRandom().nextInt() + "";
+        this.reference = UUID.randomUUID().toString();
         this.version = VersionEnum.ZERO_2.value;
     }
 }

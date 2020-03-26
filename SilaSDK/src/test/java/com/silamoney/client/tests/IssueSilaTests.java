@@ -1,5 +1,9 @@
 package com.silamoney.client.tests;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
@@ -8,9 +12,9 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import java.io.IOException;
+import com.silamoney.client.testsutils.GsonUtils;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -21,42 +25,80 @@ public class IssueSilaTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
+	String userHandle = "javasdk-893748932";
+	String userHandle2 = "javasdk-893748933";
+	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
+
 	@Test
 	public void Response200Success() throws Exception {
-		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 100, "Custom Account Name",
+		// TRANSACTIONS1
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 100, "default",
 				DefaultConfigurations.getUserPrivateKey());
 
+		System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
 
-	/*
-	 * @Test public void Response200Failure() throws Exception { ApiResponse
-	 * response = api.IssueSila(DefaultConfigurations.getUserHandle(), 100,
-	 * "Custom Account Name", DefaultConfigurations.getUserPrivateKey());
-	 * 
-	 * assertEquals(200, response.getStatusCode()); assertEquals("FAILURE",
-	 * ((BaseResponse) response.getData()).getStatus()); }
-	 */
+	@Test
+	public void ResponseNotPassed() throws Exception {
+		// TRANSACTIONS2
+		ApiResponse response = api.issueSila(userHandle2, 100, "default", userPrivateKey);
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(401, response.getStatusCode());
+		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+	}
 
-	@Test(expected = BadRequestException.class)
+	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		api.issueSila("", 1000, null, DefaultConfigurations.getUserPrivateKey());
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.issueSila("", 1000, null, DefaultConfigurations.getUserPrivateKey());
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(400, response.getStatusCode());
 	}
 
-	@Test(expected = InvalidSignatureException.class)
+	@Test
 	public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
 			IOException, InterruptedException, ForbiddenException {
-		api.issueSila(DefaultConfigurations.getUserHandle(), 1000, null, DefaultConfigurations.privateKey);
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle2);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 1000, "default",
+				DefaultConfigurations.privateKey);
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(401, response.getStatusCode());
 	}
 
-	@Test(expected = InvalidSignatureException.class)
+	@Test
 	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
-		api.issueSila(DefaultConfigurations.getUserHandle(), 1000, null, DefaultConfigurations.getUserPrivateKey());
+		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 1000, null,
+				DefaultConfigurations.privateKey);
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(401, response.getStatusCode());
 	}
 }

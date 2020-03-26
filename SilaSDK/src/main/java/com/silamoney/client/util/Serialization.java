@@ -45,7 +45,7 @@ public class Serialization {
      * @param token
      * @return an instance of the specified object.
      */
-    public static Object deserialize(String str, TypeToken token) {
+    public static Object deserialize(String str, TypeToken<?> token) {
         return Serializer.fromJson(str, token.getType());
     }
 }

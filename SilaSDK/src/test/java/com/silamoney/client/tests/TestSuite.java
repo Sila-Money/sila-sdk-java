@@ -19,22 +19,12 @@ import org.junit.runners.Suite.SuiteClasses;
     IssueSilaTests.class,
     TransferSilaTests.class, 
     RedeemSilaTests.class,
-    GetTransactionsTests.class/*,
-    SilaBalanceTests.class*/
+    GetTransactionsTests.class,
+    PlaidSameDayAuthTests.class,
+    RegisterWalletTests.class,
+    GetWalletTests.class,
+    UpdateWalletTests.class,
+    DeleteWalletTests.class,
+    GetWalletsTests.class
 })
-public class TestSuite {
-
-    /*private static ClientAndServer mockServer;
-
-    @BeforeClass
-    public static void setUp() {
-        mockServer = ClientAndServer.startClientAndServer(1080);
-        MockServer.MockServer();
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        mockServer.stop();
-    }*/
-
-}
+public class TestSuite {}

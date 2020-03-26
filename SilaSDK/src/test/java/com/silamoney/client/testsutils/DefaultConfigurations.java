@@ -1,16 +1,15 @@
 package com.silamoney.client.testsutils;
 
-import com.silamoney.client.domain.Environments;
-import com.silamoney.client.domain.SearchFilters;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
+
+import com.silamoney.client.domain.Environments;
+import com.silamoney.client.domain.SearchFilters;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
@@ -33,12 +32,12 @@ public class DefaultConfigurations {
 	/**
 	 * Default appHandle for testing.
 	 */
-	public static String appHandle = "geko";
+	public static String appHandle = "digital_geko_e2e.silamoney.eth";
 
 	/**
 	 * Default private key for testing.
 	 */
-	public static String privateKey = "8BD29ACC6656E8D8012EE15C2F0C799051E8AB4E9A5BE2EA1006FB8E6179ECAC";
+	public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
 
 	/**
 	 * Default user handle for testing.
@@ -50,6 +49,11 @@ public class DefaultConfigurations {
 	 */
 	public static SearchFilters filters = new SearchFilters()
 			.showTimelines().setMaxSilaAmount(1300).setMinSilaAmount(1000).setStatuses(new ArrayList<>() {
+				/**
+				 *
+				 */
+				private static final long serialVersionUID = -5522339729487411576L;
+
 				{
 					add(SearchFilters.StatusesEnum.PENDING);
 					//add(SearchFilters.StatusesEnum.SUCCESSFUL);
@@ -58,6 +62,11 @@ public class DefaultConfigurations {
 				}
 			}).setPage(1).setPerPage(20)
 			.setTransactionTypes(new ArrayList<>() {
+				/**
+				 *
+				 */
+				private static final long serialVersionUID = -5630390615963025868L;
+
 				{
 					add(SearchFilters.TransactionTypesEnum.ISSUE);
 					add(SearchFilters.TransactionTypesEnum.REDEEM);
@@ -66,7 +75,7 @@ public class DefaultConfigurations {
 			});
 
 	public static String getUserHandle() {
-		userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
+		// userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
 		return userHandle;
 	}
 
@@ -84,7 +93,7 @@ public class DefaultConfigurations {
 
 				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 				userCryptoAddress = "0x" + aWallet.getAddress();
-
+				// System.out.println("userPrivateKey >>> " + userPrivateKey);
 			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
 					| CipherException e) {
 				e.printStackTrace();
@@ -104,9 +113,20 @@ public class DefaultConfigurations {
 		try {
 			plaidToken = plaidToken == null || plaidToken.isBlank() ? PlaidTokenHelper.getPlaidToken() : plaidToken;
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return plaidToken;
-	}	
+	}
+
+	public static void setUserPrivateKey(String userPrivateKey) {
+		DefaultConfigurations.userPrivateKey = userPrivateKey;
+	}
+
+	public static void setUserHandle(String userHandle) {
+		DefaultConfigurations.userHandle = userHandle;
+	}
+
+	public static void setUserCryptoAddress(String userCryptoAddress) {
+		DefaultConfigurations.userCryptoAddress = userCryptoAddress;
+	}
 }

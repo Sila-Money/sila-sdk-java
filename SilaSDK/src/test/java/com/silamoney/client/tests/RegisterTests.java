@@ -1,5 +1,11 @@
 package com.silamoney.client.tests;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.util.Random;
+import java.util.UUID;
+
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
@@ -9,10 +15,13 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import java.io.IOException;
+
 import org.joda.time.LocalDate;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletFile;
 
 /**
  *
@@ -23,30 +32,81 @@ public class RegisterTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
+	String userHandle = "javasdk-893748932";
+	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
+
 	@Test
 	public void Response200() throws Exception {
+		// HANDLE2
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
 		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
 
 		ApiResponse response = api.register(user);
-
+		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
 
-	@Test(expected = BadRequestException.class)
-	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-			InterruptedException, ForbiddenException {
+	@Test
+	public void Response3USER1FAIL() throws Exception {
+		// HANDLE3
+		// USER1
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
-		User user = new User("badrequest.silamoney.eth", "Example", "User", "123 Main Street", null, "New City", "OR",
-				"97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "", birthdate.toDate());
+		String userHandleInternal = "javaSDK-" + new Random().nextInt();
+		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+		WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+		String userCryptoAddressInternal = "0x" + aWallet.getAddress();
+		User user = new User(userHandleInternal, "Example", "User", "123 Main Street", null,
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				userCryptoAddressInternal, birthdate.toDate());
+		ApiResponse response = api.register(user);
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 
-		api.register(user);
+		// USER2
+		userHandleInternal = "javaSDK-" + new Random().nextInt();
+		ecKeyPair = Keys.createEcKeyPair();
+		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+		userCryptoAddressInternal = "0x" + aWallet.getAddress();
+		user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City",
+				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				userCryptoAddressInternal, birthdate.toDate());
+		response = api.register(user);
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+
+		// USER3 FAIL NAME
+		userHandleInternal = "javaSDK-" + new Random().nextInt();
+		ecKeyPair = Keys.createEcKeyPair();
+		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+		userCryptoAddressInternal = "0x" + aWallet.getAddress();
+		user = new User(userHandleInternal, "Fail", "User", "123 Main Street", null, "New City",
+				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				userCryptoAddressInternal, birthdate.toDate());
+		response = api.register(user);
+		assertEquals(200, response.getStatusCode());
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
-	@Test(expected = InvalidSignatureException.class)
+	@Test
+	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		// HANDLE4
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		User user = new User(DefaultConfigurations.getUserHandle(), "Fail", "User", "123 Main Street", null, "New City",
+				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
+
+		ApiResponse response = api.register(user);
+		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(400, response.getStatusCode());
+	}
+
+	@Test
 	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 		LocalDate birthdate = new LocalDate(1900, 01, 31);

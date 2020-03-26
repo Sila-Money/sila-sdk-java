@@ -12,6 +12,9 @@ public class HeaderMsg {
     @SerializedName("header")
     private final Header header;
 
+    @SerializedName("kyc_level")
+    private final String kycLevel;
+
     @SerializedName("message")
     private final String message;
 
@@ -21,7 +24,20 @@ public class HeaderMsg {
      * @param userHandle
      * @param appHandle
      */
+    public HeaderMsg(String userHandle, String kycLevel, String appHandle) {
+        this.kycLevel = kycLevel;
+        this.header = new Header(userHandle, appHandle);
+        this.message = Message.ValueEnum.HEADER_MSG.getValue();
+    }
+
+        /**
+     * HeaderMsg constructor.
+     *
+     * @param userHandle
+     * @param appHandle
+     */
     public HeaderMsg(String userHandle, String appHandle) {
+        this.kycLevel = "";
         this.header = new Header(userHandle, appHandle);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
     }

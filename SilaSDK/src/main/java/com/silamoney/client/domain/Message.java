@@ -47,7 +47,35 @@ public class Message {
         /**
          * String value for TransferMsg.
          */
-        TRANSFER_MSG("transfer_msg");
+        TRANSFER_MSG("transfer_msg"),
+        /**
+         * String value for PlaidSameDayAuthMsg.
+         */
+        PLAID_SAMEDAY_AUTH_MSG("plaid_sameday_auth_msg"),
+        /**
+         * String value for GetWalletMsg.
+         */
+        GET_WALLET_MSG("get_wallet_msg"),
+        /**
+         * String value for RegisterWalletMsg.
+         */
+        REGISTER_WALLET_MSG("register_wallet_msg"),
+        /**
+         * String value for UpdateWalletMsg.
+         */
+        UPDATE_WALLET_MSG("update_wallet_msg"),
+        /**
+         * String value for DeleteWalletMsg.
+         */
+        DELETE_WALLET_MSG("delete_wallet_msg"),
+        /**
+         * String value for GetWalletsMsg.
+         */
+        GET_WALLETS_MSG("get_wallets_msg"),
+        /**
+         * String value for GetSilaBalanceMsg.
+         */
+        GET_SILA_BALANCE("get_sila_balance")        ;        
 
         private final String value;
 

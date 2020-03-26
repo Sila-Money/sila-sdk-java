@@ -15,6 +15,8 @@ public class ApiResponse {
 
     private final Object data;
 
+    private final boolean success;
+
     /**
      * Constructor for ApiResponse.
      *
@@ -22,10 +24,11 @@ public class ApiResponse {
      * @param headers
      * @param data
      */
-    public ApiResponse(int statusCode, Map<String, List<String>> headers, Object data) {
+    public ApiResponse(int statusCode, Map<String, List<String>> headers, Object data, boolean success) {
         this.statusCode = statusCode;
         this.headers = headers;
         this.data = data;
+        this.success = success;
     }
 
     /**
@@ -50,5 +53,13 @@ public class ApiResponse {
      */
     public Object getData() {
         return data;
+    }
+
+    /**
+     * Gets the success response.
+     * @return
+     */    
+    public boolean getSuccess() {
+        return success;
     }
 }

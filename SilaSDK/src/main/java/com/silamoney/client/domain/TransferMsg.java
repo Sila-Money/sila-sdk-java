@@ -21,6 +21,9 @@ public class TransferMsg {
     @SerializedName("message")
     private final String message;
 
+    @SerializedName("destination_address")
+    private final String destinationAddress;
+
     /**
      ** Constructor for TransferMsg object.
      *
@@ -32,9 +35,11 @@ public class TransferMsg {
     public TransferMsg(String userHandle,
             String destination,
             int amount,
+            String destinationAddress,
             String appHandle) {
         this.amount = amount;
         this.destination = destination;
+        this.destinationAddress = destinationAddress;
         this.header = new Header(userHandle, appHandle);
         this.message = Message.ValueEnum.TRANSFER_MSG.getValue();
     }
