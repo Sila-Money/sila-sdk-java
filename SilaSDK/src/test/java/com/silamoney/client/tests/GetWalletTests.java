@@ -39,7 +39,11 @@ public class GetWalletTests {
 		ApiResponse response = api.getWallet(DefaultConfigurations.getUserHandle(),
 				DefaultConfigurations.getUserPrivateKey());
 
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
+
+		// "reference": "591af81b-fc0d-478a-bc01-4447f8359cce",
+		// "message": "Blockchain address 0xd6398d7b1768f29a52c0d5e2f91ff1aa4ce2eaa5 registered."
 	}
 
 	@Test

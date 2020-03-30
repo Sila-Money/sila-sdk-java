@@ -11,6 +11,7 @@ import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
+import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
@@ -37,9 +38,10 @@ public class RegisterWalletTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 
-		Wallet wallet = new Wallet(DefaultConfigurations.registerWallet(), "ETH",
+		String blockChainAddress = DefaultConfigurations.registerWallet();
+		Wallet wallet = new Wallet(blockChainAddress, "ETH",
 				"wallet_test");
-		String wallet_verification_signature = DefaultConfigurations.getWallet_verification_signature();
+		String wallet_verification_signature = EcdsaUtil.sign(blockChainAddress, DefaultConfigurations.getWallet_verification_signature());
 
 		ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
 				wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
