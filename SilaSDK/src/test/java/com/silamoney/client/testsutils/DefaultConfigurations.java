@@ -45,6 +45,17 @@ public class DefaultConfigurations {
 	private static String userHandle;
 
 	/**
+	 * Default wallet_verification_signature for wallet testing.
+	 */
+	private static String wallet_verification_signature;	
+
+	/**
+	 * Default blockchain_address for wallet testing.
+	 */
+	private static String blockchain_address;	
+	
+
+	/**
 	 * Default search filters for testing.
 	 */
 	public static SearchFilters filters = new SearchFilters()
@@ -103,6 +114,27 @@ public class DefaultConfigurations {
 		return userCryptoAddress;
 	}
 
+	public static String registerWallet() {
+		if (blockchain_address == null || userCryptoAddress.isBlank()) {
+			try {
+
+				ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+				BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+				wallet_verification_signature = privateKeyInDec.toString(16);
+
+				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+				blockchain_address = "0x" + aWallet.getAddress();
+				// System.out.println("wallet_verification_signature >>> " + wallet_verification_signature);
+			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+					| CipherException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return blockchain_address;
+	}
+
 	public static String getUserPrivateKey() {
 		return userPrivateKey;
 	}
@@ -128,5 +160,9 @@ public class DefaultConfigurations {
 
 	public static void setUserCryptoAddress(String userCryptoAddress) {
 		DefaultConfigurations.userCryptoAddress = userCryptoAddress;
+	}
+
+	public static String getWallet_verification_signature() {
+		return wallet_verification_signature;
 	}
 }

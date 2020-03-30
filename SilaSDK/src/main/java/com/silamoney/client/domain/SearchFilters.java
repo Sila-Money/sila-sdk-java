@@ -122,10 +122,10 @@ public class SearchFilters {
     /**
      * Fields for get wallets endpoint
      */
-    @SerializedName("block_chain_address")
+    @SerializedName("blockchain_address")
     public String blockChainAddress;
     
-    @SerializedName("block_chain_network")
+    @SerializedName("blockchain_network")
     public String blockChainNetwork;
 
     @SerializedName("nickname")

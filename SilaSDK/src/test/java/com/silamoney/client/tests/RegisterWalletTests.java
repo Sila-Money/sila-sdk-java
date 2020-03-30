@@ -28,25 +28,25 @@ public class RegisterWalletTests {
 	String userHandle = "javasdk-893748932";
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-	// @Test
-	// public void Response200() throws Exception {
-	// 	if (DefaultConfigurations.getUserHandle() == null) {
-	// 		DefaultConfigurations.setUserHandle(userHandle);
-	// 	}
-	// 	if (DefaultConfigurations.getUserPrivateKey() == null) {
-	// 		DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-	// 	}
+	@Test
+	public void Response200() throws Exception {
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
 
-	// 	Wallet wallet = new Wallet("0xe60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e", "ETH",
-	// 			"wallet_test");
-	// 	String wallet_verification_signature = "788e10a73c0548b875b6a2c47b985fc873d32ef14fff85e55791f0fccca6282838a81dd24db9ae72a508bb2bbc02f207ab1a1451ada195554fb9487a253432e61c";
+		Wallet wallet = new Wallet(DefaultConfigurations.registerWallet(), "ETH",
+				"wallet_test");
+		String wallet_verification_signature = DefaultConfigurations.getWallet_verification_signature();
 
-	// 	ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
-	// 			wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
-
-	// 	//System.out.println(GsonUtils.objectToJsonStringFormato(response));
-	// 	assertEquals(200, response.getStatusCode());
-	// }
+		ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
+				wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
+		// System.out.println("RESPONSE >");
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(200, response.getStatusCode());
+	}
 
 	@Test
 	public void ResponseBadWallet() throws BadRequestException, InvalidSignatureException, ServerSideException,

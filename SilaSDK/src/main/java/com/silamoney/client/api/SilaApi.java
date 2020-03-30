@@ -1,5 +1,10 @@
 package com.silamoney.client.api;
 
+import java.io.IOException;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.DeleteWalletMsg;
 import com.silamoney.client.domain.Endpoints;
@@ -12,12 +17,12 @@ import com.silamoney.client.domain.GetWalletsMsg;
 import com.silamoney.client.domain.HeaderMsg;
 import com.silamoney.client.domain.IssueMsg;
 import com.silamoney.client.domain.LinkAccountMsg;
-import com.silamoney.client.domain.SilaBalanceMsg;
 import com.silamoney.client.domain.Message;
 import com.silamoney.client.domain.PlaidSameDayAuthMsg;
 import com.silamoney.client.domain.RedeemMsg;
 import com.silamoney.client.domain.RegisterWalletMsg;
 import com.silamoney.client.domain.SearchFilters;
+import com.silamoney.client.domain.SilaBalanceMsg;
 import com.silamoney.client.domain.TransferMsg;
 import com.silamoney.client.domain.UpdateWalletMsg;
 import com.silamoney.client.domain.User;
@@ -29,11 +34,8 @@ import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
+
 import io.reactivex.annotations.Nullable;
-import java.io.IOException;
-import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -503,6 +505,11 @@ public class SilaApi {
 
 		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
 		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+		
+		// System.out.println("HEADERS >");
+		// System.out.println(GsonUtils.objectToJsonStringFormato(headers));
+		// System.out.println("BODY >");
+		// System.out.println(GsonUtils.objectToJsonStringFormato(body));
 
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
