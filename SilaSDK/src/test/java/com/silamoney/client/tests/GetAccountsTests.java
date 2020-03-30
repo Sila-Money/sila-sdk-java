@@ -11,6 +11,7 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
+import com.silamoney.client.testsutils.GsonUtils;
 
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class GetAccountsTests {
                                 DefaultConfigurations.getUserPrivateKey());
 
                 assertEquals(200, response.getStatusCode());
-                // System.out.println(GsonUtils.objectToJsonStringFormato(response));
+                System.out.println(GsonUtils.objectToJsonStringFormato(response));
         }
 
         @Test

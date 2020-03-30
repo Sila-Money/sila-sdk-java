@@ -32,4 +32,10 @@ public class Account {
      */
     @SerializedName("account_status")
     public String accountStatus;
+
+    /**
+     * String field used for the account status.
+     */
+    @SerializedName("account_link_status")
+    public String accountListStatus;
 }
