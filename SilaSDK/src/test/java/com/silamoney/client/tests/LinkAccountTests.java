@@ -43,7 +43,6 @@ public class LinkAccountTests {
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((LinkAccountResponse) response.getData()).getStatus());
 
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test

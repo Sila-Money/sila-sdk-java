@@ -1,0 +1,15 @@
+
+S	java:S106,"9Replace this use of System.out or System.err by a logger.(‡ÞÔ›ùÿÿÿÿ
+Q	java:S125D"<This block of commented-out lines of code should be removed.(ž¬‚Ú
+Q	java:S1255"<This block of commented-out lines of code should be removed.(ž¬‚Ú
+h	java:S100X"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ½–¶ùÿÿÿÿ
+h	java:S100;"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÅí†øÿÿÿÿ
+c	java:S1002"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›åä
+h	java:S100I"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£îšÍùÿÿÿÿ
+[	java:S1122"FDefine and throw a dedicated exception instead of using a generic one.(›åä
+h	java:S100!"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ûê“Ãüÿÿÿÿ
+Q	java:S125S"<This block of commented-out lines of code should be removed.(ž¬‚Ú
+Q	java:S125e"<This block of commented-out lines of code should be removed.(ž¬‚Ú
+^
+java:S1192)"HDefine a constant instead of duplicating this literal "default" 3 times.(É¨ÊÕ
+`	java:S112!"FDefine and throw a dedicated exception instead of using a generic one.(Ûê“Ãüÿÿÿÿ

@@ -40,7 +40,6 @@ public class TransferSilaTests {
 		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth", null,
 				DefaultConfigurations.getUserPrivateKey());
 
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}

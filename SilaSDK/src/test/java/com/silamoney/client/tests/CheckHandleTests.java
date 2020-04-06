@@ -36,7 +36,6 @@ public class CheckHandleTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
@@ -45,7 +44,6 @@ public class CheckHandleTests {
 		ApiResponse response = api.checkHandle("javasdk-893748932");
 		assertEquals(200, response.getStatusCode());
 		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
@@ -53,7 +51,6 @@ public class CheckHandleTests {
 			InterruptedException, ForbiddenException {
 		ApiResponse response = api.checkHandle("");
 		assertEquals(400, response.getStatusCode());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
@@ -63,6 +60,5 @@ public class CheckHandleTests {
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 		ApiResponse response = api.checkHandle("javaSDK-" + new Random().nextInt());
 		assertEquals(401, response.getStatusCode());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 }

@@ -43,13 +43,11 @@ public class CheckKYCTests {
                 DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
-        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
         while (!((BaseResponse) response.getData()).getStatus().contains("SUCCESS")) {
             TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
         }
         assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-        //System.out.println(GsonUtils.objectToJsonStringFormato(response));
     }
 
     @Test
@@ -58,7 +56,6 @@ public class CheckKYCTests {
         ApiResponse response = api.checkKYC(userHandle2Failure, userPrivateKeyFailure);
         assertEquals(200, response.getStatusCode());
         assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-        // System.out.println(GsonUtils.objectToJsonStringFormato(response));
     }
 
     @Test

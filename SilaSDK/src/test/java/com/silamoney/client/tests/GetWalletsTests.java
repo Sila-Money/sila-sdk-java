@@ -41,7 +41,6 @@ public class GetWalletsTests {
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test

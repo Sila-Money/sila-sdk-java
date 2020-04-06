@@ -1,0 +1,11 @@
+
+c	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œ‘èó
+h	java:S100/"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÅí†øÿÿÿÿ
+v
+java:S4144A"[Update this method so that its implementation is not identical to "Response200" on line 31.(æ½–¶ùÿÿÿÿ
+v
+java:S4144/"[Update this method so that its implementation is not identical to "Response200" on line 31.(ëÅí†øÿÿÿÿ
+Q	java:S125="<This block of commented-out lines of code should be removed.(ž¬‚Ú
+[	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Œ‘èó
+h	java:S100A"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ½–¶ùÿÿÿÿ
+Q	java:S125O"<This block of commented-out lines of code should be removed.(ž¬‚Ú

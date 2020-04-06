@@ -1,0 +1,27 @@
+
+R
+java:S1854J"<Remove this useless assignment to local variable "response".(‡„”õ
+d
+java:S1192,"IDefine a constant instead of duplicating this literal "New City" 6 times.(¬à¤Ûøÿÿÿÿ
+c
+java:S1192+"HDefine a constant instead of duplicating this literal "Example" 4 times.(øÎœ­ıÿÿÿÿ
+c	java:S100'"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œ‘èó
+[	java:S112'"FDefine and throw a dedicated exception instead of using a generic one.(Œ‘èó
+`	java:S1125"FDefine and throw a dedicated exception instead of using a generic one.(Æš×Åÿÿÿÿÿ
+h	java:S1005"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æš×Åÿÿÿÿÿ
+e
+java:S1192,"JDefine a constant instead of duplicating this literal "123452222" 6 times.(¬à¤Ûøÿÿÿÿ
+k
+java:S1192+"PDefine a constant instead of duplicating this literal "123 Main Street" 6 times.(øÎœ­ıÿÿÿÿ
+h
+java:S1192,"MDefine a constant instead of duplicating this literal "503-123-4567" 6 times.(¬à¤Ûøÿÿÿÿ
+Y
+java:S1854@"<Remove this useless assignment to local variable "response".(¢ğÖç8¯ÈÃ‹”.
+h	java:S100Y"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÅí†øÿÿÿÿ
+h	java:S100i"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ½–¶ùÿÿÿÿ
+d
+java:S1192*"IDefine a constant instead of duplicating this literal "javaSDK-" 4 times.(–™şçûÿÿÿÿ
+q
+java:S1192,"VDefine a constant instead of duplicating this literal "example@silamoney.com" 6 times.(¬à¤Ûøÿÿÿÿ
+f
+java:S1192,"KDefine a constant instead of duplicating this literal "97204-1234" 6 times.(¬à¤Ûøÿÿÿÿ

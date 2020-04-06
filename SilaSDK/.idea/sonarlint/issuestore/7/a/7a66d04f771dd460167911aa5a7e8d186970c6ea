@@ -1,0 +1,18 @@
+
+`
+java:S1192("JDefine a constant instead of duplicating this literal "123456789" 5 times.(…Þôò
+[	java:S1121"FDefine and throw a dedicated exception instead of using a generic one.(éßƒ±
+_
+java:S1192("IDefine a constant instead of duplicating this literal "CHECKING" 5 times.(…Þôò
+b	java:S100C"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ã§ðh
+Q	java:S125?"<This block of commented-out lines of code should be removed.(ž¬‚Ú
+c	java:S1001"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éßƒ±
+h	java:S100V"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÅí†øÿÿÿÿ
+c
+java:S1192'"HDefine a constant instead of duplicating this literal "default" 5 times.(‚Íþ·ùÿÿÿÿ
+h	java:S100d"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ½–¶ùÿÿÿÿ
+c
+java:S1192("MDefine a constant instead of duplicating this literal "123456789012" 5 times.(…Þôò
+h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ûê“Ãüÿÿÿÿ
+`	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ûê“Ãüÿÿÿÿ
+Q	java:S125P"<This block of commented-out lines of code should be removed.(ž¬‚Ú

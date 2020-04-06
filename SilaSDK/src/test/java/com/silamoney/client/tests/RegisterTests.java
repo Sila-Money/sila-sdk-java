@@ -45,7 +45,6 @@ public class RegisterTests {
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
 
 		ApiResponse response = api.register(user);
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
@@ -63,7 +62,6 @@ public class RegisterTests {
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				userCryptoAddressInternal, birthdate.toDate());
 		ApiResponse response = api.register(user);
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 
 		// USER2
 		userHandleInternal = "javaSDK-" + new Random().nextInt();
@@ -74,7 +72,6 @@ public class RegisterTests {
 				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				userCryptoAddressInternal, birthdate.toDate());
 		response = api.register(user);
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 
 		// USER3 FAIL NAME
 		userHandleInternal = "javaSDK-" + new Random().nextInt();
@@ -86,7 +83,6 @@ public class RegisterTests {
 				userCryptoAddressInternal, birthdate.toDate());
 		response = api.register(user);
 		assertEquals(200, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
@@ -102,7 +98,6 @@ public class RegisterTests {
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
 
 		ApiResponse response = api.register(user);
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(400, response.getStatusCode());
 	}
 

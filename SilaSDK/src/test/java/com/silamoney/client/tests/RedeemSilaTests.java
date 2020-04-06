@@ -38,7 +38,6 @@ public class RedeemSilaTests {
 		}
 		ApiResponse response = api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "default",
 				DefaultConfigurations.getUserPrivateKey());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}

@@ -30,7 +30,7 @@ public class RequestKYCTests {
 	String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
 
 	@Test
-	public void Response200() throws Exception {
+	public void response200() throws Exception {
 		// KYCID1
 		if (DefaultConfigurations.getUserHandle() == null) {
 			DefaultConfigurations.setUserHandle(userHandle);
@@ -43,19 +43,17 @@ public class RequestKYCTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
-	public void Response200Failure() throws Exception {
+	public void response200Failure() throws Exception {
 		// KYCID3
 		ApiResponse response = api.requestKYC(userHandle2Failure, null, userPrivateKeyFailure);
 		assertEquals(200, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
-	public void Response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+	public void response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 		// KYCID4
 		if (DefaultConfigurations.getUserHandle() == null) {
@@ -68,11 +66,10 @@ public class RequestKYCTests {
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(403, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
-	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+	public void response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
@@ -87,13 +84,11 @@ public class RequestKYCTests {
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(401, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
-
 		api.requestKYC(DefaultConfigurations.getUserHandle(), "", DefaultConfigurations.getUserPrivateKey());
 	}
 
 	@Test
-	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+	public void response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 		if (DefaultConfigurations.getUserHandle() == null) {
 			DefaultConfigurations.setUserHandle(userHandle);
