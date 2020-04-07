@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Configuration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Silamoney SDK</a> &gt; <a href="index.source.html" class="el_package">com.silamoney.client.config</a> &gt; <span class="el_source">Configuration.java</span></div><h1>Configuration.java</h1><pre class="source lang-java linenums">package com.silamoney.client.config;
+
+import com.silamoney.client.api.ApiClient;
+
+/**
+ *
+ * @author Karlo Lorenzana
+ */
+public class Configuration {
+
+    private String basePath;
+    private String privateKey;
+    private String authHandle;
+    private ApiClient apiClient;
+    private String userAgent;
+    private int timeout;
+
+    /**
+     * Constructor for client configuration.
+     *
+     * @param basePath
+     * @param privateKey
+     * @param authHandle
+     */
+<span class="fc" id="L25">    public Configuration(String basePath, String privateKey, String authHandle) {</span>
+<span class="fc" id="L26">        this.basePath = basePath;</span>
+<span class="fc" id="L27">        this.privateKey = privateKey;</span>
+<span class="fc" id="L28">        this.authHandle = authHandle;</span>
+
+<span class="fc" id="L30">        this.timeout = 10000;</span>
+
+<span class="fc" id="L32">        this.apiClient = new ApiClient();</span>
+<span class="fc" id="L33">        this.apiClient.setBasePath(basePath);</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Gets the environment base path.
+     *
+     * @return base path set in the client configuration.
+     */
+    public String getBasePath() {
+<span class="nc" id="L42">        return basePath;</span>
+    }
+
+    /**
+     * Sets the environment base path.
+     *
+     * @param basePath
+     */
+    public void setBasePath(String basePath) {
+<span class="nc" id="L51">        this.basePath = basePath;</span>
+<span class="nc" id="L52">        this.apiClient.setBasePath(basePath);</span>
+<span class="nc" id="L53">    }</span>
+
+    /**
+     * Gets the configured private key.
+     *
+     * @return app handle private key
+     */
+    public String getPrivateKey() {
+<span class="fc" id="L61">        return privateKey;</span>
+    }
+
+    /**
+     * Sets the app handle private key.
+     *
+     * @param privateKey
+     */
+    public void setPrivateKey(String privateKey) {
+<span class="nc" id="L70">        this.privateKey = privateKey;</span>
+<span class="nc" id="L71">    }</span>
+
+    /**
+     * Gets the configured app handle.
+     *
+     * @return the app handle
+     */
+    public String getAuthHandle() {
+<span class="fc" id="L79">        return authHandle;</span>
+    }
+
+    /**
+     * Sets the app handle.
+     *
+     * @param authHandle
+     */
+    public void setAuthHandle(String authHandle) {
+<span class="nc" id="L88">        this.authHandle = authHandle;</span>
+<span class="nc" id="L89">    }</span>
+
+    /**
+     * Gets the configured api client.
+     *
+     * @return the api client.
+     */
+    public ApiClient getApiClient() {
+<span class="fc" id="L97">        return apiClient;</span>
+    }
+
+    /**
+     * Sets the api client.
+     *
+     * @param apiClient
+     */
+    public void setApiClient(ApiClient apiClient) {
+<span class="nc" id="L106">        this.apiClient = apiClient;</span>
+<span class="nc" id="L107">    }</span>
+
+    /**
+     * Gets the configured user agent.
+     *
+     * @return the configured user agent.
+     */
+    public String getUserAgent() {
+<span class="nc" id="L115">        return userAgent;</span>
+    }
+
+    /**
+     * Sets the user agent.
+     *
+     * @param userAgent
+     */
+    public void setUserAgent(String userAgent) {
+<span class="nc" id="L124">        this.userAgent = userAgent;</span>
+<span class="nc" id="L125">    }</span>
+
+    /**
+     * Gets the configured timeout.
+     *
+     * @return the configured timeout.
+     */
+    public int getTimeout() {
+<span class="nc" id="L133">        return timeout;</span>
+    }
+
+    /**
+     * Sets the calls timeout.
+     *
+     * @param timeout
+     */
+    public void setTimeout(int timeout) {
+<span class="nc" id="L142">        this.timeout = timeout;</span>
+<span class="nc" id="L143">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

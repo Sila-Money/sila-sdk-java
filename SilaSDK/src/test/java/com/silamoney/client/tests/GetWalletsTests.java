@@ -24,8 +24,8 @@ public class GetWalletsTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
-	String userHandle = "javasdk-893748932";
-	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
+	String userHandle = DefaultConfigurations.getUserHandle();
+	String userPrivateKey = DefaultConfigurations.getUserPrivateKey();
 
 	@Test
 	public void Response200() throws Exception {
@@ -72,10 +72,13 @@ public class GetWalletsTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 
-		ApiResponse response = api.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
-				DefaultConfigurations.getUserPrivateKey());
+		SilaApi api401 = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				"badba7368134dcd61c60f9b56979c09196d03f5891a20c1557b1afac0202a97c");
 
-		assertEquals(200, response.getStatusCode());
+		ApiResponse response = api401.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+				"badba7368134dcd61c60f9b56979c09196d03f5891a20c1557b1afac0202a97c"); //DefaultConfigurations.getUserPrivateKey()
+
+		assertEquals(403, response.getStatusCode());
 		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 }

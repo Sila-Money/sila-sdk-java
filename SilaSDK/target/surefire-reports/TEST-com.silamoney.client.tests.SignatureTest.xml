@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.silamoney.client.tests.SignatureTest" time="0.597" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.silamoney.client.tests.SignatureTest" time="0.591" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="12.0.2+10"/>
@@ -23,26 +23,27 @@
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Linux"/>
-    <property name="maven.ext.class.path" value="/snap/intellij-idea-ultimate/212/plugins/maven/lib/maven-event-listener.jar"/>
-    <property name="classworlds.conf" value="/snap/intellij-idea-ultimate/212/plugins/maven/lib/maven3/bin/m2.conf"/>
+    <property name="-DgeneratePom" value="true"/>
+    <property name="idea.version2020.1" value="true"/>
+    <property name="maven.ext.class.path" value="/snap/intellij-idea-ultimate/216/plugins/maven/lib/maven-event-listener.jar"/>
+    <property name="classworlds.conf" value="/snap/intellij-idea-ultimate/216/plugins/maven/lib/maven3/bin/m2.conf"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
-    <property name="maven.conf" value="/snap/intellij-idea-ultimate/212/plugins/maven/lib/maven3/conf"/>
+    <property name="maven.conf" value="/snap/intellij-idea-ultimate/216/plugins/maven/lib/maven3/conf"/>
     <property name="jdk.debug" value="release"/>
     <property name="java.class.version" value="56.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="idea.version2019.3.4" value="true"/>
     <property name="os.version" value="4.19.0-6-amd64"/>
     <property name="user.home" value="/home/csosa"/>
     <property name="user.timezone" value="America/Guatemala"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.specification.version" value="12"/>
     <property name="user.name" value="csosa"/>
-    <property name="java.class.path" value="/snap/intellij-idea-ultimate/212/plugins/maven/lib/maven3/boot/plexus-classworlds-2.6.0.jar"/>
+    <property name="java.class.path" value="/snap/intellij-idea-ultimate/216/plugins/maven/lib/maven3/boot/plexus-classworlds-2.6.0.jar"/>
     <property name="java.vm.specification.version" value="12"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version2019.3.4 test"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version2020.1 -D-DgeneratePom=true install"/>
     <property name="java.home" value="/usr/lib/jvm/jdk-12.0.2"/>
     <property name="user.language" value="es"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -51,7 +52,7 @@
     <property name="java.version" value="12.0.2"/>
     <property name="securerandom.source" value="file:/dev/./urandom"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="/snap/intellij-idea-ultimate/212/plugins/maven/lib/maven3"/>
+    <property name="maven.home" value="/snap/intellij-idea-ultimate/216/plugins/maven/lib/maven3"/>
     <property name="file.separator" value="/"/>
     <property name="java.version.date" value="2019-07-16"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
@@ -59,5 +60,5 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.desktop" value="gnome"/>
   </properties>
-  <testcase classname="com.silamoney.client.tests.SignatureTest" name="Signatures" time="0.597"/>
+  <testcase classname="com.silamoney.client.tests.SignatureTest" name="Signatures" time="0.591"/>
 </testsuite>

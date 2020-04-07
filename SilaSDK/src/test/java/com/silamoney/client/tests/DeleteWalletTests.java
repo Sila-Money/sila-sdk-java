@@ -25,8 +25,8 @@ public class DeleteWalletTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
-	String userHandle = "javasdk-893748932";
-	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
+	String userHandle = DefaultConfigurations.getUserHandle();
+	String userPrivateKey = DefaultConfigurations.getUserPrivateKey();
 
 	 @Test
 	 public void Response200() throws Exception {
@@ -39,7 +39,6 @@ public class DeleteWalletTests {
 	 	ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
 	 			DefaultConfigurations.getUserPrivateKey());
 	 	assertEquals(200, response.getStatusCode());
-	 	assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	 }
 
 	@Test

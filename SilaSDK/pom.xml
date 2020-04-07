@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
     
     <name>Silamoney SDK</name>
@@ -21,7 +21,13 @@
     <developers>
         <developer>
             <name>Karlo Lorenzana</name>
-            <email>karlo@catalystdevs.com</email>
+            <email>klorenzana@digitalgeko.com</email>
+            <organization>DigitalGeko</organization>
+            <organizationUrl>https://digitalgeko.com/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Carlos Sosa</name>
+            <email>csosa@digitalgeko.com</email>
             <organization>DigitalGeko</organization>
             <organizationUrl>https://digitalgeko.com/</organizationUrl>
         </developer>

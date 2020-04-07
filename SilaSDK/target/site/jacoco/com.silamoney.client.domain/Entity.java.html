@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Entity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Silamoney SDK</a> &gt; <a href="index.source.html" class="el_package">com.silamoney.client.domain</a> &gt; <span class="el_source">Entity.java</span></div><h1>Entity.java</h1><pre class="source lang-java linenums">package com.silamoney.client.domain;
+
+import com.google.gson.annotations.SerializedName;
+import java.text.SimpleDateFormat;
+
+/**
+ * Object used in the entity msg.
+ *
+ * @author Karlo Lorenzana
+ */
+public class Entity {
+    
+<span class="fc" id="L13">    private enum RelationshipEnum {</span>
+<span class="fc" id="L14">        ORGANIZATION(&quot;organization&quot;),</span>
+<span class="fc" id="L15">        DEVELOPER(&quot;developer&quot;),</span>
+<span class="fc" id="L16">        USER(&quot;user&quot;),</span>
+<span class="fc" id="L17">        VENDOR(&quot;vendor&quot;);</span>
+
+        private final String value;
+
+<span class="fc" id="L21">        RelationshipEnum(String value) {</span>
+<span class="fc" id="L22">            this.value = value;</span>
+<span class="fc" id="L23">        }</span>
+
+        private String getValue() {
+<span class="fc" id="L26">            return value;</span>
+        }
+    }
+
+    @SerializedName(&quot;birthdate&quot;)
+    private final String birthdate;
+
+    @SerializedName(&quot;entity_name&quot;)
+    private final String entityName;
+
+    @SerializedName(&quot;last_name&quot;)
+    private final String lastName;
+
+    @SerializedName(&quot;relationship&quot;)
+    private final String relationship;
+
+    @SerializedName(&quot;first_name&quot;)
+    private final String firstName;
+
+    /**
+     * Constructor for Entity object.
+     *
+     * @param user
+     */
+<span class="fc" id="L50">    public Entity(User user) {</span>
+<span class="fc" id="L51">        String pattern = &quot;yyyy-MM-dd&quot;;</span>
+<span class="fc" id="L52">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);</span>
+<span class="fc" id="L53">        String date = simpleDateFormat.format(user.getBirthdate());</span>
+<span class="fc" id="L54">        this.birthdate = date;</span>
+<span class="fc" id="L55">        this.firstName = user.getFirstName();</span>
+<span class="fc" id="L56">        this.lastName = user.getLastName();</span>
+<span class="fc" id="L57">        this.entityName = this.firstName + &quot; &quot; + this.lastName;</span>
+<span class="fc" id="L58">        this.relationship = RelationshipEnum.USER.getValue();</span>
+<span class="fc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

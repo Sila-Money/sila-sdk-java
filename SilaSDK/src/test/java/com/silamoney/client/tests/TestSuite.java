@@ -23,8 +23,8 @@ import org.junit.runners.Suite.SuiteClasses;
     PlaidSameDayAuthTests.class,
     RegisterWalletTests.class,
     GetWalletTests.class,
+    GetWalletsTests.class,
     UpdateWalletTests.class,
-    DeleteWalletTests.class,
-    GetWalletsTests.class
+    DeleteWalletTests.class
 })
 public class TestSuite {}

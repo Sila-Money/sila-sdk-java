@@ -6,6 +6,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 import com.silamoney.client.domain.Environments;
@@ -86,7 +87,7 @@ public class DefaultConfigurations {
 			});
 
 	public static String getUserHandle() {
-		// userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
+		userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
 		return userHandle;
 	}
 

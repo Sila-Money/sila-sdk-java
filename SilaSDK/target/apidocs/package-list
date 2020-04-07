@@ -1,0 +1,6 @@
+com.silamoney.client.api
+com.silamoney.client.config
+com.silamoney.client.domain
+com.silamoney.client.exceptions
+com.silamoney.client.security
+com.silamoney.client.util

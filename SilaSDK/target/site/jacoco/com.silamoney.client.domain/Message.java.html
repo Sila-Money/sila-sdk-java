@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Message.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Silamoney SDK</a> &gt; <a href="index.source.html" class="el_package">com.silamoney.client.domain</a> &gt; <span class="el_source">Message.java</span></div><h1>Message.java</h1><pre class="source lang-java linenums">package com.silamoney.client.domain;
+
+/**
+ * Contains the message possible options.
+ *
+ * @author Karlo Lorenzana
+ */
+public class Message {
+    
+    private Message(){
+        
+    }
+
+    /**
+     * Enum that contains the message options.
+     */
+<span class="fc" id="L17">    public enum ValueEnum {</span>
+
+        /**
+         * String value for HeaderMsg.
+         */
+<span class="fc" id="L22">        HEADER_MSG(&quot;header_msg&quot;),</span>
+        /**
+         * String value for EntityMsg.
+         */
+<span class="fc" id="L26">        ENTITY_MSG(&quot;entity_msg&quot;),</span>
+        /**
+         * String value for GetAccountMsg.
+         */
+<span class="fc" id="L30">        GET_ACCOUNTS_MSG(&quot;get_accounts_msg&quot;),</span>
+        /**
+         * String value for GetTransactionsMsg.
+         */
+<span class="fc" id="L34">        GET_TRANSACTIONS_MSG(&quot;get_transactions_msg&quot;),</span>
+        /**
+         * String value for IssueMsg.
+         */
+<span class="fc" id="L38">        ISSUE_MSG(&quot;issue_msg&quot;),</span>
+        /**
+         * String value for LinkAccountMsg.
+         */
+<span class="fc" id="L42">        LINK_ACCOUNT_MSG(&quot;link_account_msg&quot;),</span>
+        /**
+         * String value for RedeemMsg.
+         */
+<span class="fc" id="L46">        REDEEM_MSG(&quot;redeem_msg&quot;),</span>
+        /**
+         * String value for TransferMsg.
+         */
+<span class="fc" id="L50">        TRANSFER_MSG(&quot;transfer_msg&quot;),</span>
+        /**
+         * String value for PlaidSameDayAuthMsg.
+         */
+<span class="fc" id="L54">        PLAID_SAMEDAY_AUTH_MSG(&quot;plaid_sameday_auth_msg&quot;),</span>
+        /**
+         * String value for GetWalletMsg.
+         */
+<span class="fc" id="L58">        GET_WALLET_MSG(&quot;get_wallet_msg&quot;),</span>
+        /**
+         * String value for RegisterWalletMsg.
+         */
+<span class="fc" id="L62">        REGISTER_WALLET_MSG(&quot;register_wallet_msg&quot;),</span>
+        /**
+         * String value for UpdateWalletMsg.
+         */
+<span class="fc" id="L66">        UPDATE_WALLET_MSG(&quot;update_wallet_msg&quot;),</span>
+        /**
+         * String value for DeleteWalletMsg.
+         */
+<span class="fc" id="L70">        DELETE_WALLET_MSG(&quot;delete_wallet_msg&quot;),</span>
+        /**
+         * String value for GetWalletsMsg.
+         */
+<span class="fc" id="L74">        GET_WALLETS_MSG(&quot;get_wallets_msg&quot;),</span>
+        /**
+         * String value for GetSilaBalanceMsg.
+         */
+<span class="fc" id="L78">        GET_SILA_BALANCE(&quot;get_sila_balance&quot;)        ;        </span>
+
+        private final String value;
+
+<span class="fc" id="L82">        ValueEnum(String value) {</span>
+<span class="fc" id="L83">            this.value = value;</span>
+<span class="fc" id="L84">        }</span>
+
+        /**
+         * Gets the selected message value.
+         *
+         * @return option value.
+         */
+        public String getValue() {
+<span class="fc" id="L92">            return value;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

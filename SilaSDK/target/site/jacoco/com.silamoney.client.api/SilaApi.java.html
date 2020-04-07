@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SilaApi.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Silamoney SDK</a> &gt; <a href="index.source.html" class="el_package">com.silamoney.client.api</a> &gt; <span class="el_source">SilaApi.java</span></div><h1>SilaApi.java</h1><pre class="source lang-java linenums">package com.silamoney.client.api;
+
+import java.io.IOException;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.silamoney.client.config.Configuration;
+import com.silamoney.client.domain.DeleteWalletMsg;
+import com.silamoney.client.domain.Endpoints;
+import com.silamoney.client.domain.EntityMsg;
+import com.silamoney.client.domain.Environments;
+import com.silamoney.client.domain.GetAccountsMsg;
+import com.silamoney.client.domain.GetTransactionsMsg;
+import com.silamoney.client.domain.GetWalletMsg;
+import com.silamoney.client.domain.GetWalletsMsg;
+import com.silamoney.client.domain.HeaderMsg;
+import com.silamoney.client.domain.IssueMsg;
+import com.silamoney.client.domain.LinkAccountMsg;
+import com.silamoney.client.domain.Message;
+import com.silamoney.client.domain.PlaidSameDayAuthMsg;
+import com.silamoney.client.domain.RedeemMsg;
+import com.silamoney.client.domain.RegisterWalletMsg;
+import com.silamoney.client.domain.SearchFilters;
+import com.silamoney.client.domain.SilaBalanceMsg;
+import com.silamoney.client.domain.TransferMsg;
+import com.silamoney.client.domain.UpdateWalletMsg;
+import com.silamoney.client.domain.User;
+import com.silamoney.client.domain.Wallet;
+import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
+import com.silamoney.client.exceptions.InvalidSignatureException;
+import com.silamoney.client.exceptions.ServerSideException;
+import com.silamoney.client.security.EcdsaUtil;
+import com.silamoney.client.util.ResponseUtil;
+import com.silamoney.client.util.Serialization;
+
+import io.reactivex.annotations.Nullable;
+
+/**
+ *
+ * @author Karlo Lorenzana
+ */
+public class SilaApi {
+
+	private final Configuration configuration;
+	private static final String AUTH_SIGNATURE = &quot;authsignature&quot;;
+	private static final String USER_SIGNATURE = &quot;usersignature&quot;;
+<span class="fc" id="L49">	private static final String DEFAULT_ENVIRONMENT = Environments.SilaEnvironment.SANDBOX.getUrl();</span>
+
+	/**
+	 * Constructor for SilaApi using custom environment.
+	 *
+	 * @param environment
+	 * @param appHandler
+	 * @param privateKey
+	 */
+<span class="fc" id="L58">	public SilaApi(String environment, String appHandler, String privateKey) {</span>
+<span class="fc" id="L59">		this.configuration = new Configuration(environment, privateKey, appHandler);</span>
+<span class="fc" id="L60">	}</span>
+
+	/**
+	 * Constructor for SilaApi using specified environment.
+	 *
+	 * @param environment
+	 * @param appHandler
+	 * @param privateKey
+	 */
+<span class="nc" id="L69">	public SilaApi(Environments.SilaEnvironment environment, String appHandler, String privateKey) {</span>
+<span class="nc" id="L70">		this.configuration = new Configuration(environment.getUrl(), privateKey, appHandler);</span>
+<span class="nc" id="L71">	}</span>
+
+	/**
+	 * Constructor for SilaApi using sandbox environment.
+	 *
+	 * @param appHandler
+	 * @param privateKey
+	 */
+<span class="nc" id="L79">	public SilaApi(String appHandler, String privateKey) {</span>
+<span class="nc" id="L80">		this.configuration = new Configuration(DEFAULT_ENVIRONMENT, privateKey, appHandler);</span>
+<span class="nc" id="L81">	}</span>
+
+	/**
+	 * Checks if a specific handle is already taken.
+	 *
+	 * @param handle
+	 * @return API response.
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse checkHandle(String handle) throws BadRequestException, InvalidSignatureException,
+			ServerSideException, IOException, InterruptedException, ForbiddenException {
+<span class="fc" id="L97">		HeaderMsg body = new HeaderMsg(handle, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L98">		String path = Endpoints.CHECK_HANDLE.getUri();</span>
+<span class="fc" id="L99">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L100">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L102">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+
+<span class="fc" id="L104">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L106">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());</span>
+	}
+
+	/**
+	 * Attaches KYC data and specified blockchain address to an assigned handle.
+	 *
+	 * @param user
+	 * @return API response.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws ServerSideException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse register(User user) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+<span class="fc" id="L123">		EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L124">		String path = Endpoints.REGISTER.getUri();</span>
+<span class="fc" id="L125">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L126">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L128">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+
+<span class="fc" id="L130">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L132">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());</span>
+	}
+
+	/**
+	 * Starts KYC verification process on a registered user handle.
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+<span class="fc" id="L150">		HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L151">		String path = Endpoints.REQUEST_KYC.getUri();</span>
+<span class="fc" id="L152">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L153">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L155">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L156">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L158">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L160">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());</span>
+	}
+
+	/**
+	 * Returns whether entity attached to user handle is verified, not valid, or
+	 * still pending.
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+<span class="fc" id="L179">		HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L180">		String path = Endpoints.CHECK_KYC.getUri();</span>
+<span class="fc" id="L181">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L182">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L184">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L185">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L187">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L189">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());</span>
+	}
+
+	/**
+	 * Uses a provided Plaid public token to link a bank account to a verified
+	 * entity.
+	 *
+	 * @param userHandle
+	 * @param accountName
+	 * @param publicToken
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse linkAccount(String userHandle, 
+	String accountName, 
+	String publicToken, 
+	String accountNumber,
+	String routingNumber,
+	String accountType,
+	String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L217">		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken,</span>
+				accountNumber, routingNumber, accountType,
+<span class="fc" id="L219">				this.configuration.getAuthHandle());</span>
+<span class="fc" id="L220">		String path = Endpoints.LINK_ACCOUNT.getUri();</span>
+<span class="fc" id="L221">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L222">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L224">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L225">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L227">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L229">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_ACCOUNT_MSG.getValue());</span>
+	}
+
+	/**
+	 * Gets basic bank account names linked to user handle.
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+<span class="fc" id="L247">		GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L248">		String path = Endpoints.GET_ACCOUNTS.getUri();</span>
+<span class="fc" id="L249">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L250">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L252">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L253">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L255">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L257">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());</span>
+	}
+
+	/**
+	 * Debits a specified account and issues tokens to the address belonging to the
+	 * requested handle.
+	 *
+	 * @param userHandle
+	 * @param amount
+	 * @param accountName
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse issueSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="pc bpc" id="L279" title="1 of 4 branches missed.">		if (accountName == null || accountName.isBlank()) {</span>
+<span class="fc" id="L280">			accountName = &quot;default&quot;;</span>
+		}
+<span class="fc" id="L282">		IssueMsg body = new IssueMsg(userHandle, accountName, amount, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L283">		String path = Endpoints.ISSUE_SILA.getUri();</span>
+<span class="fc" id="L284">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L285">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L287">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L288">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L290">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L292">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.ISSUE_MSG.getValue());</span>
+	}
+
+	/**
+	 * Starts a transfer of the requested amount of SILA to the requested
+	 * destination handle.
+	 * 
+	 * @param userHandle
+	 * @param amount
+	 * @param destination
+	 * @param destinationAddress
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L315">		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L316">		String path = Endpoints.TRANSFER_SILA.getUri();</span>
+<span class="fc" id="L317">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L318">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L320">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L321">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L323">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L325">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.TRANSFER_MSG.getValue());</span>
+	}
+
+	/**
+	 * Burns given amount of SILA at the handle's blockchain address and credits
+	 * their named bank account in the equivalent monetary amount.
+	 *
+	 * @param userHandle
+	 * @param amount
+	 * @param accountName
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse redeemSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="pc bpc" id="L347" title="2 of 4 branches missed.">		if (accountName == null || accountName.isBlank()) {</span>
+<span class="nc" id="L348">			accountName = &quot;default&quot;;</span>
+		}
+<span class="fc" id="L350">		RedeemMsg body = new RedeemMsg(userHandle, amount, accountName, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L351">		String path = Endpoints.REDEEM_SILA.getUri();</span>
+<span class="fc" id="L352">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L353">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L355">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L356">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L358">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L360">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.TRANSFER_MSG.getValue());</span>
+	}
+
+	/**
+	 * Gets array of user handle's transactions with detailed status information.
+	 *
+	 * @param userHandle
+	 * @param filters
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getTransactions(String userHandle, SearchFilters filters, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L380">		GetTransactionsMsg body = new GetTransactionsMsg(userHandle, this.configuration.getAuthHandle(), filters);</span>
+<span class="fc" id="L381">		String path = Endpoints.GET_TRANSACTIONS.getUri();</span>
+<span class="fc" id="L382">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L383">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L385">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L386">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L388">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L390">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_TRANSACTIONS_MSG.getValue());</span>
+	}
+
+	/**
+	 * Gets Sila balance for a given blockchain address.
+	 *
+	 * @param host
+	 * @param address
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse silaBalance(String host, String address) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+<span class="nc" id="L408">		SilaBalanceMsg body = new SilaBalanceMsg(address);</span>
+<span class="nc" id="L409">		String path = Endpoints.GET_SILA_BALANCE.getUri();</span>
+<span class="nc" id="L410">		String sBody = Serialization.serialize(body);</span>
+<span class="nc" id="L411">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L413">		String initialBasePath = this.configuration.getBasePath();</span>
+
+<span class="nc" id="L415">		this.configuration.setBasePath(host);</span>
+
+<span class="nc" id="L417">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="nc" id="L419">		this.configuration.setBasePath(initialBasePath);</span>
+
+<span class="nc" id="L421">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_SILA_BALANCE.getValue());</span>
+	}
+
+	/**
+	 * Request a public_token for plaid's same day microdeposit auth.
+	 * 
+	 * @param userHandle
+	 * @param accountName
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse plaidSameDayAuth(String userHandle, @Nullable String accountName, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L441">		PlaidSameDayAuthMsg body = new PlaidSameDayAuthMsg(userHandle, accountName, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L442">		String path = Endpoints.PLAID_SAMEDAY_AUTH.getUri();</span>
+<span class="fc" id="L443">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L444">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L446">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L447">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L449">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L451">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_SAMEDAY_AUTH_MSG.getValue());</span>
+	}	
+
+	/**
+	 * Gets details about the user wallet used to generate the usersignature header..
+	 * 
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getWallet(String userHandle, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L470">		GetWalletMsg body = new GetWalletMsg(userHandle, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L471">		String path = Endpoints.GET_WALLET.getUri();</span>
+<span class="fc" id="L472">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L473">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L475">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L476">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L478">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L480">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLET_MSG.getValue());</span>
+	}	
+
+	/**
+	 * Adds another &quot;wallet&quot;/blockchain address to a user handle.
+	 * 
+	 * @param userHandle
+	 * @param wallet
+	 * @param walletVerificationSignature
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L501">		RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L502">		String path = Endpoints.REGISTER_WALLET.getUri();</span>
+<span class="fc" id="L503">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L504">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L506">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L507">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+		
+		// System.out.println(&quot;HEADERS &gt;&quot;);
+		// System.out.println(GsonUtils.objectToJsonStringFormato(headers));
+		// System.out.println(&quot;BODY &gt;&quot;);
+		// System.out.println(GsonUtils.objectToJsonStringFormato(body));
+
+<span class="fc" id="L514">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L516">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_WALLET_MSG.getValue());</span>
+	}
+	
+	/**
+	 * Updates nickname and/or default status of a wallet.
+	 * 
+	 * @param userHandle
+	 * @param nickname
+	 * @param status
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L537">		UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L538">		String path = Endpoints.UPDATE_WALLET.getUri();</span>
+<span class="fc" id="L539">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L540">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L542">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L543">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L545">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L547">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_WALLET_MSG.getValue());</span>
+	}	
+
+	/**
+	 * 
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse deleteWallet(String userHandle, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L565">		DeleteWalletMsg body = new DeleteWalletMsg(userHandle, this.configuration.getAuthHandle());</span>
+<span class="fc" id="L566">		String path = Endpoints.DELETE_WALLET.getUri();</span>
+<span class="fc" id="L567">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L568">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L570">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L571">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L573">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L575">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_WALLET_MSG.getValue());</span>
+	}	
+
+	/**
+	 * Gets a paginated list of &quot;wallets&quot;/blockchain addresses attached to a user handle.
+	 *
+	 * @param userHandle
+	 * @param filters
+	 * @param userPrivateKey
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getWallets(String userHandle, SearchFilters filters, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+<span class="fc" id="L595">		GetWalletsMsg body = new GetWalletsMsg(userHandle, filters,  this.configuration.getAuthHandle());</span>
+<span class="fc" id="L596">		String path = Endpoints.GET_WALLETS.getUri();</span>
+<span class="fc" id="L597">		String sBody = Serialization.serialize(body);</span>
+<span class="fc" id="L598">		Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L600">		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));</span>
+<span class="fc" id="L601">		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));</span>
+
+<span class="fc" id="L603">		HttpResponse&lt;?&gt; response = this.configuration.getApiClient().callApi(path, headers, sBody);</span>
+
+<span class="fc" id="L605">		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLETS_MSG.getValue());</span>
+	}	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

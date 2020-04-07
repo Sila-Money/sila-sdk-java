@@ -24,8 +24,8 @@ public class UpdateWalletTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
-	String userHandle = "javasdk-893748932";
-	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
+	String userHandle = DefaultConfigurations.getUserHandle();
+	String userPrivateKey = DefaultConfigurations.getUserPrivateKey();
 
 	@Test
 	public void Response200() throws Exception {
@@ -35,7 +35,7 @@ public class UpdateWalletTests {
 		if (DefaultConfigurations.getUserPrivateKey() == null) {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
-		ApiResponse response = api.updateWallet(DefaultConfigurations.getUserHandle(), "wallet_test", false,
+		ApiResponse response = api.updateWallet(DefaultConfigurations.getUserHandle(), "wallet_test_UPD", false,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(200, response.getStatusCode());
 	}

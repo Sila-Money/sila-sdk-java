@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResponseUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Silamoney SDK</a> &gt; <a href="index.source.html" class="el_package">com.silamoney.client.util</a> &gt; <span class="el_source">ResponseUtil.java</span></div><h1>ResponseUtil.java</h1><pre class="source lang-java linenums">package com.silamoney.client.util;
+
+import com.google.gson.reflect.TypeToken;
+import com.silamoney.client.api.ApiResponse;
+import com.silamoney.client.domain.Account;
+import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.GetTransactionsResponse;
+import com.silamoney.client.domain.LinkAccountResponse;
+import com.silamoney.client.exceptions.BadRequestException;
+import com.silamoney.client.exceptions.ForbiddenException;
+import com.silamoney.client.exceptions.InvalidSignatureException;
+import com.silamoney.client.exceptions.ServerSideException;
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
+
+/**
+ * Class to manage the different kinds of responses.
+ *
+ * @author Karlo Lorenzana
+ */
+public class ResponseUtil {
+
+    private ResponseUtil() {
+
+    }
+
+    /**
+     * Creates an ApiResponse based on the sent HttpResponse.
+     *
+     * @param response
+     * @param msg
+     * @return ApiResponse
+     * @throws com.silamoney.client.exceptions.BadRequestException
+     * @throws com.silamoney.client.exceptions.InvalidSignatureException
+     * @throws com.silamoney.client.exceptions.ServerSideException
+     * @throws com.silamoney.client.exceptions.ForbiddenException
+     */
+    public static ApiResponse prepareResponse(HttpResponse&lt;?&gt; response, String msg)
+            throws BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+<span class="fc" id="L40">        int statusCode = response.statusCode();</span>
+
+<span class="fc" id="L42">        boolean success = true;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (statusCode != 200) {</span>
+<span class="fc" id="L44">            success = false;</span>
+        }
+
+<span class="pc bpc" id="L47" title="1 of 5 branches missed.">        switch (msg) {</span>
+            case &quot;link_account_msg&quot;:
+<span class="fc" id="L49">                LinkAccountResponse linkAccountResponse = (LinkAccountResponse) Serialization</span>
+<span class="fc" id="L50">                        .deserialize(response.body().toString(), LinkAccountResponse.class);</span>
+
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">                if (success &amp;&amp; !&quot;SUCCESS&quot;.equals(linkAccountResponse.getStatus())) {</span>
+<span class="nc" id="L53">                    success = false;</span>
+                }
+
+<span class="fc" id="L56">                return new ApiResponse(statusCode, response.headers().map(), linkAccountResponse, success);</span>
+            case &quot;get_accounts_msg&quot;:
+<span class="fc" id="L58">                TypeToken&lt;ArrayList&lt;Account&gt;&gt; token = new TypeToken&lt;ArrayList&lt;Account&gt;&gt;() {};</span>
+                try {
+<span class="fc" id="L60">                    Object accounts = (Object) Serialization.deserialize(response.body().toString(), token);</span>
+<span class="fc" id="L61">                    ArrayList&lt;Account&gt; list = new ArrayList&lt;Account&gt;();</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                    if (accounts instanceof ArrayList&lt;?&gt;) {</span>
+<span class="fc" id="L63">                        ArrayList&lt;?&gt; arrayAccounts = (ArrayList&lt;?&gt;) accounts;</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                        if (arrayAccounts.size() &gt; 0) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                            for (int i = 0; i &lt; arrayAccounts.size(); i++) {</span>
+<span class="fc" id="L66">                                Object account = arrayAccounts.get(i);</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                                if (account instanceof Account) {</span>
+<span class="fc" id="L68">                                    Account a = (Account) account;</span>
+<span class="fc" id="L69">                                    list.add(a);</span>
+                                }
+                            }
+                        }
+                    }
+
+<span class="fc" id="L75">                    return new ApiResponse(statusCode, response.headers().map(), list, success);</span>
+<span class="fc" id="L76">                } catch (Exception e) {</span>
+<span class="fc" id="L77">                    BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),</span>
+                            BaseResponse.class);
+                            
+<span class="pc bpc" id="L80" title="3 of 4 branches missed.">                    if (success &amp;&amp; !&quot;SUCCESS&quot;.equals(baseResponse.getStatus())) {</span>
+<span class="nc" id="L81">                        success = false;</span>
+                    }
+
+<span class="fc" id="L84">                    return new ApiResponse(statusCode, response.headers().map(), baseResponse, success);</span>
+                }
+            case &quot;get_transactions_msg&quot;:
+<span class="fc" id="L87">                GetTransactionsResponse getTransactionsResponse = (GetTransactionsResponse) Serialization</span>
+<span class="fc" id="L88">                        .deserialize(response.body().toString(), GetTransactionsResponse.class);</span>
+
+<span class="fc" id="L90">                return new ApiResponse(statusCode, response.headers().map(), getTransactionsResponse, success);</span>
+            case &quot;SilaBalance&quot;:
+<span class="nc" id="L92">                return new ApiResponse(statusCode, response.headers().map(), response.body(), success);</span>
+            default:
+<span class="fc" id="L94">                BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),</span>
+                        BaseResponse.class);
+
+<span class="fc bfc" id="L97" title="All 4 branches covered.">                if (success &amp;&amp; !&quot;SUCCESS&quot;.equals(baseResponse.getStatus())) {</span>
+<span class="fc" id="L98">                    success = false;</span>
+                }
+
+<span class="fc" id="L101">                return new ApiResponse(statusCode, response.headers().map(), baseResponse, success);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

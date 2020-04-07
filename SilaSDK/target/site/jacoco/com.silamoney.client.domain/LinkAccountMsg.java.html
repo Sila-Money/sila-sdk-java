@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkAccountMsg.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Silamoney SDK</a> &gt; <a href="index.source.html" class="el_package">com.silamoney.client.domain</a> &gt; <span class="el_source">LinkAccountMsg.java</span></div><h1>LinkAccountMsg.java</h1><pre class="source lang-java linenums">package com.silamoney.client.domain;
+
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * Object sent in the link account method.
+ *
+ * @author Karlo Lorenzana
+ */
+public class LinkAccountMsg {
+
+    @SerializedName(&quot;public_token&quot;)
+    private final String publicToken;
+
+    @SerializedName(&quot;account_name&quot;)
+    private final String accountName;
+
+    @SerializedName(&quot;header&quot;)
+    private final Header header;
+
+    @SerializedName(&quot;selected_account_id&quot;)
+    private String selectedAccountId;
+
+    @SerializedName(&quot;message&quot;)
+    private final String message;
+
+    /**
+     * Support for account_number, routing_number and account_type
+     */
+    @SerializedName(&quot;account_number&quot;)
+    private final String accountNumber;
+
+    @SerializedName(&quot;routing_number&quot;)
+    private final String routingNumber;
+
+    @SerializedName(&quot;account_type&quot;)
+    private final String accountType;
+
+    /**
+     * Constructor for LinkAccountMsg object.
+     *
+     * @param userHandle
+     * @param accountName
+     * @param publicToken
+     * @param appHandle
+     */
+    public LinkAccountMsg(String userHandle, String accountName, String publicToken, 
+<span class="fc" id="L48">        String accountNumber, String routingNumber, String accountType, String appHandle) {</span>
+<span class="fc" id="L49">        this.publicToken = publicToken;</span>
+<span class="fc" id="L50">        this.accountName = accountName;</span>
+<span class="fc" id="L51">        this.accountNumber = accountNumber;</span>
+<span class="fc" id="L52">        this.routingNumber = routingNumber;</span>
+<span class="fc" id="L53">        this.accountType = accountType;</span>
+<span class="fc" id="L54">        this.header = new Header(userHandle, appHandle);</span>
+<span class="fc" id="L55">        this.message = Message.ValueEnum.LINK_ACCOUNT_MSG.getValue();</span>
+<span class="fc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

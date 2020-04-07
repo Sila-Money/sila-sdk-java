@@ -1,7 +1,0 @@
-
-`	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ûê“Ãüÿÿÿÿ
-Q	java:S1257"<This block of commented-out lines of code should be removed.(¬‚Ú
-b	java:S100<"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åõv
-h	java:S100."NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ø–ÙÇüÿÿÿÿ
-h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ûê“Ãüÿÿÿÿ
-Q	java:S125I"<This block of commented-out lines of code should be removed.(¬‚Ú
