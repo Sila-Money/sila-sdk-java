@@ -29,6 +29,10 @@ public class Message {
          */
         GET_ACCOUNTS_MSG("get_accounts_msg"),
         /**
+         * String value for GetAccountMsg.
+         */
+        GET_ACCOUNT_BALANCE_MSG("get_account_balance_msg"),
+        /**
          * String value for GetTransactionsMsg.
          */
         GET_TRANSACTIONS_MSG("get_transactions_msg"),
