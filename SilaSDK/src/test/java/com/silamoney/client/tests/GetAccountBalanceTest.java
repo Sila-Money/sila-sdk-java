@@ -32,7 +32,7 @@ public class GetAccountBalanceTest {
             DefaultConfigurations.setUserPrivateKey(userPrivateKey);
         }
         ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), "default");
+                DefaultConfigurations.getUserPrivateKey(), "defaultpt");
 
         assertEquals(200, response.getStatusCode());
     }
