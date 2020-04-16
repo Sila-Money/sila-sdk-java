@@ -128,11 +128,23 @@ System.out.println(response.getStatusCode()); // 200
 #### Get Wallets
 Gets a paginated list of "wallets"/blockchain addresses attached to a user handle.
 ```java
+SearchFilters filters = new SearchFilters()
+filters.setPage(1);
+filters.setPerPage(20);
+filters.setSortAscending(true);
+filters.setBlockchainNetwork("ETH");
+filters.setBlockchainAddress("");
+filters.setNickname("Some nickname");
+
 ApiResponse response = api.getWallets(userHandle, filters, userPrivateKey);
 ```
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
+System.out.println(response.getData().getWallets()); // Wallet list
+System.out.println(response.getData().getPage()); // Actual page requested
+System.out.println(response.getData().getReturnedCount()); // Total wallets returned
+System.out.println(response.getData().getTotalCount()); // Total wallets exists
 ```
 #### Get Wallet
 Gets details about the user wallet used to generate the usersignature header.
@@ -142,6 +154,9 @@ ApiResponse response = api.getWallet(userHandle, userPrivateKey);
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
+System.out.println(response.getData().getWallet()); // Wallet object
+System.out.println(response.getData().getIsWhitelisted()); // Boolean
+System.out.println(response.getData().getSilaBalance); // Sila balance
 ```
 #### Update Wallet
 Updates nickname and/or default status of a wallet.
@@ -216,6 +231,20 @@ System.out.println(((BaseResponse) response.getData()).getMessage()); // Transac
 #### GetTransactions
 Gets the array of user handle's transactions with detailed status information.
 ```java
+SearchFilters filters = new SearchFilters()
+filters.setTransactionId("some UUID string assigned by Sila");
+filters.setReferenceId("The reference string sent in the header object when transaction request was made");
+filters.setShowTimelines(true);
+filters.setSortAscending(false);
+filters.setMaxSilaAmount(1300);
+filters.setMinSilaAmount(1000);
+filters.setStatues(new List<string>() {"queued", "pending", "failed", "success", "rollback", "review"});
+filters.setStartEpoch(1234567860);
+filters.setEndEpoch(1234567891);
+filters.setPage(1);
+filters.setPerPage(20);
+filters.setTransactionTypes(new List<string>() {"issue", "redeem", "transfer"});
+
 ApiResponse response = api.GetTransactions(userHandle, filters, userPrivateKey);
 ```
  
@@ -227,7 +256,7 @@ System.out.println((GetTransactionsResponse) response.getData()); // Access resp
 #### Get Sila Balance
 Gets Sila balance for a given blockchain address.
 ```java
-ApiResponse response = api.(host, address);
+ApiResponse response = api.SilaBalance(host, address);
 ```
 ##### Success Object Response
 ```java
