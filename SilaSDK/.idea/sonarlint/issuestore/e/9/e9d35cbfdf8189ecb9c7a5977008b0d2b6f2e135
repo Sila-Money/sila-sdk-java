@@ -1,6 +1,0 @@
-
-[	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Œ‘èó
-c	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œ‘èó
-h	java:S1001"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÅí†øÿÿÿÿ
-h	java:S100>"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãµ°úýÿÿÿÿ
-O	java:S125"<This block of commented-out lines of code should be removed.(ž¬‚Ú
