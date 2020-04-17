@@ -11,7 +11,6 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.client.testsutils.GsonUtils;
 
 import org.junit.Test;
 

@@ -6,27 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.silamoney.client.config.Configuration;
-import com.silamoney.client.domain.DeleteWalletMsg;
-import com.silamoney.client.domain.Endpoints;
-import com.silamoney.client.domain.EntityMsg;
-import com.silamoney.client.domain.Environments;
-import com.silamoney.client.domain.GetAccountsMsg;
-import com.silamoney.client.domain.GetTransactionsMsg;
-import com.silamoney.client.domain.GetWalletMsg;
-import com.silamoney.client.domain.GetWalletsMsg;
-import com.silamoney.client.domain.HeaderMsg;
-import com.silamoney.client.domain.IssueMsg;
-import com.silamoney.client.domain.LinkAccountMsg;
-import com.silamoney.client.domain.Message;
-import com.silamoney.client.domain.PlaidSameDayAuthMsg;
-import com.silamoney.client.domain.RedeemMsg;
-import com.silamoney.client.domain.RegisterWalletMsg;
-import com.silamoney.client.domain.SearchFilters;
-import com.silamoney.client.domain.SilaBalanceMsg;
-import com.silamoney.client.domain.TransferMsg;
-import com.silamoney.client.domain.UpdateWalletMsg;
-import com.silamoney.client.domain.User;
-import com.silamoney.client.domain.Wallet;
+import com.silamoney.client.domain.*;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -255,6 +235,21 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
+	}
+
+	public ApiResponse getAccountBalance(String userHandle, String userPrivateKey, String accountName) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+		GetAccountBalanceMsg body = new GetAccountBalanceMsg(userHandle, this.configuration.getAuthHandle(), accountName);
+		String path = Endpoints.GET_ACCOUNT_BALANCE.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNT_BALANCE_MSG.getValue());
 	}
 
 	/**

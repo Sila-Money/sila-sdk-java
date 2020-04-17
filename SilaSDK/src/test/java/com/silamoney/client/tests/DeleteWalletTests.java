@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -28,18 +27,18 @@ public class DeleteWalletTests {
 	String userHandle = DefaultConfigurations.getUserHandle();
 	String userPrivateKey = DefaultConfigurations.getUserPrivateKey();
 
-	 @Test
-	 public void Response200() throws Exception {
-	 	if (DefaultConfigurations.getUserHandle() == null) {
-	 		DefaultConfigurations.setUserHandle(userHandle);
-	 	}
-	 	if (DefaultConfigurations.getUserPrivateKey() == null) {
-	 		DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-	 	}
-	 	ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
-	 			DefaultConfigurations.getUserPrivateKey());
-	 	assertEquals(200, response.getStatusCode());
-	 }
+	@Test
+	public void Response200() throws Exception {
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
+				DefaultConfigurations.getUserPrivateKey());
+		assertEquals(200, response.getStatusCode());
+	}
 
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
@@ -52,7 +51,7 @@ public class DeleteWalletTests {
 		}
 		ApiResponse response = api.deleteWallet("", DefaultConfigurations.getUserPrivateKey());
 		assertEquals(400, response.getStatusCode());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
@@ -69,6 +68,6 @@ public class DeleteWalletTests {
 		ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(403, response.getStatusCode());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 }

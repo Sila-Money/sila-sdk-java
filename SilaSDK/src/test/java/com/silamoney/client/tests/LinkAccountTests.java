@@ -36,8 +36,8 @@ public class LinkAccountTests {
 		if (DefaultConfigurations.getUserPrivateKey() == null) {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
-		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(), "default",
-				DefaultConfigurations.getPlaidToken(), "123456789012", "123456789", "CHECKING",
+		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(), "defaultpt",
+				DefaultConfigurations.getPlaidToken(), null, null, null,
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
