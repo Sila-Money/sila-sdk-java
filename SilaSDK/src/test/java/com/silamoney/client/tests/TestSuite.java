@@ -16,7 +16,7 @@ import org.junit.runners.Suite.SuiteClasses;
     CheckKYCTests.class,
     LinkAccountTests.class,
     GetAccountsTests.class,
-    GetAccountBalanceTest.class,
+    GetAccountBalanceTests.class,
     IssueSilaTests.class,
     TransferSilaTests.class, 
     RedeemSilaTests.class,
