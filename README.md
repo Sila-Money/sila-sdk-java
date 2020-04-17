@@ -70,9 +70,17 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user was
 #### RequestKYC
 
 Starts KYC verification process on a registered user handle.
+
+Normal Flow:
 ```java
 ApiResponse response = api.RequestKYC(userHandle, userPrivateKey);
 ```
+Custom Flow:
+```java
+String kycLevel = "CUSTOM_KYC_FLOW_NAME";
+ApiResponse response = api.RequestKYC(userHandle, userPrivateKey, kycLevel);
+```
+
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
