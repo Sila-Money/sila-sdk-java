@@ -23,6 +23,12 @@ public class TransferMsg {
 
     @SerializedName("destination_address")
     private final String destinationAddress;
+    
+    @SerializedName("descriptor")
+    private final String descriptor;
+    
+    @SerializedName("business_uuid")
+    private final String businessUuid;
 
     /**
      ** Constructor for TransferMsg object.
@@ -36,11 +42,15 @@ public class TransferMsg {
             String destination,
             int amount,
             String destinationAddress,
+            String descriptor, 
+            String businessUuid, 
             String appHandle) {
         this.amount = amount;
         this.destination = destination;
         this.destinationAddress = destinationAddress;
         this.header = new Header(userHandle, appHandle);
         this.message = Message.ValueEnum.TRANSFER_MSG.getValue();
+        this.descriptor = descriptor;
+        this.businessUuid = businessUuid;
     }
 }
