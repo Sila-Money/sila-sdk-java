@@ -3,10 +3,11 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.IssueSilaResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -39,20 +40,23 @@ public class IssueSilaTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 100, "default",
+				"test descriptor", UUID.randomUUID().toString(),
 				DefaultConfigurations.getUserPrivateKey());
 
 		System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		assertEquals("test descriptor",((IssueSilaResponse) response.getData()).getDescriptor());
+		assertEquals("SUCCESS", ((IssueSilaResponse) response.getData()).getStatus());
 	}
 
 	@Test
 	public void ResponseNotPassed() throws Exception {
 		// TRANSACTIONS2
-		ApiResponse response = api.issueSila(userHandle2, 100, "default", userPrivateKey);
+		ApiResponse response = api.issueSila(userHandle2, 100, "default", 
+				"test descriptor", UUID.randomUUID().toString(), userPrivateKey);
 		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(401, response.getStatusCode());
-		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+		assertEquals("FAILURE", ((IssueSilaResponse) response.getData()).getStatus());
 	}
 
 	@Test
@@ -64,7 +68,8 @@ public class IssueSilaTests {
 		if (DefaultConfigurations.getUserPrivateKey() == null) {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
-		ApiResponse response = api.issueSila("", 1000, null, DefaultConfigurations.getUserPrivateKey());
+		ApiResponse response = api.issueSila("", 1000, null, 
+				"test descriptor", UUID.randomUUID().toString(), DefaultConfigurations.getUserPrivateKey());
 		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(400, response.getStatusCode());
 	}
@@ -79,6 +84,7 @@ public class IssueSilaTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 1000, "default",
+				"test descriptor", UUID.randomUUID().toString(),
 				DefaultConfigurations.privateKey);
 		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(401, response.getStatusCode());
@@ -97,6 +103,7 @@ public class IssueSilaTests {
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
 		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 1000, null,
+				"test descriptor", UUID.randomUUID().toString(),
 				DefaultConfigurations.privateKey);
 		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(401, response.getStatusCode());
