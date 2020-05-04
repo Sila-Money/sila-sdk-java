@@ -5,6 +5,7 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
+import com.silamoney.client.domain.IssueSilaResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
@@ -90,6 +91,15 @@ public class ResponseUtil {
                 return new ApiResponse(statusCode, response.headers().map(), getTransactionsResponse, success);
             case "SilaBalance":
                 return new ApiResponse(statusCode, response.headers().map(), response.body(), success);
+            case "issue_msg":
+                IssueSilaResponse issueSilaResponse = (IssueSilaResponse) Serialization.deserialize(response.body().toString(),
+            			IssueSilaResponse.class);
+
+                if (success && !"SUCCESS".equals(issueSilaResponse.getStatus())) {
+                    success = false;
+                }
+                
+                return new ApiResponse(statusCode, response.headers().map(), issueSilaResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);
