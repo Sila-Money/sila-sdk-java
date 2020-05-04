@@ -259,6 +259,8 @@ public class SilaApi {
 	 * @param userHandle
 	 * @param amount
 	 * @param accountName
+	 * @param descriptor
+	 * @param businessUuid
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
@@ -268,13 +270,14 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse issueSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey)
+	public ApiResponse issueSila(String userHandle, int amount, @Nullable String accountName,
+			@Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
 		if (accountName == null || accountName.isBlank()) {
 			accountName = "default";
 		}
-		IssueMsg body = new IssueMsg(userHandle, accountName, amount, this.configuration.getAuthHandle());
+		IssueMsg body = new IssueMsg(userHandle, accountName, amount, descriptor, businessUuid, this.configuration.getAuthHandle());
 		String path = Endpoints.ISSUE_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -304,7 +307,8 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress, String userPrivateKey)
+	public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
+			String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
 		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, this.configuration.getAuthHandle());
@@ -336,7 +340,8 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse redeemSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey)
+	public ApiResponse redeemSila(String userHandle, int amount, @Nullable String accountName, 
+			String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
 		if (accountName == null || accountName.isBlank()) {
@@ -352,7 +357,7 @@ public class SilaApi {
 
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-		return ResponseUtil.prepareResponse(response, Message.ValueEnum.TRANSFER_MSG.getValue());
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.REDEEM_MSG.getValue());
 	}
 
 	/**
