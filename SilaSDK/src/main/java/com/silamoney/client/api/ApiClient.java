@@ -19,7 +19,7 @@ public class ApiClient {
 	/**
 	 * Gets the api base path.
 	 * 
-	 * @return
+	 * @return basePath
 	 */
 	public String getBasePath() {
 		return basePath;

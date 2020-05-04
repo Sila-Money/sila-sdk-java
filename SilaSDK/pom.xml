@@ -106,6 +106,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                	<failOnWarnings>false</failOnWarnings>
+                </configuration>
             </plugin>
 
             <plugin>
