@@ -55,6 +55,15 @@ public class DefaultConfigurations {
 	 */
 	private static String blockchain_address;	
 	
+	/**
+	 * Default correct business uuid
+	 */
+	public static String correctUuid = "9f280665-629f-45bf-a694-133c86bffd5e";
+	
+	/**
+	 * Default wrong business uuid
+	 */
+	public static String wrongUuid = "6d933c10-fa89-41ab-b443-2e78a7cc8cac";
 
 	/**
 	 * Default search filters for testing.
