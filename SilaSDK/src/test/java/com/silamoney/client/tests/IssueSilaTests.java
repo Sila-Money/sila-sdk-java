@@ -40,7 +40,7 @@ public class IssueSilaTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 100, "default",
-				"test descriptor", UUID.randomUUID().toString(),
+				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey());
 
 		System.out.println(GsonUtils.objectToJsonStringFormato(response));
@@ -70,6 +70,21 @@ public class IssueSilaTests {
 		}
 		ApiResponse response = api.issueSila("", 1000, null, 
 				"test descriptor", UUID.randomUUID().toString(), DefaultConfigurations.getUserPrivateKey());
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(400, response.getStatusCode());
+	}
+	
+	@Test
+	public void Response400WrongUuid() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.issueSila("", 1000, null, 
+				"test descriptor", DefaultConfigurations.wrongUuid, DefaultConfigurations.getUserPrivateKey());
 		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(400, response.getStatusCode());
 	}
