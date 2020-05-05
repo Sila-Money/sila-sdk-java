@@ -95,7 +95,7 @@ public class ResponseUtil {
             	RedeemSilaResponse redeemSilaResponse = (RedeemSilaResponse) Serialization.deserialize(response.body().toString(),
             			RedeemSilaResponse.class);
 
-                if (success && !"SUCCESS".equals(redeemSilaResponse)) {
+                if (success && !"SUCCESS".equals(redeemSilaResponse.getStatus())) {
                     success = false;
                 }
                 
