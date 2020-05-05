@@ -3,10 +3,11 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.RedeemSilaResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -37,9 +38,11 @@ public class RedeemSilaTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 		ApiResponse response = api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "default",
+				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		assertEquals("test descriptor", ((RedeemSilaResponse) response.getData()).getDescriptor());
+		assertEquals("SUCCESS", ((RedeemSilaResponse) response.getData()).getStatus());
 	}
 
 	@Test
@@ -52,6 +55,23 @@ public class RedeemSilaTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 		ApiResponse response = api.redeemSila("", 1000, "Custom Account Name",
+				"test descriptor", UUID.randomUUID().toString(),
+				DefaultConfigurations.getUserPrivateKey());
+		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(400, response.getStatusCode());
+	}
+	
+	@Test
+	public void Response400WrongUuiud() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.redeemSila("", 1000, "Custom Account Name",
+				"test descriptor", DefaultConfigurations.wrongUuid,
 				DefaultConfigurations.getUserPrivateKey());
 		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(400, response.getStatusCode());
@@ -70,6 +90,7 @@ public class RedeemSilaTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 		ApiResponse response = api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "default",
+				"test descriptor", UUID.randomUUID().toString(),
 				DefaultConfigurations.getUserPrivateKey());
 		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(401, response.getStatusCode());

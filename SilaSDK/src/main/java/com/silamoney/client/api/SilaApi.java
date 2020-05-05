@@ -331,6 +331,8 @@ public class SilaApi {
 	 * @param userHandle
 	 * @param amount
 	 * @param accountName
+	 * @param descriptor
+	 * @param businessUuid
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
@@ -341,13 +343,13 @@ public class SilaApi {
 	 * @throws ForbiddenException
 	 */
 	public ApiResponse redeemSila(String userHandle, int amount, @Nullable String accountName, 
-			String userPrivateKey)
+			@Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
 		if (accountName == null || accountName.isBlank()) {
 			accountName = "default";
 		}
-		RedeemMsg body = new RedeemMsg(userHandle, amount, accountName, this.configuration.getAuthHandle());
+		RedeemMsg body = new RedeemMsg(userHandle, amount, accountName, descriptor, businessUuid, this.configuration.getAuthHandle());
 		String path = Endpoints.REDEEM_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
