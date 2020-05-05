@@ -259,8 +259,6 @@ public class SilaApi {
 	 * @param userHandle
 	 * @param amount
 	 * @param accountName
-	 * @param descriptor
-	 * @param businessUuid
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
@@ -331,6 +329,8 @@ public class SilaApi {
 	 * @param userHandle
 	 * @param amount
 	 * @param accountName
+	 * @param descriptor
+	 * @param businessUuid
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
