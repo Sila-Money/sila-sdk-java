@@ -39,7 +39,7 @@ public class TransferSilaTests {
 			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
 		}
 		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth", null,
-				"test descriptor", UUID.randomUUID().toString(),
+				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
@@ -60,6 +60,25 @@ public class TransferSilaTests {
 		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100,
 				DefaultConfigurations.getUserPrivateKey(), DefaultConfigurations.getUserPrivateKey(),
 				"test descriptor", UUID.randomUUID().toString(),
+				DefaultConfigurations.getUserPrivateKey());
+
+		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
+		assertEquals(400, response.getStatusCode());
+	}
+	
+	@Test
+	public void Response400WrongUuid() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		// TRANSACTIONS5
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100,
+				DefaultConfigurations.getUserPrivateKey(), DefaultConfigurations.getUserPrivateKey(),
+				"test descriptor", DefaultConfigurations.wrongUuid,
 				DefaultConfigurations.getUserPrivateKey());
 
 		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
