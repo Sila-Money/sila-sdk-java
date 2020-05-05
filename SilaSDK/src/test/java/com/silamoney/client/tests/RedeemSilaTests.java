@@ -42,6 +42,8 @@ public class RedeemSilaTests {
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(200, response.getStatusCode());
 		assertEquals("test descriptor", ((RedeemSilaResponse) response.getData()).getDescriptor());
+		((RedeemSilaResponse) response.getData()).getReference();
+		((RedeemSilaResponse) response.getData()).getMessage();
 		assertEquals("SUCCESS", ((RedeemSilaResponse) response.getData()).getStatus());
 	}
 

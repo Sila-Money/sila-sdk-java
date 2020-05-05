@@ -44,6 +44,8 @@ public class TransferSilaTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("test descriptor", ((TransferSilaResponse) response.getData()).getDescriptor());
+		((TransferSilaResponse) response.getData()).getReference();
+		((TransferSilaResponse) response.getData()).getMessage();
 		assertEquals("SUCCESS", ((TransferSilaResponse) response.getData()).getStatus());
 	}
 
@@ -61,8 +63,6 @@ public class TransferSilaTests {
 				DefaultConfigurations.getUserPrivateKey(), DefaultConfigurations.getUserPrivateKey(),
 				"test descriptor", UUID.randomUUID().toString(),
 				DefaultConfigurations.getUserPrivateKey());
-
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(400, response.getStatusCode());
 	}
 	
