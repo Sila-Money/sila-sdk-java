@@ -36,6 +36,8 @@ public class TransferMsg {
      * @param userHandle
      * @param destination
      * @param amount
+     * @param descriptor
+     * @param businessUuid
      * @param appHandle
      */
     public TransferMsg(String userHandle,
