@@ -1,19 +1,19 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.UUID;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.RedeemSilaResponse;
+import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-
 import org.junit.Test;
 
 /**
@@ -41,10 +41,9 @@ public class RedeemSilaTests {
 				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(200, response.getStatusCode());
-		assertEquals("test descriptor", ((RedeemSilaResponse) response.getData()).getDescriptor());
-		((RedeemSilaResponse) response.getData()).getReference();
-		((RedeemSilaResponse) response.getData()).getMessage();
-		assertEquals("SUCCESS", ((RedeemSilaResponse) response.getData()).getStatus());
+		assertEquals("test descriptor", ((TransactionResponse) response.getData()).getDescriptor());
+		assertEquals("SUCCESS", ((TransactionResponse) response.getData()).getStatus());
+		assertNotNull(((TransactionResponse) response.getData()).getTransactionId());
 	}
 
 	@Test
@@ -59,7 +58,6 @@ public class RedeemSilaTests {
 		ApiResponse response = api.redeemSila("", 1000, "Custom Account Name",
 				"test descriptor", UUID.randomUUID().toString(),
 				DefaultConfigurations.getUserPrivateKey());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(400, response.getStatusCode());
 	}
 	

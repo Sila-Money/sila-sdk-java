@@ -5,10 +5,9 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
-import com.silamoney.client.domain.IssueSilaResponse;
+import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.TransferSilaResponse;
-import com.silamoney.client.domain.RedeemSilaResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -94,8 +93,9 @@ public class ResponseUtil {
             case "SilaBalance":
                 return new ApiResponse(statusCode, response.headers().map(), response.body(), success);
             case "issue_msg":
-                IssueSilaResponse issueSilaResponse = (IssueSilaResponse) Serialization.deserialize(response.body().toString(),
-            			IssueSilaResponse.class);
+            case "redeem_msg":
+                TransactionResponse issueSilaResponse = (TransactionResponse) Serialization.deserialize(response.body().toString(),
+            			TransactionResponse.class);
 
                 if (success && !"SUCCESS".equals(issueSilaResponse.getStatus())) {
                     success = false;
@@ -111,15 +111,6 @@ public class ResponseUtil {
                 }
                 
                 return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
-            case "redeem_msg":
-            	RedeemSilaResponse redeemSilaResponse = (RedeemSilaResponse) Serialization.deserialize(response.body().toString(),
-            			RedeemSilaResponse.class);
-
-                if (success && !"SUCCESS".equals(redeemSilaResponse.getStatus())) {
-                    success = false;
-                }
-                
-                return new ApiResponse(statusCode, response.headers().map(), redeemSilaResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);
