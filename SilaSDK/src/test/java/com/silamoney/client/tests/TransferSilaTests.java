@@ -1,6 +1,7 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -13,7 +14,6 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-
 import org.junit.Test;
 
 /**
@@ -44,9 +44,8 @@ public class TransferSilaTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("test descriptor", ((TransferSilaResponse) response.getData()).getDescriptor());
-		((TransferSilaResponse) response.getData()).getReference();
-		((TransferSilaResponse) response.getData()).getMessage();
 		assertEquals("SUCCESS", ((TransferSilaResponse) response.getData()).getStatus());
+		assertNotNull(((TransferSilaResponse) response.getData()).getTransactionId());
 	}
 
 	@Test

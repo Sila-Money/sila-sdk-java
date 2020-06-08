@@ -1,20 +1,19 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.UUID;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.IssueSilaResponse;
+import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.client.testsutils.GsonUtils;
-
 import org.junit.Test;
 
 /**
@@ -43,10 +42,10 @@ public class IssueSilaTests {
 				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey());
 
-		System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(200, response.getStatusCode());
-		assertEquals("test descriptor",((IssueSilaResponse) response.getData()).getDescriptor());
-		assertEquals("SUCCESS", ((IssueSilaResponse) response.getData()).getStatus());
+		assertEquals("test descriptor",((TransactionResponse) response.getData()).getDescriptor());
+		assertEquals("SUCCESS", ((TransactionResponse) response.getData()).getStatus());
+		assertNotNull(((TransactionResponse) response.getData()).getTransactionId());
 	}
 
 	@Test
@@ -56,7 +55,7 @@ public class IssueSilaTests {
 				"test descriptor", UUID.randomUUID().toString(), userPrivateKey);
 		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 		assertEquals(401, response.getStatusCode());
-		assertEquals("FAILURE", ((IssueSilaResponse) response.getData()).getStatus());
+		assertEquals("FAILURE", ((TransactionResponse) response.getData()).getStatus());
 	}
 
 	@Test
