@@ -3,6 +3,7 @@ package com.silamoney.client.util;
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
+import com.silamoney.client.domain.AccountBalanceResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.TransactionResponse;
@@ -111,6 +112,15 @@ public class ResponseUtil {
                 }
                 
                 return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
+            case "get_account_balance_msg":
+            	AccountBalanceResponse accountBalanceResponse = (AccountBalanceResponse) Serialization.deserialize(response.body().toString(),
+            			AccountBalanceResponse.class);
+
+                if (success && !"SUCCESS".equals(accountBalanceResponse.getStatus())) {
+                    success = false;
+                }
+                
+                return new ApiResponse(statusCode, response.headers().map(), accountBalanceResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);
