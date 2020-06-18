@@ -46,7 +46,7 @@
         <sonar.projectKey>sila-sdk-java</sonar.projectKey>
         <sonar.projectName>sila-sdk-java</sonar.projectName>
         <sonar.coverage.jacoco.xmlReportPaths>**/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.junit.reportPaths>**/surefire-reports/*.xml</sonar.junit.reportPaths>
+        <sonar.junit.reportPaths>**/surefire-reports</sonar.junit.reportPaths>
     </properties>
     <dependencies>
         <dependency>
