@@ -9,7 +9,7 @@ For this SDK you will need to use JDK 11 or later.
 Add the SDK from the Maven repository.
 ```java
 <dependency>
-    <groupId>com.silamoney</groupId>
+    <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
     <version>0.2.6-rc</version>
 </dependency>
@@ -33,7 +33,7 @@ This sets up the app private key and handle for the SDK to use for signing subse
 Checks if a specific handle is already taken.
 ```java
 String userHandle = "user.silamoney.eth";
-ApiResponse response = api.CheckHandle(userHandle);
+ApiResponse response = api.checkHandle(userHandle);
 ```
 
 ##### Success Response Object 200 
@@ -57,7 +57,7 @@ Attaches KYC data and specified blockchain address to an assigned handle.
 User user = new User(String userHandle, String firstName, String lastName, String streetAddress1, @Nullable String streetAddress2, 
       String city, String state (2 characters), String postalCode (5 or 9 digit format), String phone, String email, String cryptoAddress, 
       String identityNumber (SSN format "AAA-GG-SSSS"), Date birthdate);
-ApiResponse response = api.Register(user);
+ApiResponse response = api.register(user);
 ```
 
 ##### Success Response Object
@@ -73,12 +73,12 @@ Starts KYC verification process on a registered user handle.
 
 Normal Flow:
 ```java
-ApiResponse response = api.RequestKYC(userHandle, userPrivateKey);
+ApiResponse response = api.requestKYC(userHandle, userPrivateKey);
 ```
 Custom Flow:
 ```java
 String kycLevel = "CUSTOM_KYC_FLOW_NAME";
-ApiResponse response = api.RequestKYC(userHandle, userPrivateKey, kycLevel);
+ApiResponse response = api.requestKYC(userHandle, userPrivateKey, kycLevel);
 ```
 
 ##### Success Response Object
@@ -92,7 +92,7 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user sub
 #### CheckKYC
 Returns whether the entity attached to the user handle is verified, not valid, or still pending.
 ```java
-ApiResponse response = api.CheckKYC(userHandle, userPrivateKey);
+ApiResponse response = api.checkKYC(userHandle, userPrivateKey);
 ```
 
 ##### Success Response Object
@@ -105,7 +105,7 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user has
 #### LinkAccount
 Uses a provided Plaid public token to link a bank account to a verified entity.
 ```java
-ApiResponse response = api.LinkAccount(userHandle, accountName, publicToken, userPrivateKey); 
+ApiResponse response = api.linkAccount(userHandle, accountName, publicToken, userPrivateKey); 
 ```
 Public token received in the /link/item/create plaid endpoint.
 
@@ -188,7 +188,7 @@ System.out.println(response.getStatusCode()); // 200
 #### GetAccounts
 Gets basic bank account names linked to user handle.
 ```java
-ApiResponse response = api.GetAccounts(userHandle, userPrivateKey);
+ApiResponse response = api.getAccounts(userHandle, userPrivateKey);
 ```
 ##### Success Response Object
 ```java
@@ -201,7 +201,7 @@ System.out.println(((List<Account>) response.getData()).get(0).accountType); // 
 #### IssueSila
 Debits a specified account and issues tokens to the address belonging to the requested handle.
 ```java
-ApiResponse response = api.IssueSila(userHandle, amount, accountName, userPrivateKey);
+ApiResponse response = api.issueSila(userHandle, amount, accountName, userPrivateKey);
 ```
 
 ##### Success Object Response
@@ -215,7 +215,7 @@ System.out.println(((BaseResponse) response.getData()).getMessage()); // Transac
 #### TransferSila
 Starts a transfer of the requested amount of SILA to the requested destination handle.
 ```java
-ApiResponse response = api.TransferSila(userHandle, 1000, destination, userPrivateKey);
+ApiResponse response = api.transferSila(userHandle, 1000, destination, userPrivateKey);
 ```
 ##### Success Object Response
 ```java
@@ -227,7 +227,7 @@ System.out.println(((BaseResponse) response.getData()).getMessage()); // Transac
 #### RedeemSila
 Burns given the amount of SILA at the handle's blockchain address and credits their named bank account in the equivalent monetary amount.
 ```java
-ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, userPrivateKey); 
+ApiResponse response = api.redeemSila(userHandle, 1000, accountName, userPrivateKey); 
 ```
 ##### Success Object Response
 ```java
@@ -253,7 +253,7 @@ filters.setPage(1);
 filters.setPerPage(20);
 filters.setTransactionTypes(new List<string>() {"issue", "redeem", "transfer"});
 
-ApiResponse response = api.GetTransactions(userHandle, filters, userPrivateKey);
+ApiResponse response = api.getTransactions(userHandle, filters, userPrivateKey);
 ```
  
 ##### Success Object Response
@@ -264,7 +264,7 @@ System.out.println((GetTransactionsResponse) response.getData()); // Access resp
 #### Get Sila Balance
 Gets Sila balance for a given blockchain address.
 ```java
-ApiResponse response = api.SilaBalance(host, address);
+ApiResponse response = api.silaBalance(host, address);
 ```
 ##### Success Object Response
 ```java
