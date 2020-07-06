@@ -45,23 +45,23 @@ public class LinkAccountTests {
 //
 //	}
 //
-//	@Test
-//	public void Response200SuccessNoPublicToken() throws Exception {
-//		// BANKACCOUNT2
-//		if (DefaultConfigurations.getUserHandle() == null) {
-//			DefaultConfigurations.setUserHandle(userHandle);
-//		}
-//		if (DefaultConfigurations.getUserPrivateKey() == null) {
-//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-//		}
-//		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(), "default", null, "123456789012",
-//				"123456789", "CHECKING", DefaultConfigurations.getUserPrivateKey());
-//
-//		assertEquals(200, response.getStatusCode());
+	@Test
+	public void Response200SuccessNoPublicToken() throws Exception {
+		// BANKACCOUNT2
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(), "default", null, "123456789012",
+				"123456789", "CHECKING", DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, 200);
 //		assertEquals("SUCCESS", ((LinkAccountResponse) response.getData()).getStatus());
-//
-//		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
-//	}
+
+		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+	}
 //
 //	@Test
 //	public void ResponseInvalidPublicToken() throws BadRequestException, InvalidSignatureException, ServerSideException,

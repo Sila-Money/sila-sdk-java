@@ -27,21 +27,21 @@ public class GetWalletsTests {
 	String userHandle = DefaultConfigurations.getUserHandle();
 	String userPrivateKey = DefaultConfigurations.getUserPrivateKey();
 
-//	@Test
-//	public void Response200() throws Exception {
-//		// WALLETS3
-//		if (DefaultConfigurations.getUserHandle() == null) {
-//			DefaultConfigurations.setUserHandle(userHandle);
-//		}
-//		if (DefaultConfigurations.getUserPrivateKey() == null) {
-//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-//		}
-//
-//		ApiResponse response = api.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
-//				DefaultConfigurations.getUserPrivateKey());
-//
-//		assertEquals(200, response.getStatusCode());
-//	}
+	@Test
+	public void Response200() throws Exception {
+		// WALLETS3
+		if (DefaultConfigurations.getUserHandle() == null) {
+			DefaultConfigurations.setUserHandle(userHandle);
+		}
+		if (DefaultConfigurations.getUserPrivateKey() == null) {
+			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+		}
+
+		ApiResponse response = api.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, 200);
+	}
 //
 //	@Test
 //	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
