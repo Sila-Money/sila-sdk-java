@@ -61,24 +61,24 @@ public class GetWalletsTests {
 //		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
 //	}
 
-	@Test
-	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-			InterruptedException, ForbiddenException {
-		// WALLETS3
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
-
-		SilaApi api401 = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-				"badba7368134dcd61c60f9b56979c09196d03f5891a20c1557b1afac0202a97c");
-
-		ApiResponse response = api401.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
-				"badba7368134dcd61c60f9b56979c09196d03f5891a20c1557b1afac0202a97c"); //DefaultConfigurations.getUserPrivateKey()
-
-		assertEquals(403, response.getStatusCode());
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
-	}
+//	@Test
+//	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+//			InterruptedException, ForbiddenException {
+//		// WALLETS3
+//		if (DefaultConfigurations.getUserHandle() == null) {
+//			DefaultConfigurations.setUserHandle(userHandle);
+//		}
+//		if (DefaultConfigurations.getUserPrivateKey() == null) {
+//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//		}
+//
+//		SilaApi api401 = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+//				"badba7368134dcd61c60f9b56979c09196d03f5891a20c1557b1afac0202a97c");
+//
+//		ApiResponse response = api401.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+//				"badba7368134dcd61c60f9b56979c09196d03f5891a20c1557b1afac0202a97c"); //DefaultConfigurations.getUserPrivateKey()
+//
+//		assertEquals(403, response.getStatusCode());
+//		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
+//	}
 }

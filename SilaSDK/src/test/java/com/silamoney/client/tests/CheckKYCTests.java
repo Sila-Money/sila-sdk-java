@@ -33,33 +33,33 @@ public class CheckKYCTests {
     String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
     String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
 
-    @Test
-    public void Response200() throws Exception {
-        // KYCID2
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle);
-        }
-        if (DefaultConfigurations.getUserPrivateKey() == null) {
-            DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-        }
-        LocalDate birthdate = new LocalDate(1900, 01, 31);
-        DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
-        User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
-                "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-                DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
-
-        api.register(user);
-        api.requestKYC(DefaultConfigurations.getUserHandle(), null, DefaultConfigurations.getUserPrivateKey());
-        ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey());
-
-        assertEquals(200, response.getStatusCode());
-        while (!((BaseResponse) response.getData()).getStatus().contains("SUCCESS")) {
-            TimeUnit.SECONDS.sleep(5);
-            response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
-        }
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-    }
+//    @Test
+//    public void Response200() throws Exception {
+//        // KYCID2
+//        if (DefaultConfigurations.getUserHandle() == null) {
+//            DefaultConfigurations.setUserHandle(userHandle);
+//        }
+//        if (DefaultConfigurations.getUserPrivateKey() == null) {
+//            DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//        }
+//        LocalDate birthdate = new LocalDate(1900, 01, 31);
+//        DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
+//        User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
+//                "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+//                DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
+//
+//        api.register(user);
+//        api.requestKYC(DefaultConfigurations.getUserHandle(), null, DefaultConfigurations.getUserPrivateKey());
+//        ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(),
+//                DefaultConfigurations.getUserPrivateKey());
+//
+//        assertEquals(200, response.getStatusCode());
+//        while (!((BaseResponse) response.getData()).getStatus().contains("SUCCESS")) {
+//            TimeUnit.SECONDS.sleep(5);
+//            response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
+//        }
+//        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+//    }
 
     @Test
     public void Response200Failure() throws Exception {

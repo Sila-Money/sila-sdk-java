@@ -29,22 +29,22 @@ public class IssueSilaTests {
 	String userHandle2 = "javasdk-893748933";
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-	@Test
-	public void Response200Success() throws Exception {
-		// TRANSACTIONS1
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
-		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 100, "default",
-				DefaultConfigurations.getUserPrivateKey());
-
-		System.out.println(GsonUtils.objectToJsonStringFormato(response));
-		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-	}
+//	@Test
+//	public void Response200Success() throws Exception {
+//		// TRANSACTIONS1
+//		if (DefaultConfigurations.getUserHandle() == null) {
+//			DefaultConfigurations.setUserHandle(userHandle);
+//		}
+//		if (DefaultConfigurations.getUserPrivateKey() == null) {
+//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//		}
+//		ApiResponse response = api.issueSila(DefaultConfigurations.getUserHandle(), 100, "default",
+//				DefaultConfigurations.getUserPrivateKey());
+//
+//		System.out.println(GsonUtils.objectToJsonStringFormato(response));
+//		assertEquals(200, response.getStatusCode());
+//		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+//	}
 
 	@Test
 	public void ResponseNotPassed() throws Exception {

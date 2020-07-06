@@ -28,21 +28,21 @@ public class TransferSilaTests {
 	String userHandle2 = "javasdk-893748933";
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-	@Test
-	public void Response200Success() throws Exception {
-		// TRANSACTIONS4
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
-		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth", null,
-				DefaultConfigurations.getUserPrivateKey());
-
-		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-	}
+//	@Test
+//	public void Response200Success() throws Exception {
+//		// TRANSACTIONS4
+//		if (DefaultConfigurations.getUserHandle() == null) {
+//			DefaultConfigurations.setUserHandle(userHandle);
+//		}
+//		if (DefaultConfigurations.getUserPrivateKey() == null) {
+//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//		}
+//		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth", null,
+//				DefaultConfigurations.getUserPrivateKey());
+//
+//		assertEquals(200, response.getStatusCode());
+//		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+//	}
 
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
