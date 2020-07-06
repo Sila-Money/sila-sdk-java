@@ -24,8 +24,8 @@
     </developers>
 
     <scm>
-      <connection>scm:git:git://github.com/sydneyicon/sila-sdk-java.git</connection>
-      <developerConnection>scm:git:ssh://github.com/sydneyicon/sila-sdk-java.git</developerConnection>
+      <connection>scm:git:git@github.com:sydneyicon/sila-sdk-java.git</connection>
+      <developerConnection>scm:git:git@github.com:sydneyicon/sila-sdk-java.git</developerConnection>
       <url>https://github.com/sydneyicon/sila-sdk-java</url>
       <tag>icon-sila-sdk-1.0</tag>
     </scm>
