@@ -27,23 +27,23 @@ public class GetWalletTests {
 	String userHandle = "javasdk-893748932";
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-	@Test
-	public void Response200() throws Exception {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
-
-		ApiResponse response = api.getWallet(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey());
-
-		assertEquals(200, response.getStatusCode());
-
-		// "reference": "591af81b-fc0d-478a-bc01-4447f8359cce",
-		// "message": "Blockchain address 0xd6398d7b1768f29a52c0d5e2f91ff1aa4ce2eaa5 registered."
-	}
+//	@Test
+//	public void Response200() throws Exception {
+//		if (DefaultConfigurations.getUserHandle() == null) {
+//			DefaultConfigurations.setUserHandle(userHandle);
+//		}
+//		if (DefaultConfigurations.getUserPrivateKey() == null) {
+//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//		}
+//
+//		ApiResponse response = api.getWallet(DefaultConfigurations.getUserHandle(),
+//				DefaultConfigurations.getUserPrivateKey());
+//
+//		assertEquals(200, response.getStatusCode());
+//
+//		// "reference": "591af81b-fc0d-478a-bc01-4447f8359cce",
+//		// "message": "Blockchain address 0xd6398d7b1768f29a52c0d5e2f91ff1aa4ce2eaa5 registered."
+//	}
 
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
