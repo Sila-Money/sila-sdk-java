@@ -6,7 +6,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
     
-    <name>Icon Sil SDK</name>
+    <name>Icon Sila SDK</name>
     
     <developers>
         <developer>
@@ -22,13 +22,6 @@
             <organizationUrl>https://digitalgeko.com/</organizationUrl>
         </developer>
     </developers>
-    
-    <scm>
-      <connection>scm:git:git://github.com/Sila-Money/sila-sdk-java.git</connection>
-      <developerConnection>scm:git:ssh://github.com/Sila-Money/sila-sdk-java.git</developerConnection>
-      <url>https://github.com/Sila-Money/sila-sdk-java</url>
-      <tag>icon-sila-sdk-1.0</tag>
-  </scm>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
