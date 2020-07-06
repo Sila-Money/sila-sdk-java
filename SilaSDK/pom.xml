@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.icon.sila</groupId>
     <artifactId>icon-sila-sdk</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     
     <name>Icon Sil SDK</name>
@@ -27,7 +27,8 @@
       <connection>scm:git:git://github.com/Sila-Money/sila-sdk-java.git</connection>
       <developerConnection>scm:git:ssh://github.com/Sila-Money/sila-sdk-java.git</developerConnection>
       <url>https://github.com/Sila-Money/sila-sdk-java</url>
-    </scm>
+      <tag>icon-sila-sdk-1.0</tag>
+  </scm>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
