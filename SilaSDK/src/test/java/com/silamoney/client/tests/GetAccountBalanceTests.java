@@ -13,20 +13,20 @@ public class GetAccountBalanceTests {
     String userHandle = "javasdk-893748932";
     String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-    @Test
-    public void Response200Success() throws Exception {
-        // BANKACCOUNT5
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle);
-        }
-        if (DefaultConfigurations.getUserPrivateKey() == null) {
-            DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-        }
-        final ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), "defaultpt");
-
-        assertEquals(200, response.getStatusCode());
-    }
+//    @Test
+//    public void Response200Success() throws Exception {
+//        // BANKACCOUNT5
+//        if (DefaultConfigurations.getUserHandle() == null) {
+//            DefaultConfigurations.setUserHandle(userHandle);
+//        }
+//        if (DefaultConfigurations.getUserPrivateKey() == null) {
+//            DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//        }
+//        final ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
+//                DefaultConfigurations.getUserPrivateKey(), "defaultpt");
+//
+//        assertEquals(200, response.getStatusCode());
+//    }
 
     @Test
     public void Response400Success() throws Exception {

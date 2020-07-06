@@ -29,26 +29,26 @@ public class RegisterWalletTests {
 	String userHandle = "javasdk-893748932";
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-	@Test
-	public void Response200() throws Exception {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
-
-		String blockChainAddress = DefaultConfigurations.registerWallet();
-		Wallet wallet = new Wallet(blockChainAddress, "ETH",
-				"wallet_test");
-		String wallet_verification_signature = EcdsaUtil.sign(blockChainAddress, DefaultConfigurations.getWallet_verification_signature());
-
-		ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
-				wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
-		// System.out.println("RESPONSE >");
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
-		assertEquals(200, response.getStatusCode());
-	}
+//	@Test
+//	public void Response200() throws Exception {
+//		if (DefaultConfigurations.getUserHandle() == null) {
+//			DefaultConfigurations.setUserHandle(userHandle);
+//		}
+//		if (DefaultConfigurations.getUserPrivateKey() == null) {
+//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//		}
+//
+//		String blockChainAddress = DefaultConfigurations.registerWallet();
+//		Wallet wallet = new Wallet(blockChainAddress, "ETH",
+//				"wallet_test");
+//		String wallet_verification_signature = EcdsaUtil.sign(blockChainAddress, DefaultConfigurations.getWallet_verification_signature());
+//
+//		ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
+//				wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
+//		// System.out.println("RESPONSE >");
+//		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
+//		assertEquals(200, response.getStatusCode());
+//	}
 
 	@Test
 	public void ResponseBadWallet() throws BadRequestException, InvalidSignatureException, ServerSideException,

@@ -27,7 +27,7 @@
       <connection>scm:git:git@github.com:sydneyicon/sila-sdk-java.git</connection>
       <developerConnection>scm:git:git@github.com:sydneyicon/sila-sdk-java.git</developerConnection>
       <url>https://github.com/sydneyicon/sila-sdk-java</url>
-      <tag>icon-sila-sdk-1.0</tag>
+      <tag>v1.4</tag>
     </scm>
     
     <properties>

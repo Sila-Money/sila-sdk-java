@@ -3,17 +3,20 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 
 /**
@@ -39,6 +42,14 @@ public class CheckKYCTests {
         if (DefaultConfigurations.getUserPrivateKey() == null) {
             DefaultConfigurations.setUserPrivateKey(userPrivateKey);
         }
+        LocalDate birthdate = new LocalDate(1900, 01, 31);
+        DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
+        User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
+                "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+                DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
+
+        api.register(user);
+        api.requestKYC(DefaultConfigurations.getUserHandle(), null, DefaultConfigurations.getUserPrivateKey());
         ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey());
 

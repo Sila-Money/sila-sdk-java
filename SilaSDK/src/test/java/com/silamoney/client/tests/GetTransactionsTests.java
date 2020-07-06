@@ -28,23 +28,23 @@ public class GetTransactionsTests {
 	String userHandle = "javasdk-893748932";
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-	@Test
-	public void Response200() throws Exception {
-		// TRANSACTIONS3
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
-
-		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
-				DefaultConfigurations.getUserPrivateKey());
-
-		assertEquals(200, response.getStatusCode());
-		assertTrue(((GetTransactionsResponse) response.getData()).success);
-		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
-	}
+//	@Test
+//	public void Response200() throws Exception {
+//		// TRANSACTIONS3
+//		if (DefaultConfigurations.getUserHandle() == null) {
+//			DefaultConfigurations.setUserHandle(userHandle);
+//		}
+//		if (DefaultConfigurations.getUserPrivateKey() == null) {
+//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//		}
+//
+//		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+//				DefaultConfigurations.getUserPrivateKey());
+//
+//		assertEquals(200, response.getStatusCode());
+//		assertTrue(((GetTransactionsResponse) response.getData()).success);
+//		//System.out.println(GsonUtils.objectToJsonStringFormato(response));
+//	}
 
 	@Test
 	public void Response400() throws Exception {

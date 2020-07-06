@@ -28,19 +28,19 @@ public class RedeemSilaTests {
 	String userHandle2 = "javasdk-893748933";
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-	@Test
-	public void Response200Success() throws Exception {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
-		ApiResponse response = api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "default",
-				DefaultConfigurations.getUserPrivateKey());
-		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-	}
+//	@Test
+//	public void Response200Success() throws Exception {
+//		if (DefaultConfigurations.getUserHandle() == null) {
+//			DefaultConfigurations.setUserHandle(userHandle);
+//		}
+//		if (DefaultConfigurations.getUserPrivateKey() == null) {
+//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//		}
+//		ApiResponse response = api.redeemSila(DefaultConfigurations.getUserHandle(), 1000, "default",
+//				DefaultConfigurations.getUserPrivateKey());
+//		assertEquals(200, response.getStatusCode());
+//		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+//	}
 
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,

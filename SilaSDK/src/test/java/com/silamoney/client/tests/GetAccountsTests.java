@@ -26,20 +26,20 @@ public class GetAccountsTests {
         String userHandle = "javasdk-893748932";
         String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 
-        @Test
-        public void Response200Success() throws Exception {
-                // BANKACCOUNT5
-                if (DefaultConfigurations.getUserHandle() == null) {
-                        DefaultConfigurations.setUserHandle(userHandle);
-                }
-                if (DefaultConfigurations.getUserPrivateKey() == null) {
-                        DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-                }
-                ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(),
-                                DefaultConfigurations.getUserPrivateKey());
-
-                assertEquals(200, response.getStatusCode());
-        }
+//        @Test
+//        public void Response200Success() throws Exception {
+//                // BANKACCOUNT5
+//                if (DefaultConfigurations.getUserHandle() == null) {
+//                        DefaultConfigurations.setUserHandle(userHandle);
+//                }
+//                if (DefaultConfigurations.getUserPrivateKey() == null) {
+//                        DefaultConfigurations.setUserPrivateKey(userPrivateKey);
+//                }
+//                ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(),
+//                                DefaultConfigurations.getUserPrivateKey());
+//
+//                assertEquals(200, response.getStatusCode());
+//        }
 
         @Test
         public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException,
