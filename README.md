@@ -282,3 +282,14 @@ ApiResponse response = api.getBusinessTypes();
 System.out.println(response.getStatusCode()); // 200
 ((GetBusinessTypesResponse) response.getData()).getBusinessTypes(); // List of business types.
 ```
+
+#### GetBusinessRoles
+Retrieves the list of pre-defined business roles.
+```java
+ApiResponse response = api.getBusinessRoles();
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetBusinessRolesResponse) response.getData()).getBusinessRoles(); // List of business roles.
+```

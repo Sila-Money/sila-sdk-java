@@ -83,7 +83,11 @@ public class Message {
         /**
          * String value for GetBusinessTypes.
          */
-        GET_BUSINESS_TYPES("get_business_types");
+        GET_BUSINESS_TYPES("get_business_types"), 
+        /**
+         * String value for GetBusinessRoles.
+         */
+        GET_BUSINESS_ROLES("get_business_roles");
 
         private final String value;
 

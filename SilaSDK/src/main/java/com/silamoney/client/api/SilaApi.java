@@ -126,8 +126,9 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey) throws IOException, InterruptedException,
-			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+	public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
 		HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());
 		String path = Endpoints.REQUEST_KYC.getUri();
 		String sBody = Serialization.serialize(body);
@@ -187,18 +188,11 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse linkAccount(String userHandle, 
-	String accountName, 
-	String publicToken, 
-	String accountNumber,
-	String routingNumber,
-	String accountType,
-	String userPrivateKey)
-			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-			ServerSideException, ForbiddenException {
-		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken,
-				accountNumber, routingNumber, accountType,
-				this.configuration.getAuthHandle());
+	public ApiResponse linkAccount(String userHandle, String accountName, String publicToken, String accountNumber,
+			String routingNumber, String accountType, String userPrivateKey) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountNumber, routingNumber,
+				accountType, this.configuration.getAuthHandle());
 		String path = Endpoints.LINK_ACCOUNT.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -239,9 +233,11 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
 	}
 
-	public ApiResponse getAccountBalance(String userHandle, String userPrivateKey, String accountName) throws IOException, InterruptedException,
-			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
-		GetAccountBalanceMsg body = new GetAccountBalanceMsg(userHandle, this.configuration.getAuthHandle(), accountName);
+	public ApiResponse getAccountBalance(String userHandle, String userPrivateKey, String accountName)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		GetAccountBalanceMsg body = new GetAccountBalanceMsg(userHandle, this.configuration.getAuthHandle(),
+				accountName);
 		String path = Endpoints.GET_ACCOUNT_BALANCE.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -306,10 +302,11 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress, String userPrivateKey)
-			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-			ServerSideException, ForbiddenException {
-		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, this.configuration.getAuthHandle());
+	public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
+			String userPrivateKey) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress,
+				this.configuration.getAuthHandle());
 		String path = Endpoints.TRANSFER_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -446,10 +443,11 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_SAMEDAY_AUTH_MSG.getValue());
-	}	
+	}
 
 	/**
-	 * Gets details about the user wallet used to generate the usersignature header..
+	 * Gets details about the user wallet used to generate the usersignature
+	 * header..
 	 * 
 	 * @param userHandle
 	 * @param userPrivateKey
@@ -461,9 +459,8 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse getWallet(String userHandle, String userPrivateKey)
-			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-			ServerSideException, ForbiddenException {
+	public ApiResponse getWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
 		GetWalletMsg body = new GetWalletMsg(userHandle, this.configuration.getAuthHandle());
 		String path = Endpoints.GET_WALLET.getUri();
 		String sBody = Serialization.serialize(body);
@@ -475,7 +472,7 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLET_MSG.getValue());
-	}	
+	}
 
 	/**
 	 * Adds another "wallet"/blockchain address to a user handle.
@@ -492,17 +489,18 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey)
-			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-			ServerSideException, ForbiddenException {
-		RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature, this.configuration.getAuthHandle());
+	public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
+			String userPrivateKey) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+		RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature,
+				this.configuration.getAuthHandle());
 		String path = Endpoints.REGISTER_WALLET.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
 
 		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
 		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-		
+
 		// System.out.println("HEADERS >");
 		// System.out.println(GsonUtils.objectToJsonStringFormato(headers));
 		// System.out.println("BODY >");
@@ -512,7 +510,7 @@ public class SilaApi {
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_WALLET_MSG.getValue());
 	}
-	
+
 	/**
 	 * Updates nickname and/or default status of a wallet.
 	 * 
@@ -542,7 +540,7 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_WALLET_MSG.getValue());
-	}	
+	}
 
 	/**
 	 * 
@@ -556,9 +554,8 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse deleteWallet(String userHandle, String userPrivateKey)
-			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-			ServerSideException, ForbiddenException {
+	public ApiResponse deleteWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
 		DeleteWalletMsg body = new DeleteWalletMsg(userHandle, this.configuration.getAuthHandle());
 		String path = Endpoints.DELETE_WALLET.getUri();
 		String sBody = Serialization.serialize(body);
@@ -570,10 +567,11 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_WALLET_MSG.getValue());
-	}	
+	}
 
 	/**
-	 * Gets a paginated list of "wallets"/blockchain addresses attached to a user handle.
+	 * Gets a paginated list of "wallets"/blockchain addresses attached to a user
+	 * handle.
 	 *
 	 * @param userHandle
 	 * @param filters
@@ -589,7 +587,7 @@ public class SilaApi {
 	public ApiResponse getWallets(String userHandle, SearchFilters filters, String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
-		GetWalletsMsg body = new GetWalletsMsg(userHandle, filters,  this.configuration.getAuthHandle());
+		GetWalletsMsg body = new GetWalletsMsg(userHandle, filters, this.configuration.getAuthHandle());
 		String path = Endpoints.GET_WALLETS.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -600,10 +598,9 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLETS_MSG.getValue());
-	}	
+	}
 
-	
-	/** 
+	/**
 	 * Gets a list of valid business types that can be registered.
 	 * 
 	 * @return ApiResponse
@@ -616,11 +613,11 @@ public class SilaApi {
 	 */
 	public ApiResponse getBusinessTypes() throws IOException, InterruptedException, BadRequestException,
 			InvalidSignatureException, ServerSideException, ForbiddenException {
-		Map<String,String> header = new HashMap<String, String>();
+		Map<String, String> header = new HashMap<String, String>();
 		header.put("created", EpochUtils.getEpoch() + "");
 		header.put("auth_handle", this.configuration.getAuthHandle());
 
-		Map<String,Map<String,String>> bodyMap = new HashMap<String, Map<String,String>>();
+		Map<String, Map<String, String>> bodyMap = new HashMap<String, Map<String, String>>();
 		bodyMap.put("header", header);
 
 		String path = Endpoints.GET_BUSINESS_TYPES.getUri();
@@ -632,5 +629,37 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_BUSINESS_TYPES.getValue());
+	}
+
+	
+	/** 
+	 * Retrieves the list of pre-defined business roles.
+	 * 
+	 * @return ApiResponse
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getBusinessRoles() throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+		Map<String, String> header = new HashMap<String, String>();
+		header.put("created", EpochUtils.getEpoch() + "");
+		header.put("auth_handle", this.configuration.getAuthHandle());
+
+		Map<String, Map<String, String>> bodyMap = new HashMap<String, Map<String, String>>();
+		bodyMap.put("header", header);
+
+		String path = Endpoints.GET_BUSINESS_ROLES.getUri();
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_BUSINESS_ROLES.getValue());
 	}
 }

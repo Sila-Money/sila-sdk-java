@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.GetBusinessRolesResponse;
 import com.silamoney.client.domain.GetBusinessTypesResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
@@ -98,6 +99,11 @@ public class ResponseUtil {
                         .deserialize(response.body().toString(), GetBusinessTypesResponse.class);
 
                 return new ApiResponse(statusCode, response.headers().map(), businessTypesResponse, success);
+            case "get_business_roles":
+                GetBusinessRolesResponse businessRolesResponse = (GetBusinessRolesResponse) Serialization
+                        .deserialize(response.body().toString(), GetBusinessRolesResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), businessRolesResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);

@@ -19,7 +19,8 @@ public enum Endpoints {
 	UPDATE_WALLET("/update_wallet"),
 	DELETE_WALLET("/delete_wallet"),
 	GET_WALLETS("/get_wallets"), 
-	GET_BUSINESS_TYPES("/get_business_types");
+	GET_BUSINESS_TYPES("/get_business_types"), 
+	GET_BUSINESS_ROLES("/get_business_roles");
 
 	private String uri;
 

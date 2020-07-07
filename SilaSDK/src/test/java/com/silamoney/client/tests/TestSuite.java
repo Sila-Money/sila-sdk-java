@@ -11,6 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
     GetBusinessTypesTests.class,
+    GetBusinessRolesTests.class,
     CheckHandleTests.class,
     RegisterTests.class,
     RequestKYCTests.class,
