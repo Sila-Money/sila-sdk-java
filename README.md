@@ -293,3 +293,19 @@ ApiResponse response = api.getBusinessRoles();
 System.out.println(response.getStatusCode()); // 200
 ((GetBusinessRolesResponse) response.getData()).getBusinessRoles(); // List of business roles.
 ```
+
+#### GetNaicsCategories
+```java
+ApiResponse response = api.getNaicsCategories();
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories = ((GetNaicsCategoriesResponse) response.getData()).getNaicsCategories();
+for (String key : naicsCategories.keySet()) {
+    for (NaicsCategoryDescription categoryDescription : naicsCategories.get(key)) {
+        System.out.println(categoryDescription.getSubcategory()); // Naics Category subcategory
+        System.out.println(categoryDescription.getCode()); // Naics Category code
+    }
+}
+```

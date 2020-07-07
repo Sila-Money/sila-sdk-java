@@ -20,7 +20,8 @@ public enum Endpoints {
 	DELETE_WALLET("/delete_wallet"),
 	GET_WALLETS("/get_wallets"), 
 	GET_BUSINESS_TYPES("/get_business_types"), 
-	GET_BUSINESS_ROLES("/get_business_roles");
+	GET_BUSINESS_ROLES("/get_business_roles"), 
+	GET_NAICS_CATEGORIES("/get_naics_categories");
 
 	private String uri;
 

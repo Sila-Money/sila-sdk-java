@@ -87,7 +87,11 @@ public class Message {
         /**
          * String value for GetBusinessRoles.
          */
-        GET_BUSINESS_ROLES("get_business_roles");
+        GET_BUSINESS_ROLES("get_business_roles"), 
+        /**
+         * String value for GetNaicsCategories.
+         */
+        GET_NAICS_CATEGORIES_MSG("get_naics_categories");
 
         private final String value;
 
