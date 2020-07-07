@@ -12,6 +12,7 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.security.EcdsaUtil;
+import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
 
@@ -160,6 +161,7 @@ public class SilaApi {
 		String path = Endpoints.CHECK_KYC.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
+		System.out.println(sBody);
 
 		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
 		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
@@ -599,4 +601,24 @@ public class SilaApi {
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLETS_MSG.getValue());
 	}	
+
+	public ApiResponse getBusinessTypes() throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+		Map<String,String> header = new HashMap<String, String>();
+		header.put("created", EpochUtils.getEpoch() + "");
+		header.put("auth_handle", this.configuration.getAuthHandle());
+
+		Map<String,Map<String,String>> bodyMap = new HashMap<String, Map<String,String>>();
+		bodyMap.put("header", header);
+
+		String path = Endpoints.GET_BUSINESS_TYPES.getUri();
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_BUSINESS_TYPES.getValue());
+	}
 }

@@ -79,7 +79,11 @@ public class Message {
         /**
          * String value for GetSilaBalanceMsg.
          */
-        GET_SILA_BALANCE("get_sila_balance")        ;        
+        GET_SILA_BALANCE("get_sila_balance"),
+        /**
+         * String value for GetBusinessTypes.
+         */
+        GET_BUSINESS_TYPES("get_business_types");
 
         private final String value;
 

@@ -13,6 +13,7 @@ public class HeaderMsg {
     private final Header header;
 
     @SerializedName("kyc_level")
+    
     private final String kycLevel;
 
     @SerializedName("message")
@@ -37,7 +38,7 @@ public class HeaderMsg {
      * @param appHandle
      */
     public HeaderMsg(String userHandle, String appHandle) {
-        this.kycLevel = "";
+        this.kycLevel = null;
         this.header = new Header(userHandle, appHandle);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
     }

@@ -271,3 +271,14 @@ ApiResponse response = api.SilaBalance(host, address);
 System.out.println(response.getStatusCode()); // 200
 System.out.println(response.getData()); // Sila Tokens.
 ```
+
+#### GetBusinessTypes
+Gets a list of valid business types that can be registered.
+```java
+ApiResponse response = api.getBusinessTypes();
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetBusinessTypesResponse) response.getData()).getBusinessTypes(); // List of business types.
+```
