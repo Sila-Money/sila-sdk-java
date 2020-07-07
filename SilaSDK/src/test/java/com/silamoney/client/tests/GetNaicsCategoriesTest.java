@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.GetBusinessTypesResponse;
 import com.silamoney.client.domain.GetNaicsCategoriesResponse;
 import com.silamoney.client.domain.NaicsCategoryDescription;
 import com.silamoney.client.exceptions.BadRequestException;
