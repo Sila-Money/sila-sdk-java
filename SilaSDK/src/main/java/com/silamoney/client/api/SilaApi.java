@@ -602,6 +602,18 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLETS_MSG.getValue());
 	}	
 
+	
+	/** 
+	 * Gets a list of valid business types that can be registered.
+	 * 
+	 * @return ApiResponse
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
 	public ApiResponse getBusinessTypes() throws IOException, InterruptedException, BadRequestException,
 			InvalidSignatureException, ServerSideException, ForbiddenException {
 		Map<String,String> header = new HashMap<String, String>();
