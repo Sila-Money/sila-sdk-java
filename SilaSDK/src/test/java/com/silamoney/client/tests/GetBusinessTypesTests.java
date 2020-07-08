@@ -33,6 +33,8 @@ public class GetBusinessTypesTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertTrue(((GetBusinessTypesResponse) response.getData()).getBusinessTypes().size() > 0);
+
+		DefaultConfigurations.setBusinessTypes(((GetBusinessTypesResponse) response.getData()).getBusinessTypes());
 	}
 
 	@Test

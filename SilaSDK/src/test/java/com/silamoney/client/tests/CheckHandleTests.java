@@ -30,7 +30,7 @@ public class CheckHandleTests {
 	@Test
 	public void Response200Success() throws Exception {
 		// HANDLE REGISTRATION 1
-		DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
+		//DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
 		userHandle = DefaultConfigurations.getUserHandle();
 		ApiResponse response = api.checkHandle(DefaultConfigurations.getUserHandle());
 

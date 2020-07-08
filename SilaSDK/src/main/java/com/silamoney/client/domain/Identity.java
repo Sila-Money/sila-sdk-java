@@ -41,4 +41,14 @@ public class Identity {
         this.identityValue = user.getIdentityNumber();
     }
 
+    /**
+     * Constructor for the Identity object.
+     *
+     * @param user
+     */
+    public Identity(BusinessUser user) {
+        this.identityAlias = IdentityAliasEnum.EIN.getValue();
+        this.identityValue = user.getIdentityValue();
+    }
+
 }

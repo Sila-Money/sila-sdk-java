@@ -33,9 +33,6 @@ public class CheckKYCTests {
     @Test
     public void Response200() throws Exception {
         // KYCID2
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle);
-        }
         if (DefaultConfigurations.getUserPrivateKey() == null) {
             DefaultConfigurations.setUserPrivateKey(userPrivateKey);
         }
@@ -61,23 +58,16 @@ public class CheckKYCTests {
     @Test
     public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
             InterruptedException, ForbiddenException {
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle2Failure);
-        }
         if (DefaultConfigurations.getUserPrivateKey() == null) {
             DefaultConfigurations.setUserPrivateKey(userPrivateKeyFailure);
         }
         ApiResponse response = api.checkKYC("", DefaultConfigurations.getUserPrivateKey());
         assertEquals(400, response.getStatusCode());
-        // System.out.println(GsonUtils.objectToJsonStringFormato(response));
     }
 
     @Test
     public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
             IOException, InterruptedException, ForbiddenException {
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle2Failure);
-        }
         if (DefaultConfigurations.getUserPrivateKey() == null) {
             DefaultConfigurations.setUserPrivateKey(userPrivateKeyFailure);
         }
@@ -87,6 +77,5 @@ public class CheckKYCTests {
         ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey());
         assertEquals(401, response.getStatusCode());
-        // System.out.println(GsonUtils.objectToJsonStringFormato(response));
     }
 }

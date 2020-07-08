@@ -16,9 +16,6 @@ public class GetAccountBalanceTests {
     @Test
     public void Response200Success() throws Exception {
         // BANKACCOUNT5
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle);
-        }
         if (DefaultConfigurations.getUserPrivateKey() == null) {
             DefaultConfigurations.setUserPrivateKey(userPrivateKey);
         }
@@ -31,9 +28,6 @@ public class GetAccountBalanceTests {
     @Test
     public void Response400Success() throws Exception {
         // BANKACCOUNT5
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle);
-        }
         if (DefaultConfigurations.getUserPrivateKey() == null) {
             DefaultConfigurations.setUserPrivateKey(userPrivateKey);
         }

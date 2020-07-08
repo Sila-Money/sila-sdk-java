@@ -29,12 +29,7 @@ public class DeleteWalletTests {
 
 	@Test
 	public void Response200() throws Exception {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
+		 
 		ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(200, response.getStatusCode());
@@ -43,31 +38,19 @@ public class DeleteWalletTests {
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
+		 
 		ApiResponse response = api.deleteWallet("", DefaultConfigurations.getUserPrivateKey());
 		assertEquals(400, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 
 	@Test
 	public void Response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
+		 
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 		ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(403, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 	}
 }

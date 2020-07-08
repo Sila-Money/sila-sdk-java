@@ -35,7 +35,7 @@ public class GetNaicsCategoriesResponse {
     /**
      * @param naicsCategories the naicsCategories to set
      */
-    public void setNaicsCategories(Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories) {
+    public void  setNaicsCategories(Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories) {
         this.naicsCategories = naicsCategories;
     }
 

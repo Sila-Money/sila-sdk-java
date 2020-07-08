@@ -6,10 +6,14 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import com.silamoney.client.domain.BusinessType;
 import com.silamoney.client.domain.Environments;
+import com.silamoney.client.domain.NaicsCategoryDescription;
 import com.silamoney.client.domain.SearchFilters;
 
 import org.web3j.crypto.CipherException;
@@ -46,21 +50,35 @@ public class DefaultConfigurations {
 	private static String userHandle;
 
 	/**
+	 * Default business handle for testing.
+	 */
+	private static String businessHandle;
+
+	/**
 	 * Default wallet_verification_signature for wallet testing.
 	 */
-	private static String wallet_verification_signature;	
+	private static String wallet_verification_signature;
 
 	/**
 	 * Default blockchain_address for wallet testing.
 	 */
-	private static String blockchain_address;	
-	
+	private static String blockchain_address;
+
+	/**
+	 * business types for testing.
+	 */
+	private static List<BusinessType> businessTypes;
+
+	/**
+	 * naics categories for testing.
+	 */
+	private static Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories;
 
 	/**
 	 * Default search filters for testing.
 	 */
-	public static SearchFilters filters = new SearchFilters()
-			.showTimelines().setMaxSilaAmount(1300).setMinSilaAmount(1000).setStatuses(new ArrayList<>() {
+	public static SearchFilters filters = new SearchFilters().showTimelines().setMaxSilaAmount(1300)
+			.setMinSilaAmount(1000).setStatuses(new ArrayList<>() {
 				/**
 				 *
 				 */
@@ -68,12 +86,11 @@ public class DefaultConfigurations {
 
 				{
 					add(SearchFilters.StatusesEnum.PENDING);
-					//add(SearchFilters.StatusesEnum.SUCCESSFUL);
+					// add(SearchFilters.StatusesEnum.SUCCESSFUL);
 					add(SearchFilters.StatusesEnum.FAILED);
-					//add(SearchFilters.StatusesEnum.COMPLETE);
+					// add(SearchFilters.StatusesEnum.COMPLETE);
 				}
-			}).setPage(1).setPerPage(20)
-			.setTransactionTypes(new ArrayList<>() {
+			}).setPage(1).setPerPage(20).setTransactionTypes(new ArrayList<>() {
 				/**
 				 *
 				 */
@@ -91,6 +108,12 @@ public class DefaultConfigurations {
 		return userHandle;
 	}
 
+	public static String getBusinessHandle() {
+		businessHandle = businessHandle == null || businessHandle.isBlank() ? "javaSDK-" + new Random().nextInt()
+				: businessHandle;
+		return businessHandle;
+	}
+
 	private static String userCryptoAddress;
 	private static String userPrivateKey;
 
@@ -105,7 +128,6 @@ public class DefaultConfigurations {
 
 				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 				userCryptoAddress = "0x" + aWallet.getAddress();
-				// System.out.println("userPrivateKey >>> " + userPrivateKey);
 			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
 					| CipherException e) {
 				e.printStackTrace();
@@ -113,6 +135,29 @@ public class DefaultConfigurations {
 		}
 
 		return userCryptoAddress;
+	}
+
+	private static String businessCryptoAddress;
+	private static String businessPrivateKey;
+
+	public static String getBusinessCryptoAddress() {
+		if (businessCryptoAddress == null || businessCryptoAddress.isBlank()) {
+			try {
+
+				ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+				BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+				businessPrivateKey = privateKeyInDec.toString(16);
+
+				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+				businessCryptoAddress = "0x" + aWallet.getAddress();
+			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+					| CipherException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return businessCryptoAddress;
 	}
 
 	public static String registerWallet() {
@@ -126,7 +171,6 @@ public class DefaultConfigurations {
 
 				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 				blockchain_address = "0x" + aWallet.getAddress();
-				// System.out.println("wallet_verification_signature >>> " + wallet_verification_signature);
 			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
 					| CipherException e) {
 				e.printStackTrace();
@@ -140,6 +184,10 @@ public class DefaultConfigurations {
 		return userPrivateKey;
 	}
 
+
+	public static String getBusinessPrivateKey() {
+		return businessPrivateKey;
+	}
 	private static String plaidToken;
 
 	public static String getPlaidToken() {
@@ -151,19 +199,59 @@ public class DefaultConfigurations {
 		return plaidToken;
 	}
 
-	public static void setUserPrivateKey(String userPrivateKey) {
-		DefaultConfigurations.userPrivateKey = userPrivateKey;
+	public static void setUserPrivateKey(String pUserPrivateKey) {
+		userPrivateKey = pUserPrivateKey;
 	}
 
-	public static void setUserHandle(String userHandle) {
-		DefaultConfigurations.userHandle = userHandle;
-	}
+	/*
+	 * public static void setUserHandle(String userHandle) {
+	 * this.userHandle = userHandle; }
+	 */
 
-	public static void setUserCryptoAddress(String userCryptoAddress) {
-		DefaultConfigurations.userCryptoAddress = userCryptoAddress;
+	public static void setUserCryptoAddress(String pUserCryptoAddress) {
+		userCryptoAddress = pUserCryptoAddress;
 	}
 
 	public static String getWallet_verification_signature() {
 		return wallet_verification_signature;
 	}
+
+	/**
+	 * @return the businessTypes
+	 */
+	public static List<BusinessType> getBusinessTypes() {
+		return businessTypes;
+	}
+
+	/**
+	 * @param businessTypes the businessTypes to set
+	 */
+	public static void setBusinessTypes(List<BusinessType> pBusinessTypes) {
+		businessTypes = pBusinessTypes;
+	}
+
+	/**
+	 * @return the naicsCategories
+	 */
+	public static Map<String, ArrayList<NaicsCategoryDescription>> getnaicsCategories() {
+		return naicsCategories;
+	}
+
+	/**
+	 * @param naicsCategories the naicsCategories to set
+	 */
+	public static void  setNaicsCategories(Map<String, ArrayList<NaicsCategoryDescription>> pNaicsCategories) {
+		naicsCategories = pNaicsCategories;
+	}
+
+	public static NaicsCategoryDescription getDefaultNaicCategoryDescription(){
+		for (String key : naicsCategories.keySet()) {
+			for (NaicsCategoryDescription categoryDescription : naicsCategories.get(key)) {
+				return categoryDescription;
+			}
+		}
+
+		return null;
+	}
+
 }

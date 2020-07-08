@@ -162,7 +162,6 @@ public class SilaApi {
 		String path = Endpoints.CHECK_KYC.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
-		System.out.println(sBody);
 
 		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
 		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
@@ -501,11 +500,6 @@ public class SilaApi {
 		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
 		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
 
-		// System.out.println("HEADERS >");
-		// System.out.println(GsonUtils.objectToJsonStringFormato(headers));
-		// System.out.println("BODY >");
-		// System.out.println(GsonUtils.objectToJsonStringFormato(body));
-
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_WALLET_MSG.getValue());
@@ -690,5 +684,30 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_NAICS_CATEGORIES_MSG.getValue());
+	}
+
+	
+	/** 
+	 * @param user
+	 * @return ApiResponse
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+		EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
+		String path = Endpoints.REGISTER.getUri();
+		String sBody = Serialization.serialize(body);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());
 	}
 }

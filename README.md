@@ -57,7 +57,7 @@ Attaches KYC data and specified blockchain address to an assigned handle.
 User user = new User(String userHandle, String firstName, String lastName, String streetAddress1, @Nullable String streetAddress2, 
       String city, String state (2 characters), String postalCode (5 or 9 digit format), String phone, String email, String cryptoAddress, 
       String identityNumber (SSN format "AAA-GG-SSSS"), Date birthdate);
-ApiResponse response = api.Register(user);
+ApiResponse response = api.register(user);
 ```
 
 ##### Success Response Object
@@ -67,6 +67,26 @@ System.out.println(((BaseResponse)response.getData()).getReference());// Random 
 System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user was successfully registered.
 ```
+
+#### Register Business
+```java
+BusinessType businessType; //Get business type with api.getBusinessTypes() documentation below.
+NaicsCategoryDescription naicsCategory; //Get naics category with api.getNaicsCategories() documentation below.
+
+BusinessUser user = new BusinessUser("userhandle", "Office", "123 Main Street", 
+                "street address 2", "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "crypto address", "entity name", businessType, "https://www.website.com", "doing business as", naicsCategory);
+                
+ApiResponse response = api.registerBusiness(user);
+```
+
+##### Success Response Object
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((BaseResponse)response.getData()).getReference());// Random reference number
+System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
+System.out.println(((BaseResponse)response.getData()).getMessage()); // user was successfully registered.
+```
+
 #### RequestKYC
 
 Starts KYC verification process on a registered user handle.

@@ -12,8 +12,10 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
     GetBusinessTypesTests.class,
     GetBusinessRolesTests.class,
+    GetNaicsCategoriesTest.class,
     CheckHandleTests.class,
     RegisterTests.class,
+    RegisterBusinessTests.class,
     RequestKYCTests.class,
     CheckKYCTests.class,
     LinkAccountTests.class,

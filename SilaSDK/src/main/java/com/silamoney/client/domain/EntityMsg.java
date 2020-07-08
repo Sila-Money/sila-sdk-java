@@ -45,4 +45,20 @@ public class EntityMsg {
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
     }
+
+    /**
+     * Constructor for the EntityMsg object.
+     *
+     * @param user
+     * @param appHandle
+     */
+    public EntityMsg(BusinessUser user, String appHandle) {
+        this.header = new Header(user.getHandle(), appHandle);
+        this.message = Message.ValueEnum.ENTITY_MSG.getValue();
+        this.address = new Address(user);
+        this.identity = new Identity(user);
+        this.contact = new Contact(user);
+        this.cryptoEntry = new CryptoEntry(user);
+        this.entity = new Entity(user);
+    }
 }

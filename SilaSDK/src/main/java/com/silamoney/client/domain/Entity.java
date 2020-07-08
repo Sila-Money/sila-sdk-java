@@ -1,7 +1,8 @@
 package com.silamoney.client.domain;
 
-import com.google.gson.annotations.SerializedName;
 import java.text.SimpleDateFormat;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Object used in the entity msg.
@@ -9,14 +10,11 @@ import java.text.SimpleDateFormat;
  * @author Karlo Lorenzana
  */
 public class Entity {
-    
-    private enum RelationshipEnum {
-        ORGANIZATION("organization"),
-        DEVELOPER("developer"),
-        USER("user"),
-        VENDOR("vendor");
 
-        private final String value;
+    private enum RelationshipEnum {
+        ORGANIZATION("organization"), DEVELOPER("developer"), USER("user"), VENDOR("vendor");
+
+        private String value;
 
         RelationshipEnum(String value) {
             this.value = value;
@@ -28,19 +26,36 @@ public class Entity {
     }
 
     @SerializedName("birthdate")
-    private final String birthdate;
+    private String birthdate;
 
     @SerializedName("entity_name")
-    private final String entityName;
+    private String entityName;
 
     @SerializedName("last_name")
-    private final String lastName;
+    private String lastName;
 
     @SerializedName("relationship")
-    private final String relationship;
+    private String relationship;
 
     @SerializedName("first_name")
-    private final String firstName;
+    private String firstName;
+
+    private String type;
+
+    @SerializedName(value = "business_type")
+    private String businessType;
+
+    @SerializedName(value = "business_type_uuid")
+    private String businessTypeUuid;
+
+    @SerializedName(value = "business_website")
+    private String businessWebsite;
+
+    @SerializedName(value = "doing_business_as")
+    private String doingBusinessAs;
+
+    @SerializedName(value = "naics_code")
+    private int naicsCode;
 
     /**
      * Constructor for Entity object.
@@ -56,5 +71,15 @@ public class Entity {
         this.lastName = user.getLastName();
         this.entityName = this.firstName + " " + this.lastName;
         this.relationship = RelationshipEnum.USER.getValue();
+    }
+
+    public Entity(BusinessUser user) {
+        this.entityName = user.getEntityName();
+        this.type = "business";
+        this.businessType = user.getBusinessType().getName();
+        //this.businessTypeUuid = user.getBusinessType().getUuid();
+        this.businessWebsite = user.getBusinessWebsite();
+        this.doingBusinessAs = user.getDoingBusinessAs();
+        this.naicsCode = user.getNaicsCategory().getCode();
     }
 }

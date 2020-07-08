@@ -32,14 +32,12 @@ public class RegisterTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
-	String userHandle = "javasdk-893748932";
-	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
+	 
 
 	@Test
 	public void Response200() throws Exception {
 		// HANDLE2
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
-		DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
 		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
@@ -89,9 +87,6 @@ public class RegisterTests {
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 		// HANDLE4
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
 		User user = new User(DefaultConfigurations.getUserHandle(), "Fail", "User", "123 Main Street", null, "New City",
 				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",

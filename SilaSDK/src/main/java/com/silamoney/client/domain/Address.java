@@ -58,4 +58,19 @@ public class Address {
         this.country = CountryEnum.US.getValue();
         this.postalCode = user.getZipCode();
     }
+
+    /**
+     * Constructor for address object.
+     *
+     * @param user
+     */
+    public Address(BusinessUser user) {
+        this.addressAlias = "";
+        this.streetAddress1 = user.getAddress();
+        this.streetAddress2 = user.getAddress2();
+        this.city = user.getCity();
+        this.state = user.getState();
+        this.country = CountryEnum.US.getValue();
+        this.postalCode = user.getZipCode();
+    }
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.GetNaicsCategoriesResponse;
@@ -45,6 +46,8 @@ public class GetNaicsCategoriesTest {
 				assertTrue(categoryDescription.getCode() > 0);
 			}
 		}
+
+		DefaultConfigurations.setNaicsCategories(naicsCategories);
 	}
 
 	@Test
