@@ -7,8 +7,6 @@ import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.BusinessType;
 import com.silamoney.client.domain.BusinessUser;
-import com.silamoney.client.domain.GetBusinessTypesResponse;
-import com.silamoney.client.domain.GetNaicsCategoriesResponse;
 import com.silamoney.client.domain.NaicsCategoryDescription;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 

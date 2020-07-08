@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.GetNaicsCategoriesResponse;
