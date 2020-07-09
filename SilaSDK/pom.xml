@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>Silamoney SDK</name>
-	<description>The silamoney sdk for the api 0.2.2 beta version.</description>
+	<description>The silamoney sdk for the api 0.2 beta version.</description>
 	<url>https://docs.silamoney.com</url>
 
 	<licenses>
