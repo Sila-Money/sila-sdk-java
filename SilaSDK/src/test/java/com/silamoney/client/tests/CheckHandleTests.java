@@ -25,13 +25,9 @@ public class CheckHandleTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
-	static String userHandle = "";
-
 	@Test
 	public void Response200Success() throws Exception {
 		// HANDLE REGISTRATION 1
-		DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
-		userHandle = DefaultConfigurations.getUserHandle();
 		ApiResponse response = api.checkHandle(DefaultConfigurations.getUserHandle());
 
 		assertEquals(200, response.getStatusCode());

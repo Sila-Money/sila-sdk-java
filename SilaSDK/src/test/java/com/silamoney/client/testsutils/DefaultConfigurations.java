@@ -48,18 +48,18 @@ public class DefaultConfigurations {
 	/**
 	 * Default wallet_verification_signature for wallet testing.
 	 */
-	private static String wallet_verification_signature;	
+	private static String wallet_verification_signature;
 
 	/**
 	 * Default blockchain_address for wallet testing.
 	 */
-	private static String blockchain_address;	
-	
+	private static String blockchain_address;
+
 	/**
 	 * Default correct business uuid
 	 */
 	public static String correctUuid = "9f280665-629f-45bf-a694-133c86bffd5e";
-	
+
 	/**
 	 * Default wrong business uuid
 	 */
@@ -68,8 +68,8 @@ public class DefaultConfigurations {
 	/**
 	 * Default search filters for testing.
 	 */
-	public static SearchFilters filters = new SearchFilters()
-			.showTimelines().setMaxSilaAmount(1300).setMinSilaAmount(1000).setStatuses(new ArrayList<>() {
+	public static SearchFilters filters = new SearchFilters().showTimelines().setMaxSilaAmount(1300)
+			.setMinSilaAmount(1000).setStatuses(new ArrayList<>() {
 				/**
 				 *
 				 */
@@ -77,12 +77,11 @@ public class DefaultConfigurations {
 
 				{
 					add(SearchFilters.StatusesEnum.PENDING);
-					//add(SearchFilters.StatusesEnum.SUCCESSFUL);
+					// add(SearchFilters.StatusesEnum.SUCCESSFUL);
 					add(SearchFilters.StatusesEnum.FAILED);
-					//add(SearchFilters.StatusesEnum.COMPLETE);
+					// add(SearchFilters.StatusesEnum.COMPLETE);
 				}
-			}).setPage(1).setPerPage(20)
-			.setTransactionTypes(new ArrayList<>() {
+			}).setPage(1).setPerPage(20).setTransactionTypes(new ArrayList<>() {
 				/**
 				 *
 				 */
@@ -135,7 +134,8 @@ public class DefaultConfigurations {
 
 				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 				blockchain_address = "0x" + aWallet.getAddress();
-				// System.out.println("wallet_verification_signature >>> " + wallet_verification_signature);
+				// System.out.println("wallet_verification_signature >>> " +
+				// wallet_verification_signature);
 			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
 					| CipherException e) {
 				e.printStackTrace();
@@ -160,16 +160,16 @@ public class DefaultConfigurations {
 		return plaidToken;
 	}
 
-	public static void setUserPrivateKey(String userPrivateKey) {
-		DefaultConfigurations.userPrivateKey = userPrivateKey;
+	public static void setUserPrivateKey(String pUserPrivateKey) {
+		userPrivateKey = pUserPrivateKey;
 	}
 
 	public static void setUserHandle(String userHandle) {
 		DefaultConfigurations.userHandle = userHandle;
 	}
 
-	public static void setUserCryptoAddress(String userCryptoAddress) {
-		DefaultConfigurations.userCryptoAddress = userCryptoAddress;
+	public static void setUserCryptoAddress(String pUserCryptoAddress) {
+		userCryptoAddress = pUserCryptoAddress;
 	}
 
 	public static String getWallet_verification_signature() {

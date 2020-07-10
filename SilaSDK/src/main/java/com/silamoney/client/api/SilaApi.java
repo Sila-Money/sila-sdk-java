@@ -149,13 +149,8 @@ public class SilaApi {
 	 * @return
 	 * @throws IOException
 	 * @throws InterruptedException
-	 * @throws BadRequestException
-	 * @throws InvalidSignatureException
-	 * @throws ServerSideException
-	 * @throws ForbiddenException
 	 */
-	public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
-			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+	public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
 		HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
 		String path = Endpoints.CHECK_KYC.getUri();
 		String sBody = Serialization.serialize(body);
@@ -171,30 +166,91 @@ public class SilaApi {
 
 	/**
 	 * Uses a provided Plaid public token to link a bank account to a verified
-	 * entity.
+	 * entity. It selectes the first account return with the plaid token.
 	 *
 	 * @param userHandle
+	 * @param userPrivateKey
 	 * @param accountName
 	 * @param publicToken
-	 * @param userPrivateKey
-	 * @return
+	 * @return {@link ApiResponse}
 	 * @throws IOException
 	 * @throws InterruptedException
-	 * @throws BadRequestException
-	 * @throws InvalidSignatureException
-	 * @throws ServerSideException
-	 * @throws ForbiddenException
 	 */
 	public ApiResponse linkAccount(String userHandle, 
-	String accountName, 
-	String publicToken, 
-	String accountNumber,
-	String routingNumber,
-	String accountType,
-	String userPrivateKey)
-			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-			ServerSideException, ForbiddenException {
-		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken,
+			String userPrivateKey,
+			String accountName, 
+			String publicToken) throws IOException, InterruptedException {
+		return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null);
+	}
+
+	/**
+	 * Uses a provided Plaid public token to link a bank account to a verified
+	 * entity. It uses the provided account id to select the account to link.
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param accountName
+	 * @param publicToken
+	 * @param accountId
+	 * @return {@link ApiResponse}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public ApiResponse linkAccount(String userHandle,
+			String userPrivateKey,
+			String accountName,
+			String publicToken,
+			String accountId) throws IOException, InterruptedException {
+		return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null);
+	}
+
+	/**
+	 * Direct account linking. This is a restricted use case.
+	 * Please contact Sila for approval
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param accountName
+	 * @param accountNumber
+	 * @param routingNumber
+	 * @param accountType
+	 * @return {@link ApiResponse}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public ApiResponse linkAccount(String userHandle,
+			String userPrivateKey,
+			String accountName,
+			String accountNumber,
+			String routingNumber,
+			String accountType) throws IOException, InterruptedException {
+		return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber, accountType);
+	}
+
+	/**
+	 * Makes a request to the link_acccount endpoint
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param accountName
+	 * @param publicToken
+	 * @param accountId
+	 * @param accountNumber
+	 * @param routingNumber
+	 * @param accountType
+	 * @return {@link ApiResponse}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	private ApiResponse linkAccount(String userHandle,
+			String userPrivateKey,
+			String accountName, 
+			String publicToken,
+			String accountId,
+			String accountNumber,
+			String routingNumber,
+			String accountType) throws IOException, InterruptedException {
+		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId,
 				accountNumber, routingNumber, accountType,
 				this.configuration.getAuthHandle());
 		String path = Endpoints.LINK_ACCOUNT.getUri();

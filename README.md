@@ -103,17 +103,48 @@ System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user has passed ID verification!
 ```
 #### LinkAccount
+
 Uses a provided Plaid public token to link a bank account to a verified entity.
+
 ```java
-ApiResponse response = api.LinkAccount(userHandle, accountName, publicToken, userPrivateKey); 
+String userHandle = 'user.silamoney.eth';
+String accountName = 'plaid'; // Your desired account name
+String publicToken = 'public-sandbox-xxx' // Your Plaid token
+String userPrivateKey = 'some private key';
+String accountId = 'some account id';
+
+// Gets the first plaid account
+ApiResponse response = api.LinkAccount(userHandle, userPrivateKey, accountName, publicToken);
+// If you want to specify the account id
+ApiResponse response = api.LinkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId);
 ```
+
 Public token received in the /link/item/create plaid endpoint.
+
+For Direct account linking
+
+```java
+String userHandle = 'user.silamoney.eth';
+String accountName = 'direct'; // Your desired account name
+String accountNumber = '123456789012';
+String routingNumber = '123456789';
+String accountType = 'CHECKING'; // Currently the only allowed value
+String userPrivateKey = 'some private key';
+
+ApiResponse response = api.LinkAccount(userHandle, userPrivateKey, accountName, accountNumber, routingNumber, accountType);
+```
 
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((LinkAccountResponse) response.getData()).getStatus()); // SUCCESS
+LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getReference()); // Reference number
+System.out.println(parsedResponse.getMessage()); // Successfully linked
+System.out.println(parsedResponse.getAccountName()); // Your desired account name
+System.out.println(parsedResponse.getMatchScore()); // Match score
 ```
+
 #### Plaid Sameday Auth
 Generates a Plaid token to complete Plaid's Same Day Microdeposit Authentication
 ```java
