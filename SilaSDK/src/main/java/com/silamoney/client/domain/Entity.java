@@ -1,6 +1,7 @@
 package com.silamoney.client.domain;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -54,6 +55,13 @@ public class Entity {
     private String naicsSubcategory;
     @SerializedName(value = "created_epoch")
     private int createdEpoch;
+    private String handle;
+    @SerializedName(value = "full_name")
+    private String fullName;
+    private int created;
+    private String status;
+    @SerializedName(value = "blockchain_addresses")
+    private List<String> blockchainAddresses;
 
     /**
      * Constructor for Entity object.
@@ -184,5 +192,40 @@ public class Entity {
      */
     public String getNaicsSubcategory() {
         return naicsSubcategory;
+    }
+
+    /**
+     * @return the handle
+     */
+    public String getHandle() {
+        return handle;
+    }
+
+    /**
+     * @return the fullName
+     */
+    public String getFullName() {
+        return fullName;
+    }
+
+    /**
+     * @return the created
+     */
+    public int getCreated() {
+        return created;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @return the blockchainAddresses
+     */
+    public List<String> getBlockchainAddresses() {
+        return blockchainAddresses;
     }
 }

@@ -32,9 +32,6 @@ public class RegisterBusinessTests {
 
 		ApiResponse response = api.registerBusiness(user);
 
-		System.out.println(((BaseResponse) response.getData()).getMessage());
-		System.out.println(((BaseResponse) response.getData()).getStatus());
-
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}

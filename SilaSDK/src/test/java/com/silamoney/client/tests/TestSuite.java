@@ -13,6 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
     GetBusinessTypesTests.class,
     GetBusinessRolesTests.class,
     GetNaicsCategoriesTest.class,
+    GetEntitiesTests.class,
     CheckHandleTests.class,
     RegisterTests.class,
     RegisterBusinessTests.class,

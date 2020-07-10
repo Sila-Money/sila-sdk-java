@@ -115,7 +115,11 @@ public class Message {
         /**
          * String value for CertifyBusiness.
          */
-        CERTIFY_BUSINESS("certify_business");
+        CERTIFY_BUSINESS("certify_business"), 
+        /**
+         * String value for GetEntities.
+         */
+        GET_ENTITIES("get_entities");
 
         private final String value;
 

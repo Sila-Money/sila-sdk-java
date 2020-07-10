@@ -26,7 +26,8 @@ public enum Endpoints {
 	UNLINK_BUSINESS_MEMBER("/unlink_business_member"), 
 	GET_ENTITY("/get_entity"), 
 	CERTIFY_BENEFICIAL_OWNER("/certify_beneficial_owner"), 
-	CERTIFY_BUSINESS("/certify_business");
+	CERTIFY_BUSINESS("/certify_business"), 
+	GET_ENTITIES("/get_entities");
 
 	private String uri;
 

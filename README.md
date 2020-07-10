@@ -11,7 +11,7 @@ Add the SDK from the Maven repository.
 <dependency>
     <groupId>com.silamoney</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.6-rc</version>
+    <version>0.2.9-rc</version>
 </dependency>
 ```
 
@@ -405,4 +405,19 @@ ApiResponse response = api.certifyBusiness("user handle", "user private key", "b
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse) response.getData()).getMessage()); // Business successfully certified.
+```
+
+#### Get Entities
+```java
+int page = 1;
+int perPage = 50;
+ApiResponse response = api.getEntities("eentity type", page, perPage);
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetEntitiesResponse)response.getData()).getEntities() // Entities object
+((GetEntitiesResponse)response.getData()).getPagination()// Pagination object
+((GetEntitiesResponse)response.getData()).getEntities().getIndividuals() // List of individual entities
+((GetEntitiesResponse)response.getData()).getEntities().getBusinesses()// List of business entities
 ```

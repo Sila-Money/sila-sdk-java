@@ -31,7 +31,6 @@ public class RequestKYCTests {
 
 	@Test
 	public void response200() throws Exception {
-		System.out.println(DefaultConfigurations.getUserPrivateKey());
 		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), null,
 				DefaultConfigurations.getUserPrivateKey());
 

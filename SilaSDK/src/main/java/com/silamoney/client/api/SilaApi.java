@@ -169,10 +169,6 @@ public class SilaApi {
 
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-		if (response.body().toString().contains("Business has passed verification")) {
-			System.out.println(response.body());
-		}
-
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.CHECK_KYC.getValue());
 	}
 
@@ -891,8 +887,7 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.CERTIFY_BENEFICIAL_OWNER.getValue());
 	}
 
-	
-	/** 
+	/**
 	 * @param userHandle
 	 * @param userPrivateKey
 	 * @param businessHandle
@@ -928,5 +923,29 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.CERTIFY_BUSINESS.getValue());
+	}
+
+	public ApiResponse getEntities(String entityType, Integer page, Integer perPage)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		Header header = new Header(null, this.configuration.getAuthHandle());
+
+		Map<String, Object> bodyMap = new HashMap<String, Object>();
+		bodyMap.put("header", header);
+		bodyMap.put("message", Message.ValueEnum.HEADER_MSG.getValue());
+		bodyMap.put("entity_type", entityType);
+
+		String pageQueryParam = page != null ? "&page=" + page : "";
+		String perPageQueryParam = perPage != null ? "&per_page=" + perPage : "";
+
+		String path = Endpoints.GET_ENTITIES.getUri() + '?' + pageQueryParam + perPageQueryParam;
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ENTITIES.getValue());
 	}
 }
