@@ -1,0 +1,64 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'silamoney'
+    scannerMode: 'Other'
+  displayName: 'Prepare Sonar analysis'
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'SilaSDK/pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: false
+    goals: 'package'
+    options: '-B -DskipTests clean'
+  displayName: 'Maven package'
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'SilaSDK/pom.xml'
+    goals: 'test'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/*.xml'
+    codeCoverageToolOption: 'JaCoCo'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    jdkArchitectureOption: 'x64'
+    mavenVersionOption: 'Default'
+    mavenOptions: '-Xmx3072m'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+  displayName: 'Maven test'
+
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'SilaSDK/pom.xml'
+    goals: 'sonar:sonar'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    jdkArchitectureOption: 'x64'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
