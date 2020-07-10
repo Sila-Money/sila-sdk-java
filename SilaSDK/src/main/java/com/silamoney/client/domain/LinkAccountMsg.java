@@ -44,7 +44,6 @@ public class LinkAccountMsg {
      * @param routingNumber
      * @param accountType
      * @param appHandle
-     * @return {@link LinkAccountMsg}
      */
     public LinkAccountMsg(String userHandle, String accountName, String publicToken, String accountId,
             String accountNumber, String routingNumber, String accountType, String appHandle) {
