@@ -22,6 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
     CheckKYCTests.class,
     GetEntityTests.class,
     CertifyBusinessOwnerTests.class,
+    CertifyBusinessTests.class,
     LinkAccountTests.class,
     GetAccountsTests.class,
     GetAccountBalanceTests.class,

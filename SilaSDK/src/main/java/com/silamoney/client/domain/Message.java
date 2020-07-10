@@ -111,7 +111,11 @@ public class Message {
         /**
          * String value for CertifyBusinessOwner.
          */
-        CERTIFY_BUSINESS_OWNER("certify_business_owner");
+        CERTIFY_BENEFICIAL_OWNER("certify_business_owner"), 
+        /**
+         * String value for CertifyBusiness.
+         */
+        CERTIFY_BUSINESS("certify_business");
 
         private final String value;
 

@@ -386,3 +386,23 @@ System.out.println(response.getStatusCode()); // 200
 ((GetEntityResponse)response.getData()).getEntity(); // Get entity object
 ((GetEntityResponse)response.getData()).getEntityType(); // "business"
 ```
+
+#### Certify Beneficial Owner
+```java
+ApiResponse response = api.certifyBusinessOwner("user handle", "user private key", "business handle", "business private key", "member handle", "certification token");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((BaseResponse) response.getData()).getMessage()); // Beneficial owner successfully certified.
+```
+
+#### Certify Business
+```java
+ApiResponse response = api.certifyBusiness("user handle", "user private key", "business handle", "business private key");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((BaseResponse) response.getData()).getMessage()); // Business successfully certified.
+```
