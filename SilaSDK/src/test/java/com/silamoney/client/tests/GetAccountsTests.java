@@ -29,9 +29,6 @@ public class GetAccountsTests {
         @Test
         public void Response200Success() throws Exception {
                 // BANKACCOUNT5
-                if (DefaultConfigurations.getUserPrivateKey() == null) {
-                        DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-                }
                 ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(),
                                 DefaultConfigurations.getUserPrivateKey());
 
@@ -41,9 +38,6 @@ public class GetAccountsTests {
         @Test
         public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException,
                         IOException, InterruptedException, ForbiddenException {
-                if (DefaultConfigurations.getUserPrivateKey() == null) {
-                        DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-                }
                 ApiResponse response = api.getAccounts("", DefaultConfigurations.getUserPrivateKey());
                 assertEquals(400, response.getStatusCode());
         }
@@ -54,9 +48,6 @@ public class GetAccountsTests {
                 api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                                 "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
-                if (DefaultConfigurations.getUserPrivateKey() == null) {
-                        DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-                }
                 ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(),
                                 DefaultConfigurations.getUserPrivateKey());
                 assertEquals(401, response.getStatusCode());

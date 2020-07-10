@@ -16,6 +16,8 @@ import org.junit.runners.Suite.SuiteClasses;
     CheckHandleTests.class,
     RegisterTests.class,
     RegisterBusinessTests.class,
+    LinkBusinessMemberTests.class,
+    UnlinkBusinessMemberTests.class,
     RequestKYCTests.class,
     CheckKYCTests.class,
     LinkAccountTests.class,
@@ -30,6 +32,6 @@ import org.junit.runners.Suite.SuiteClasses;
     GetWalletTests.class,
     GetWalletsTests.class,
     UpdateWalletTests.class,
-    DeleteWalletTests.class
+    DeleteWalletTests.class,
 })
 public class TestSuite {}

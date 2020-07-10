@@ -329,3 +329,29 @@ for (String key : naicsCategories.keySet()) {
     }
 }
 ```
+
+#### LinkBusinessMemeber
+```java
+BusinessRole businessRole = ((GetBusinessRolesResponse)api.getBusinessRoles().getData()).get(0);
+float ownershipStake = 0.30;
+ApiResponse response = api.linkBusinessMember("user handle", "user private key", "business handle", "business private key", businessRole, (optional) "member handle", (optional) "test details", (optional) ownershipStake);
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((LinkBusinessMemberResponse) response.getData()).getDetails())// test details
+System.out.println(((LinkBusinessMemberResponse) response.getData()).getRole());// business role name
+```
+
+#### UnlinkBusinessMemeber
+```java
+BusinessRole businessRole = ((GetBusinessRolesResponse)api.getBusinessRoles().getData()).get(0);
+float ownershipStake = 0.30;
+ApiResponse response = api.unlinkBusinessMember("user handle", "user private key",   "business handle", "business private key", businessRole);
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((LinkBusinessOperationResponse) response.getData()).getDetails())// test details
+System.out.println(((LinkBusinessOperationResponse) response.getData()).getRole());// business role name
+```

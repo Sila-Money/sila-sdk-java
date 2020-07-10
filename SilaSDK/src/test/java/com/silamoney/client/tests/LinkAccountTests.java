@@ -22,9 +22,7 @@ import org.junit.Test;
 public class LinkAccountTests {
 
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-			DefaultConfigurations.privateKey);
-
-	 
+			DefaultConfigurations.privateKey);	 
 
 	@Test
 	public void Response200Success() throws Exception {

@@ -91,7 +91,19 @@ public class Message {
         /**
          * String value for GetNaicsCategories.
          */
-        GET_NAICS_CATEGORIES_MSG("get_naics_categories");
+        GET_NAICS_CATEGORIES_MSG("get_naics_categories"), 
+        /**
+         * String value for LinkBusinessMember.
+         */
+        LINK_BUSINESS_MEMBER_MSG("link_business_member"), 
+        /**
+         * String value for check kyc.
+         */
+        CHECK_KYC("check_kyc"), 
+        /**
+         * String value for UnlinkBusinessMember.
+         */
+        UNLINK_BUSINESS_MEMBER_MSG("unlink_business_member");
 
         private final String value;
 

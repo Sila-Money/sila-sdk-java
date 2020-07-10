@@ -7,11 +7,14 @@ import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.CheckKYCResponse;
 import com.silamoney.client.domain.GetBusinessRolesResponse;
 import com.silamoney.client.domain.GetBusinessTypesResponse;
 import com.silamoney.client.domain.GetNaicsCategoriesResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
+import com.silamoney.client.domain.LinkBusinessMemberResponse;
+import com.silamoney.client.domain.LinkBusinessOperationResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -110,6 +113,21 @@ public class ResponseUtil {
                         .deserialize(response.body().toString(), GetNaicsCategoriesResponse.class);
 
                 return new ApiResponse(statusCode, response.headers().map(), getNaicsCategoriesResponse, success);
+            case "link_business_member":
+                LinkBusinessMemberResponse linkBusinessMemberResponse = (LinkBusinessMemberResponse) Serialization
+                        .deserialize(response.body().toString(), LinkBusinessMemberResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), linkBusinessMemberResponse, success);
+            case "check_kyc":
+                CheckKYCResponse checkKYCResponse = (CheckKYCResponse) Serialization
+                        .deserialize(response.body().toString(), CheckKYCResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), checkKYCResponse, success);
+            case "unlink_business_member":
+                LinkBusinessOperationResponse LinkBusinessOperationResponse = (LinkBusinessOperationResponse) Serialization
+                        .deserialize(response.body().toString(), LinkBusinessOperationResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), LinkBusinessOperationResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);

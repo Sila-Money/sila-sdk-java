@@ -32,8 +32,6 @@ public class RegisterTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
-	 
-
 	@Test
 	public void Response200() throws Exception {
 		// HANDLE2
@@ -42,7 +40,14 @@ public class RegisterTests {
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
 
+		User user2 = new User(DefaultConfigurations.getUser2Handle(), "Example", "User", "123 Main Street", null,
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				DefaultConfigurations.getUser2CryptoAddress(), birthdate.toDate());
+
 		ApiResponse response = api.register(user);
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		response = api.register(user2);
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
@@ -56,9 +61,9 @@ public class RegisterTests {
 		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
 		WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		String userCryptoAddressInternal = "0x" + aWallet.getAddress();
-		User user = new User(userHandleInternal, "Example", "User", "123 Main Street", null,
-				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				userCryptoAddressInternal, birthdate.toDate());
+		User user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City", "OR",
+				"97204-1234", "503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal,
+				birthdate.toDate());
 		ApiResponse response = api.register(user);
 
 		// USER2
@@ -66,9 +71,8 @@ public class RegisterTests {
 		ecKeyPair = Keys.createEcKeyPair();
 		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		userCryptoAddressInternal = "0x" + aWallet.getAddress();
-		user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City",
-				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				userCryptoAddressInternal, birthdate.toDate());
+		user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City", "OR", "97204-1234",
+				"503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal, birthdate.toDate());
 		response = api.register(user);
 
 		// USER3 FAIL NAME
@@ -76,9 +80,8 @@ public class RegisterTests {
 		ecKeyPair = Keys.createEcKeyPair();
 		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		userCryptoAddressInternal = "0x" + aWallet.getAddress();
-		user = new User(userHandleInternal, "Fail", "User", "123 Main Street", null, "New City",
-				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				userCryptoAddressInternal, birthdate.toDate());
+		user = new User(userHandleInternal, "Fail", "User", "123 Main Street", null, "New City", "OR", "97204-1234",
+				"503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal, birthdate.toDate());
 		response = api.register(user);
 		assertEquals(200, response.getStatusCode());
 	}

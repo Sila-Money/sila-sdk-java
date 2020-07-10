@@ -26,12 +26,6 @@ public class PlaidSameDayAuthTests {
 
 	// @Test
 	// public void Response200() throws Exception {
-	// 	if (DefaultConfigurations.getUserHandle() == null) {
-	// 		DefaultConfigurations.setUserHandle(userHandle);
-	// 	}
-	// 	if (DefaultConfigurations.getUserPrivateKey() == null) {
-	// 		DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-	// 	}
 	// 	ApiResponse response = api.plaidSameDayAuth(DefaultConfigurations.getUserHandle(), "default",
 	// 			DefaultConfigurations.getUserPrivateKey());
 	// 	assertEquals(200, response.getStatusCode());

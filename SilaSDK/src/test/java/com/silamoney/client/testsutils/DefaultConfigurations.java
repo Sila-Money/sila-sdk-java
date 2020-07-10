@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import com.silamoney.client.domain.BusinessRole;
 import com.silamoney.client.domain.BusinessType;
 import com.silamoney.client.domain.Environments;
 import com.silamoney.client.domain.NaicsCategoryDescription;
@@ -22,68 +23,129 @@ import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
 import org.web3j.crypto.WalletFile;
 
-/**
- * Sets the default configuration values for testing.
- *
- * @author Karlo Lorenzana
- */
 public class DefaultConfigurations {
 
-	/**
-	 * Default host for testing.
-	 */
 	public static String host = Environments.SilaEnvironment.SANDBOX.getUrl();
-
-	/**
-	 * Default appHandle for testing.
-	 */
 	public static String appHandle = "digital_geko_e2e.silamoney.eth";
-
-	/**
-	 * Default private key for testing.
-	 */
 	public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
 
-	/**
-	 * Default user handle for testing.
-	 */
 	private static String userHandle;
 
 	/**
-	 * Default business handle for testing.
+	 * @return String
 	 */
+	public static String getUserHandle() {
+		userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
+		return userHandle;
+	}
+
+	private static String user2Handle;
+
+	/**
+	 * @return String
+	 */
+	public static String getUser2Handle() {
+		user2Handle = user2Handle == null || user2Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user2Handle;
+		return user2Handle;
+	}
+
 	private static String businessHandle;
 
 	/**
-	 * Default wallet_verification_signature for wallet testing.
+	 * @return String
 	 */
+	public static String getBusinessHandle() {
+		businessHandle = businessHandle == null || businessHandle.isBlank() ? "javaSDK-" + new Random().nextInt()
+				: businessHandle;
+		return businessHandle;
+	}
+
 	private static String wallet_verification_signature;
 
 	/**
-	 * Default blockchain_address for wallet testing.
+	 * @return String
 	 */
-	private static String blockchain_address;
+	public static String getWallet_verification_signature() {
+		return wallet_verification_signature;
+	}
 
-	/**
-	 * business types for testing.
-	 */
 	private static List<BusinessType> businessTypes;
 
 	/**
-	 * naics categories for testing.
+	 * @return List<BusinessType>
 	 */
+	public static List<BusinessType> getBusinessTypes() {
+		return businessTypes;
+	}
+
+	/**
+	 * @param pBusinessTypes
+	 */
+	public static void setBusinessTypes(List<BusinessType> pBusinessTypes) {
+		businessTypes = pBusinessTypes;
+	}
+
 	private static Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories;
 
 	/**
-	 * Default search filters for testing.
+	 * @return Map<String, ArrayList<NaicsCategoryDescription>>
 	 */
+	public static Map<String, ArrayList<NaicsCategoryDescription>> getNaicsCategories() {
+		return naicsCategories;
+	}
+
+	/**
+	 * @param pNaicsCategories
+	 */
+	public static void setNaicsCategories(Map<String, ArrayList<NaicsCategoryDescription>> pNaicsCategories) {
+		naicsCategories = pNaicsCategories;
+	}
+
+	/**
+	 * @return NaicsCategoryDescription
+	 */
+	public static NaicsCategoryDescription getDefaultNaicCategoryDescription() {
+		for (String key : naicsCategories.keySet()) {
+			for (NaicsCategoryDescription categoryDescription : naicsCategories.get(key)) {
+				return categoryDescription;
+			}
+		}
+
+		return null;
+	}
+
+	private static List<BusinessRole> businessRoles;
+
+	/**
+	 * @return List<BusinessRole>
+	 */
+	public static List<BusinessRole> getBusinessRoles() {
+		return businessRoles;
+	}
+
+	/**
+	 * @param businessRoles
+	 */
+	public static void setBusinessRoles(List<BusinessRole> businessRoles) {
+		DefaultConfigurations.businessRoles = businessRoles;
+	}
+
+	/**
+	 * @param role
+	 * @return BusinessRole
+	 */
+	public static BusinessRole getBusinessRole(String role) {
+		for (BusinessRole businessRole : getBusinessRoles()) {
+			if (businessRole.getName().equals(role)) {
+				return businessRole;
+			}
+		}
+		return null;
+	}
+
 	public static SearchFilters filters = new SearchFilters().showTimelines().setMaxSilaAmount(1300)
 			.setMinSilaAmount(1000).setStatuses(new ArrayList<>() {
-				/**
-				 *
-				 */
 				private static final long serialVersionUID = -5522339729487411576L;
-
 				{
 					add(SearchFilters.StatusesEnum.PENDING);
 					// add(SearchFilters.StatusesEnum.SUCCESSFUL);
@@ -91,11 +153,7 @@ public class DefaultConfigurations {
 					// add(SearchFilters.StatusesEnum.COMPLETE);
 				}
 			}).setPage(1).setPerPage(20).setTransactionTypes(new ArrayList<>() {
-				/**
-				 *
-				 */
 				private static final long serialVersionUID = -5630390615963025868L;
-
 				{
 					add(SearchFilters.TransactionTypesEnum.ISSUE);
 					add(SearchFilters.TransactionTypesEnum.REDEEM);
@@ -103,20 +161,11 @@ public class DefaultConfigurations {
 				}
 			});
 
-	public static String getUserHandle() {
-		userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
-		return userHandle;
-	}
-
-	public static String getBusinessHandle() {
-		businessHandle = businessHandle == null || businessHandle.isBlank() ? "javaSDK-" + new Random().nextInt()
-				: businessHandle;
-		return businessHandle;
-	}
-
 	private static String userCryptoAddress;
-	private static String userPrivateKey;
 
+	/**
+	 * @return String
+	 */
 	public static String getUserCryptoAddress() {
 		if (userCryptoAddress == null || userCryptoAddress.isBlank()) {
 			try {
@@ -137,9 +186,63 @@ public class DefaultConfigurations {
 		return userCryptoAddress;
 	}
 
-	private static String businessCryptoAddress;
-	private static String businessPrivateKey;
+	private static String user2CryptoAddress;
 
+	/**
+	 * @return String
+	 */
+	public static String getUser2CryptoAddress() {
+		if (user2CryptoAddress == null || user2CryptoAddress.isBlank()) {
+			try {
+
+				ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+				BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+				user2PrivateKey = privateKeyInDec.toString(16);
+
+				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+				user2CryptoAddress = "0x" + aWallet.getAddress();
+			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+					| CipherException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return user2CryptoAddress;
+	}
+
+	private static String userPrivateKey;
+
+	/**
+	 * @return String
+	 */
+	public static String getUserPrivateKey() {
+		getUserCryptoAddress();
+		return userPrivateKey;
+	}
+
+	private static String user2PrivateKey;
+
+	/**
+	 * @return String
+	 */
+	public static String getUser2PrivateKey() {
+		getUser2CryptoAddress();
+		return user2PrivateKey;
+	}
+
+	/**
+	 * @param pUserPrivateKey
+	 */
+	public static void setUserPrivateKey(String pUserPrivateKey) {
+		userPrivateKey = pUserPrivateKey;
+	}
+
+	private static String businessCryptoAddress;
+
+	/**
+	 * @return String
+	 */
 	public static String getBusinessCryptoAddress() {
 		if (businessCryptoAddress == null || businessCryptoAddress.isBlank()) {
 			try {
@@ -160,6 +263,21 @@ public class DefaultConfigurations {
 		return businessCryptoAddress;
 	}
 
+	private static String businessPrivateKey;
+
+	/**
+	 * @return String
+	 */
+	public static String getBusinessPrivateKey() {
+		getBusinessCryptoAddress();
+		return businessPrivateKey;
+	}
+
+	private static String blockchain_address;
+
+	/**
+	 * @return String
+	 */
 	public static String registerWallet() {
 		if (blockchain_address == null || userCryptoAddress.isBlank()) {
 			try {
@@ -180,16 +298,11 @@ public class DefaultConfigurations {
 		return blockchain_address;
 	}
 
-	public static String getUserPrivateKey() {
-		return userPrivateKey;
-	}
-
-
-	public static String getBusinessPrivateKey() {
-		return businessPrivateKey;
-	}
 	private static String plaidToken;
 
+	/**
+	 * @return String
+	 */
 	public static String getPlaidToken() {
 		try {
 			plaidToken = plaidToken == null || plaidToken.isBlank() ? PlaidTokenHelper.getPlaidToken() : plaidToken;
@@ -198,60 +311,4 @@ public class DefaultConfigurations {
 		}
 		return plaidToken;
 	}
-
-	public static void setUserPrivateKey(String pUserPrivateKey) {
-		userPrivateKey = pUserPrivateKey;
-	}
-
-	/*
-	 * public static void setUserHandle(String userHandle) {
-	 * this.userHandle = userHandle; }
-	 */
-
-	public static void setUserCryptoAddress(String pUserCryptoAddress) {
-		userCryptoAddress = pUserCryptoAddress;
-	}
-
-	public static String getWallet_verification_signature() {
-		return wallet_verification_signature;
-	}
-
-	/**
-	 * @return the businessTypes
-	 */
-	public static List<BusinessType> getBusinessTypes() {
-		return businessTypes;
-	}
-
-	/**
-	 * @param businessTypes the businessTypes to set
-	 */
-	public static void setBusinessTypes(List<BusinessType> pBusinessTypes) {
-		businessTypes = pBusinessTypes;
-	}
-
-	/**
-	 * @return the naicsCategories
-	 */
-	public static Map<String, ArrayList<NaicsCategoryDescription>> getnaicsCategories() {
-		return naicsCategories;
-	}
-
-	/**
-	 * @param naicsCategories the naicsCategories to set
-	 */
-	public static void  setNaicsCategories(Map<String, ArrayList<NaicsCategoryDescription>> pNaicsCategories) {
-		naicsCategories = pNaicsCategories;
-	}
-
-	public static NaicsCategoryDescription getDefaultNaicCategoryDescription(){
-		for (String key : naicsCategories.keySet()) {
-			for (NaicsCategoryDescription categoryDescription : naicsCategories.get(key)) {
-				return categoryDescription;
-			}
-		}
-
-		return null;
-	}
-
 }

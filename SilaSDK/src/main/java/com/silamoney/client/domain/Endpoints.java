@@ -21,7 +21,9 @@ public enum Endpoints {
 	GET_WALLETS("/get_wallets"), 
 	GET_BUSINESS_TYPES("/get_business_types"), 
 	GET_BUSINESS_ROLES("/get_business_roles"), 
-	GET_NAICS_CATEGORIES("/get_naics_categories");
+	GET_NAICS_CATEGORIES("/get_naics_categories"), 
+	LINK_BUSINESS_MEMBER("/link_business_member"), 
+	UNLINK_BUSINESS_MEMBER("/unlink_business_member");
 
 	private String uri;
 

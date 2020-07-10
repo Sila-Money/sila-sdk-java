@@ -27,6 +27,7 @@ public class SilaApi {
 	private final Configuration configuration;
 	private static final String AUTH_SIGNATURE = "authsignature";
 	private static final String USER_SIGNATURE = "usersignature";
+	private static final String BUSINESS_SIGNATURE = "businesssignature";
 	private static final String DEFAULT_ENVIRONMENT = Environments.SilaEnvironment.SANDBOX.getUrl();
 
 	/**
@@ -168,7 +169,11 @@ public class SilaApi {
 
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-		return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());
+		if (response.body().toString().contains("Business has passed verification")) {
+			System.out.println(response.body());
+		}
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.CHECK_KYC.getValue());
 	}
 
 	/**
@@ -232,6 +237,18 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
 	}
 
+	/**
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param accountName
+	 * @return ApiResponse
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
 	public ApiResponse getAccountBalance(String userHandle, String userPrivateKey, String accountName)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
@@ -625,8 +642,7 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_BUSINESS_TYPES.getValue());
 	}
 
-	
-	/** 
+	/**
 	 * Retrieves the list of pre-defined business roles.
 	 * 
 	 * @return ApiResponse
@@ -657,7 +673,7 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_BUSINESS_ROLES.getValue());
 	}
 
-	/** 	 
+	/**
 	 * @return ApiResponse
 	 * @throws IOException
 	 * @throws InterruptedException
@@ -686,8 +702,7 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_NAICS_CATEGORIES_MSG.getValue());
 	}
 
-	
-	/** 
+	/**
 	 * @param user
 	 * @return ApiResponse
 	 * @throws IOException
@@ -697,8 +712,8 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException, BadRequestException,
-			InvalidSignatureException, ServerSideException, ForbiddenException {
+	public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
 		EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
 		String path = Endpoints.REGISTER.getUri();
 		String sBody = Serialization.serialize(body);
@@ -709,5 +724,80 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());
+	}
+
+	/** 
+     * @param userHandle
+     * @param userPrivateKey
+     * @param businessHandle
+     * @param businessPrivateKey
+     * @param businessRole
+     * @param memberHandle
+     * @param details
+     * @param ownershipStake
+     * @return ApiResponse
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     * @throws ForbiddenException
+     */
+	public ApiResponse linkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
+			String businessPrivateKey, BusinessRole businessRole, String memberHandle, String details,
+			Float ownershipStake) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+		Map<String, String> header = new HashMap<String, String>();
+		header.put("created", EpochUtils.getEpoch() + "");
+		header.put("auth_handle", this.configuration.getAuthHandle());
+		header.put("user_handle", userHandle);
+		header.put("business_handle", businessHandle);
+
+		Map<String, Object> bodyMap = new HashMap<String, Object>();
+		bodyMap.put("header", header);
+		bodyMap.put("role", businessRole.getName());
+		bodyMap.put("role_uuid", businessRole.getUuid());
+		bodyMap.put("member_handle", memberHandle);
+		bodyMap.put("ownership_stake", ownershipStake);
+		bodyMap.put("details", details);
+
+		String path = Endpoints.LINK_BUSINESS_MEMBER.getUri();
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+		headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_BUSINESS_MEMBER_MSG.getValue());
+	}
+
+	public ApiResponse unlinkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
+			String businessPrivateKey, BusinessRole businessRole) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
+		Map<String, String> header = new HashMap<String, String>();
+		header.put("created", EpochUtils.getEpoch() + "");
+		header.put("auth_handle", this.configuration.getAuthHandle());
+		header.put("user_handle", userHandle);
+		header.put("business_handle", businessHandle);
+
+		Map<String, Object> bodyMap = new HashMap<String, Object>();
+		bodyMap.put("header", header);
+		bodyMap.put("role", businessRole.getName());
+		bodyMap.put("role_uuid", businessRole.getUuid());
+
+		String path = Endpoints.UNLINK_BUSINESS_MEMBER.getUri();
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+		headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UNLINK_BUSINESS_MEMBER_MSG.getValue());
 	}
 }

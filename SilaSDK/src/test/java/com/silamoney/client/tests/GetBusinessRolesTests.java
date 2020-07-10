@@ -33,14 +33,15 @@ public class GetBusinessRolesTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertTrue(((GetBusinessRolesResponse) response.getData()).getBusinessRoles().size() > 0);
+
+		DefaultConfigurations.setBusinessRoles(((GetBusinessRolesResponse) response.getData()).getBusinessRoles());
 	}
 
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 
-		api = new SilaApi(DefaultConfigurations.host, "",
-				DefaultConfigurations.privateKey);
+		api = new SilaApi(DefaultConfigurations.host, "", DefaultConfigurations.privateKey);
 
 		ApiResponse response = api.getBusinessRoles();
 		assertEquals(400, response.getStatusCode());
