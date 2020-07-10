@@ -23,7 +23,8 @@ public enum Endpoints {
 	GET_BUSINESS_ROLES("/get_business_roles"), 
 	GET_NAICS_CATEGORIES("/get_naics_categories"), 
 	LINK_BUSINESS_MEMBER("/link_business_member"), 
-	UNLINK_BUSINESS_MEMBER("/unlink_business_member");
+	UNLINK_BUSINESS_MEMBER("/unlink_business_member"), 
+	GET_ENTITY("/get_entity");
 
 	private String uri;
 

@@ -355,3 +355,34 @@ System.out.println(response.getStatusCode()); // 200
 System.out.println(((LinkBusinessOperationResponse) response.getData()).getDetails())// test details
 System.out.println(((LinkBusinessOperationResponse) response.getData()).getRole());// business role name
 ```
+
+#### Get Entity (individual)
+```java
+ApiResponse response = api.getEntity("user handle", "user private key");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetEntityResponse)response.getData()).getAddresses(); // Get addresses list
+((GetEntityResponse)response.getData()).getEmails(); // Get emails list
+((GetEntityResponse)response.getData()).getIdentities(); // Get identities list
+((GetEntityResponse)response.getData()).getPhones(); // Get phones list
+((GetEntityResponse)response.getData()).getMemberships(); // Get memberships list
+((GetEntityResponse)response.getData()).getEntity(); // Get entity object
+((GetEntityResponse)response.getData()).getEntityType(); // "individual"
+```
+#### Get Entity (business)
+```java
+ApiResponse response = api.getEntity("business handle", "business private key");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetEntityResponse)response.getData()).getAddresses(); // Get addresses list
+((GetEntityResponse)response.getData()).getEmails(); // Get emails list
+((GetEntityResponse)response.getData()).getIdentities(); // Get identities list
+((GetEntityResponse)response.getData()).getPhones(); // Get phones list
+((GetEntityResponse)response.getData()).getMembers(); // Get members list
+((GetEntityResponse)response.getData()).getEntity(); // Get entity object
+((GetEntityResponse)response.getData()).getEntityType(); // "business"
+```

@@ -774,6 +774,21 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_BUSINESS_MEMBER_MSG.getValue());
 	}
 
+	
+	/** 
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param businessHandle
+	 * @param businessPrivateKey
+	 * @param businessRole
+	 * @return ApiResponse
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
 	public ApiResponse unlinkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
 			String businessPrivateKey, BusinessRole businessRole) throws IOException, InterruptedException, BadRequestException,
 			InvalidSignatureException, ServerSideException, ForbiddenException {
@@ -799,5 +814,39 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UNLINK_BUSINESS_MEMBER_MSG.getValue());
+	}
+
+	
+	/** 
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @return ApiResponse
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws BadRequestException
+	 * @throws InvalidSignatureException
+	 * @throws ServerSideException
+	 * @throws ForbiddenException
+	 */
+	public ApiResponse getEntity(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
+			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+		Map<String, String> header = new HashMap<String, String>();
+		header.put("created", EpochUtils.getEpoch() + "");
+		header.put("auth_handle", this.configuration.getAuthHandle());
+		header.put("user_handle", userHandle);
+
+		Map<String, Object> bodyMap = new HashMap<String, Object>();
+		bodyMap.put("header", header);
+
+		String path = Endpoints.GET_ENTITY.getUri();
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ENTITY_MSG.getValue());
 	}
 }

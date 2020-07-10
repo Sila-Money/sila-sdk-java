@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Karlo Lorenzana
  */
-public class Address {
+public class Address extends EntityAudit{
 
     private enum CountryEnum {
         US("US");
@@ -44,6 +44,9 @@ public class Address {
     @SerializedName("postal_code")
     private final String postalCode;
 
+    @SerializedName("nickname")
+    private String nickname;
+
     /**
      * Constructor for address object.
      *
@@ -72,5 +75,61 @@ public class Address {
         this.state = user.getState();
         this.country = CountryEnum.US.getValue();
         this.postalCode = user.getZipCode();
+    }
+
+    /**
+     * @return the country
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * @return the addressAlias
+     */
+    public String getAddressAlias() {
+        return addressAlias;
+    }
+
+    /**
+     * @return the streetAddress1
+     */
+    public String getStreetAddress1() {
+        return streetAddress1;
+    }
+
+    /**
+     * @return the streetAddress2
+     */
+    public String getStreetAddress2() {
+        return streetAddress2;
+    }
+
+    /**
+     * @return the state
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * @return the postalCode
+     */
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    /**
+     * @return the nickname
+     */
+    public String getNickname() {
+        return nickname;
     }
 }

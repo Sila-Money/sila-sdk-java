@@ -103,7 +103,11 @@ public class Message {
         /**
          * String value for UnlinkBusinessMember.
          */
-        UNLINK_BUSINESS_MEMBER_MSG("unlink_business_member");
+        UNLINK_BUSINESS_MEMBER_MSG("unlink_business_member"), 
+        /**
+         * String value for GetEntity.
+         */
+        GET_ENTITY_MSG("get_entity");
 
         private final String value;
 

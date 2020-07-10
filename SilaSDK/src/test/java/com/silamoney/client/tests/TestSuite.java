@@ -18,6 +18,7 @@ import org.junit.runners.Suite.SuiteClasses;
     RegisterBusinessTests.class,
     LinkBusinessMemberTests.class,
     UnlinkBusinessMemberTests.class,
+    GetEntityTests.class,
     RequestKYCTests.class,
     CheckKYCTests.class,
     LinkAccountTests.class,

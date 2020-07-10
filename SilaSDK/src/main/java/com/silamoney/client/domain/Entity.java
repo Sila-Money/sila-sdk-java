@@ -27,35 +27,33 @@ public class Entity {
 
     @SerializedName("birthdate")
     private String birthdate;
-
     @SerializedName("entity_name")
     private String entityName;
-
     @SerializedName("last_name")
     private String lastName;
-
     @SerializedName("relationship")
     private String relationship;
-
     @SerializedName("first_name")
     private String firstName;
-
     private String type;
-
     @SerializedName(value = "business_type")
     private String businessType;
-
+    @SerializedName(value = "business_uuid")
+    private String businessUuid;
     @SerializedName(value = "business_type_uuid")
     private String businessTypeUuid;
-
     @SerializedName(value = "business_website")
     private String businessWebsite;
-
     @SerializedName(value = "doing_business_as")
     private String doingBusinessAs;
-
     @SerializedName(value = "naics_code")
     private int naicsCode;
+    @SerializedName(value = "naics_category")
+    private String naicsCategory;
+    @SerializedName(value = "naics_subcategory")
+    private String naicsSubcategory;
+    @SerializedName(value = "created_epoch")
+    private int createdEpoch;
 
     /**
      * Constructor for Entity object.
@@ -77,9 +75,114 @@ public class Entity {
         this.entityName = user.getEntityName();
         this.type = "business";
         this.businessType = user.getBusinessType().getName();
-        //this.businessTypeUuid = user.getBusinessType().getUuid();
+        // this.businessTypeUuid = user.getBusinessType().getUuid();
         this.businessWebsite = user.getBusinessWebsite();
         this.doingBusinessAs = user.getDoingBusinessAs();
         this.naicsCode = user.getNaicsCategory().getCode();
+    }
+
+    /**
+     * @return the birthdate
+     */
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    /**
+     * @return the entityName
+     */
+    public String getEntityName() {
+        return entityName;
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * @return the relationship
+     */
+    public String getRelationship() {
+        return relationship;
+    }
+
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @return the businessType
+     */
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    /**
+     * @return the businessTypeUuid
+     */
+    public String getBusinessTypeUuid() {
+        return businessTypeUuid;
+    }
+
+    /**
+     * @return the businessWebsite
+     */
+    public String getBusinessWebsite() {
+        return businessWebsite;
+    }
+
+    /**
+     * @return the doingBusinessAs
+     */
+    public String getDoingBusinessAs() {
+        return doingBusinessAs;
+    }
+
+    /**
+     * @return the naicsCode
+     */
+    public int getNaicsCode() {
+        return naicsCode;
+    }
+
+    /**
+     * @return the createdEpoch
+     */
+    public int getCreatedEpoch() {
+        return createdEpoch;
+    }
+
+    /**
+     * @return the businessUuid
+     */
+    public String getBusinessUuid() {
+        return businessUuid;
+    }
+
+    /**
+     * @return the naicsCategory
+     */
+    public String getNaicsCategory() {
+        return naicsCategory;
+    }
+
+    /**
+     * @return the naicsSubcategory
+     */
+    public String getNaicsSubcategory() {
+        return naicsSubcategory;
     }
 }

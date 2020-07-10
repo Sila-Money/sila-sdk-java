@@ -10,6 +10,7 @@ import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.CheckKYCResponse;
 import com.silamoney.client.domain.GetBusinessRolesResponse;
 import com.silamoney.client.domain.GetBusinessTypesResponse;
+import com.silamoney.client.domain.GetEntityResponse;
 import com.silamoney.client.domain.GetNaicsCategoriesResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
@@ -128,6 +129,11 @@ public class ResponseUtil {
                         .deserialize(response.body().toString(), LinkBusinessOperationResponse.class);
 
                 return new ApiResponse(statusCode, response.headers().map(), LinkBusinessOperationResponse, success);
+            case "get_entity":
+                GetEntityResponse getEntityResponse = (GetEntityResponse) Serialization
+                        .deserialize(response.body().toString(), GetEntityResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getEntityResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);
