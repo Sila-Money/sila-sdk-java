@@ -311,4 +311,21 @@ public class DefaultConfigurations {
 		}
 		return plaidToken;
 	}
+
+	private static String businessOwnerToken;
+
+	/**
+	 * @return the businessOwnerToken
+	 */
+	public static String getBusinessOwnerToken() {
+		return businessOwnerToken;
+	}
+
+	/**
+	 * @param businessOwnerToken the businessOwnerToken to set
+	 */
+	public static void setBusinessOwnerToken(String businessOwnerToken) {
+		DefaultConfigurations.businessOwnerToken = businessOwnerToken;
+	}
+
 }

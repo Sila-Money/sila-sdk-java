@@ -46,11 +46,8 @@ public class LinkBusinessMemberTests {
                 assertEquals(DefaultConfigurations.getBusinessRole("controlling_officer").getName(),
                                 ((LinkBusinessMemberResponse) response.getData()).getRole());
                 assertEquals("test details", ((LinkBusinessMemberResponse) response.getData()).getDetails());
-        }
 
-        @Test
-        public void Response200BeneficialOwner() throws Exception {
-                ApiResponse response = api.linkBusinessMember(DefaultConfigurations.getUser2Handle(),
+                response = api.linkBusinessMember(DefaultConfigurations.getUser2Handle(),
                                 DefaultConfigurations.getUser2PrivateKey(), DefaultConfigurations.getBusinessHandle(),
                                 DefaultConfigurations.getBusinessPrivateKey(),
                                 DefaultConfigurations.getBusinessRole("administrator"), null, "test details", null);
@@ -59,6 +56,21 @@ public class LinkBusinessMemberTests {
                 assertTrue(((LinkBusinessMemberResponse) response.getData()).isSuccess());
                 assertNotNull(((LinkBusinessMemberResponse) response.getData()).getMessage());
                 assertEquals(DefaultConfigurations.getBusinessRole("administrator").getName(),
+                                ((LinkBusinessMemberResponse) response.getData()).getRole());
+                assertEquals("test details", ((LinkBusinessMemberResponse) response.getData()).getDetails());
+        }
+
+        @Test
+        public void Response200BeneficialOwner() throws Exception {
+                ApiResponse response = api.linkBusinessMember(DefaultConfigurations.getUser2Handle(),
+                                DefaultConfigurations.getUser2PrivateKey(), DefaultConfigurations.getBusinessHandle(),
+                                DefaultConfigurations.getBusinessPrivateKey(),
+                                DefaultConfigurations.getBusinessRole("beneficial_owner"), null, "test details", (float)0.66);
+
+                assertEquals(200, response.getStatusCode());
+                assertTrue(((LinkBusinessMemberResponse) response.getData()).isSuccess());
+                assertNotNull(((LinkBusinessMemberResponse) response.getData()).getMessage());
+                assertEquals(DefaultConfigurations.getBusinessRole("beneficial_owner").getName(),
                                 ((LinkBusinessMemberResponse) response.getData()).getRole());
                 assertEquals("test details", ((LinkBusinessMemberResponse) response.getData()).getDetails());
         }

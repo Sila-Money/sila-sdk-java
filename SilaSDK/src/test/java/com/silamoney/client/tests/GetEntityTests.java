@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.GetEntityResponse;
+import com.silamoney.client.domain.Membership;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class GetEntityTests {
 
 	@Test
 	public void Response200Individual() throws Exception {
-		ApiResponse response = api.getEntity(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
+		ApiResponse response = api.getEntity(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
 
 		assertTrue(response.getSuccess());
 		assertTrue(((GetEntityResponse)response.getData()).getAddresses().size() > 0);
@@ -33,6 +34,13 @@ public class GetEntityTests {
 		assertNotNull(((GetEntityResponse)response.getData()).getEntity().getEntityName());
 		assertEquals("individual",((GetEntityResponse)response.getData()).getEntityType());
 		assertNotNull(((GetEntityResponse)response.getData()).getUserHandle());
+
+		for (Membership membership : ((GetEntityResponse)response.getData()).getMemberships()) {
+			if (membership.getRole().equals("beneficial_owner")) {
+				DefaultConfigurations.setBusinessOwnerToken(membership.getCertificationToken());
+				break;
+			}	
+		}
 	}
 
 	@Test

@@ -107,7 +107,11 @@ public class Message {
         /**
          * String value for GetEntity.
          */
-        GET_ENTITY_MSG("get_entity");
+        GET_ENTITY_MSG("get_entity"), 
+        /**
+         * String value for CertifyBusinessOwner.
+         */
+        CERTIFY_BUSINESS_OWNER("certify_business_owner");
 
         private final String value;
 
