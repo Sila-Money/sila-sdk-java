@@ -1,4 +1,4 @@
-# Sila Java SDK 0.2.6-rc
+# Sila Java SDK 0.2.8-rc
 
 NOTE: This SDK is a release candidate.
 
@@ -7,11 +7,11 @@ For this SDK you will need to use JDK 11 or later.
 ### Usage
 #### Installation
 Add the SDK from the Maven repository.
-```java
+```xml
 <dependency>
     <groupId>com.silamoney</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.6-rc</version>
+    <version>0.2.8-rc</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ This sets up the app private key and handle for the SDK to use for signing subse
 Checks if a specific handle is already taken.
 ```java
 String userHandle = "user.silamoney.eth";
-ApiResponse response = api.CheckHandle(userHandle);
+ApiResponse response = api.checkHandle(userHandle);
 ```
 
 ##### Success Response Object 200 
@@ -57,7 +57,7 @@ Attaches KYC data and specified blockchain address to an assigned handle.
 User user = new User(String userHandle, String firstName, String lastName, String streetAddress1, @Nullable String streetAddress2, 
       String city, String state (2 characters), String postalCode (5 or 9 digit format), String phone, String email, String cryptoAddress, 
       String identityNumber (SSN format "AAA-GG-SSSS"), Date birthdate);
-ApiResponse response = api.Register(user);
+ApiResponse response = api.register(user);
 ```
 
 ##### Success Response Object
@@ -73,12 +73,12 @@ Starts KYC verification process on a registered user handle.
 
 Normal Flow:
 ```java
-ApiResponse response = api.RequestKYC(userHandle, userPrivateKey);
+ApiResponse response = api.requestKYC(userHandle, userPrivateKey);
 ```
 Custom Flow:
 ```java
 String kycLevel = "CUSTOM_KYC_FLOW_NAME";
-ApiResponse response = api.RequestKYC(userHandle, userPrivateKey, kycLevel);
+ApiResponse response = api.requestKYC(userHandle, userPrivateKey, kycLevel);
 ```
 
 ##### Success Response Object
@@ -92,7 +92,7 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user sub
 #### CheckKYC
 Returns whether the entity attached to the user handle is verified, not valid, or still pending.
 ```java
-ApiResponse response = api.CheckKYC(userHandle, userPrivateKey);
+ApiResponse response = api.checkKYC(userHandle, userPrivateKey);
 ```
 
 ##### Success Response Object
@@ -103,17 +103,48 @@ System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user has passed ID verification!
 ```
 #### LinkAccount
+
 Uses a provided Plaid public token to link a bank account to a verified entity.
+
 ```java
-ApiResponse response = api.LinkAccount(userHandle, accountName, publicToken, userPrivateKey); 
+String userHandle = 'user.silamoney.eth';
+String accountName = 'plaid'; // Your desired account name
+String publicToken = 'public-sandbox-xxx' // Your Plaid token
+String userPrivateKey = 'some private key';
+String accountId = 'some account id';
+
+// Gets the first plaid account
+ApiResponse response = api.linkAccount(userHandle, userPrivateKey, accountName, publicToken);
+// If you want to specify the account id
+ApiResponse response = api.linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId);
 ```
+
 Public token received in the /link/item/create plaid endpoint.
+
+For Direct account linking
+
+```java
+String userHandle = 'user.silamoney.eth';
+String accountName = 'direct'; // Your desired account name
+String accountNumber = '123456789012';
+String routingNumber = '123456789';
+String accountType = 'CHECKING'; // Currently the only allowed value
+String userPrivateKey = 'some private key';
+
+ApiResponse response = api.linkAccount(userHandle, userPrivateKey, accountName, accountNumber, routingNumber, accountType);
+```
 
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((LinkAccountResponse) response.getData()).getStatus()); // SUCCESS
+LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getReference()); // Reference number
+System.out.println(parsedResponse.getMessage()); // Successfully linked
+System.out.println(parsedResponse.getAccountName()); // Your desired account name
+System.out.println(parsedResponse.getMatchScore()); // Match score
 ```
+
 #### Plaid Sameday Auth
 Generates a Plaid token to complete Plaid's Same Day Microdeposit Authentication
 ```java
