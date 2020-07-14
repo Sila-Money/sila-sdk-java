@@ -86,6 +86,15 @@ public class DefaultConfigurations {
 	}
 
 	private static Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories;
+	/**
+	 * Default correct business uuid
+	 */
+	public static String correctUuid = "9f280665-629f-45bf-a694-133c86bffd5e";
+
+	/**
+	 * Default wrong business uuid
+	 */
+	public static String wrongUuid = "6d933c10-fa89-41ab-b443-2e78a7cc8cac";
 
 	/**
 	 * @return Map<String, ArrayList<NaicsCategoryDescription>>
@@ -231,13 +240,6 @@ public class DefaultConfigurations {
 		return user2PrivateKey;
 	}
 
-	/**
-	 * @param pUserPrivateKey
-	 */
-	public static void setUserPrivateKey(String pUserPrivateKey) {
-		userPrivateKey = pUserPrivateKey;
-	}
-
 	private static String businessCryptoAddress;
 
 	/**
@@ -289,6 +291,8 @@ public class DefaultConfigurations {
 
 				WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 				blockchain_address = "0x" + aWallet.getAddress();
+				// System.out.println("wallet_verification_signature >>> " +
+				// wallet_verification_signature);
 			} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
 					| CipherException e) {
 				e.printStackTrace();

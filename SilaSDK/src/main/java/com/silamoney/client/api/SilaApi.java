@@ -152,13 +152,8 @@ public class SilaApi {
 	 * @return
 	 * @throws IOException
 	 * @throws InterruptedException
-	 * @throws BadRequestException
-	 * @throws InvalidSignatureException
-	 * @throws ServerSideException
-	 * @throws ForbiddenException
 	 */
-	public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
-			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+	public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
 		HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
 		String path = Endpoints.CHECK_KYC.getUri();
 		String sBody = Serialization.serialize(body);
@@ -174,25 +169,93 @@ public class SilaApi {
 
 	/**
 	 * Uses a provided Plaid public token to link a bank account to a verified
-	 * entity.
+	 * entity. It selectes the first account return with the plaid token.
 	 *
 	 * @param userHandle
+	 * @param userPrivateKey
 	 * @param accountName
 	 * @param publicToken
-	 * @param userPrivateKey
-	 * @return
+	 * @return {@link ApiResponse}
 	 * @throws IOException
 	 * @throws InterruptedException
-	 * @throws BadRequestException
-	 * @throws InvalidSignatureException
-	 * @throws ServerSideException
-	 * @throws ForbiddenException
 	 */
-	public ApiResponse linkAccount(String userHandle, String accountName, String publicToken, String accountNumber,
-			String routingNumber, String accountType, String userPrivateKey) throws IOException, InterruptedException,
-			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
-		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountNumber, routingNumber,
-				accountType, this.configuration.getAuthHandle());
+	public ApiResponse linkAccount(String userHandle, 
+			String userPrivateKey,
+			String accountName, 
+			String publicToken) throws IOException, InterruptedException {
+		return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null);
+	}
+
+	/**
+	 * Uses a provided Plaid public token to link a bank account to a verified
+	 * entity. It uses the provided account id to select the account to link.
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param accountName
+	 * @param publicToken
+	 * @param accountId
+	 * @return {@link ApiResponse}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public ApiResponse linkAccount(String userHandle,
+			String userPrivateKey,
+			String accountName,
+			String publicToken,
+			String accountId) throws IOException, InterruptedException {
+		return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null);
+	}
+
+	/**
+	 * Direct account linking. This is a restricted use case.
+	 * Please contact Sila for approval
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param accountName
+	 * @param accountNumber
+	 * @param routingNumber
+	 * @param accountType
+	 * @return {@link ApiResponse}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public ApiResponse linkAccount(String userHandle,
+			String userPrivateKey,
+			String accountName,
+			String accountNumber,
+			String routingNumber,
+			String accountType) throws IOException, InterruptedException {
+		return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber, accountType);
+	}
+
+	/**
+	 * Makes a request to the link_acccount endpoint
+	 *
+	 * @param userHandle
+	 * @param userPrivateKey
+	 * @param accountName
+	 * @param publicToken
+	 * @param accountId
+	 * @param accountNumber
+	 * @param routingNumber
+	 * @param accountType
+	 * @return {@link ApiResponse}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	private ApiResponse linkAccount(String userHandle,
+			String userPrivateKey,
+			String accountName, 
+			String publicToken,
+			String accountId,
+			String accountNumber,
+			String routingNumber,
+			String accountType) throws IOException, InterruptedException {
+		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId,
+				accountNumber, routingNumber, accountType,
+				this.configuration.getAuthHandle());
 		String path = Endpoints.LINK_ACCOUNT.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -269,6 +332,8 @@ public class SilaApi {
 	 * @param userHandle
 	 * @param amount
 	 * @param accountName
+	 * @param descriptor
+	 * @param businessUuid
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
@@ -278,13 +343,14 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse issueSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey)
+	public ApiResponse issueSila(String userHandle, int amount, @Nullable String accountName,
+			@Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
 		if (accountName == null || accountName.isBlank()) {
 			accountName = "default";
 		}
-		IssueMsg body = new IssueMsg(userHandle, accountName, amount, this.configuration.getAuthHandle());
+		IssueMsg body = new IssueMsg(userHandle, accountName, amount, descriptor, businessUuid, this.configuration.getAuthHandle());
 		String path = Endpoints.ISSUE_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -305,6 +371,8 @@ public class SilaApi {
 	 * @param amount
 	 * @param destination
 	 * @param destinationAddress
+	 * @param descriptor
+	 * @param businessUuid
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
@@ -315,10 +383,10 @@ public class SilaApi {
 	 * @throws ForbiddenException
 	 */
 	public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
-			String userPrivateKey) throws IOException, InterruptedException, BadRequestException,
-			InvalidSignatureException, ServerSideException, ForbiddenException {
-		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress,
-				this.configuration.getAuthHandle());
+			@Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
+			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+			ServerSideException, ForbiddenException {
+		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, descriptor, businessUuid, this.configuration.getAuthHandle());
 		String path = Endpoints.TRANSFER_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -338,6 +406,8 @@ public class SilaApi {
 	 * @param userHandle
 	 * @param amount
 	 * @param accountName
+	 * @param descriptor
+	 * @param businessUuid
 	 * @param userPrivateKey
 	 * @return
 	 * @throws IOException
@@ -347,13 +417,14 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse redeemSila(String userHandle, int amount, @Nullable String accountName, String userPrivateKey)
+	public ApiResponse redeemSila(String userHandle, int amount, @Nullable String accountName,
+			@Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
 		if (accountName == null || accountName.isBlank()) {
 			accountName = "default";
 		}
-		RedeemMsg body = new RedeemMsg(userHandle, amount, accountName, this.configuration.getAuthHandle());
+		RedeemMsg body = new RedeemMsg(userHandle, amount, accountName, descriptor, businessUuid, this.configuration.getAuthHandle());
 		String path = Endpoints.REDEEM_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -363,7 +434,7 @@ public class SilaApi {
 
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-		return ResponseUtil.prepareResponse(response, Message.ValueEnum.TRANSFER_MSG.getValue());
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.REDEEM_MSG.getValue());
 	}
 
 	/**

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
+import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.CheckKYCResponse;
 import com.silamoney.client.domain.GetBusinessRolesResponse;
@@ -17,10 +18,8 @@ import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.LinkBusinessMemberResponse;
 import com.silamoney.client.domain.LinkBusinessOperationResponse;
-import com.silamoney.client.exceptions.BadRequestException;
-import com.silamoney.client.exceptions.ForbiddenException;
-import com.silamoney.client.exceptions.InvalidSignatureException;
-import com.silamoney.client.exceptions.ServerSideException;
+import com.silamoney.client.domain.TransactionResponse;
+import com.silamoney.client.domain.TransferSilaResponse;
 
 /**
  * Class to manage the different kinds of responses.
@@ -39,18 +38,19 @@ public class ResponseUtil {
      * @param response
      * @param msg
      * @return ApiResponse
-     * @throws com.silamoney.client.exceptions.BadRequestException
-     * @throws com.silamoney.client.exceptions.InvalidSignatureException
-     * @throws com.silamoney.client.exceptions.ServerSideException
-     * @throws com.silamoney.client.exceptions.ForbiddenException
      */
-    public static ApiResponse prepareResponse(HttpResponse<?> response, String msg)
-            throws BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+    public static ApiResponse prepareResponse(HttpResponse<?> response, String msg) {
         int statusCode = response.statusCode();
 
         boolean success = true;
         if (statusCode != 200) {
             success = false;
+        }
+
+        if (statusCode == 400) {
+            BadRequestResponse badRequestResponse = (BadRequestResponse) Serialization
+                    .deserialize(response.body().toString(), BadRequestResponse.class);
+            return new ApiResponse(statusCode, response.headers().map(), badRequestResponse, success);
         }
 
         switch (msg) {
@@ -71,7 +71,7 @@ public class ResponseUtil {
                     ArrayList<Account> list = new ArrayList<Account>();
                     if (accounts instanceof ArrayList<?>) {
                         ArrayList<?> arrayAccounts = (ArrayList<?>) accounts;
-                        if (arrayAccounts.size() > 0) {
+                        if (!arrayAccounts.isEmpty()) {
                             for (int i = 0; i < arrayAccounts.size(); i++) {
                                 Object account = arrayAccounts.get(i);
                                 if (account instanceof Account) {
@@ -140,6 +140,25 @@ public class ResponseUtil {
                         .deserialize(response.body().toString(), GetEntitiesResponse.class);
 
                 return new ApiResponse(statusCode, response.headers().map(), getEntitiesResponse, success);
+            case "issue_msg":
+            case "redeem_msg":
+                TransactionResponse issueSilaResponse = (TransactionResponse) Serialization
+                        .deserialize(response.body().toString(), TransactionResponse.class);
+
+                if (success && !"SUCCESS".equals(issueSilaResponse.getStatus())) {
+                    success = false;
+                }
+
+                return new ApiResponse(statusCode, response.headers().map(), issueSilaResponse, success);
+            case "transfer_msg":
+                TransferSilaResponse transferSilaResponse = (TransferSilaResponse) Serialization
+                        .deserialize(response.body().toString(), TransferSilaResponse.class);
+
+                if (success && !"SUCCESS".equals(transferSilaResponse.getStatus())) {
+                    success = false;
+                }
+
+                return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);

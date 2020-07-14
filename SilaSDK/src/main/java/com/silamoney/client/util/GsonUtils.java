@@ -33,7 +33,7 @@ public class GsonUtils {
      * @param object
      * @return
      */
-    public static String objectToJsonStringFormato(Object object) {
+    public static String objectToJsonStringFormat(Object object) {
         String result = "";
         try {
             Gson json = new GsonBuilder().setPrettyPrinting().create();
