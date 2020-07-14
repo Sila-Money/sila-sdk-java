@@ -57,12 +57,6 @@ public class TransferSilaTests {
 	public void Response400WrongUuid() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 		// TRANSACTIONS5
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
 		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100,
 				DefaultConfigurations.getUserPrivateKey(), DefaultConfigurations.getUserPrivateKey(),
 				"test descriptor", DefaultConfigurations.wrongUuid,

@@ -39,16 +39,6 @@ public class IssueSilaTests {
 	}
 
 	@Test
-	public void ResponseNotPassed() throws Exception {
-		// TRANSACTIONS2
-		ApiResponse response = api.issueSila(DefaultConfigurations.getUser2Handle(), 100, "default", 
-				"test descriptor", UUID.randomUUID().toString(), DefaultConfigurations.getUser2PrivateKey());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
-		assertEquals(401, response.getStatusCode());
-		assertEquals("FAILURE", ((TransactionResponse) response.getData()).getStatus());
-	}
-
-	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
 		ApiResponse response = api.issueSila("", 1000, null, 

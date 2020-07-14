@@ -52,12 +52,6 @@ public class RedeemSilaTests {
 	@Test
 	public void Response400WrongUuiud() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
 		ApiResponse response = api.redeemSila("", 1000, "Custom Account Name",
 				"test descriptor", DefaultConfigurations.wrongUuid,
 				DefaultConfigurations.getUserPrivateKey());
