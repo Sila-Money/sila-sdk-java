@@ -1,4 +1,4 @@
-# Sila Java SDK 0.2.6-rc
+# Sila Java SDK 0.2.9-rc
 
 NOTE: This SDK is a release candidate.
 
