@@ -1,16 +1,25 @@
 package com.silamoney.client.util;
 
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
+
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.CheckKYCResponse;
+import com.silamoney.client.domain.GetBusinessRolesResponse;
+import com.silamoney.client.domain.GetBusinessTypesResponse;
+import com.silamoney.client.domain.GetEntitiesResponse;
+import com.silamoney.client.domain.GetEntityResponse;
+import com.silamoney.client.domain.GetNaicsCategoriesResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
-import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
+import com.silamoney.client.domain.LinkBusinessMemberResponse;
+import com.silamoney.client.domain.LinkBusinessOperationResponse;
+import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.TransferSilaResponse;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
 
 /**
  * Class to manage the different kinds of responses.
@@ -91,6 +100,46 @@ public class ResponseUtil {
                 return new ApiResponse(statusCode, response.headers().map(), getTransactionsResponse, success);
             case "SilaBalance":
                 return new ApiResponse(statusCode, response.headers().map(), response.body(), success);
+            case "get_business_types":
+                GetBusinessTypesResponse businessTypesResponse = (GetBusinessTypesResponse) Serialization
+                        .deserialize(response.body().toString(), GetBusinessTypesResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), businessTypesResponse, success);
+            case "get_business_roles":
+                GetBusinessRolesResponse businessRolesResponse = (GetBusinessRolesResponse) Serialization
+                        .deserialize(response.body().toString(), GetBusinessRolesResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), businessRolesResponse, success);
+            case "get_naics_categories":
+                GetNaicsCategoriesResponse getNaicsCategoriesResponse = (GetNaicsCategoriesResponse) Serialization
+                        .deserialize(response.body().toString(), GetNaicsCategoriesResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getNaicsCategoriesResponse, success);
+            case "link_business_member":
+                LinkBusinessMemberResponse linkBusinessMemberResponse = (LinkBusinessMemberResponse) Serialization
+                        .deserialize(response.body().toString(), LinkBusinessMemberResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), linkBusinessMemberResponse, success);
+            case "check_kyc":
+                CheckKYCResponse checkKYCResponse = (CheckKYCResponse) Serialization
+                        .deserialize(response.body().toString(), CheckKYCResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), checkKYCResponse, success);
+            case "unlink_business_member":
+                LinkBusinessOperationResponse LinkBusinessOperationResponse = (LinkBusinessOperationResponse) Serialization
+                        .deserialize(response.body().toString(), LinkBusinessOperationResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), LinkBusinessOperationResponse, success);
+            case "get_entity":
+                GetEntityResponse getEntityResponse = (GetEntityResponse) Serialization
+                        .deserialize(response.body().toString(), GetEntityResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getEntityResponse, success);
+            case "get_entities":
+                GetEntitiesResponse getEntitiesResponse = (GetEntitiesResponse) Serialization
+                        .deserialize(response.body().toString(), GetEntitiesResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getEntitiesResponse, success);
             case "issue_msg":
             case "redeem_msg":
                 TransactionResponse issueSilaResponse = (TransactionResponse) Serialization

@@ -13,6 +13,7 @@ public class HeaderMsg {
     private final Header header;
 
     @SerializedName("kyc_level")
+    
     private final String kycLevel;
 
     @SerializedName("message")

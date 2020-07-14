@@ -79,7 +79,47 @@ public class Message {
         /**
          * String value for GetSilaBalanceMsg.
          */
-        GET_SILA_BALANCE("get_sila_balance")        ;        
+        GET_SILA_BALANCE("get_sila_balance"),
+        /**
+         * String value for GetBusinessTypes.
+         */
+        GET_BUSINESS_TYPES("get_business_types"), 
+        /**
+         * String value for GetBusinessRoles.
+         */
+        GET_BUSINESS_ROLES("get_business_roles"), 
+        /**
+         * String value for GetNaicsCategories.
+         */
+        GET_NAICS_CATEGORIES_MSG("get_naics_categories"), 
+        /**
+         * String value for LinkBusinessMember.
+         */
+        LINK_BUSINESS_MEMBER_MSG("link_business_member"), 
+        /**
+         * String value for check kyc.
+         */
+        CHECK_KYC("check_kyc"), 
+        /**
+         * String value for UnlinkBusinessMember.
+         */
+        UNLINK_BUSINESS_MEMBER_MSG("unlink_business_member"), 
+        /**
+         * String value for GetEntity.
+         */
+        GET_ENTITY_MSG("get_entity"), 
+        /**
+         * String value for CertifyBusinessOwner.
+         */
+        CERTIFY_BENEFICIAL_OWNER("certify_business_owner"), 
+        /**
+         * String value for CertifyBusiness.
+         */
+        CERTIFY_BUSINESS("certify_business"), 
+        /**
+         * String value for GetEntities.
+         */
+        GET_ENTITIES("get_entities");
 
         private final String value;
 

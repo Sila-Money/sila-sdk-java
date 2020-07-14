@@ -40,7 +40,14 @@ public class RegisterTests {
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
 
+		User user2 = new User(DefaultConfigurations.getUser2Handle(), "Example", "User", "123 Main Street", null,
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				DefaultConfigurations.getUser2CryptoAddress(), birthdate.toDate());
+
 		ApiResponse response = api.register(user);
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		response = api.register(user2);
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}

@@ -1,13 +1,14 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.CheckKYCResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -32,11 +33,32 @@ public class CheckKYCTests {
                 DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
-        while (!((BaseResponse) response.getData()).getStatus().contains("SUCCESS")) {
+        while (!((CheckKYCResponse) response.getData()).getStatus().contains("SUCCESS")) {
             TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
         }
-        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+        assertEquals("SUCCESS", ((CheckKYCResponse) response.getData()).getStatus());
+
+        response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
+
+        assertEquals(200, response.getStatusCode());
+        while (!((CheckKYCResponse) response.getData()).getStatus().contains("SUCCESS")) {
+            TimeUnit.SECONDS.sleep(5);
+            response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
+        }
+        assertEquals("SUCCESS", ((CheckKYCResponse) response.getData()).getStatus());
+
+        response = api.checkKYC(DefaultConfigurations.getBusinessHandle(),
+                DefaultConfigurations.getBusinessPrivateKey());
+
+        assertEquals(200, response.getStatusCode());
+        while (!((CheckKYCResponse) response.getData()).getMessage().contains("Business has passed verification")) {
+            TimeUnit.SECONDS.sleep(5);
+            response = api.checkKYC(DefaultConfigurations.getBusinessHandle(),
+                    DefaultConfigurations.getBusinessPrivateKey());
+        }
+
+        assertTrue(((CheckKYCResponse) response.getData()).getMessage().contains("Business has passed verification"));
     }
 
     @Test
@@ -46,7 +68,7 @@ public class CheckKYCTests {
         String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
         ApiResponse response = api.checkKYC(userHandle2Failure, userPrivateKeyFailure);
         assertEquals(200, response.getStatusCode());
-        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+        assertEquals("FAILURE", ((CheckKYCResponse) response.getData()).getStatus());
     }
 
     @Test

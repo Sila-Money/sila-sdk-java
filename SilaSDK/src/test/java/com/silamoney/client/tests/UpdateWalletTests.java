@@ -29,12 +29,7 @@ public class UpdateWalletTests {
 
 	@Test
 	public void Response200() throws Exception {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
+		 
 		ApiResponse response = api.updateWallet(DefaultConfigurations.getUserHandle(), "wallet_test_UPD", false,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(200, response.getStatusCode());
@@ -43,12 +38,7 @@ public class UpdateWalletTests {
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
+		 
 		ApiResponse response = api.updateWallet("", "wallet_test", false,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(400, response.getStatusCode());
@@ -59,12 +49,7 @@ public class UpdateWalletTests {
 			InterruptedException, ForbiddenException {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
+		 
 		ApiResponse response = api.updateWallet(DefaultConfigurations.getUserHandle(), "wallet_test", false,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(403, response.getStatusCode());
