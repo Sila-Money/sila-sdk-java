@@ -13,7 +13,7 @@ public class Contact {
     private final String phone;
 
     @SerializedName("contact_alias")
-    private final String contactAlias;
+    private String contactAlias;
 
     @SerializedName("email")
     private final String email;
@@ -25,6 +25,16 @@ public class Contact {
      */
     public Contact(User user) {
         this.contactAlias = "";
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+    }
+
+    /**
+     * Constructor for contact object.
+     *
+     * @param user
+     */
+    public Contact(BusinessUser user) {
         this.email = user.getEmail();
         this.phone = user.getPhone();
     }

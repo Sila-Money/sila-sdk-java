@@ -1,4 +1,4 @@
-# Sila Java SDK 0.2.6-rc
+# Sila Java SDK 0.2.9-rc
 
 NOTE: This SDK is a release candidate.
 
@@ -7,11 +7,11 @@ For this SDK you will need to use JDK 11 or later.
 ### Usage
 #### Installation
 Add the SDK from the Maven repository.
-```java
+```xml
 <dependency>
     <groupId>com.silamoney</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.6-rc</version>
+    <version>0.2.9-rc</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ This sets up the app private key and handle for the SDK to use for signing subse
 Checks if a specific handle is already taken.
 ```java
 String userHandle = "user.silamoney.eth";
-ApiResponse response = api.CheckHandle(userHandle);
+ApiResponse response = api.checkHandle(userHandle);
 ```
 
 ##### Success Response Object 200 
@@ -57,7 +57,7 @@ Attaches KYC data and specified blockchain address to an assigned handle.
 User user = new User(String userHandle, String firstName, String lastName, String streetAddress1, @Nullable String streetAddress2, 
       String city, String state (2 characters), String postalCode (5 or 9 digit format), String phone, String email, String cryptoAddress, 
       String identityNumber (SSN format "AAA-GG-SSSS"), Date birthdate);
-ApiResponse response = api.Register(user);
+ApiResponse response = api.register(user);
 ```
 
 ##### Success Response Object
@@ -67,18 +67,38 @@ System.out.println(((BaseResponse)response.getData()).getReference());// Random 
 System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user was successfully registered.
 ```
+
+#### Register Business
+```java
+BusinessType businessType; //Get business type with api.getBusinessTypes() documentation below.
+NaicsCategoryDescription naicsCategory; //Get naics category with api.getNaicsCategories() documentation below.
+
+BusinessUser user = new BusinessUser("userhandle", "Office", "123 Main Street", 
+                "street address 2", "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "crypto address", "entity name", businessType, "https://www.website.com", "doing business as", naicsCategory);
+                
+ApiResponse response = api.registerBusiness(user);
+```
+
+##### Success Response Object
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((BaseResponse)response.getData()).getReference());// Random reference number
+System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
+System.out.println(((BaseResponse)response.getData()).getMessage()); // user was successfully registered.
+```
+
 #### RequestKYC
 
 Starts KYC verification process on a registered user handle.
 
 Normal Flow:
 ```java
-ApiResponse response = api.RequestKYC(userHandle, userPrivateKey);
+ApiResponse response = api.requestKYC(userHandle, userPrivateKey);
 ```
 Custom Flow:
 ```java
 String kycLevel = "CUSTOM_KYC_FLOW_NAME";
-ApiResponse response = api.RequestKYC(userHandle, userPrivateKey, kycLevel);
+ApiResponse response = api.requestKYC(userHandle, userPrivateKey, kycLevel);
 ```
 
 ##### Success Response Object
@@ -92,7 +112,7 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user sub
 #### CheckKYC
 Returns whether the entity attached to the user handle is verified, not valid, or still pending.
 ```java
-ApiResponse response = api.CheckKYC(userHandle, userPrivateKey);
+ApiResponse response = api.checkKYC(userHandle, userPrivateKey);
 ```
 
 ##### Success Response Object
@@ -103,17 +123,48 @@ System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user has passed ID verification!
 ```
 #### LinkAccount
+
 Uses a provided Plaid public token to link a bank account to a verified entity.
+
 ```java
-ApiResponse response = api.LinkAccount(userHandle, accountName, publicToken, userPrivateKey); 
+String userHandle = 'user.silamoney.eth';
+String accountName = 'plaid'; // Your desired account name
+String publicToken = 'public-sandbox-xxx' // Your Plaid token
+String userPrivateKey = 'some private key';
+String accountId = 'some account id';
+
+// Gets the first plaid account
+ApiResponse response = api.linkAccount(userHandle, userPrivateKey, accountName, publicToken);
+// If you want to specify the account id
+ApiResponse response = api.linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId);
 ```
+
 Public token received in the /link/item/create plaid endpoint.
+
+For Direct account linking
+
+```java
+String userHandle = 'user.silamoney.eth';
+String accountName = 'direct'; // Your desired account name
+String accountNumber = '123456789012';
+String routingNumber = '123456789';
+String accountType = 'CHECKING'; // Currently the only allowed value
+String userPrivateKey = 'some private key';
+
+ApiResponse response = api.linkAccount(userHandle, userPrivateKey, accountName, accountNumber, routingNumber, accountType);
+```
 
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((LinkAccountResponse) response.getData()).getStatus()); // SUCCESS
+LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getReference()); // Reference number
+System.out.println(parsedResponse.getMessage()); // Successfully linked
+System.out.println(parsedResponse.getAccountName()); // Your desired account name
+System.out.println(parsedResponse.getMatchScore()); // Match score
 ```
+
 #### Plaid Sameday Auth
 Generates a Plaid token to complete Plaid's Same Day Microdeposit Authentication
 ```java
@@ -201,40 +252,40 @@ System.out.println(((List<Account>) response.getData()).get(0).accountType); // 
 #### IssueSila
 Debits a specified account and issues tokens to the address belonging to the requested handle.
 ```java
-ApiResponse response = api.IssueSila(userHandle, amount, accountName, userPrivateKey);
+ApiResponse response = api.IssueSila(userHandle, amount, accountName, descriptor, businessUuid, userPrivateKey);
 ```
 
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((BaseResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((BaseResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((BaseResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
+System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
+System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
  
 #### TransferSila
 Starts a transfer of the requested amount of SILA to the requested destination handle.
 ```java
-ApiResponse response = api.TransferSila(userHandle, 1000, destination, userPrivateKey);
+ApiResponse response = api.TransferSila(userHandle, 1000, destination, destinationAddress, descriptor, businessUuid, userPrivateKey);
 ```
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((BaseResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((BaseResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((BaseResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
+System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
+System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
 #### RedeemSila
 Burns given the amount of SILA at the handle's blockchain address and credits their named bank account in the equivalent monetary amount.
 ```java
-ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, userPrivateKey); 
+ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, descriptor, businessUuid, userPrivateKey); 
 ```
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((BaseResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((BaseResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((BaseResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
+System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
+System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
 #### GetTransactions
 Gets the array of user handle's transactions with detailed status information.
@@ -270,4 +321,134 @@ ApiResponse response = api.SilaBalance(host, address);
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(response.getData()); // Sila Tokens.
+```
+
+#### GetBusinessTypes
+Gets a list of valid business types that can be registered.
+```java
+ApiResponse response = api.getBusinessTypes();
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetBusinessTypesResponse) response.getData()).getBusinessTypes(); // List of business types.
+```
+
+#### GetBusinessRoles
+Retrieves the list of pre-defined business roles.
+```java
+ApiResponse response = api.getBusinessRoles();
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetBusinessRolesResponse) response.getData()).getBusinessRoles(); // List of business roles.
+```
+
+#### GetNaicsCategories
+```java
+ApiResponse response = api.getNaicsCategories();
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories = ((GetNaicsCategoriesResponse) response.getData()).getNaicsCategories();
+for (String key : naicsCategories.keySet()) {
+    for (NaicsCategoryDescription categoryDescription : naicsCategories.get(key)) {
+        System.out.println(categoryDescription.getSubcategory()); // Naics Category subcategory
+        System.out.println(categoryDescription.getCode()); // Naics Category code
+    }
+}
+```
+
+#### LinkBusinessMemeber
+```java
+BusinessRole businessRole = ((GetBusinessRolesResponse)api.getBusinessRoles().getData()).get(0);
+float ownershipStake = 0.30;
+ApiResponse response = api.linkBusinessMember("user handle", "user private key", "business handle", "business private key", businessRole, (optional) "member handle", (optional) "test details", (optional) ownershipStake);
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((LinkBusinessMemberResponse) response.getData()).getDetails())// test details
+System.out.println(((LinkBusinessMemberResponse) response.getData()).getRole());// business role name
+```
+
+#### UnlinkBusinessMemeber
+```java
+BusinessRole businessRole = ((GetBusinessRolesResponse)api.getBusinessRoles().getData()).get(0);
+float ownershipStake = 0.30;
+ApiResponse response = api.unlinkBusinessMember("user handle", "user private key",   "business handle", "business private key", businessRole);
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((LinkBusinessOperationResponse) response.getData()).getDetails())// test details
+System.out.println(((LinkBusinessOperationResponse) response.getData()).getRole());// business role name
+```
+
+#### Get Entity (individual)
+```java
+ApiResponse response = api.getEntity("user handle", "user private key");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetEntityResponse)response.getData()).getAddresses(); // Get addresses list
+((GetEntityResponse)response.getData()).getEmails(); // Get emails list
+((GetEntityResponse)response.getData()).getIdentities(); // Get identities list
+((GetEntityResponse)response.getData()).getPhones(); // Get phones list
+((GetEntityResponse)response.getData()).getMemberships(); // Get memberships list
+((GetEntityResponse)response.getData()).getEntity(); // Get entity object
+((GetEntityResponse)response.getData()).getEntityType(); // "individual"
+```
+#### Get Entity (business)
+```java
+ApiResponse response = api.getEntity("business handle", "business private key");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetEntityResponse)response.getData()).getAddresses(); // Get addresses list
+((GetEntityResponse)response.getData()).getEmails(); // Get emails list
+((GetEntityResponse)response.getData()).getIdentities(); // Get identities list
+((GetEntityResponse)response.getData()).getPhones(); // Get phones list
+((GetEntityResponse)response.getData()).getMembers(); // Get members list
+((GetEntityResponse)response.getData()).getEntity(); // Get entity object
+((GetEntityResponse)response.getData()).getEntityType(); // "business"
+```
+
+#### Certify Beneficial Owner
+```java
+ApiResponse response = api.certifyBusinessOwner("user handle", "user private key", "business handle", "business private key", "member handle", "certification token");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((BaseResponse) response.getData()).getMessage()); // Beneficial owner successfully certified.
+```
+
+#### Certify Business
+```java
+ApiResponse response = api.certifyBusiness("user handle", "user private key", "business handle", "business private key");
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(((BaseResponse) response.getData()).getMessage()); // Business successfully certified.
+```
+
+#### Get Entities
+```java
+int page = 1;
+int perPage = 50;
+ApiResponse response = api.getEntities("eentity type", page, perPage);
+```
+##### Success Object Response
+```java
+System.out.println(response.getStatusCode()); // 200
+((GetEntitiesResponse)response.getData()).getEntities() // Entities object
+((GetEntitiesResponse)response.getData()).getPagination()// Pagination object
+((GetEntitiesResponse)response.getData()).getEntities().getIndividuals() // List of individual entities
+((GetEntitiesResponse)response.getData()).getEntities().getBusinesses()// List of business entities
 ```

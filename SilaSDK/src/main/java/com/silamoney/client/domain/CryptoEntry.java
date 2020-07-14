@@ -24,7 +24,7 @@ public class CryptoEntry {
     }
 
     @SerializedName("crypto_alias")
-    private final String cryptoAlias;
+    private String cryptoAlias;
 
     @SerializedName("crypto_address")
     private final String cryptoAddress;
@@ -40,6 +40,16 @@ public class CryptoEntry {
     public CryptoEntry(User user) {
         this.cryptoAddress = user.getCryptoAddress();
         this.cryptoAlias = "";
+        this.cryptoCode = CryptoCodeEnum.ETH.getValue();
+    }
+
+    /**
+     * Constructor for the CryptoEntry object.
+     *
+     * @param user
+     */
+    public CryptoEntry(BusinessUser user) {
+        this.cryptoAddress = user.getCryptoAddress();
         this.cryptoCode = CryptoCodeEnum.ETH.getValue();
     }
 }

@@ -1,22 +1,20 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.User;
+import com.silamoney.client.domain.CheckKYCResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
-import org.joda.time.LocalDate;
 import org.junit.Test;
 
 /**
@@ -28,76 +26,66 @@ public class CheckKYCTests {
     SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
             DefaultConfigurations.privateKey);
 
-    String userHandle = "javasdk-893748932";
-    String userHandle2Failure = "javasdk-349425739";
-    String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
-    String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
+    @Test
+    public void Response200() throws Exception {
+        // KYCID2
+        ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey());
 
-//    @Test
-//    public void Response200() throws Exception {
-//        // KYCID2
-//        if (DefaultConfigurations.getUserHandle() == null) {
-//            DefaultConfigurations.setUserHandle(userHandle);
-//        }
-//        if (DefaultConfigurations.getUserPrivateKey() == null) {
-//            DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-//        }
-//        LocalDate birthdate = new LocalDate(1900, 01, 31);
-//        DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
-//        User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
-//                "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-//                DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
-//
-//        api.register(user);
-//        api.requestKYC(DefaultConfigurations.getUserHandle(), null, DefaultConfigurations.getUserPrivateKey());
-//        ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(),
-//                DefaultConfigurations.getUserPrivateKey());
-//
-//        assertEquals(200, response.getStatusCode());
-//        while (!((BaseResponse) response.getData()).getStatus().contains("SUCCESS")) {
-//            TimeUnit.SECONDS.sleep(5);
-//            response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
-//        }
-//        assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-//    }
+        assertEquals(200, response.getStatusCode());
+        while (!((CheckKYCResponse) response.getData()).getStatus().contains("SUCCESS")) {
+            TimeUnit.SECONDS.sleep(5);
+            response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
+        }
+        assertEquals("SUCCESS", ((CheckKYCResponse) response.getData()).getStatus());
+
+        response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
+
+        assertEquals(200, response.getStatusCode());
+        while (!((CheckKYCResponse) response.getData()).getStatus().contains("SUCCESS")) {
+            TimeUnit.SECONDS.sleep(5);
+            response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
+        }
+        assertEquals("SUCCESS", ((CheckKYCResponse) response.getData()).getStatus());
+
+        response = api.checkKYC(DefaultConfigurations.getBusinessHandle(),
+                DefaultConfigurations.getBusinessPrivateKey());
+
+        assertEquals(200, response.getStatusCode());
+        while (!((CheckKYCResponse) response.getData()).getMessage().contains("Business has passed verification")) {
+            TimeUnit.SECONDS.sleep(5);
+            response = api.checkKYC(DefaultConfigurations.getBusinessHandle(),
+                    DefaultConfigurations.getBusinessPrivateKey());
+        }
+
+        assertTrue(((CheckKYCResponse) response.getData()).getMessage().contains("Business has passed verification"));
+    }
 
     @Test
     public void Response200Failure() throws Exception {
         // KYCID3
+        String userHandle2Failure = "javasdk-349425739";
+        String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
         ApiResponse response = api.checkKYC(userHandle2Failure, userPrivateKeyFailure);
         assertEquals(200, response.getStatusCode());
-        assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+        assertEquals("FAILURE", ((CheckKYCResponse) response.getData()).getStatus());
     }
 
     @Test
     public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
             InterruptedException, ForbiddenException {
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle2Failure);
-        }
-        if (DefaultConfigurations.getUserPrivateKey() == null) {
-            DefaultConfigurations.setUserPrivateKey(userPrivateKeyFailure);
-        }
         ApiResponse response = api.checkKYC("", DefaultConfigurations.getUserPrivateKey());
         assertEquals(400, response.getStatusCode());
-        // System.out.println(GsonUtils.objectToJsonStringFormato(response));
     }
 
     @Test
     public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
             IOException, InterruptedException, ForbiddenException {
-        if (DefaultConfigurations.getUserHandle() == null) {
-            DefaultConfigurations.setUserHandle(userHandle2Failure);
-        }
-        if (DefaultConfigurations.getUserPrivateKey() == null) {
-            DefaultConfigurations.setUserPrivateKey(userPrivateKeyFailure);
-        }
         api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                 "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
         ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey());
         assertEquals(401, response.getStatusCode());
-        // System.out.println(GsonUtils.objectToJsonStringFormato(response));
     }
 }

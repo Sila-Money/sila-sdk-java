@@ -18,7 +18,16 @@ public enum Endpoints {
 	REGISTER_WALLET("/register_wallet"),
 	UPDATE_WALLET("/update_wallet"),
 	DELETE_WALLET("/delete_wallet"),
-	GET_WALLETS("/get_wallets");
+	GET_WALLETS("/get_wallets"), 
+	GET_BUSINESS_TYPES("/get_business_types"), 
+	GET_BUSINESS_ROLES("/get_business_roles"), 
+	GET_NAICS_CATEGORIES("/get_naics_categories"), 
+	LINK_BUSINESS_MEMBER("/link_business_member"), 
+	UNLINK_BUSINESS_MEMBER("/unlink_business_member"), 
+	GET_ENTITY("/get_entity"), 
+	CERTIFY_BENEFICIAL_OWNER("/certify_beneficial_owner"), 
+	CERTIFY_BUSINESS("/certify_business"), 
+	GET_ENTITIES("/get_entities");
 
 	private String uri;
 

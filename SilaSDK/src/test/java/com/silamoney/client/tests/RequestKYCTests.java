@@ -3,19 +3,16 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.Random;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
-import org.joda.time.LocalDate;
 import org.junit.Test;
 
 /**
@@ -32,28 +29,29 @@ public class RequestKYCTests {
 	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
 	String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
 
-//	@Test
-//	public void response200() throws Exception {
-//		// KYCID1
-//		if (DefaultConfigurations.getUserHandle() == null) {
-//			DefaultConfigurations.setUserHandle(userHandle);
-//		}
-//		if (DefaultConfigurations.getUserPrivateKey() == null) {
-//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-//		}
-//		LocalDate birthdate = new LocalDate(1900, 01, 31);
-//		DefaultConfigurations.setUserHandle("javaSDK-" + new Random().nextInt());
-//		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
-//				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-//				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
-//
-//		api.register(user);
-//		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), null,
-//				DefaultConfigurations.getUserPrivateKey());
-//
-//		assertEquals(200, response.getStatusCode());
-//		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-//	}
+	@Test
+	public void response200() throws Exception {
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), null,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+
+		response = api.requestKYC(DefaultConfigurations.getUser2Handle(), null,
+				DefaultConfigurations.getUser2PrivateKey());
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
+
+	@Test
+	public void response200Business() throws Exception {
+		// KYCID1
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getBusinessHandle(), null,
+				DefaultConfigurations.getBusinessPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 
 	@Test
 	public void response200Failure() throws Exception {
@@ -62,21 +60,15 @@ public class RequestKYCTests {
 		assertEquals(200, response.getStatusCode());
 	}
 
-//	@Test
-//	public void response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-//			InterruptedException, ForbiddenException {
-//		// KYCID4
-//		if (DefaultConfigurations.getUserHandle() == null) {
-//			DefaultConfigurations.setUserHandle(userHandle);
-//		}
-//		if (DefaultConfigurations.getUserPrivateKey() == null) {
-//			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-//		}
-//		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "FAIL",
-//				DefaultConfigurations.getUserPrivateKey());
-//
-//		assertEquals(403, response.getStatusCode());
-//	}
+	@Test
+	public void response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+			InterruptedException, ForbiddenException {
+		// KYCID4
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "FAIL",
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(403, response.getStatusCode());
+	}
 
 	@Test
 	public void response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
@@ -84,12 +76,6 @@ public class RequestKYCTests {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
 		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), null,
 				DefaultConfigurations.getUserPrivateKey());
 
@@ -100,16 +86,9 @@ public class RequestKYCTests {
 	@Test
 	public void response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		if (DefaultConfigurations.getUserHandle() == null) {
-			DefaultConfigurations.setUserHandle(userHandle);
-		}
-		if (DefaultConfigurations.getUserPrivateKey() == null) {
-			DefaultConfigurations.setUserPrivateKey(userPrivateKey);
-		}
 		ApiResponse response = api.requestKYC("", null, DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(400, response.getStatusCode());
-		// System.out.println(GsonUtils.objectToJsonStringFormato(response));
 
 		api.requestKYC(DefaultConfigurations.getUserHandle(), "", DefaultConfigurations.getUserPrivateKey());
 	}

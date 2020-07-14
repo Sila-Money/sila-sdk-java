@@ -19,14 +19,11 @@ public class LinkAccountMsg {
     private final Header header;
 
     @SerializedName("selected_account_id")
-    private String selectedAccountId;
+    private final String selectedAccountId;
 
     @SerializedName("message")
     private final String message;
 
-    /**
-     * Support for account_number, routing_number and account_type
-     */
     @SerializedName("account_number")
     private final String accountNumber;
 
@@ -42,12 +39,17 @@ public class LinkAccountMsg {
      * @param userHandle
      * @param accountName
      * @param publicToken
+     * @param accountId
+     * @param accountNumber
+     * @param routingNumber
+     * @param accountType
      * @param appHandle
      */
-    public LinkAccountMsg(String userHandle, String accountName, String publicToken, 
-        String accountNumber, String routingNumber, String accountType, String appHandle) {
+    public LinkAccountMsg(String userHandle, String accountName, String publicToken, String accountId,
+            String accountNumber, String routingNumber, String accountType, String appHandle) {
         this.publicToken = publicToken;
         this.accountName = accountName;
+        this.selectedAccountId = accountId;
         this.accountNumber = accountNumber;
         this.routingNumber = routingNumber;
         this.accountType = accountType;

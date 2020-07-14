@@ -10,10 +10,20 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
+    GetBusinessTypesTests.class,
+    GetBusinessRolesTests.class,
+    GetNaicsCategoriesTest.class,
+    GetEntitiesTests.class,
     CheckHandleTests.class,
     RegisterTests.class,
+    RegisterBusinessTests.class,
+    LinkBusinessMemberTests.class,
+    UnlinkBusinessMemberTests.class,
     RequestKYCTests.class,
     CheckKYCTests.class,
+    GetEntityTests.class,
+    CertifyBusinessOwnerTests.class,
+    CertifyBusinessTests.class,
     LinkAccountTests.class,
     GetAccountsTests.class,
     GetAccountBalanceTests.class,
@@ -26,6 +36,6 @@ import org.junit.runners.Suite.SuiteClasses;
     GetWalletTests.class,
     GetWalletsTests.class,
     UpdateWalletTests.class,
-    DeleteWalletTests.class
+    DeleteWalletTests.class,
 })
 public class TestSuite {}
