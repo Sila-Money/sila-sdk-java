@@ -71,3 +71,5 @@ pom.xml.tag
 
 # Local History for Visual Studio Code
 .history/
+.vscode/settings.json
+SilaSDK/.factorypath
