@@ -252,40 +252,40 @@ System.out.println(((List<Account>) response.getData()).get(0).accountType); // 
 #### IssueSila
 Debits a specified account and issues tokens to the address belonging to the requested handle.
 ```java
-ApiResponse response = api.IssueSila(userHandle, amount, accountName, userPrivateKey);
+ApiResponse response = api.IssueSila(userHandle, amount, accountName, descriptor, businessUuid, userPrivateKey);
 ```
 
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((BaseResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((BaseResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((BaseResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
+System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
+System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
  
 #### TransferSila
 Starts a transfer of the requested amount of SILA to the requested destination handle.
 ```java
-ApiResponse response = api.TransferSila(userHandle, 1000, destination, userPrivateKey);
+ApiResponse response = api.TransferSila(userHandle, 1000, destination, destinationAddress, descriptor, businessUuid, userPrivateKey);
 ```
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((BaseResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((BaseResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((BaseResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
+System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
+System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
 #### RedeemSila
 Burns given the amount of SILA at the handle's blockchain address and credits their named bank account in the equivalent monetary amount.
 ```java
-ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, userPrivateKey); 
+ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, descriptor, businessUuid, userPrivateKey); 
 ```
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((BaseResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((BaseResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((BaseResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
+System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
+System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
 #### GetTransactions
 Gets the array of user handle's transactions with detailed status information.
