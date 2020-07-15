@@ -9,7 +9,7 @@ For this SDK you will need to use JDK 11 or later.
 Add the SDK from the Maven repository.
 ```xml
 <dependency>
-    <groupId>com.silamoney</groupId>
+    <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
     <version>0.2.9-rc</version>
 </dependency>
