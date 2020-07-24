@@ -141,6 +141,14 @@ public class ResponseUtil {
 
                 return new ApiResponse(statusCode, response.headers().map(), getEntitiesResponse, success);
             case "issue_msg":
+                TransactionResponse issueSilaResponse = (TransactionResponse) Serialization
+                        .deserialize(response.body().toString(), TransactionResponse.class);
+
+                if (success && !"SUCCESS".equals(issueSilaResponse.getStatus())) {
+                    success = false;
+                }
+
+                return new ApiResponse(statusCode, response.headers().map(), issueSilaResponse, success);
             case "redeem_msg":
                 TransactionResponse issueSilaResponse = (TransactionResponse) Serialization
                         .deserialize(response.body().toString(), TransactionResponse.class);
