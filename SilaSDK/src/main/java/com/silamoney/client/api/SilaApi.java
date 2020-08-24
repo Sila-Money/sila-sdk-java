@@ -1,9 +1,11 @@
 package com.silamoney.client.api;
 
+import java.math.BigInteger;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.*;
@@ -17,6 +19,15 @@ import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
 
 import io.reactivex.annotations.Nullable;
+
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
+import org.web3j.crypto.WalletFile;
+
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 /**
  *
@@ -179,10 +190,8 @@ public class SilaApi {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public ApiResponse linkAccount(String userHandle, 
-			String userPrivateKey,
-			String accountName, 
-			String publicToken) throws IOException, InterruptedException {
+	public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken)
+			throws IOException, InterruptedException {
 		return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null);
 	}
 
@@ -199,17 +208,14 @@ public class SilaApi {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public ApiResponse linkAccount(String userHandle,
-			String userPrivateKey,
-			String accountName,
-			String publicToken,
+	public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
 			String accountId) throws IOException, InterruptedException {
 		return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null);
 	}
 
 	/**
-	 * Direct account linking. This is a restricted use case.
-	 * Please contact Sila for approval
+	 * Direct account linking. This is a restricted use case. Please contact Sila
+	 * for approval
 	 *
 	 * @param userHandle
 	 * @param userPrivateKey
@@ -221,13 +227,10 @@ public class SilaApi {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public ApiResponse linkAccount(String userHandle,
-			String userPrivateKey,
-			String accountName,
-			String accountNumber,
-			String routingNumber,
-			String accountType) throws IOException, InterruptedException {
-		return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber, accountType);
+	public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String accountNumber,
+			String routingNumber, String accountType) throws IOException, InterruptedException {
+		return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber,
+				accountType);
 	}
 
 	/**
@@ -245,17 +248,11 @@ public class SilaApi {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	private ApiResponse linkAccount(String userHandle,
-			String userPrivateKey,
-			String accountName, 
-			String publicToken,
-			String accountId,
-			String accountNumber,
-			String routingNumber,
-			String accountType) throws IOException, InterruptedException {
-		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId,
-				accountNumber, routingNumber, accountType,
-				this.configuration.getAuthHandle());
+	private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
+			String accountId, String accountNumber, String routingNumber, String accountType)
+			throws IOException, InterruptedException {
+		LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId, accountNumber,
+				routingNumber, accountType, this.configuration.getAuthHandle());
 		String path = Endpoints.LINK_ACCOUNT.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -350,7 +347,8 @@ public class SilaApi {
 		if (accountName == null || accountName.isBlank()) {
 			accountName = "default";
 		}
-		IssueMsg body = new IssueMsg(userHandle, accountName, amount, descriptor, businessUuid, this.configuration.getAuthHandle());
+		IssueMsg body = new IssueMsg(userHandle, accountName, amount, descriptor, businessUuid,
+				this.configuration.getAuthHandle());
 		String path = Endpoints.ISSUE_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -386,7 +384,8 @@ public class SilaApi {
 			@Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
-		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, descriptor, businessUuid, this.configuration.getAuthHandle());
+		TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, descriptor,
+				businessUuid, this.configuration.getAuthHandle());
 		String path = Endpoints.TRANSFER_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -424,7 +423,8 @@ public class SilaApi {
 		if (accountName == null || accountName.isBlank()) {
 			accountName = "default";
 		}
-		RedeemMsg body = new RedeemMsg(userHandle, amount, accountName, descriptor, businessUuid, this.configuration.getAuthHandle());
+		RedeemMsg body = new RedeemMsg(userHandle, amount, accountName, descriptor, businessUuid,
+				this.configuration.getAuthHandle());
 		String path = Endpoints.REDEEM_SILA.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
@@ -526,6 +526,26 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_SAMEDAY_AUTH_MSG.getValue());
+	}
+
+	/**
+	 * Gets a random generated wallet
+	 * 
+	 * @return Wallet
+	 */
+	public Wallet generateWallet() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException,
+	 CipherException {
+		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+		BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+		WalletFile aWallet = org.web3j.crypto.Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+
+		return new Wallet(
+			"0x" + aWallet.getAddress(),
+			privateKeyInDec.toString(16),
+			"ETH",
+			"generated wallet"
+		);
 	}
 
 	/**

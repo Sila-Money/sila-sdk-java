@@ -1,6 +1,7 @@
 package com.silamoney.client.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Response used for the majority of endpoints.
@@ -19,5 +20,6 @@ public class BaseResponse {
     private String status;
 
     @Getter
+    @Setter
     private Boolean success;
 }
