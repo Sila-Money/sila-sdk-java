@@ -62,6 +62,8 @@ public class ResponseUtil {
                     success = false;
                 }
 
+                linkAccountResponse.setSuccess(success);
+
                 return new ApiResponse(statusCode, response.headers().map(), linkAccountResponse, success);
             case "get_accounts_msg":
                 TypeToken<ArrayList<Account>> token = new TypeToken<ArrayList<Account>>() {
@@ -90,6 +92,8 @@ public class ResponseUtil {
                     if (success && !"SUCCESS".equals(baseResponse.getStatus())) {
                         success = false;
                     }
+
+                    baseResponse.setSuccess(success);
 
                     return new ApiResponse(statusCode, response.headers().map(), baseResponse, success);
                 }
@@ -149,6 +153,8 @@ public class ResponseUtil {
                     success = false;
                 }
 
+                issueSilaResponse.setSuccess(success);
+
                 return new ApiResponse(statusCode, response.headers().map(), issueSilaResponse, success);
             case "transfer_msg":
                 TransferSilaResponse transferSilaResponse = (TransferSilaResponse) Serialization
@@ -158,14 +164,18 @@ public class ResponseUtil {
                     success = false;
                 }
 
+                transferSilaResponse.setSuccess(success);
+
                 return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);
 
-                if (success && !"SUCCESS".equals(baseResponse.getStatus())) {
+                if (success && (!"SUCCESS".equals(baseResponse.getStatus()) && baseResponse.getStatus() != null)) {
                     success = false;
                 }
+
+                baseResponse.setSuccess(success);
 
                 return new ApiResponse(statusCode, response.headers().map(), baseResponse, success);
         }

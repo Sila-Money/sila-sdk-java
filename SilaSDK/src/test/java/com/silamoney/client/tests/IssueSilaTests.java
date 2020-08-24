@@ -2,6 +2,7 @@ package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -33,6 +34,7 @@ public class IssueSilaTests {
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
+		assertTrue(((TransactionResponse)response.getData()).getSuccess());
 		assertEquals("test descriptor",((TransactionResponse) response.getData()).getDescriptor());
 		assertEquals("SUCCESS", ((TransactionResponse) response.getData()).getStatus());
 		assertNotNull(((TransactionResponse) response.getData()).getTransactionId());

@@ -1,4 +1,4 @@
-# Sila Java SDK 0.2.9-rc
+# Sila Java SDK 0.2.10-rc
 
 NOTE: This SDK is a release candidate.
 
@@ -11,7 +11,7 @@ Add the SDK from the Maven repository.
 <dependency>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.9-rc</version>
+    <version>0.2.10-rc</version>
 </dependency>
 ```
 
@@ -175,6 +175,13 @@ ApiResponse response = api.plaidSameDayAuth(userHandle, accountName, userPrivate
 System.out.println(response.getStatusCode()); // 200
 System.out.println(response.getData());
 ```
+
+#### Generate Wallet
+Gets a random generated wallet
+```java
+Wallet newWallet = api.generateWallet();
+```
+
 #### Register Wallet
 Adds another "wallet"/blockchain address to a user handle
 ```java
