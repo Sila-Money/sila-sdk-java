@@ -470,7 +470,6 @@ public class SilaApi {
 	/**
 	 * Gets Sila balance for a given blockchain address.
 	 *
-	 * @param host
 	 * @param address
 	 * @return
 	 * @throws IOException
