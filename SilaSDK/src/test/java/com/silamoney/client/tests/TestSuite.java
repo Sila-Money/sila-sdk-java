@@ -37,5 +37,6 @@ import org.junit.runners.Suite.SuiteClasses;
     GetWalletsTests.class,
     UpdateWalletTests.class,
     DeleteWalletTests.class,
+    SilaBalanceTests.class
 })
 public class TestSuite {}

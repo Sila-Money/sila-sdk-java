@@ -480,20 +480,14 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse silaBalance(String host, String address) throws IOException, InterruptedException,
+	public ApiResponse silaBalance(String address) throws IOException, InterruptedException,
 			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
 		SilaBalanceMsg body = new SilaBalanceMsg(address);
 		String path = Endpoints.GET_SILA_BALANCE.getUri();
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
 
-		String initialBasePath = this.configuration.getBasePath();
-
-		this.configuration.setBasePath(host);
-
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
-		this.configuration.setBasePath(initialBasePath);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_SILA_BALANCE.getValue());
 	}

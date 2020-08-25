@@ -207,10 +207,10 @@ ApiResponse response = api.getWallets(userHandle, filters, userPrivateKey);
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData().getWallets()); // Wallet list
-System.out.println(response.getData().getPage()); // Actual page requested
-System.out.println(response.getData().getReturnedCount()); // Total wallets returned
-System.out.println(response.getData().getTotalCount()); // Total wallets exists
+System.out.println(((GetWalletsResponse)response.getData()).getWallets()); // Wallet list
+System.out.println(((GetWalletsResponse)response.getData()).getPage()); // Actual page requested
+System.out.println(((GetWalletsResponse)response.getData()).getReturnedCount()); // Total wallets returned
+System.out.println(((GetWalletsResponse)response.getData()).getTotalCount()); // Total wallets exists
 ```
 #### Get Wallet
 Gets details about the user wallet used to generate the usersignature header.
@@ -220,9 +220,9 @@ ApiResponse response = api.getWallet(userHandle, userPrivateKey);
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData().getWallet()); // Wallet object
-System.out.println(response.getData().getIsWhitelisted()); // Boolean
-System.out.println(response.getData().getSilaBalance); // Sila balance
+System.out.println(((GetWalletResponse)response.getData()).getWallet()); // Wallet object
+System.out.println(((GetWalletResponse)response.getData()).getIsWhitelisted()); // Boolean
+System.out.println(((GetWalletResponse)response.getData()).getSilaBalance()); // Sila balance
 ```
 #### Update Wallet
 Updates nickname and/or default status of a wallet.
@@ -322,12 +322,13 @@ System.out.println((GetTransactionsResponse) response.getData()); // Access resp
 #### Get Sila Balance
 Gets Sila balance for a given blockchain address.
 ```java
-ApiResponse response = api.SilaBalance(host, address);
+ApiResponse response = api.SilaBalance(address);
 ```
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData()); // Sila Tokens.
+System.out.println(((GetSilaBalanceResponse)response.getData()).getAddress()); // address.
+System.out.println(((GetSilaBalanceResponse)response.getData()).getSilaBalance()); // Sila balance.
 ```
 
 #### GetBusinessTypes

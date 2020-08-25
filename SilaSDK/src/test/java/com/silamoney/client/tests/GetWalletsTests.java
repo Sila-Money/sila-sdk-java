@@ -1,11 +1,13 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.GetWalletsResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -36,6 +38,12 @@ public class GetWalletsTests {
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
+		assertNotNull(((GetWalletsResponse)response.getData()).page);
+		assertNotNull(((GetWalletsResponse)response.getData()).returnedCount);
+		assertNotNull(((GetWalletsResponse)response.getData()).totalCount);
+		assertNotNull(((GetWalletsResponse)response.getData()).totalPageCount);
+		assertNotNull(((GetWalletsResponse)response.getData()).getWallets());
+		assertNotNull(((GetWalletsResponse)response.getData()).getWallets().get(0));
 	}
 
 	@Test
