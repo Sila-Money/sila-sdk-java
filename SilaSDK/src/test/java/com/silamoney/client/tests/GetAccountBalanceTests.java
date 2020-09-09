@@ -1,8 +1,11 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.AccountBalanceResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.junit.Test;
 
@@ -20,6 +23,10 @@ public class GetAccountBalanceTests {
                 DefaultConfigurations.getUserPrivateKey(), "defaultpt");
 
         assertEquals(200, response.getStatusCode());
+        AccountBalanceResponse parsedResponse = (AccountBalanceResponse)response.getData();
+
+        assertNotNull(parsedResponse.getAccountName());
+        assertNotNull(parsedResponse.getMaskedAccountNumber());
     }
 
     @Test

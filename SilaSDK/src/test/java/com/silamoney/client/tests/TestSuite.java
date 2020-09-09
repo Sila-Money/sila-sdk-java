@@ -22,7 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
     RequestKYCTests.class,
     CheckKYCTests.class,
     GetEntityTests.class,
-    CertifyBusinessOwnerTests.class,
+    certifyBeneficialOwnerTests.class,
     CertifyBusinessTests.class,
     LinkAccountTests.class,
     GetAccountsTests.class,
@@ -37,5 +37,6 @@ import org.junit.runners.Suite.SuiteClasses;
     GetWalletsTests.class,
     UpdateWalletTests.class,
     DeleteWalletTests.class,
+    SilaBalanceTests.class
 })
 public class TestSuite {}

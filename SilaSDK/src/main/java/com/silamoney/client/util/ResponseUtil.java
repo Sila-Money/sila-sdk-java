@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.Account;
+import com.silamoney.client.domain.AccountBalanceResponse;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.CheckKYCResponse;
@@ -14,10 +15,14 @@ import com.silamoney.client.domain.GetBusinessTypesResponse;
 import com.silamoney.client.domain.GetEntitiesResponse;
 import com.silamoney.client.domain.GetEntityResponse;
 import com.silamoney.client.domain.GetNaicsCategoriesResponse;
+import com.silamoney.client.domain.GetSilaBalanceResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
+import com.silamoney.client.domain.GetWalletResponse;
+import com.silamoney.client.domain.GetWalletsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.LinkBusinessMemberResponse;
 import com.silamoney.client.domain.LinkBusinessOperationResponse;
+import com.silamoney.client.domain.PlaidSameDayAuthResponse;
 import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.TransferSilaResponse;
 
@@ -54,6 +59,30 @@ public class ResponseUtil {
         }
 
         switch (msg) {
+            case "get_account_balance_msg":
+                AccountBalanceResponse accountBalanceResponse = (AccountBalanceResponse) Serialization
+                        .deserialize(response.body().toString(), AccountBalanceResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), accountBalanceResponse,
+                accountBalanceResponse.getSuccess());
+            case "plaid_sameday_auth_msg":
+                PlaidSameDayAuthResponse plaidSameDayAuthResponse = (PlaidSameDayAuthResponse) Serialization
+                        .deserialize(response.body().toString(), PlaidSameDayAuthResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), plaidSameDayAuthResponse,
+                        plaidSameDayAuthResponse.getSuccess());
+            case "get_wallets_msg":
+                GetWalletsResponse getWalletsResponse = (GetWalletsResponse) Serialization
+                        .deserialize(response.body().toString(), GetWalletsResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getWalletsResponse,
+                        getWalletsResponse.isSuccess());
+            case "get_wallet_msg":
+                GetWalletResponse getWalletResponse = (GetWalletResponse) Serialization
+                        .deserialize(response.body().toString(), GetWalletResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getWalletResponse,
+                        getWalletResponse.getSuccess());
             case "link_account_msg":
                 LinkAccountResponse linkAccountResponse = (LinkAccountResponse) Serialization
                         .deserialize(response.body().toString(), LinkAccountResponse.class);
@@ -102,8 +131,12 @@ public class ResponseUtil {
                         .deserialize(response.body().toString(), GetTransactionsResponse.class);
 
                 return new ApiResponse(statusCode, response.headers().map(), getTransactionsResponse, success);
-            case "SilaBalance":
-                return new ApiResponse(statusCode, response.headers().map(), response.body(), success);
+            case "get_sila_balance":
+                GetSilaBalanceResponse getSilaBalanceResponse = (GetSilaBalanceResponse) Serialization
+                        .deserialize(response.body().toString(), GetSilaBalanceResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getSilaBalanceResponse,
+                        getSilaBalanceResponse.getSuccess());
             case "get_business_types":
                 GetBusinessTypesResponse businessTypesResponse = (GetBusinessTypesResponse) Serialization
                         .deserialize(response.body().toString(), GetBusinessTypesResponse.class);

@@ -109,7 +109,7 @@ public class Message {
          */
         GET_ENTITY_MSG("get_entity"), 
         /**
-         * String value for CertifyBusinessOwner.
+         * String value for certifyBeneficialOwner.
          */
         CERTIFY_BENEFICIAL_OWNER("certify_business_owner"), 
         /**

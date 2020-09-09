@@ -1,4 +1,4 @@
-# Sila Java SDK 0.2.10-rc
+# Sila Java SDK 0.2.10-rc2
 
 NOTE: This SDK is a release candidate.
 
@@ -11,7 +11,7 @@ Add the SDK from the Maven repository.
 <dependency>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.10-rc</version>
+    <version>0.2.10-rc2</version>
 </dependency>
 ```
 
@@ -173,7 +173,7 @@ ApiResponse response = api.plaidSameDayAuth(userHandle, accountName, userPrivate
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData());
+System.out.println(((PlaidSameDayAuthResponse)response.getData()).getPublicToken());
 ```
 
 #### Generate Wallet
@@ -207,10 +207,10 @@ ApiResponse response = api.getWallets(userHandle, filters, userPrivateKey);
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData().getWallets()); // Wallet list
-System.out.println(response.getData().getPage()); // Actual page requested
-System.out.println(response.getData().getReturnedCount()); // Total wallets returned
-System.out.println(response.getData().getTotalCount()); // Total wallets exists
+System.out.println(((GetWalletsResponse)response.getData()).getWallets()); // Wallet list
+System.out.println(((GetWalletsResponse)response.getData()).getPage()); // Actual page requested
+System.out.println(((GetWalletsResponse)response.getData()).getReturnedCount()); // Total wallets returned
+System.out.println(((GetWalletsResponse)response.getData()).getTotalCount()); // Total wallets exists
 ```
 #### Get Wallet
 Gets details about the user wallet used to generate the usersignature header.
@@ -220,9 +220,9 @@ ApiResponse response = api.getWallet(userHandle, userPrivateKey);
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData().getWallet()); // Wallet object
-System.out.println(response.getData().getIsWhitelisted()); // Boolean
-System.out.println(response.getData().getSilaBalance); // Sila balance
+System.out.println(((GetWalletResponse)response.getData()).getWallet()); // Wallet object
+System.out.println(((GetWalletResponse)response.getData()).getIsWhitelisted()); // Boolean
+System.out.println(((GetWalletResponse)response.getData()).getSilaBalance()); // Sila balance
 ```
 #### Update Wallet
 Updates nickname and/or default status of a wallet.
@@ -322,12 +322,13 @@ System.out.println((GetTransactionsResponse) response.getData()); // Access resp
 #### Get Sila Balance
 Gets Sila balance for a given blockchain address.
 ```java
-ApiResponse response = api.SilaBalance(host, address);
+ApiResponse response = api.SilaBalance(address);
 ```
 ##### Success Object Response
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData()); // Sila Tokens.
+System.out.println(((GetSilaBalanceResponse)response.getData()).getAddress()); // address.
+System.out.println(((GetSilaBalanceResponse)response.getData()).getSilaBalance()); // Sila balance.
 ```
 
 #### GetBusinessTypes
@@ -427,7 +428,7 @@ System.out.println(response.getStatusCode()); // 200
 
 #### Certify Beneficial Owner
 ```java
-ApiResponse response = api.certifyBusinessOwner("user handle", "user private key", "business handle", "business private key", "member handle", "certification token");
+ApiResponse response = api.certifyBeneficialOwner("user handle", "user private key", "business handle", "business private key", "member handle", "certification token");
 ```
 ##### Success Object Response
 ```java
@@ -449,7 +450,7 @@ System.out.println(((BaseResponse) response.getData()).getMessage()); // Busines
 ```java
 int page = 1;
 int perPage = 50;
-ApiResponse response = api.getEntities("eentity type", page, perPage);
+ApiResponse response = api.getEntities("entity type", page, perPage);
 ```
 ##### Success Object Response
 ```java
@@ -458,4 +459,17 @@ System.out.println(response.getStatusCode()); // 200
 ((GetEntitiesResponse)response.getData()).getPagination()// Pagination object
 ((GetEntitiesResponse)response.getData()).getEntities().getIndividuals() // List of individual entities
 ((GetEntitiesResponse)response.getData()).getEntities().getBusinesses()// List of business entities
+```
+
+#### Get Account Balance
+```java
+ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey(), "defaultpt");
+```
+##### Success Object Response
+```java
+AccountBalanceResponse parsedResponse = (AccountBalanceResponse)response.getData();
+System.out.println(response.getStatusCode()); // 200
+System.out.println(parsedResponse.getAccountName());
+System.out.println(parsedResponse.getMaskedAccountNumber());
 ```
