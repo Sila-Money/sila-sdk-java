@@ -943,7 +943,7 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse certifyBusinessOwner(String userHandle, String userPrivateKey, String businessHandle,
+	public ApiResponse certifyBeneficialOwner(String userHandle, String userPrivateKey, String businessHandle,
 			String businessPrivateKey, String memberHandle, String certificationToken)
 			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
 			ServerSideException, ForbiddenException {
