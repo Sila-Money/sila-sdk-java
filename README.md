@@ -173,7 +173,7 @@ ApiResponse response = api.plaidSameDayAuth(userHandle, accountName, userPrivate
 ##### Success Response Object
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(response.getData());
+System.out.println(((PlaidSameDayAuthResponse)response.getData()).getPublicToken());
 ```
 
 #### Generate Wallet
@@ -428,7 +428,7 @@ System.out.println(response.getStatusCode()); // 200
 
 #### Certify Beneficial Owner
 ```java
-ApiResponse response = api.certifyBusinessOwner("user handle", "user private key", "business handle", "business private key", "member handle", "certification token");
+ApiResponse response = api.certifyBeneficialOwner("user handle", "user private key", "business handle", "business private key", "member handle", "certification token");
 ```
 ##### Success Object Response
 ```java
@@ -450,7 +450,7 @@ System.out.println(((BaseResponse) response.getData()).getMessage()); // Busines
 ```java
 int page = 1;
 int perPage = 50;
-ApiResponse response = api.getEntities("eentity type", page, perPage);
+ApiResponse response = api.getEntities("entity type", page, perPage);
 ```
 ##### Success Object Response
 ```java
@@ -459,4 +459,17 @@ System.out.println(response.getStatusCode()); // 200
 ((GetEntitiesResponse)response.getData()).getPagination()// Pagination object
 ((GetEntitiesResponse)response.getData()).getEntities().getIndividuals() // List of individual entities
 ((GetEntitiesResponse)response.getData()).getEntities().getBusinesses()// List of business entities
+```
+
+#### Get Account Balance
+```java
+ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey(), "defaultpt");
+```
+##### Success Object Response
+```java
+AccountBalanceResponse parsedResponse = (AccountBalanceResponse)response.getData();
+System.out.println(response.getStatusCode()); // 200
+System.out.println(parsedResponse.getAccountName());
+System.out.println(parsedResponse.getMaskedAccountNumber());
 ```
