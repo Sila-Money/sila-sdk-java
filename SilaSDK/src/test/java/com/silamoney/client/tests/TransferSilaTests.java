@@ -5,9 +5,14 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.BadRequestResponse;
+import com.silamoney.client.domain.GetTransactionsResponse;
+import com.silamoney.client.domain.SearchFilters;
+import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.TransferSilaResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
@@ -34,11 +39,24 @@ public class TransferSilaTests {
 		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth", null,
 				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey());
-
+				
 		assertEquals(200, response.getStatusCode());
 		assertEquals("test descriptor", ((TransferSilaResponse) response.getData()).getDescriptor());
 		assertEquals("SUCCESS", ((TransferSilaResponse) response.getData()).getStatus());
 		assertNotNull(((TransferSilaResponse) response.getData()).getTransactionId());
+
+		String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
+		SearchFilters filters = new SearchFilters();
+		filters.setTransactionId(transactionId);
+		response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+				DefaultConfigurations.getUserPrivateKey());
+		while (!((GetTransactionsResponse) response.getData()).transactions.get(0).status.equals("success")) {
+			TimeUnit.SECONDS.sleep(20);
+			response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+					DefaultConfigurations.getUserPrivateKey());
+		}
+
+		assertEquals("success",((GetTransactionsResponse) response.getData()).transactions.get(0).status);
 	}
 
 	@Test
