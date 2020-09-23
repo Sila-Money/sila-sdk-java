@@ -1,11 +1,13 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.GetWalletResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -34,6 +36,9 @@ public class GetWalletTests {
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
+		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getNickname());
+		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getBlockChainAddress());
+		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getBlockChainNetwork());
 
 		// "reference": "591af81b-fc0d-478a-bc01-4447f8359cce",
 		// "message": "Blockchain address 0xd6398d7b1768f29a52c0d5e2f91ff1aa4ce2eaa5 registered."

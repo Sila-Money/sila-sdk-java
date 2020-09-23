@@ -2,6 +2,7 @@ package com.silamoney.client.tests;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.GetSilaBalanceResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -12,14 +13,14 @@ import static org.junit.Assert.*;
  */
 public class SilaBalanceTests {
 
-	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+	SilaApi api = new SilaApi(DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
 	@Test
 	public void Response200Success() throws Exception {
-		ApiResponse response = api.silaBalance(DefaultConfigurations.host, "0xabc123abc123abc123");
+		ApiResponse response = api.silaBalance("0x65a796a4bD3AaF6370791BefFb1A86EAcfdBc3C1");
 
+		assertEquals("0x65a796a4bD3AaF6370791BefFb1A86EAcfdBc3C1", ((GetSilaBalanceResponse)response.getData()).getAddress());
 		assertEquals(200, response.getStatusCode());
-		assertEquals("1000", response.getData());
 	}
 }

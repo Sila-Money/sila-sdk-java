@@ -31,14 +31,12 @@ public class RegisterWalletTests {
 	@Test
 	public void Response200() throws Exception {
 		 
-
-		String blockChainAddress = DefaultConfigurations.registerWallet();
-		Wallet wallet = new Wallet(blockChainAddress, "ETH",
-				"wallet_test");
-		String wallet_verification_signature = EcdsaUtil.sign(blockChainAddress, DefaultConfigurations.getWallet_verification_signature());
+		Wallet wallet = api.generateWallet();
+		String wallet_verification_signature = EcdsaUtil.sign(wallet.getBlockChainAddress(), wallet.getPrivateKey());
 
 		ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
 				wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
+		//assertEquals(((BadRequestResponse)response.getData()).getValidationDetails().values().toArray()[0], "");
 		assertEquals(200, response.getStatusCode());
 	}
 

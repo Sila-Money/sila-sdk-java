@@ -1,6 +1,7 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
@@ -25,6 +26,7 @@ public class CertifyBusinessTests {
 				DefaultConfigurations.getBusinessPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
+		assertTrue(response.getSuccess());
 		assertEquals("Business successfully certified.", ((BaseResponse) response.getData()).getMessage());
 	}
 }

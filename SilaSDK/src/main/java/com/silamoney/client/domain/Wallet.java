@@ -2,6 +2,8 @@ package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+
 /**
  * Class for Registering Wallet Endpoint
  * 
@@ -10,13 +12,27 @@ import com.google.gson.annotations.SerializedName;
 public class Wallet {
 
     @SerializedName("blockchain_address")
-    public final String blockChainAddress;
+    @Getter
+    public String blockChainAddress;
     
     @SerializedName("blockchain_network")
-    public final String blockChainNetwork;
+    @Getter
+    public String blockChainNetwork;
+
+    @SerializedName("private_key")
+    @Getter
+    public String privateKey;
 
     @SerializedName("nickname")
-    public final String nickname;
+    @Getter
+    public String nickname;
+
+    @SerializedName("default")
+    @Getter
+    public boolean defaultWallet;
+
+    @Getter
+    public boolean frozen;
 
     public Wallet(String blockChainAddress, String blockChainNetwork, String nickname) {
         this.blockChainAddress = blockChainAddress;
@@ -24,15 +40,10 @@ public class Wallet {
         this.nickname = nickname;
     }
 
-    public String getBlockChainAddress() {
-        return blockChainAddress;
-    }
-
-    public String getBlockChainNetwork() {
-        return blockChainNetwork;
-    }
-
-    public String getNickname() {
-        return nickname;
+    public Wallet(String blockChainAddress, String privateKey, String blockChainNetwork, String nickname) {
+        this.blockChainAddress = blockChainAddress;
+        this.blockChainNetwork = blockChainNetwork;
+        this.privateKey = privateKey;
+        this.nickname = nickname;
     }
 }
