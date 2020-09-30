@@ -2,6 +2,8 @@ package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public class UpdateAddressMsg {
 
     @SerializedName("address_alias")
@@ -28,6 +30,9 @@ public class UpdateAddressMsg {
     @SerializedName("uuid")
     private final String uuid;
 
+    @SerializedName("header")
+    private final Map<String, String> header;
+
     /**
      * Constructor for user object.
      *
@@ -38,8 +43,9 @@ public class UpdateAddressMsg {
      * @param state
      * @param zipCode
      * @param uuid
+     * @param header
      */
-    public UpdateAddressMsg(String addressAlias, String address, String address2, String city, String state, String zipCode, String country, String uuid) {
+    public UpdateAddressMsg(String addressAlias, String address, String address2, String city, String state, String zipCode, String country, String uuid, Map<String, String> header) {
         this.addressAlias = addressAlias;
         this.address = address;
         this.address2 = address2;
@@ -48,5 +54,6 @@ public class UpdateAddressMsg {
         this.zipCode = zipCode;
         this.country = country;
         this.uuid = uuid;
+        this.header = header;
     }
 }
