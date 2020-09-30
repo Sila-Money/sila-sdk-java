@@ -131,7 +131,8 @@ public class SilaApi {
 		header.put("auth_handle", this.configuration.getAuthHandle());
 		header.put("user_handle", userHandle);
 
-		Map<String, String> bodyMap = new HashMap<>();
+		Map<String, Object> bodyMap = new HashMap<>();
+		bodyMap.put("header", header);
 		if (fieldToUpdate.compareTo("identity") == 0) {
 			bodyMap.put("identity_alias", "SSN");
 			bodyMap.put("identity_value", updateValue);
@@ -159,7 +160,7 @@ public class SilaApi {
 		header.put("user_handle", userHandle);
 
 		String path = Endpoints.UPDATE.getUri() + "/address";
-		UpdateAddressMsg addressMsg = new UpdateAddressMsg(addressAlias, address, address2, city, state, zipCode, country, uuid);
+		UpdateAddressMsg addressMsg = new UpdateAddressMsg(addressAlias, address, address2, city, state, zipCode, country, uuid, header);
 		String sBody = Serialization.serialize(addressMsg);
 		Map<String, String> headers = new HashMap<>();
 
