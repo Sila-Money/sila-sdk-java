@@ -79,15 +79,33 @@ public class Transaction {
      * Integer field used for the created epoch.
      */
     @SerializedName("created_epoch")
-    public String createdEpoch;
+    public Integer createdEpoch;
     /**
      * Integer field used for the last update epoch.
      */
     @SerializedName("last_update_epoch")
-    public String lastUpdateEpoch;
+    public Integer lastUpdateEpoch;
     /**
      * TransactionStatus list used for the timeline.
      */
     @SerializedName("timeline")
     public List<TransactionStatus> timeline;
+
+    @SerializedName("descriptor")
+    public String descriptor;
+
+    @SerializedName("descriptor_ach")
+    public String descriptorAch;
+
+    @SerializedName("ach_name")
+    public String achName;
+
+    @SerializedName("destination_address")
+    public String destinationAddress;
+
+    @SerializedName("destination_handle")
+    public String destinationHandle;
+
+    @SerializedName("processing_type")
+    public String processingType;
 }
