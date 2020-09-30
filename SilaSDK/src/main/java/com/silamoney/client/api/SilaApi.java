@@ -416,6 +416,24 @@ public class SilaApi {
     }
 
     /**
+     * Cancel a pending transaction under certain circumstances
+     * 
+     * @param message
+     * @return
+     */
+    public ApiResponse cancelTransaction(CancelTransactionMessage message) throws IOException, InterruptedException {
+        CancelTransactionMsg body = new CancelTransactionMsg(this.configuration.getAuthHandle(), message);
+        String path = Endpoints.CANCEL_TRANSACTION.getUri();
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+        return ResponseUtil.prepareResponse(BaseResponse.class, response);
+    }
+
+    /**
      * Gets array of user handle's transactions with detailed status information.
      *
      * @param userHandle

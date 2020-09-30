@@ -382,6 +382,24 @@ System.out.println(parsedResponse.getDescriptor()); // The transaction descripto
 System.out.println(parsedResponse.getRerence()); // The transaction reference
 ```
 
+#### Cancel Transaction
+
+Cancel a pending transaction under certain circumstances
+
+```java
+String userHandle = 'yourHandle';
+String userPrivateKey = 'yourPrivateKey';
+String transactionId = 'some-transaction-uuid';
+CancelTransactionMessage cancelMsg = new CancelTransactionMessageBuilder(userHandle, userPrivateKey, transactionId).build();
+ApiResponse response = api.cancelTransaction(cancelMsg);
+```
+
+##### Success Object Response
+
+```java
+
+```
+
 #### GetTransactions
 
 Gets the array of user handle's transactions with detailed status information.

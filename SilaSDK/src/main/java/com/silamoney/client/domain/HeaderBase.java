@@ -16,8 +16,7 @@ public class HeaderBase {
     @SerializedName("crypto")
     private final String crypto;
 
-    public HeaderBase(String authHandle, Integer created, String userHandle, String reference, String version,
-            String crypto) {
+    HeaderBase(String authHandle, Integer created, String userHandle, String reference, String version, String crypto) {
         this.authHandle = authHandle;
         this.created = created;
         this.userHandle = userHandle;

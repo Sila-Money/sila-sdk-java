@@ -28,6 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
     LinkAccountTests.class,
     GetAccountsTests.class,
     GetAccountBalanceTests.class,
+    CancelTransactionTests.class,
     IssueSilaTests.class,
     TransferSilaTests.class, 
     RedeemSilaTests.class,
