@@ -119,7 +119,11 @@ public class Message {
         /**
          * String value for GetEntities.
          */
-        GET_ENTITIES("get_entities");
+        GET_ENTITIES("get_entities"),
+        /**
+         * String value for GetEntities.
+         */
+        UPDATE("update");
 
         private final String value;
 

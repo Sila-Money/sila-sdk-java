@@ -125,6 +125,52 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());
 	}
 
+	public ApiResponse updateField(String userHandle, String userPrivateKey, String fieldToUpdate, String updateValue, String uuid) throws IOException, InterruptedException {
+		Map<String, String> header = new HashMap<>();
+		header.put("created", EpochUtils.getEpoch() + "");
+		header.put("auth_handle", this.configuration.getAuthHandle());
+		header.put("user_handle", userHandle);
+
+		Map<String, String> bodyMap = new HashMap<>();
+		if (fieldToUpdate.compareTo("identity") == 0) {
+			bodyMap.put("identity_alias", "SSN");
+			bodyMap.put("identity_value", updateValue);
+		} else {
+			bodyMap.put(fieldToUpdate, updateValue);
+		}
+		bodyMap.put("uuid", uuid);
+
+		String path = Endpoints.UPDATE.getUri() + "/" + fieldToUpdate;
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE.getValue());
+	}
+
+	public ApiResponse updateAddress(String userHandle, String userPrivateKey, String addressAlias, String address, String address2, String city, String state, String zipCode, String country, String uuid) throws IOException, InterruptedException {
+		Map<String, String> header = new HashMap<>();
+		header.put("created", EpochUtils.getEpoch() + "");
+		header.put("auth_handle", this.configuration.getAuthHandle());
+		header.put("user_handle", userHandle);
+
+		String path = Endpoints.UPDATE.getUri() + "/address";
+		UpdateAddressMsg addressMsg = new UpdateAddressMsg(addressAlias, address, address2, city, state, zipCode, country, uuid);
+		String sBody = Serialization.serialize(addressMsg);
+		Map<String, String> headers = new HashMap<>();
+
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE.getValue());
+	}
+
 	/**
 	 * Starts KYC verification process on a registered user handle.
 	 *
