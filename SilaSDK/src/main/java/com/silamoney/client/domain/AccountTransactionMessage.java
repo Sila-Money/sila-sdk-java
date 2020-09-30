@@ -2,7 +2,7 @@ package com.silamoney.client.domain;
 
 import lombok.Getter;
 
-public class IssueSilaMsg {
+public class AccountTransactionMessage {
     @Getter
     private final String userHandle;
     @Getter
@@ -18,8 +18,8 @@ public class IssueSilaMsg {
     @Getter
     private final String processingType;
 
-    IssueSilaMsg(String userHandle, String userPrivateKey, int amount, String accountName, String descriptor,
-            String businessUuid, String processingType) {
+    AccountTransactionMessage(String userHandle, String userPrivateKey, int amount, String accountName,
+            String descriptor, String businessUuid, String processingType) {
         this.userHandle = userHandle;
         this.userPrivateKey = userPrivateKey;
         this.amount = amount;

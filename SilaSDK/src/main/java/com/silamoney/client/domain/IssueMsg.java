@@ -35,7 +35,7 @@ public class IssueMsg {
      *
      * @param message
      */
-    public IssueMsg(String authHandle, IssueSilaMsg message) {
+    public IssueMsg(String authHandle, AccountTransactionMessage message) {
         this.accountName = message.getAccountName();
         this.amount = message.getAmount();
         this.header = new Header(message.getUserHandle(), authHandle);

@@ -318,7 +318,7 @@ System.out.println(((List<Account>) response.getData()).get(0).accountType); // 
 Debits a specified account and issues tokens to the address belonging to the requested handle.
 
 ```java
-IssueSilaMsg issueMsg = new IssueMsgBuilder(userHandle, userPrivateKey, amount, accountName)
+AccountTransactionMessage issueMsg = new AccountTransactionMessageBuilder(userHandle, userPrivateKey, amount, accountName)
     .withDescriptor(descriptor) // Optional
     .withBusinessUuid(businessUuid) // Optional
     .withProcessingType(ProcessingTypeEnum.SAME_DAY) // Optional
@@ -330,9 +330,13 @@ ApiResponse response = api.IssueSila(issueMsg);
 
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+TransactionResponse parsedResponse = (TransactionResponse) response.getData();
+System.out.println(parsedResponse.getReference()); // Random reference number
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Transaction submitted to processing queue.
+System.out.println(parsedResponse.getTransactionId()); // Transaction id
+System.out.println(parsedResponse.getDescriptor()); // The transaction descriptor (if was set)
+System.out.println(parsedResponse.getRerence()); // The transaction reference
 ```
 
 #### TransferSila
@@ -357,16 +361,25 @@ System.out.println(((TransactionResponse) response.getData()).getMessage()); // 
 Burns given the amount of SILA at the handle's blockchain address and credits their named bank account in the equivalent monetary amount.
 
 ```java
-ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, descriptor, businessUuid, userPrivateKey);
+AccountTransactionMessage redeemMsg = new AccountTransactionMessageBuilder(userHandle, userPrivateKey, amount, accountName)
+    .withDescriptor(descriptor) // Optional
+    .withBusinessUuid(businessUuid) // Optional
+    .withProcessingType(ProcessingTypeEnum.SAME_DAY) // Optional
+    .build();
+ApiResponse response = api.RedeemSila(redeemMsg);
 ```
 
 ##### Success Object Response
 
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
-System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
-System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
+TransactionResponse parsedResponse = (TransactionResponse) response.getData();
+System.out.println(parsedResponse.getReference()); // Random reference number
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Transaction submitted to processing queue.
+System.out.println(parsedResponse.getTransactionId()); // Transaction id
+System.out.println(parsedResponse.getDescriptor()); // The transaction descriptor (if was set)
+System.out.println(parsedResponse.getRerence()); // The transaction reference
 ```
 
 #### GetTransactions

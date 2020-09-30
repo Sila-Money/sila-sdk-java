@@ -1,6 +1,6 @@
 package com.silamoney.client.domain;
 
-public class IssueMsgBuilder {
+public class AccountTransactionMessageBuilder {
     private final int amount;
     private final String accountName;
     private final String userHandle;
@@ -9,30 +9,30 @@ public class IssueMsgBuilder {
     private String businessUuid;
     private String processingType;
 
-    public IssueMsgBuilder(String userHandle, String userPrivateKey, int amount, String accountName) {
+    public AccountTransactionMessageBuilder(String userHandle, String userPrivateKey, int amount, String accountName) {
         this.userHandle = userHandle;
         this.userPrivateKey = userPrivateKey;
         this.accountName = accountName;
         this.amount = amount;
     }
 
-    public IssueMsgBuilder withDescriptor(String descriptor) {
+    public AccountTransactionMessageBuilder withDescriptor(String descriptor) {
         this.descriptor = descriptor;
         return this;
     }
 
-    public IssueMsgBuilder withBusinessUuid(String businessUuid) {
+    public AccountTransactionMessageBuilder withBusinessUuid(String businessUuid) {
         this.businessUuid = businessUuid;
         return this;
     }
 
-    public IssueMsgBuilder withProcessingType(ProcessingTypeEnum processingType) {
+    public AccountTransactionMessageBuilder withProcessingType(ProcessingTypeEnum processingType) {
         this.processingType = processingType.getValue();
         return this;
     }
 
-    public IssueSilaMsg build() {
-        return new IssueSilaMsg(this.userHandle, this.userPrivateKey, this.amount, this.accountName, this.descriptor,
-                this.businessUuid, this.processingType);
+    public AccountTransactionMessage build() {
+        return new AccountTransactionMessage(this.userHandle, this.userPrivateKey, this.amount, this.accountName,
+                this.descriptor, this.businessUuid, this.processingType);
     }
 }
