@@ -20,29 +20,28 @@ public class IssueMsg {
 
     @SerializedName("message")
     private final String message;
-    
+
     @SerializedName("descriptor")
     private final String descriptor;
-    
+
     @SerializedName("business_uuid")
     private final String businessUuid;
+
+    @SerializedName("processing_type")
+    private final String processingType;
 
     /**
      * Constructor for IssueMsg object.
      *
-     * @param userHandle
-     * @param accountName
-     * @param amount
-     * @param descriptor
-     * @param businessUuid 
-     * @param appHandle
+     * @param message
      */
-    public IssueMsg(String userHandle, String accountName, int amount, String descriptor, String businessUuid, String appHandle) {
-        this.accountName = accountName;
-        this.amount = amount;
-        this.header = new Header(userHandle, appHandle);
+    public IssueMsg(String authHandle, IssueSilaMsg message) {
+        this.accountName = message.getAccountName();
+        this.amount = message.getAmount();
+        this.header = new Header(message.getUserHandle(), authHandle);
         this.message = Message.ValueEnum.ISSUE_MSG.getValue();
-        this.descriptor = descriptor;
-        this.businessUuid = businessUuid;
+        this.descriptor = message.getDescriptor();
+        this.businessUuid = message.getBusinessUuid();
+        this.processingType = message.getProcessingType();
     }
 }

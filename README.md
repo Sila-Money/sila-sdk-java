@@ -5,8 +5,11 @@ NOTE: This SDK is a release candidate.
 For this SDK you will need to use JDK 11 or later.
 
 ### Usage
+
 #### Installation
+
 Add the SDK from the Maven repository.
+
 ```xml
 <dependency>
     <groupId>com.silamoney.client</groupId>
@@ -16,6 +19,7 @@ Add the SDK from the Maven repository.
 ```
 
 #### Initialize the application
+
 ```java
 import com.silamoney.client.api.SilaApi;
 
@@ -31,12 +35,14 @@ This sets up the app private key and handle for the SDK to use for signing subse
 #### Check Handle
 
 Checks if a specific handle is already taken.
+
 ```java
 String userHandle = "user.silamoney.eth";
 ApiResponse response = api.checkHandle(userHandle);
 ```
 
-##### Success Response Object 200 
+##### Success Response Object 200
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse)response.getData()).getReference()); // Random reference number
@@ -45,22 +51,27 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user is 
 ```
 
 ##### Failure Response Object 200
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse)response.getData()).getReference()); // Random reference number
 System.out.println(((BaseResponse)response.getData()).getStatus()); // FAILURE
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user is already taken.
 ```
+
 #### Register
+
 Attaches KYC data and specified blockchain address to an assigned handle.
+
 ```java
-User user = new User(String userHandle, String firstName, String lastName, String streetAddress1, @Nullable String streetAddress2, 
-      String city, String state (2 characters), String postalCode (5 or 9 digit format), String phone, String email, String cryptoAddress, 
+User user = new User(String userHandle, String firstName, String lastName, String streetAddress1, @Nullable String streetAddress2,
+      String city, String state (2 characters), String postalCode (5 or 9 digit format), String phone, String email, String cryptoAddress,
       String identityNumber (SSN format "AAA-GG-SSSS"), Date birthdate);
 ApiResponse response = api.register(user);
 ```
 
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse)response.getData()).getReference());// Random reference number
@@ -69,17 +80,19 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user was
 ```
 
 #### Register Business
+
 ```java
 BusinessType businessType; //Get business type with api.getBusinessTypes() documentation below.
 NaicsCategoryDescription naicsCategory; //Get naics category with api.getNaicsCategories() documentation below.
 
-BusinessUser user = new BusinessUser("userhandle", "Office", "123 Main Street", 
+BusinessUser user = new BusinessUser("userhandle", "Office", "123 Main Street",
                 "street address 2", "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "crypto address", "entity name", businessType, "https://www.website.com", "doing business as", naicsCategory);
-                
+
 ApiResponse response = api.registerBusiness(user);
 ```
 
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse)response.getData()).getReference());// Random reference number
@@ -92,16 +105,20 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user was
 Starts KYC verification process on a registered user handle.
 
 Normal Flow:
+
 ```java
 ApiResponse response = api.requestKYC(userHandle, userPrivateKey);
 ```
+
 Custom Flow:
+
 ```java
 String kycLevel = "CUSTOM_KYC_FLOW_NAME";
 ApiResponse response = api.requestKYC(userHandle, userPrivateKey, kycLevel);
 ```
 
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse)response.getData()).getReference()); // Random reference number
@@ -110,18 +127,22 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user sub
 ```
 
 #### CheckKYC
+
 Returns whether the entity attached to the user handle is verified, not valid, or still pending.
+
 ```java
 ApiResponse response = api.checkKYC(userHandle, userPrivateKey);
 ```
 
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse)response.getData()).getReference()); // Random reference number
 System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user has passed ID verification!
 ```
+
 #### LinkAccount
 
 Uses a provided Plaid public token to link a bank account to a verified entity.
@@ -155,6 +176,7 @@ ApiResponse response = api.linkAccount(userHandle, userPrivateKey, accountName, 
 ```
 
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
@@ -166,33 +188,46 @@ System.out.println(parsedResponse.getMatchScore()); // Match score
 ```
 
 #### Plaid Sameday Auth
+
 Generates a Plaid token to complete Plaid's Same Day Microdeposit Authentication
+
 ```java
 ApiResponse response = api.plaidSameDayAuth(userHandle, accountName, userPrivateKey);
 ```
+
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((PlaidSameDayAuthResponse)response.getData()).getPublicToken());
 ```
 
 #### Generate Wallet
+
 Gets a random generated wallet
+
 ```java
 Wallet newWallet = api.generateWallet();
 ```
 
 #### Register Wallet
+
 Adds another "wallet"/blockchain address to a user handle
+
 ```java
 ApiResponse response = api.registerWallet(userHandle, wallet, walletVerificationSignature, userPrivateKey);
 ```
+
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ```
+
 #### Get Wallets
+
 Gets a paginated list of "wallets"/blockchain addresses attached to a user handle.
+
 ```java
 SearchFilters filters = new SearchFilters()
 filters.setPage(1);
@@ -204,7 +239,9 @@ filters.setNickname("Some nickname");
 
 ApiResponse response = api.getWallets(userHandle, filters, userPrivateKey);
 ```
+
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((GetWalletsResponse)response.getData()).getWallets()); // Wallet list
@@ -212,90 +249,130 @@ System.out.println(((GetWalletsResponse)response.getData()).getPage()); // Actua
 System.out.println(((GetWalletsResponse)response.getData()).getReturnedCount()); // Total wallets returned
 System.out.println(((GetWalletsResponse)response.getData()).getTotalCount()); // Total wallets exists
 ```
+
 #### Get Wallet
+
 Gets details about the user wallet used to generate the usersignature header.
+
 ```java
 ApiResponse response = api.getWallet(userHandle, userPrivateKey);
 ```
+
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((GetWalletResponse)response.getData()).getWallet()); // Wallet object
 System.out.println(((GetWalletResponse)response.getData()).getIsWhitelisted()); // Boolean
 System.out.println(((GetWalletResponse)response.getData()).getSilaBalance()); // Sila balance
 ```
+
 #### Update Wallet
+
 Updates nickname and/or default status of a wallet.
+
 ```java
 ApiResponse response = api.updateWallet(userHandle, nickname, status, userPrivateKey);
 ```
+
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ```
+
 #### Delete Wallet
+
 Deletes a user wallet.
+
 ```java
 ApiResponse response = api.deleteWallet(userHandle, userPrivateKey);
 ```
+
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ```
 
 #### GetAccounts
+
 Gets basic bank account names linked to user handle.
+
 ```java
 ApiResponse response = api.GetAccounts(userHandle, userPrivateKey);
 ```
+
 ##### Success Response Object
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((List<Account>) response.getData()).get(0).accountName); // Account name
 System.out.println(((List<Account>) response.getData()).get(0).accountNumber); // Account Number
-System.out.println(((List<Account>) response.getData()).get(0).accountStatus); // Account Status 
+System.out.println(((List<Account>) response.getData()).get(0).accountStatus); // Account Status
 System.out.println(((List<Account>) response.getData()).get(0).accountType); // Account Type
 ```
+
 #### IssueSila
+
 Debits a specified account and issues tokens to the address belonging to the requested handle.
+
 ```java
-ApiResponse response = api.IssueSila(userHandle, amount, accountName, descriptor, businessUuid, userPrivateKey);
+IssueSilaMsg issueMsg = new IssueMsgBuilder(userHandle, userPrivateKey, amount, accountName)
+    .withDescriptor(descriptor) // Optional
+    .withBusinessUuid(businessUuid) // Optional
+    .withProcessingType(ProcessingTypeEnum.SAME_DAY) // Optional
+    .build();
+ApiResponse response = api.IssueSila(issueMsg);
 ```
 
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
 System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
 System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
- 
+
 #### TransferSila
+
 Starts a transfer of the requested amount of SILA to the requested destination handle.
+
 ```java
 ApiResponse response = api.TransferSila(userHandle, 1000, destination, destinationAddress, descriptor, businessUuid, userPrivateKey);
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
 System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
 System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
+
 #### RedeemSila
+
 Burns given the amount of SILA at the handle's blockchain address and credits their named bank account in the equivalent monetary amount.
+
 ```java
-ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, descriptor, businessUuid, userPrivateKey); 
+ApiResponse response = api.RedeemSila(userHandle, 1000, accountName, descriptor, businessUuid, userPrivateKey);
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((TransactionResponse) response.getData()).getReference()); // Random reference number
 System.out.println(((TransactionResponse) response.getData()).getStatus()); // SUCCESS
 System.out.println(((TransactionResponse) response.getData()).getMessage()); // Transaction submitted to processing queue.
 ```
+
 #### GetTransactions
+
 Gets the array of user handle's transactions with detailed status information.
+
 ```java
 SearchFilters filters = new SearchFilters()
 filters.setTransactionId("some UUID string assigned by Sila");
@@ -313,18 +390,24 @@ filters.setTransactionTypes(new List<string>() {"issue", "redeem", "transfer"});
 
 ApiResponse response = api.GetTransactions(userHandle, filters, userPrivateKey);
 ```
- 
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println((GetTransactionsResponse) response.getData()); // Access response data.
 ```
+
 #### Get Sila Balance
+
 Gets Sila balance for a given blockchain address.
+
 ```java
 ApiResponse response = api.SilaBalance(address);
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((GetSilaBalanceResponse)response.getData()).getAddress()); // address.
@@ -332,32 +415,43 @@ System.out.println(((GetSilaBalanceResponse)response.getData()).getSilaBalance()
 ```
 
 #### GetBusinessTypes
+
 Gets a list of valid business types that can be registered.
+
 ```java
 ApiResponse response = api.getBusinessTypes();
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ((GetBusinessTypesResponse) response.getData()).getBusinessTypes(); // List of business types.
 ```
 
 #### GetBusinessRoles
+
 Retrieves the list of pre-defined business roles.
+
 ```java
 ApiResponse response = api.getBusinessRoles();
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ((GetBusinessRolesResponse) response.getData()).getBusinessRoles(); // List of business roles.
 ```
 
 #### GetNaicsCategories
+
 ```java
 ApiResponse response = api.getNaicsCategories();
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories = ((GetNaicsCategoriesResponse) response.getData()).getNaicsCategories();
@@ -370,12 +464,15 @@ for (String key : naicsCategories.keySet()) {
 ```
 
 #### LinkBusinessMemeber
+
 ```java
 BusinessRole businessRole = ((GetBusinessRolesResponse)api.getBusinessRoles().getData()).get(0);
 float ownershipStake = 0.30;
 ApiResponse response = api.linkBusinessMember("user handle", "user private key", "business handle", "business private key", businessRole, (optional) "member handle", (optional) "test details", (optional) ownershipStake);
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((LinkBusinessMemberResponse) response.getData()).getDetails())// test details
@@ -383,12 +480,15 @@ System.out.println(((LinkBusinessMemberResponse) response.getData()).getRole());
 ```
 
 #### UnlinkBusinessMemeber
+
 ```java
 BusinessRole businessRole = ((GetBusinessRolesResponse)api.getBusinessRoles().getData()).get(0);
 float ownershipStake = 0.30;
 ApiResponse response = api.unlinkBusinessMember("user handle", "user private key",   "business handle", "business private key", businessRole);
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((LinkBusinessOperationResponse) response.getData()).getDetails())// test details
@@ -396,10 +496,13 @@ System.out.println(((LinkBusinessOperationResponse) response.getData()).getRole(
 ```
 
 #### Get Entity (individual)
+
 ```java
 ApiResponse response = api.getEntity("user handle", "user private key");
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ((GetEntityResponse)response.getData()).getAddresses(); // Get addresses list
@@ -410,11 +513,15 @@ System.out.println(response.getStatusCode()); // 200
 ((GetEntityResponse)response.getData()).getEntity(); // Get entity object
 ((GetEntityResponse)response.getData()).getEntityType(); // "individual"
 ```
+
 #### Get Entity (business)
+
 ```java
 ApiResponse response = api.getEntity("business handle", "business private key");
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ((GetEntityResponse)response.getData()).getAddresses(); // Get addresses list
@@ -427,32 +534,41 @@ System.out.println(response.getStatusCode()); // 200
 ```
 
 #### Certify Beneficial Owner
+
 ```java
 ApiResponse response = api.certifyBeneficialOwner("user handle", "user private key", "business handle", "business private key", "member handle", "certification token");
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse) response.getData()).getMessage()); // Beneficial owner successfully certified.
 ```
 
 #### Certify Business
+
 ```java
 ApiResponse response = api.certifyBusiness("user handle", "user private key", "business handle", "business private key");
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 System.out.println(((BaseResponse) response.getData()).getMessage()); // Business successfully certified.
 ```
 
 #### Get Entities
+
 ```java
 int page = 1;
 int perPage = 50;
 ApiResponse response = api.getEntities("entity type", page, perPage);
 ```
+
 ##### Success Object Response
+
 ```java
 System.out.println(response.getStatusCode()); // 200
 ((GetEntitiesResponse)response.getData()).getEntities() // Entities object
@@ -462,14 +578,48 @@ System.out.println(response.getStatusCode()); // 200
 ```
 
 #### Get Account Balance
+
 ```java
 ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey(), "defaultpt");
 ```
+
 ##### Success Object Response
+
 ```java
 AccountBalanceResponse parsedResponse = (AccountBalanceResponse)response.getData();
 System.out.println(response.getStatusCode()); // 200
 System.out.println(parsedResponse.getAccountName());
 System.out.println(parsedResponse.getMaskedAccountNumber());
+```
+
+#### Document Types
+
+```java
+// With no pagination
+ApiResponse response = api.getDocumentTypes();
+// With pagination
+PaginationMsg pagination = new PaginationBuilder()
+    .atPage(1) // Optional. The page of the request
+    .withPerPage(40) // Optional. The amount of results per page
+    .build();
+ApiResponse response = api.getDocumentTypes(pagination);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+DocumentTypesResponse parsedResponse = (DocumentTypesResponse)response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Document type details returned.
+System.out.println(parsedResponse.getDocumentTypes()); // List of DocumentType
+System.out.println(parsedResponse.getDocumentTypes().get(0).getName()); // Document type name
+System.out.println(parsedResponse.getDocumentTypes().get(0).getLabel()); // Document type label
+System.out.println(parsedResponse.getDocumentTypes().get(0).getIdentityType()); // Document type identity type
+System.out.println(parsedResponse.getPagination().getCurrentPage());
+System.out.println(parsedResponse.getPagination().getReturnedCount());
+System.out.println(parsedResponse.getPagination().getTotalPages());
+System.out.println(parsedResponse.getPagination().getTotalCount());
 ```

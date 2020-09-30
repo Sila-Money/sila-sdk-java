@@ -326,12 +326,7 @@ public class SilaApi {
 	 * Debits a specified account and issues tokens to the address belonging to the
 	 * requested handle.
 	 *
-	 * @param userHandle
-	 * @param amount
-	 * @param accountName
-	 * @param descriptor
-	 * @param businessUuid
-	 * @param userPrivateKey
+	 * @param message
 	 * @return
 	 * @throws IOException
 	 * @throws InterruptedException
@@ -340,21 +335,15 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse issueSila(String userHandle, int amount, @Nullable String accountName,
-			@Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
-			throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-			ServerSideException, ForbiddenException {
-		if (accountName == null || accountName.isBlank()) {
-			accountName = "default";
-		}
-		IssueMsg body = new IssueMsg(userHandle, accountName, amount, descriptor, businessUuid,
-				this.configuration.getAuthHandle());
+	public ApiResponse issueSila(IssueSilaMsg message) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
 		String path = Endpoints.ISSUE_SILA.getUri();
+		IssueMsg body = new IssueMsg(this.configuration.getAuthHandle(), message);
 		String sBody = Serialization.serialize(body);
 		Map<String, String> headers = new HashMap<>();
 
 		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
 
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
@@ -479,8 +468,8 @@ public class SilaApi {
 	 * @throws ServerSideException
 	 * @throws ForbiddenException
 	 */
-	public ApiResponse silaBalance(String address) throws IOException, InterruptedException,
-			BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+	public ApiResponse silaBalance(String address) throws IOException, InterruptedException, BadRequestException,
+			InvalidSignatureException, ServerSideException, ForbiddenException {
 		SilaBalanceMsg body = new SilaBalanceMsg(address);
 		String path = Endpoints.GET_SILA_BALANCE.getUri();
 		String sBody = Serialization.serialize(body);
@@ -526,19 +515,14 @@ public class SilaApi {
 	 * 
 	 * @return Wallet
 	 */
-	public Wallet generateWallet() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException,
-	 CipherException {
+	public Wallet generateWallet() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException,
+			NoSuchProviderException, CipherException {
 		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
 		BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
 
 		WalletFile aWallet = org.web3j.crypto.Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 
-		return new Wallet(
-			"0x" + aWallet.getAddress(),
-			privateKeyInDec.toString(16),
-			"ETH",
-			"generated wallet"
-		);
+		return new Wallet("0x" + aWallet.getAddress(), privateKeyInDec.toString(16), "ETH", "generated wallet");
 	}
 
 	/**
@@ -689,6 +673,43 @@ public class SilaApi {
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLETS_MSG.getValue());
+	}
+
+	/**
+	 * List the document types for KYC supporting documentation
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public ApiResponse getDocumentTypes() throws IOException, InterruptedException {
+		return getDocumentTypes("");
+	}
+
+	/**
+	 * List the document types for KYC supporting documentation
+	 * 
+	 * @param pagination
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public ApiResponse getDocumentTypes(PaginationMsg pagination) throws IOException, InterruptedException {
+		return getDocumentTypes(pagination.getUrlParams());
+	}
+
+	private ApiResponse getDocumentTypes(String urlParams) throws IOException, InterruptedException {
+		String path = Endpoints.GET_DOCUMENT_TYPES.getUri() + urlParams;
+		HeaderBase header = new HeaderBuilder(this.configuration.getAuthHandle()).useVersion(VersionEnum.V0_2)
+				.withCrypto(CryptoEnum.ETH).withReference().build();
+		Map<String, HeaderBase> bodyMap = new HashMap<String, HeaderBase>();
+		bodyMap.put("header", header);
+		String sBody = Serialization.serialize(bodyMap);
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+		return ResponseUtil.prepareResponse(DocumentTypesResponse.class, response);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package com.silamoney.client.util;
 
+import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
@@ -37,6 +38,19 @@ public class ResponseUtil {
 
     }
 
+    public static ApiResponse prepareResponse(Type messageClass, HttpResponse<?> response) {
+        int statusCode = response.statusCode();
+        if (statusCode == 400) {
+            return new ApiResponse(statusCode, response.headers().map(),
+                    Serialization.deserialize(response.body().toString(), BadRequestResponse.class), false);
+        } else if (statusCode != 200) {
+            return new ApiResponse(statusCode, response.headers().map(),
+                    Serialization.deserialize(response.body().toString(), BaseResponse.class), false);
+        }
+        return new ApiResponse(statusCode, response.headers().map(),
+                Serialization.deserialize(response.body().toString(), messageClass), statusCode == 200);
+    }
+
     /**
      * Creates an ApiResponse based on the sent HttpResponse.
      *
@@ -64,7 +78,7 @@ public class ResponseUtil {
                         .deserialize(response.body().toString(), AccountBalanceResponse.class);
 
                 return new ApiResponse(statusCode, response.headers().map(), accountBalanceResponse,
-                accountBalanceResponse.getSuccess());
+                        accountBalanceResponse.getSuccess());
             case "plaid_sameday_auth_msg":
                 PlaidSameDayAuthResponse plaidSameDayAuthResponse = (PlaidSameDayAuthResponse) Serialization
                         .deserialize(response.body().toString(), PlaidSameDayAuthResponse.class);
