@@ -123,7 +123,7 @@ public class Message {
         /**
          * String value for GetEntities.
          */
-        UPDATE("update");
+        ADD_OR_UPDATE("add_or_update");
 
         private final String value;
 

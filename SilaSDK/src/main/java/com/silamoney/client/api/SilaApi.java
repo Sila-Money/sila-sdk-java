@@ -125,24 +125,60 @@ public class SilaApi {
 		return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());
 	}
 
-	public ApiResponse updateField(String userHandle, String userPrivateKey, String fieldToUpdate, String updateValue, String uuid) throws IOException, InterruptedException {
-		Map<String, String> header = new HashMap<>();
-		header.put("created", EpochUtils.getEpoch() + "");
-		header.put("auth_handle", this.configuration.getAuthHandle());
-		header.put("user_handle", userHandle);
-
+	public ApiResponse updateOrAddField(String userHandle, String userPrivateKey, String fieldToUpdate, String updateValue, @Nullable String uuid) throws IOException, InterruptedException {
 		Map<String, Object> bodyMap = new HashMap<>();
-		bodyMap.put("header", header);
+		bodyMap.put("header", getHeaders(userHandle));
 		if (fieldToUpdate.compareTo("identity") == 0) {
 			bodyMap.put("identity_alias", "SSN");
 			bodyMap.put("identity_value", updateValue);
 		} else {
 			bodyMap.put(fieldToUpdate, updateValue);
 		}
-		bodyMap.put("uuid", uuid);
 
-		String path = Endpoints.UPDATE.getUri() + "/" + fieldToUpdate;
+		String path;
+		if (uuid != null) {
+			bodyMap.put("uuid", uuid);
+			path = Endpoints.UPDATE.getUri();
+		} else {
+			path = Endpoints.ADD.getUri();
+		}
+		path = path + "/" + fieldToUpdate;
+
 		String sBody = Serialization.serialize(bodyMap);
+		return addOrUpdate(userHandle, userPrivateKey, path, sBody);
+	}
+
+	public ApiResponse updateOrAddAddress(String userHandle, String userPrivateKey, String addressAlias, String address, String address2, String city, String state, String zipCode, String country, @Nullable String uuid) throws IOException, InterruptedException {
+		String path;
+		if (uuid != null) {
+			path = Endpoints.UPDATE.getUri();
+		} else {
+			path = Endpoints.ADD.getUri();
+		}
+		path += "/address";
+
+		UpdateAddressMsg addressMsg = new UpdateAddressMsg(addressAlias, address, address2, city, state, zipCode, country, uuid, getHeaders(userHandle));
+		String sBody = Serialization.serialize(addressMsg);
+		return addOrUpdate(userHandle, userPrivateKey, path, sBody);
+	}
+
+	public ApiResponse updateEntity(String userHandle, String userPrivateKey, String firstName, String lastName, String entityName, String birthdate, String uuid) throws IOException, InterruptedException {
+		String path = Endpoints.UPDATE.getUri() + "/entity";
+
+		UpdateEntityMsg entityMsg = new UpdateEntityMsg(firstName, lastName, entityName, birthdate, uuid, getHeaders(userHandle));
+		String sBody = Serialization.serialize(entityMsg);
+		return addOrUpdate(userHandle, userPrivateKey, path, sBody);
+	}
+
+	public ApiResponse updateBusinessEntity(String userHandle, String userPrivateKey, String firstName, String lastName, String entityName, String birthdate, String businessType, String naicsCode, String doingBusinessAs, String businessWebsite, String uuid) throws IOException, InterruptedException {
+		String path = Endpoints.UPDATE.getUri() + "/entity";
+
+		UpdateBusinessEntityMsg entityMsg = new UpdateBusinessEntityMsg(firstName, lastName, entityName, birthdate, businessType, naicsCode, doingBusinessAs, businessWebsite, uuid, getHeaders(userHandle));
+		String sBody = Serialization.serialize(entityMsg);
+		return addOrUpdate(userHandle, userPrivateKey, path, sBody);
+	}
+
+	private ApiResponse addOrUpdate(String userHandle, String userPrivateKey, String path, String sBody) throws IOException, InterruptedException {
 		Map<String, String> headers = new HashMap<>();
 
 		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
@@ -150,26 +186,15 @@ public class SilaApi {
 
 		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE.getValue());
+		return ResponseUtil.prepareResponse(response, Message.ValueEnum.ADD_OR_UPDATE.getValue());
 	}
 
-	public ApiResponse updateAddress(String userHandle, String userPrivateKey, String addressAlias, String address, String address2, String city, String state, String zipCode, String country, String uuid) throws IOException, InterruptedException {
+	private Map<String, String> getHeaders(String userHandle) {
 		Map<String, String> header = new HashMap<>();
 		header.put("created", EpochUtils.getEpoch() + "");
 		header.put("auth_handle", this.configuration.getAuthHandle());
 		header.put("user_handle", userHandle);
-
-		String path = Endpoints.UPDATE.getUri() + "/address";
-		UpdateAddressMsg addressMsg = new UpdateAddressMsg(addressAlias, address, address2, city, state, zipCode, country, uuid, header);
-		String sBody = Serialization.serialize(addressMsg);
-		Map<String, String> headers = new HashMap<>();
-
-		headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-		headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-		HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
-		return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE.getValue());
+		return header;
 	}
 
 	/**

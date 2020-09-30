@@ -28,7 +28,8 @@ public enum Endpoints {
 	CERTIFY_BENEFICIAL_OWNER("/certify_beneficial_owner"), 
 	CERTIFY_BUSINESS("/certify_business"), 
 	GET_ENTITIES("/get_entities"),
-	UPDATE("/update");
+	UPDATE("/update"),
+	ADD("/add");
 
 	private String uri;
 
