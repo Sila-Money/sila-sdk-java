@@ -10,6 +10,7 @@ import java.io.IOException;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.GetTransactionsResponse;
+import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -29,14 +30,15 @@ public class GetTransactionsTests {
 
     @Test
     public void Response200() throws Exception {
-        // TRANSACTIONS3
-        ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+        SearchFilters filters = new SearchFilters();
+        ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
                 DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(200, response.getStatusCode());
         GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
         assertTrue(parsedResponse.success);
         assertEquals("SUCCESS", parsedResponse.status);
+        System.out.println(response);
         assertThat("get transactions - size", parsedResponse.transactions.size(), greaterThan(1));
         assertThat("get transactions - user address", parsedResponse.transactions.get(0).userHandle,
                 not(isEmptyOrNullString()));
@@ -44,8 +46,7 @@ public class GetTransactionsTests {
                 not(isEmptyOrNullString()));
         assertThat("get transactions - transaction id", parsedResponse.transactions.get(0).transactionId,
                 not(isEmptyOrNullString()));
-        assertThat("get transactions - transaction hash", parsedResponse.transactions.get(0).transactionHash,
-                not(isEmptyOrNullString()));
+        assertTrue(parsedResponse.transactions.get(0).transactionHash != null);
         assertThat("get transactions - transaction type", parsedResponse.transactions.get(0).transactionType,
                 not(isEmptyOrNullString()));
         assertThat("get transactions - sila amount", parsedResponse.transactions.get(0).silaAmount, greaterThan(0));

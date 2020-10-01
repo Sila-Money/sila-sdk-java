@@ -126,6 +126,28 @@ public class SilaApi {
     }
 
     /**
+     * Delete an existing email, phone number, street address, or identity.
+     * 
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse deleteRegistrationData(RegistrationDataEnum dataType, DeleteRegistrationMessage message)
+            throws IOException, InterruptedException {
+        DeleteRegistrationMsg body = new DeleteRegistrationMsg(this.configuration.getAuthHandle(), message);
+        String path = String.format("%s/%s", Endpoints.DELETE_REGISTRATION.getUri(), dataType.getUri());
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(BaseResponse.class, response);
+    }
+
+    /**
      * Starts KYC verification process on a registered user handle.
      *
      * @param userHandle

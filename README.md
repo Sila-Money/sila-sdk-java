@@ -100,6 +100,25 @@ System.out.println(((BaseResponse)response.getData()).getStatus()); // SUCCESS
 System.out.println(((BaseResponse)response.getData()).getMessage()); // user was successfully registered.
 ```
 
+#### Delete Registration Data
+
+Delete an existing email, phone number, street address, or identity.
+
+```java
+DeleteRegistrationMessage message = new DeleteRegistrationMessageBuilder(userHandle, userPrivateKey, uuid).build();
+response = api.deleteRegistrationData(RegistrationDataEnum.IDENTITY, message);
+```
+
+##### Success Response Object
+
+```java
+System.out.println(response.getStatusCode()); // 200
+BaseResponse parsedResponse = (BaseResponse) response.getData();
+System.out.println(parsedResponse.getSuccess());// Random reference number
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // user was successfully registered.
+```
+
 #### RequestKYC
 
 Starts KYC verification process on a registered user handle.

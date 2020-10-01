@@ -11,7 +11,8 @@ public enum Endpoints {
     GET_NAICS_CATEGORIES("/get_naics_categories"), LINK_BUSINESS_MEMBER("/link_business_member"),
     UNLINK_BUSINESS_MEMBER("/unlink_business_member"), GET_ENTITY("/get_entity"),
     CERTIFY_BENEFICIAL_OWNER("/certify_beneficial_owner"), CERTIFY_BUSINESS("/certify_business"),
-    GET_ENTITIES("/get_entities"), GET_DOCUMENT_TYPES("/document_types"), CANCEL_TRANSACTION("/cancel_transaction");
+    GET_ENTITIES("/get_entities"), GET_DOCUMENT_TYPES("/document_types"), CANCEL_TRANSACTION("/cancel_transaction"),
+    DELETE_REGISTRATION("/delete");
 
     private String uri;
 
