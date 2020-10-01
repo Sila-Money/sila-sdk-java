@@ -3,6 +3,7 @@ package com.silamoney.client.api;
 import java.math.BigInteger;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -162,7 +163,7 @@ public class SilaApi {
 		return addOrUpdate(userHandle, userPrivateKey, path, sBody);
 	}
 
-	public ApiResponse updateEntity(String userHandle, String userPrivateKey, String firstName, String lastName, String entityName, String birthdate, String uuid) throws IOException, InterruptedException {
+	public ApiResponse updateEntity(String userHandle, String userPrivateKey, String firstName, String lastName, String entityName, Date birthdate, String uuid) throws IOException, InterruptedException {
 		String path = Endpoints.UPDATE.getUri() + "/entity";
 
 		UpdateEntityMsg entityMsg = new UpdateEntityMsg(firstName, lastName, entityName, birthdate, uuid, getHeaders(userHandle));
@@ -170,7 +171,7 @@ public class SilaApi {
 		return addOrUpdate(userHandle, userPrivateKey, path, sBody);
 	}
 
-	public ApiResponse updateBusinessEntity(String userHandle, String userPrivateKey, String firstName, String lastName, String entityName, String birthdate, String businessType, String naicsCode, String doingBusinessAs, String businessWebsite, String uuid) throws IOException, InterruptedException {
+	public ApiResponse updateBusinessEntity(String userHandle, String userPrivateKey, String firstName, String lastName, String entityName, Date birthdate, String businessType, String naicsCode, String doingBusinessAs, String businessWebsite, String uuid) throws IOException, InterruptedException {
 		String path = Endpoints.UPDATE.getUri() + "/entity";
 
 		UpdateBusinessEntityMsg entityMsg = new UpdateBusinessEntityMsg(firstName, lastName, entityName, birthdate, businessType, naicsCode, doingBusinessAs, businessWebsite, uuid, getHeaders(userHandle));
