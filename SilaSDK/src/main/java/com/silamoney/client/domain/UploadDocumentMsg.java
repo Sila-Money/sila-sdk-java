@@ -34,17 +34,16 @@ public class UploadDocumentMsg {
      * @param identityType
      * @param description
      */
-    public UploadDocumentMsg(String authHandle, String userHandle, String name, String filename, String hash,
-            String mimeType, String documentType, String identityType, String description) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(userHandle).useVersion(VersionEnum.V0_2)
+    public UploadDocumentMsg(String authHandle, String hash, UploadDocumentMessage message) {
+        this.header = new HeaderBuilder(authHandle).withUserHandle(message.getUserHandle()).useVersion(VersionEnum.V0_2)
                 .withCrypto(CryptoEnum.ETH).withReference().build();
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
-        this.name = name;
-        this.filename = filename;
+        this.name = message.getName();
+        this.filename = message.getFilename();
         this.hash = hash;
-        this.mimeType = mimeType;
-        this.documentType = documentType;
-        this.identityType = identityType;
-        this.description = description;
+        this.mimeType = message.getMimeType();
+        this.documentType = message.getDocumentType();
+        this.identityType = message.getIdentityType();
+        this.description = message.getDescription();
     }
 }

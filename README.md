@@ -630,8 +630,8 @@ System.out.println(response.getStatusCode()); // 200
 #### Get Account Balance
 
 ```java
-ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), "defaultpt");
+ApiResponse response = api.getAccountBalance("user_handle",
+                "user_private_key", "defaultpt");
 ```
 
 ##### Success Object Response
@@ -678,8 +678,8 @@ System.out.println(parsedResponse.getPagination().getTotalCount());
 
 ```java
 UploadDocumentMessage message = UploadDocumentMessage.builder()
-        .userHandle(DefaultConfigurations.getUserHandle()) // The user handle
-        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()) // The user's private key
+        .userHandle("user_handle") // The user handle
+        .userPrivateKey("user_private_key") // The user's private key
         .filePath("/path/to/file") // Full path to the file
         .filename("logo-geko") // File name (without extension)
         .mimeType("image/png") // File mime-type
@@ -701,4 +701,45 @@ System.out.println(parsedResponse.getStatus()); // SUCCESS
 System.out.println(parsedResponse.getMessage()); // File uploaded successfully
 System.out.println(parsedResponse.getDocumentId());
 System.out.println(parsedResponse.getReferenceId());
+```
+
+#### List Documents
+
+```java
+List<String> docTypes = new ArrayList<String>();
+docTypes.add("doc_green_card");
+ListDocumentsMessage message = ListDocumentsMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .page(1) // Optional. Page number to retrieve. default: 1
+        .perPage(1) // Optional. Number of items per page. default: 20, max: 100
+        .order("asc") // Optional. Sort returned items (usually by creation date). Allowed values: asc (default), desc
+        .search("logo") // Optional. Only return documents whose name or filename contains the search value. Partial matches allowed, no wildcards.
+        .sortBy("name") // Optional. One of: name or date
+        .docTypes(docTypes) // Optional. A list of strings of supported document types
+        .startDate(LocalDate.now()) // Optional. Only return documents created on or after this date.
+        .endDate(LocalDate.now()) // Optional. Only return documents created before or on this date.
+        .build();
+ApiResponse response = api.listDocuments(message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+ListDocumentsResponse parsedResponse = (ListDocumentsResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getPagination().getCurrentPage()); // 1
+System.out.println(parsedResponse.getPagination().getReturnedCount()); // 1
+System.out.println(parsedResponse.getPagination().getTotalCount()); // 1
+System.out.println(parsedResponse.getPagination().getTotalPages()); // 1
+System.out.println(parsedResponse.getDocuments().get(0).getUserHandle()); // user_handle
+System.out.println(parsedResponse.getDocuments().get(0).getDocumentId()); // some-uuid-code
+System.out.println(parsedResponse.getDocuments().get(0).getName()); // logo
+System.out.println(parsedResponse.getDocuments().get(0).getFilename()); // logo
+System.out.println(parsedResponse.getDocuments().get(0).getHash()); // yourfilehash
+System.out.println(parsedResponse.getDocuments().get(0).getType()); // doc_green_card
+System.out.println(parsedResponse.getDocuments().get(0).getSize()); // 211341
+System.out.println(parsedResponse.getDocuments().get(0).getCreated()); // 2020-08-03T17:09:24.917939
 ```

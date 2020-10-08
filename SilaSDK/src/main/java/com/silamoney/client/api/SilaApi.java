@@ -1096,9 +1096,8 @@ public class SilaApi {
      */
     public ApiResponse uploadDocument(UploadDocumentMessage message)
             throws FileNotFoundException, NoSuchAlgorithmException, IOException, InterruptedException {
-        UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), message.getUserHandle(),
-                message.getName(), message.getFilename(), EcdsaUtil.hashFile(message.getFilePath()),
-                message.getMimeType(), message.getDocumentType(), message.getIdentityType(), message.getDescription());
+        String hash = EcdsaUtil.hashFile(message.getFilePath());
+        UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
         String path = Endpoints.DOCUMENTS.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1109,5 +1108,42 @@ public class SilaApi {
                 message.getFilePath(), message.getMimeType());
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
+    }
+
+    /**
+     * List previously uploaded supporting documentation for KYC
+     * 
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse listDocuments(ListDocumentsMessage message) throws IOException, InterruptedException {
+        ListDocumentsMsg body = new ListDocumentsMsg(this.configuration.getAuthHandle(), message);
+        String path = Endpoints.LIST_DOCUMENTS.getUri()
+                + addQueryParameters(message.getPage(), message.getPerPage(), message.getOrder());
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(ListDocumentsResponse.class, response);
+    }
+
+    private String addQueryParameters(Integer page, Integer perPage, String order) {
+        String queryParameters = "";
+        queryParameters = addQueryParameter(queryParameters, "page", page == null ? null : page.toString());
+        queryParameters = addQueryParameter(queryParameters, "per_page", perPage == null ? null : perPage.toString());
+        queryParameters = addQueryParameter(queryParameters, "order", order);
+        return queryParameters;
+    }
+
+    private String addQueryParameter(String queryParameters, String name, String value) {
+        if (value != null && !value.isEmpty() && !value.isBlank()) {
+            queryParameters += queryParameters.isEmpty() ? "?" : "&";
+            queryParameters += name + "=" + value;
+        }
+        return queryParameters;
     }
 }
