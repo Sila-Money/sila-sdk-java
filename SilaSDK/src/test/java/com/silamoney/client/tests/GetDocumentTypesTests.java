@@ -37,6 +37,7 @@ public class GetDocumentTypesTests {
         assertEquals(20, parsedResponse.getDocumentTypes().size());
         assertThat("document types - name", parsedResponse.getDocumentTypes().get(0).getName(),
                 not(isEmptyOrNullString()));
+        DefaultConfigurations.setDocumentTypes(parsedResponse.getDocumentTypes());
         assertThat("document types - name", parsedResponse.getDocumentTypes().get(0).getLabel(),
                 not(isEmptyOrNullString()));
         assertThat("document types - name", parsedResponse.getDocumentTypes().get(0).getIdentityType(),

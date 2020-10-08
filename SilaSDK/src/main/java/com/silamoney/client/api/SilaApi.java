@@ -1,6 +1,7 @@
 package com.silamoney.client.api;
 
 import java.math.BigInteger;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
@@ -1081,5 +1082,32 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ENTITIES.getValue());
+    }
+
+    /**
+     * Upload supporting documentation for KYC
+     * 
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws FileNotFoundException
+     * @throws InterruptedException
+     */
+    public ApiResponse uploadDocument(UploadDocumentMessage message)
+            throws FileNotFoundException, NoSuchAlgorithmException, IOException, InterruptedException {
+        UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), message.getUserHandle(),
+                message.getName(), message.getFilename(), EcdsaUtil.hashFile(message.getFilePath()),
+                message.getMimeType(), message.getDocumentType(), message.getIdentityType(), message.getDescription());
+        String path = Endpoints.DOCUMENTS.getUri();
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
+                message.getFilePath(), message.getMimeType());
+
+        return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
 }

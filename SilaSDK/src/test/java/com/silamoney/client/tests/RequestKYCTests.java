@@ -24,11 +24,6 @@ public class RequestKYCTests {
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
-	String userHandle = "javasdk-893748932";
-	String userHandle2Failure = "javasdk-349425739";
-	String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
-	String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
-
 	@Test
 	public void response200() throws Exception {
 		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), null,
@@ -51,13 +46,6 @@ public class RequestKYCTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
-	}
-
-	@Test
-	public void response200Failure() throws Exception {
-		// KYCID3
-		ApiResponse response = api.requestKYC(userHandle2Failure, null, userPrivateKeyFailure);
-		assertEquals(200, response.getStatusCode());
 	}
 
 	@Test
@@ -89,7 +77,5 @@ public class RequestKYCTests {
 		ApiResponse response = api.requestKYC("", null, DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(400, response.getStatusCode());
-
-		api.requestKYC(DefaultConfigurations.getUserHandle(), "", DefaultConfigurations.getUserPrivateKey());
 	}
 }

@@ -673,3 +673,32 @@ System.out.println(parsedResponse.getPagination().getReturnedCount());
 System.out.println(parsedResponse.getPagination().getTotalPages());
 System.out.println(parsedResponse.getPagination().getTotalCount());
 ```
+
+#### Documents
+
+```java
+UploadDocumentMessage message = UploadDocumentMessage.builder()
+        .userHandle(DefaultConfigurations.getUserHandle()) // The user handle
+        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()) // The user's private key
+        .filePath("/path/to/file") // Full path to the file
+        .filename("logo-geko") // File name (without extension)
+        .mimeType("image/png") // File mime-type
+        .documentType("") // Document type
+        .identityType("") // Identity type
+        .name("") // Optional. Descriptive name of the document
+        .description("") // Optional. General description of the document
+        .build();
+ApiResponse response = api.uploadDocument(message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+DocumentsResponse parsedResponse = (DocumentsResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // File uploaded successfully
+System.out.println(parsedResponse.getDocumentId());
+System.out.println(parsedResponse.getReferenceId());
+```
