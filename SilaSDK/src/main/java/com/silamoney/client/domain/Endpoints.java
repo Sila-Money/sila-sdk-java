@@ -12,7 +12,8 @@ public enum Endpoints {
     UNLINK_BUSINESS_MEMBER("/unlink_business_member"), GET_ENTITY("/get_entity"),
     CERTIFY_BENEFICIAL_OWNER("/certify_beneficial_owner"), CERTIFY_BUSINESS("/certify_business"),
     GET_ENTITIES("/get_entities"), GET_DOCUMENT_TYPES("/document_types"), CANCEL_TRANSACTION("/cancel_transaction"),
-    DELETE_REGISTRATION("/delete"), DOCUMENTS("/documents"), LIST_DOCUMENTS("/list_documents");
+    DELETE_REGISTRATION("/delete"), DOCUMENTS("/documents"), LIST_DOCUMENTS("/list_documents"),
+    GET_DOCUMENT("/get_document");
 
     private String uri;
 

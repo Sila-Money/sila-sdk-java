@@ -26,6 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
     GetEntityTests.class,
     DocumentsTests.class,
     ListDocumentsTests.class,
+    GetDocumentTests.class,
     certifyBeneficialOwnerTests.class,
     CertifyBusinessTests.class,
     LinkAccountTests.class,

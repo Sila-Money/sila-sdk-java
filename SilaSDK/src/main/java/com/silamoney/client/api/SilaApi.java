@@ -1131,6 +1131,18 @@ public class SilaApi {
         return ResponseUtil.prepareResponse(ListDocumentsResponse.class, response);
     }
 
+    public ApiResponse getDocument(GetDocumentMessage message) throws IOException, InterruptedException {
+        GetDocumentMsg body = new GetDocumentMsg(this.configuration.getAuthHandle(), message);
+        String path = Endpoints.GET_DOCUMENT.getUri();
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareFileResponse(response);
+    }
+
     private String addQueryParameters(Integer page, Integer perPage, String order) {
         String queryParameters = "";
         queryParameters = addQueryParameter(queryParameters, "page", page == null ? null : page.toString());

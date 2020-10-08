@@ -37,6 +37,9 @@ public class DefaultConfigurations {
     @Getter
     @Setter
     private static List<DocumentType> documentTypes;
+    @Getter
+    @Setter
+    private static String documentId;
 
     /**
      * @return String

@@ -51,6 +51,18 @@ public class ResponseUtil {
                 Serialization.deserialize(response.body().toString(), messageClass), statusCode == 200);
     }
 
+    public static ApiResponse prepareFileResponse(HttpResponse<?> response) {
+        int statusCode = response.statusCode();
+        if (statusCode == 400) {
+            return new ApiResponse(statusCode, response.headers().map(),
+                    Serialization.deserialize(response.body().toString(), BadRequestResponse.class), false);
+        } else if (statusCode != 200) {
+            return new ApiResponse(statusCode, response.headers().map(),
+                    Serialization.deserialize(response.body().toString(), BaseResponse.class), false);
+        }
+        return new ApiResponse(statusCode, response.headers().map(), response.body().toString(), statusCode == 200);
+    }
+
     /**
      * Creates an ApiResponse based on the sent HttpResponse.
      *

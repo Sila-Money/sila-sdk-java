@@ -743,3 +743,24 @@ System.out.println(parsedResponse.getDocuments().get(0).getType()); // doc_green
 System.out.println(parsedResponse.getDocuments().get(0).getSize()); // 211341
 System.out.println(parsedResponse.getDocuments().get(0).getCreated()); // 2020-08-03T17:09:24.917939
 ```
+
+#### Get Document
+
+```java
+GetDocumentMessage message = GetDocumentMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .documentId("some-uuid-code")
+        .build();
+ApiResponse response = api.getDocument(message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+System.out.println(response.getHeaders().get("Content-Type")); // Document MIME type
+System.out.println(response.getHeaders().get("Content-Length")); // Document size in bytes
+System.out.println(response.getHeaders().get("Content-Disposition")); // filename=<Document file name>
+System.out.println((String) response.getData()); // The file binary data
+```

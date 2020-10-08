@@ -42,6 +42,7 @@ public class ListDocumentsTests {
         assertEquals(1, parsedResponse.getPagination().getTotalPages());
         assertThat(parsedResponse.getDocuments(), notNullValue());
         assertEquals("logo-geko", parsedResponse.getDocuments().get(0).getFilename());
+        DefaultConfigurations.setDocumentId(parsedResponse.getDocuments().get(0).getDocumentId());
         assertThat(parsedResponse.getDocuments().get(0).getUserHandle(),
                 stringContainsInOrder(Arrays.asList(DefaultConfigurations.getUserHandle().toLowerCase())));
 
