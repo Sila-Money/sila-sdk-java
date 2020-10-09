@@ -1047,7 +1047,7 @@ ApiResponse response = api.updateEntity(user, message);
 
 ```java
 System.out.println(response.getStatusCode()); // 200
-IdentityResponse parsedResponse = (IdentityResponse) response.getData();
+IndividualEntityResponse parsedResponse = (IndividualEntityResponse) response.getData();
 System.out.println(parsedResponse.getSuccess()); // true
 System.out.println(parsedResponse.getStatus()); // SUCCESS
 System.out.println(parsedResponse.getMessage()); // Successfully updated entity
@@ -1082,7 +1082,7 @@ ApiResponse response = api.updateEntity(user, message);
 
 ```java
 System.out.println(response.getStatusCode()); // 200
-IdentityResponse parsedResponse = (IdentityResponse) response.getData();
+BusinessEntityMessage parsedResponse = (BusinessEntityMessage) response.getData();
 System.out.println(parsedResponse.getSuccess()); // true
 System.out.println(parsedResponse.getStatus()); // SUCCESS
 System.out.println(parsedResponse.getMessage()); // Successfully updated entity
