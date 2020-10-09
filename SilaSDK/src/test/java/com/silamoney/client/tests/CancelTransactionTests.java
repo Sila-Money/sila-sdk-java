@@ -13,11 +13,9 @@ import static org.hamcrest.Matchers.*;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.AccountTransactionMessage;
-import com.silamoney.client.domain.AccountTransactionMessageBuilder;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.CancelTransactionMessage;
-import com.silamoney.client.domain.CancelTransactionMessageBuilder;
 import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
@@ -29,13 +27,15 @@ public class CancelTransactionTests {
 
     @Test
     public void Response200Success() throws Exception {
-        AccountTransactionMessage redeem = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 200, "default").build();
+        AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName("default").build();
         ApiResponse response = api.issueSila(redeem);
         assertEquals(200, response.getStatusCode());
         String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
-        CancelTransactionMessage message = new CancelTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), transactionId).build();
+        CancelTransactionMessage message = CancelTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).transactionId(transactionId).build();
         response = api.cancelTransaction(message);
         assertEquals(200, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();
@@ -47,8 +47,9 @@ public class CancelTransactionTests {
 
     @Test
     public void Response400() throws Exception {
-        CancelTransactionMessage message = new CancelTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), null).build();
+        CancelTransactionMessage message = CancelTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
         ApiResponse response = api.cancelTransaction(message);
         assertEquals(400, response.getStatusCode());
         BadRequestResponse parsedResponse = (BadRequestResponse) response.getData();
@@ -61,8 +62,10 @@ public class CancelTransactionTests {
     public void Response403() throws Exception {
         SilaApi badApi = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                 "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-        CancelTransactionMessage message = new CancelTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), UUID.randomUUID().toString()).build();
+        CancelTransactionMessage message = CancelTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).transactionId(UUID.randomUUID().toString())
+                .build();
         ApiResponse response = badApi.cancelTransaction(message);
         assertEquals(403, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();
@@ -73,8 +76,10 @@ public class CancelTransactionTests {
     }
 
     public void Response404() throws Exception {
-        CancelTransactionMessage message = new CancelTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), UUID.randomUUID().toString()).build();
+        CancelTransactionMessage message = CancelTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).transactionId(UUID.randomUUID().toString())
+                .build();
         ApiResponse response = api.cancelTransaction(message);
         assertEquals(404, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();

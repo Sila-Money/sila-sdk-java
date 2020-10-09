@@ -8,25 +8,18 @@ import com.google.gson.annotations.SerializedName;
  * @author Karlo Lorenzana
  */
 public class IssueMsg {
-
     @SerializedName("amount")
     private final int amount;
-
     @SerializedName("account_name")
     private final String accountName;
-
     @SerializedName("header")
     private final Header header;
-
     @SerializedName("message")
     private final String message;
-
     @SerializedName("descriptor")
     private final String descriptor;
-
     @SerializedName("business_uuid")
     private final String businessUuid;
-
     @SerializedName("processing_type")
     private final String processingType;
 
@@ -42,6 +35,6 @@ public class IssueMsg {
         this.message = Message.ValueEnum.ISSUE_MSG.getValue();
         this.descriptor = message.getDescriptor();
         this.businessUuid = message.getBusinessUuid();
-        this.processingType = message.getProcessingType();
+        this.processingType = message.getProcessingType() == null ? null : message.getProcessingType().getValue();
     }
 }

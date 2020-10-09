@@ -12,8 +12,7 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.DocumentTypesResponse;
-import com.silamoney.client.domain.PaginationBuilder;
-import com.silamoney.client.domain.PaginationMsg;
+import com.silamoney.client.domain.PaginationMessage;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
@@ -50,7 +49,7 @@ public class GetDocumentTypesTests {
 
     @Test
     public void Response200SuccessWithPagination() throws Exception {
-        PaginationMsg pagination = new PaginationBuilder().atPage(1).withPerPage(40).build();
+        PaginationMessage pagination = PaginationMessage.builder().page(1).perPage(40).build();
         ApiResponse response = api.getDocumentTypes(pagination);
         assertEquals(200, response.getStatusCode());
         DocumentTypesResponse parsedResponse = (DocumentTypesResponse) response.getData();

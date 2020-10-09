@@ -1,13 +1,11 @@
 package com.silamoney.client.domain;
 
-public class PaginationMsg {
+import lombok.Builder;
+
+@Builder
+public class PaginationMessage {
     private Integer page;
     private Integer perPage;
-
-    PaginationMsg(Integer page, Integer perPage) {
-        this.page = page;
-        this.perPage = perPage;
-    }
 
     public String getUrlParams() {
         String params = "";

@@ -1,18 +1,14 @@
 package com.silamoney.client.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 public class CancelTransactionMessage {
     @Getter
-    private final String userHandle;
+    private String userHandle;
     @Getter
-    private final String userPrivateKey;
+    private String userPrivateKey;
     @Getter
-    private final String transactionId;
-
-    CancelTransactionMessage(String userHandle, String userPrivateKey, String transactionId) {
-        this.userHandle = userHandle;
-        this.userPrivateKey = userPrivateKey;
-        this.transactionId = transactionId;
-    }
+    private String transactionId;
 }

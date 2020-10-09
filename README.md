@@ -66,7 +66,7 @@ Attaches KYC data and specified blockchain address to an assigned handle.
 ```java
 User user = new User(String userHandle, String firstName, String lastName, String streetAddress1, @Nullable String streetAddress2,
       String city, String state (2 characters), String postalCode (5 or 9 digit format), String phone, String email, String cryptoAddress,
-      String identityNumber (SSN format "AAA-GG-SSSS"), Date birthdate);
+      String identityNumber (SSN format "AAA-GG-SSSS"), Date birthdate, String country (2 characters));
 ApiResponse response = api.register(user);
 ```
 
@@ -86,7 +86,7 @@ BusinessType businessType; //Get business type with api.getBusinessTypes() docum
 NaicsCategoryDescription naicsCategory; //Get naics category with api.getNaicsCategories() documentation below.
 
 BusinessUser user = new BusinessUser("userhandle", "Office", "123 Main Street",
-                "street address 2", "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "crypto address", "entity name", businessType, "https://www.website.com", "doing business as", naicsCategory);
+                "street address 2", "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222", "crypto address", "entity name", businessType, "https://www.website.com", "doing business as", naicsCategory, String country (2 characters));
 
 ApiResponse response = api.registerBusiness(user);
 ```
@@ -337,10 +337,14 @@ System.out.println(((List<Account>) response.getData()).get(0).accountType); // 
 Debits a specified account and issues tokens to the address belonging to the requested handle.
 
 ```java
-AccountTransactionMessage issueMsg = new AccountTransactionMessageBuilder(userHandle, userPrivateKey, amount, accountName)
-    .withDescriptor(descriptor) // Optional
-    .withBusinessUuid(businessUuid) // Optional
-    .withProcessingType(ProcessingTypeEnum.SAME_DAY) // Optional
+AccountTransactionMessage issueMsg = AccountTransactionMessage.builder()
+    .userHandle("user_handle")
+    .userPrivateKey("user_private_key")
+    .amount(100)
+    .accountName("your_account_name")
+    .descriptor("your custom descriptor") // Optional
+    .businessUuid("some-business-uuid") // Optional
+    .processingType(ProcessingTypeEnum.SAME_DAY) // Optional
     .build();
 ApiResponse response = api.IssueSila(issueMsg);
 ```
@@ -380,10 +384,14 @@ System.out.println(((TransactionResponse) response.getData()).getMessage()); // 
 Burns given the amount of SILA at the handle's blockchain address and credits their named bank account in the equivalent monetary amount.
 
 ```java
-AccountTransactionMessage redeemMsg = new AccountTransactionMessageBuilder(userHandle, userPrivateKey, amount, accountName)
-    .withDescriptor(descriptor) // Optional
-    .withBusinessUuid(businessUuid) // Optional
-    .withProcessingType(ProcessingTypeEnum.SAME_DAY) // Optional
+AccountTransactionMessage redeemMsg = AccountTransactionMessage.builder()
+    .userHandle("user_handle")
+    .userPrivateKey("user_private_key")
+    .amount(100)
+    .accountName("your_account_name")
+    .descriptor("your custom descriptor") // Optional
+    .businessUuid("some-business-uuid") // Optional
+    .processingType(ProcessingTypeEnum.SAME_DAY) // Optional
     .build();
 ApiResponse response = api.RedeemSila(redeemMsg);
 ```
@@ -406,10 +414,11 @@ System.out.println(parsedResponse.getRerence()); // The transaction reference
 Cancel a pending transaction under certain circumstances
 
 ```java
-String userHandle = 'yourHandle';
-String userPrivateKey = 'yourPrivateKey';
-String transactionId = 'some-transaction-uuid';
-CancelTransactionMessage cancelMsg = new CancelTransactionMessageBuilder(userHandle, userPrivateKey, transactionId).build();
+CancelTransactionMessage cancelMsg = CancelTransactionMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .transactionId("transaction_id")
+        .build();
 ApiResponse response = api.cancelTransaction(cancelMsg);
 ```
 
@@ -649,9 +658,9 @@ System.out.println(parsedResponse.getMaskedAccountNumber());
 // With no pagination
 ApiResponse response = api.getDocumentTypes();
 // With pagination
-PaginationMsg pagination = new PaginationBuilder()
-    .atPage(1) // Optional. The page of the request
-    .withPerPage(40) // Optional. The amount of results per page
+PaginationMessage pagination = PaginationMessage.builder()
+    .page(1) // Optional. The page of the request
+    .perPage(40) // Optional. The amount of results per page
     .build();
 ApiResponse response = api.getDocumentTypes(pagination);
 ```
@@ -708,11 +717,10 @@ System.out.println(parsedResponse.getReferenceId());
 ```java
 List<String> docTypes = new ArrayList<String>();
 docTypes.add("doc_green_card");
+// With no pagination
 ListDocumentsMessage message = ListDocumentsMessage.builder()
         .userHandle("user_handle")
         .userPrivateKey("user_private_key")
-        .page(1) // Optional. Page number to retrieve. default: 1
-        .perPage(1) // Optional. Number of items per page. default: 20, max: 100
         .order("asc") // Optional. Sort returned items (usually by creation date). Allowed values: asc (default), desc
         .search("logo") // Optional. Only return documents whose name or filename contains the search value. Partial matches allowed, no wildcards.
         .sortBy("name") // Optional. One of: name or date
@@ -721,6 +729,12 @@ ListDocumentsMessage message = ListDocumentsMessage.builder()
         .endDate(LocalDate.now()) // Optional. Only return documents created before or on this date.
         .build();
 ApiResponse response = api.listDocuments(message);
+// With pagination
+PaginationMessage pagination = PaginationMessage.builder()
+    .page(1) // Optional. Page number to retrieve. default: 1
+    .perPage(40) // Optional. Number of items per page. default: 20, max: 100
+    .build();
+ApiResponse response = api.listDocuments(message, pagination);
 ```
 
 ##### Success Object Response

@@ -725,7 +725,7 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      */
-    public ApiResponse getDocumentTypes(PaginationMsg pagination) throws IOException, InterruptedException {
+    public ApiResponse getDocumentTypes(PaginationMessage pagination) throws IOException, InterruptedException {
         return getDocumentTypes(pagination.getUrlParams());
     }
 
@@ -1121,15 +1121,25 @@ public class SilaApi {
      */
     public ApiResponse listDocuments(ListDocumentsMessage message) throws IOException, InterruptedException {
         ListDocumentsMsg body = new ListDocumentsMsg(this.configuration.getAuthHandle(), message);
-        String path = Endpoints.LIST_DOCUMENTS.getUri()
-                + addQueryParameters(message.getPage(), message.getPerPage(), message.getOrder());
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+        String path = Endpoints.LIST_DOCUMENTS.getUri() + addQueryParameter("", "order", message.getSortBy());
+        return listDocuments(path, message.getUserPrivateKey(), body);
+    }
 
-        return ResponseUtil.prepareResponse(ListDocumentsResponse.class, response);
+    /**
+     * List previously uploaded supporting documentation for KYC with pagination
+     * 
+     * @param message
+     * @param pagination
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse listDocuments(ListDocumentsMessage message, PaginationMessage pagination)
+            throws IOException, InterruptedException {
+        ListDocumentsMsg body = new ListDocumentsMsg(this.configuration.getAuthHandle(), message);
+        String path = Endpoints.LIST_DOCUMENTS.getUri()
+                + addQueryParameter(pagination.getUrlParams(), "order", message.getOrder());
+        return listDocuments(path, message.getUserPrivateKey(), body);
     }
 
     /**
@@ -1309,6 +1319,17 @@ public class SilaApi {
                 user.getUserPrivateKey(), body, BusinessEntityResponse.class);
     }
 
+    private ApiResponse listDocuments(String path, String userPrivateKey, ListDocumentsMsg body)
+            throws IOException, InterruptedException {
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(ListDocumentsResponse.class, response);
+    }
+
     /**
      * Manages all add/<registration-data> calls
      * 
@@ -1330,22 +1351,6 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
         return ResponseUtil.prepareResponse(responseType, response);
-    }
-
-    /**
-     * Adds query parameters to the uri if any
-     * 
-     * @param page
-     * @param perPage
-     * @param order
-     * @return
-     */
-    private String addQueryParameters(Integer page, Integer perPage, String order) {
-        String queryParameters = "";
-        queryParameters = addQueryParameter(queryParameters, "page", page == null ? null : page.toString());
-        queryParameters = addQueryParameter(queryParameters, "per_page", perPage == null ? null : perPage.toString());
-        queryParameters = addQueryParameter(queryParameters, "order", order);
-        return queryParameters;
     }
 
     /**

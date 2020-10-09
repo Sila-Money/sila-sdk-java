@@ -16,7 +16,6 @@ import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
-import com.silamoney.client.domain.AccountTransactionMessageBuilder;
 import com.silamoney.client.domain.AccountTransactionMessage;
 import com.silamoney.client.domain.ProcessingTypeEnum;
 import com.silamoney.client.domain.SearchFilters;
@@ -40,9 +39,10 @@ public class IssueSilaTests {
 
     @Test
     public void Response200Success() throws Exception {
-        AccountTransactionMessage issue = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 1000, "default").withDescriptor("test descriptor")
-                        .withBusinessUuid(DefaultConfigurations.correctUuid).build();
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName("default")
+                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).build();
         ApiResponse response = api.issueSila(issue);
 
         assertEquals(200, response.getStatusCode());
@@ -67,9 +67,10 @@ public class IssueSilaTests {
 
     @Test
     public void Response200SuccessSameDay() throws Exception {
-        AccountTransactionMessage issue = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 1000, "default")
-                        .withProcessingType(ProcessingTypeEnum.SAME_DAY).build();
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName("default")
+                .processingType(ProcessingTypeEnum.SAME_DAY).build();
         ApiResponse response = api.issueSila(issue);
 
         assertEquals(200, response.getStatusCode());
@@ -82,8 +83,8 @@ public class IssueSilaTests {
     @Test
     public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
             InterruptedException, ForbiddenException {
-        AccountTransactionMessage issue = new AccountTransactionMessageBuilder("",
-                DefaultConfigurations.getUserPrivateKey(), 1000, null).build();
+        AccountTransactionMessage issue = AccountTransactionMessage.builder().userHandle("")
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName(null).build();
         ApiResponse response = api.issueSila(issue);
         assertEquals(400, response.getStatusCode());
         BadRequestResponse parsedResponse = (BadRequestResponse) response.getData();
@@ -96,9 +97,10 @@ public class IssueSilaTests {
     @Test
     public void Response400WrongUuid() throws BadRequestException, InvalidSignatureException, ServerSideException,
             IOException, InterruptedException, ForbiddenException {
-        AccountTransactionMessage issue = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 1000, null).withBusinessUuid(DefaultConfigurations.wrongUuid)
-                        .build();
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName(null)
+                .businessUuid(DefaultConfigurations.wrongUuid).build();
         ApiResponse response = api.issueSila(issue);
         assertEquals(400, response.getStatusCode());
         BadRequestResponse parsedResponse = (BadRequestResponse) response.getData();
@@ -111,9 +113,9 @@ public class IssueSilaTests {
     @Test
     public void Response401User() throws BadRequestException, InvalidSignatureException, ServerSideException,
             IOException, InterruptedException, ForbiddenException {
-        AccountTransactionMessage issue = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.privateKey, 1000, "default").withBusinessUuid(DefaultConfigurations.wrongUuid)
-                        .build();
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle()).userPrivateKey(DefaultConfigurations.privateKey)
+                .amount(1000).accountName("default").build();
         ApiResponse response = api.issueSila(issue);
         assertEquals(401, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();
@@ -126,8 +128,9 @@ public class IssueSilaTests {
             InterruptedException, ForbiddenException {
         SilaApi badApi = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                 "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-        AccountTransactionMessage issue = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 1000, "default").build();
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName("default").build();
         ApiResponse response = badApi.issueSila(issue);
         assertEquals(401, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();

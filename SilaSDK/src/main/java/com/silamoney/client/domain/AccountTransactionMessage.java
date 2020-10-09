@@ -1,31 +1,22 @@
 package com.silamoney.client.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 public class AccountTransactionMessage {
     @Getter
-    private final String userHandle;
+    private String userHandle;
     @Getter
-    private final String userPrivateKey;
+    private String userPrivateKey;
     @Getter
-    private final int amount;
+    private int amount;
     @Getter
-    private final String accountName;
+    private String accountName;
     @Getter
-    private final String descriptor;
+    private String descriptor;
     @Getter
-    private final String businessUuid;
+    private String businessUuid;
     @Getter
-    private final String processingType;
-
-    AccountTransactionMessage(String userHandle, String userPrivateKey, int amount, String accountName,
-            String descriptor, String businessUuid, String processingType) {
-        this.userHandle = userHandle;
-        this.userPrivateKey = userPrivateKey;
-        this.amount = amount;
-        this.accountName = accountName;
-        this.descriptor = descriptor;
-        this.businessUuid = businessUuid;
-        this.processingType = processingType;
-    }
+    private ProcessingTypeEnum processingType;
 }

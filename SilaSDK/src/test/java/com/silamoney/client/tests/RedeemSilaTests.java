@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.AccountTransactionMessage;
-import com.silamoney.client.domain.AccountTransactionMessageBuilder;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
@@ -40,9 +39,10 @@ public class RedeemSilaTests {
 
     @Test
     public void Response200Success() throws Exception {
-        AccountTransactionMessage redeem = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 200, "default").withDescriptor("test descriptor")
-                        .withBusinessUuid(DefaultConfigurations.correctUuid).build();
+        AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName("default")
+                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).build();
         ApiResponse response = api.redeemSila(redeem);
 
         assertEquals(200, response.getStatusCode());
@@ -69,9 +69,10 @@ public class RedeemSilaTests {
 
     @Test
     public void Response200SuccessSameDay() throws Exception {
-        AccountTransactionMessage redeem = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 200, "default")
-                        .withProcessingType(ProcessingTypeEnum.SAME_DAY).build();
+        AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName("default")
+                .processingType(ProcessingTypeEnum.SAME_DAY).build();
         ApiResponse response = api.redeemSila(redeem);
 
         assertEquals(200, response.getStatusCode());
@@ -84,8 +85,8 @@ public class RedeemSilaTests {
     @Test
     public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
             InterruptedException, ForbiddenException {
-        AccountTransactionMessage redeem = new AccountTransactionMessageBuilder("",
-                DefaultConfigurations.getUserPrivateKey(), 1000, null).build();
+        AccountTransactionMessage redeem = AccountTransactionMessage.builder().userHandle("")
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName(null).build();
         ApiResponse response = api.redeemSila(redeem);
         assertEquals(400, response.getStatusCode());
         BadRequestResponse parsedResponse = (BadRequestResponse) response.getData();
@@ -98,9 +99,10 @@ public class RedeemSilaTests {
     @Test
     public void Response400WrongUuiud() throws BadRequestException, InvalidSignatureException, ServerSideException,
             IOException, InterruptedException, ForbiddenException {
-        AccountTransactionMessage redeem = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 1000, null).withBusinessUuid(DefaultConfigurations.wrongUuid)
-                        .build();
+        AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName(null)
+                .businessUuid(DefaultConfigurations.wrongUuid).build();
         ApiResponse response = api.redeemSila(redeem);
         assertEquals(400, response.getStatusCode());
         BadRequestResponse parsedResponse = (BadRequestResponse) response.getData();
@@ -115,8 +117,9 @@ public class RedeemSilaTests {
             InterruptedException, ForbiddenException {
         api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                 "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-        AccountTransactionMessage redeem = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 1000, "default").build();
+        AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName("default").build();
         ApiResponse response = api.redeemSila(redeem);
         assertEquals(401, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();

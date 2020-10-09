@@ -18,6 +18,7 @@ import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.ListDocumentsMessage;
 import com.silamoney.client.domain.ListDocumentsResponse;
+import com.silamoney.client.domain.PaginationMessage;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
@@ -49,10 +50,10 @@ public class ListDocumentsTests {
         List<String> docTypes = new ArrayList<String>();
         docTypes.add(DefaultConfigurations.getDocumentTypes().get(0).getName());
         message = ListDocumentsMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
-                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).page(1).perPage(1).order("asc")
-                .search("logo").sortBy("name").docTypes(docTypes).startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1)).build();
-        response = api.listDocuments(message);
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).order("asc").search("logo").sortBy("name")
+                .docTypes(docTypes).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).build();
+        PaginationMessage pagination = PaginationMessage.builder().page(1).perPage(1).build();
+        response = api.listDocuments(message, pagination);
         assertEquals(200, response.getStatusCode());
         parsedResponse = (ListDocumentsResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());

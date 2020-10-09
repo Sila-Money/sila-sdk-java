@@ -1,6 +1,8 @@
 package com.silamoney.client.domain;
 
 import io.reactivex.annotations.Nullable;
+import lombok.Getter;
+
 import java.util.Date;
 
 /**
@@ -9,32 +11,34 @@ import java.util.Date;
  * @author Karlo Lorenzana
  */
 public class User {
-
+    @Getter
     private final String handle;
-
+    @Getter
     private final String firstName;
-
+    @Getter
     private final String lastName;
-
+    @Getter
     private final String address;
-
+    @Getter
     private final String address2;
-
+    @Getter
     private final String city;
-
+    @Getter
     private final String state;
-
+    @Getter
     private final String zipCode;
-
+    @Getter
     private final String phone;
-
+    @Getter
     private final String email;
-
+    @Getter
     private final String identityNumber;
-
+    @Getter
     private final String cryptoAddress;
-    
+    @Getter
     private final Date birthdate;
+    @Getter
+    private final String country;
 
     /**
      * Constructor for user object.
@@ -53,7 +57,9 @@ public class User {
      * @param cryptoAddress
      * @param birthdate
      */
-    public User(String handle, String firstName, String lastName, String address, @Nullable String address2, String city, String state, String zipCode, String phone, String email, String identityNumber, String cryptoAddress, Date birthdate) {
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+            String city, String state, String zipCode, String phone, String email, String identityNumber,
+            String cryptoAddress, Date birthdate) {
         this.handle = handle;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -67,111 +73,25 @@ public class User {
         this.identityNumber = identityNumber;
         this.cryptoAddress = cryptoAddress;
         this.birthdate = birthdate;
+        this.country = "US";
     }
 
-    /**
-     * Gets the user handle.
-     * @return handle
-     */
-    public String getHandle() {
-        return handle;
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+            String city, String state, String zipCode, String phone, String email, String identityNumber,
+            String cryptoAddress, Date birthdate, String country) {
+        this.handle = handle;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityNumber = identityNumber;
+        this.cryptoAddress = cryptoAddress;
+        this.birthdate = birthdate;
+        this.country = country;
     }
-
-    /**
-     * Gets the user first name.
-     * @return first name
-     */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * Gets the user last name.
-     * @return last name
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * Gets the user street address 1.
-     * @return address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * Gets the user street address 2.
-     * @return street address 2
-     */
-    public String getAddress2() {
-        return address2;
-    }
-
-    /**
-     * Gets the user city.
-     * @return city
-     */
-    public String getCity() {
-        return city;
-    }
-
-    /**
-     * Gets the user state.
-     * @return state
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * Gets the user zip code.
-     * @return zip code
-     */
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    /**
-     * Gets the user phone.
-     * @return phone
-     */
-    public String getPhone() {
-        return phone;
-    }
-
-    /**
-     * Gets the user email.
-     * @return email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Gets the user identity number.
-     * @return identity number
-     */
-    public String getIdentityNumber() {
-        return identityNumber;
-    }
-
-    /**
-     * Gets the user crypto address.
-     * @return crypto address
-     */
-    public String getCryptoAddress() {
-        return cryptoAddress;
-    }
-
-    /**
-     * Gets the user birthdate.
-     * @return birthdate
-     */
-    public Date getBirthdate() {
-        return birthdate;
-    }
-    
-    
 }

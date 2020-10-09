@@ -13,10 +13,6 @@ public class ListDocumentsMessage {
     @Getter
     private String userPrivateKey;
     @Getter
-    private Integer page;
-    @Getter
-    private Integer perPage;
-    @Getter
     private List<String> docTypes;
     @Getter
     private String search;
