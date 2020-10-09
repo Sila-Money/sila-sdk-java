@@ -421,7 +421,7 @@ Cancel a pending transaction under certain circumstances
 CancelTransactionMessage cancelMsg = CancelTransactionMessage.builder()
         .userHandle("user_handle")
         .userPrivateKey("user_private_key")
-        .transactionId("transaction_id")
+        .transactionId("some-uuid-code")
         .build();
 ApiResponse response = api.cancelTransaction(cancelMsg);
 ```
@@ -429,7 +429,11 @@ ApiResponse response = api.cancelTransaction(cancelMsg);
 ##### Success Object Response
 
 ```java
-
+System.out.println(response.getStatusCode()); // 200
+BaseResponse parsedResponse = (BaseResponse) response.getData();
+System.out.println(parsedResponse.getSuccess());
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Transaction some-uuid-code has been canceled
 ```
 
 #### GetTransactions
