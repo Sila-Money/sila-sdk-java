@@ -3,11 +3,11 @@ package com.silamoney.client.domain;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Object sent in redeem sila method.
+ * Object used in the Issue Sila method.
  *
  * @author Karlo Lorenzana
  */
-public class RedeemMsg {
+public class AccountTransactionMsg {
     @SerializedName("amount")
     private final int amount;
     @SerializedName("account_name")
@@ -24,16 +24,15 @@ public class RedeemMsg {
     private final String processingType;
 
     /**
-     * Constructor for RedeemMsg object.
+     * Constructor for IssueMsg object.
      *
-     * @param appHandle
      * @param message
      */
-    public RedeemMsg(String appHandle, AccountTransactionMessage message) {
-        this.header = new Header(message.getUserHandle(), appHandle);
-        this.amount = message.getAmount();
+    public AccountTransactionMsg(String authHandle, AccountTransactionMessage message, Message.ValueEnum messageType) {
         this.accountName = message.getAccountName();
-        this.message = Message.ValueEnum.REDEEM_MSG.getValue();
+        this.amount = message.getAmount();
+        this.header = new Header(message.getUserHandle(), authHandle);
+        this.message = messageType.getValue();
         this.descriptor = message.getDescriptor();
         this.businessUuid = message.getBusinessUuid();
         this.processingType = message.getProcessingType() == null ? null : message.getProcessingType().getValue();

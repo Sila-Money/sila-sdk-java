@@ -362,7 +362,8 @@ public class SilaApi {
     public ApiResponse issueSila(AccountTransactionMessage message) throws IOException, InterruptedException,
             BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
         String path = Endpoints.ISSUE_SILA.getUri();
-        IssueMsg body = new IssueMsg(this.configuration.getAuthHandle(), message);
+        AccountTransactionMsg body = new AccountTransactionMsg(this.configuration.getAuthHandle(), message,
+                Message.ValueEnum.ISSUE_MSG);
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
 
@@ -426,7 +427,8 @@ public class SilaApi {
      */
     public ApiResponse redeemSila(AccountTransactionMessage message) throws IOException, InterruptedException,
             BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
-        RedeemMsg body = new RedeemMsg(this.configuration.getAuthHandle(), message);
+        AccountTransactionMsg body = new AccountTransactionMsg(this.configuration.getAuthHandle(), message,
+                Message.ValueEnum.REDEEM_MSG);
         String path = Endpoints.REDEEM_SILA.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
