@@ -764,3 +764,125 @@ System.out.println(response.getHeaders().get("Content-Length")); // Document siz
 System.out.println(response.getHeaders().get("Content-Disposition")); // filename=<Document file name>
 System.out.println((String) response.getData()); // The file binary data
 ```
+
+#### Add Email
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+EmailMessage message = EmailMessage.builder()
+        .email("some_new_email@domain.sila")
+        .build();
+ApiResponse response = api.addEmail(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+EmailResponse parsedResponse = (EmailResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully added email
+System.out.println(parsedResponse.getEmail().getAddedEpoch());
+System.out.println(parsedResponse.getEmail().getModifiedEpoch());
+System.out.println(parsedResponse.getEmail().getUuid());
+System.out.println(parsedResponse.getEmail().getEmail());
+```
+
+#### Add Phone
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+PhoneMessage message = PhoneMessage.builder()
+        .phone("1234567890")
+        .build();
+ApiResponse response = api.addPhone(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+PhoneResponse parsedResponse = (PhoneResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully added email
+System.out.println(parsedResponse.getPhone().getAddedEpoch());
+System.out.println(parsedResponse.getPhone().getModifiedEpoch());
+System.out.println(parsedResponse.getPhone().getUuid());
+System.out.println(parsedResponse.getPhone().getPhone());
+```
+
+#### Add Identity
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+IdentityMessage message = IdentityMessage.builder()
+        .identityAlias("SSN")
+        .identityValue("123452222")
+        .build();
+ApiResponse response = api.addIdentity(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+IdentityResponse parsedResponse = (IdentityResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully added email
+System.out.println(parsedResponse.getIdentity().getAddedEpoch());
+System.out.println(parsedResponse.getIdentity().getModifiedEpoch());
+System.out.println(parsedResponse.getIdentity().getUuid());
+System.out.println(parsedResponse.getIdentity().getIdentityType());
+System.out.println(parsedResponse.getIdentity().getIdentity());
+```
+
+#### Add Address
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+AddressMessage message = AddressMessage.builder()
+        .addressAlias("new address")
+        .streetAddress1("324 Songbird Avenue")
+        .streetAddress2("Apt. 132") // Optional.
+        .city("Portland")
+        .state("VA")
+        .country("US")
+        .postalCode("12345")
+        .build();
+ApiResponse response = api.addAddress(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+AddressResponse parsedResponse = (AddressResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully added email
+System.out.println(parsedResponse.getAddress().getAddedEpoch());
+System.out.println(parsedResponse.getAddress().getModifiedEpoch());
+System.out.println(parsedResponse.getAddress().getUuid());
+System.out.println(parsedResponse.getAddress().getNickname());
+System.out.println(parsedResponse.getAddress().getStreetAddress1());
+System.out.println(parsedResponse.getAddress().getStreetAddress2());
+System.out.println(parsedResponse.getAddress().getCity());
+System.out.println(parsedResponse.getAddress().getState());
+System.out.println(parsedResponse.getAddress().getCountry());
+System.out.println(parsedResponse.getAddress().getPostalCode());
+```

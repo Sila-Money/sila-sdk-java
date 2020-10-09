@@ -3,6 +3,7 @@ package com.silamoney.client.api;
 import java.math.BigInteger;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -1131,6 +1132,13 @@ public class SilaApi {
         return ResponseUtil.prepareResponse(ListDocumentsResponse.class, response);
     }
 
+    /**
+     * 
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public ApiResponse getDocument(GetDocumentMessage message) throws IOException, InterruptedException {
         GetDocumentMsg body = new GetDocumentMsg(this.configuration.getAuthHandle(), message);
         String path = Endpoints.GET_DOCUMENT.getUri();
@@ -1143,6 +1151,96 @@ public class SilaApi {
         return ResponseUtil.prepareFileResponse(response);
     }
 
+    /**
+     * Add a new email to a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse addEmail(UserHandleMessage user, EmailMessage message) throws IOException, InterruptedException {
+        EmailMsg body = new EmailMsg(this.configuration.getAuthHandle(), user, message);
+        return addRegistrationData(RegistrationDataEnum.EMAIL, user.getUserPrivateKey(), body, EmailResponse.class);
+    }
+
+    /**
+     * Add a new phone number to a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse addPhone(UserHandleMessage user, PhoneMessage message) throws IOException, InterruptedException {
+        PhoneMsg body = new PhoneMsg(this.configuration.getAuthHandle(), user, message);
+        return addRegistrationData(RegistrationDataEnum.PHONE, user.getUserPrivateKey(), body, PhoneResponse.class);
+    }
+
+    /**
+     * Add a new identity to a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse addIdentity(UserHandleMessage user, IdentityMessage message)
+            throws IOException, InterruptedException {
+        IdentityMsg body = new IdentityMsg(this.configuration.getAuthHandle(), user, message);
+        return addRegistrationData(RegistrationDataEnum.IDENTITY, user.getUserPrivateKey(), body,
+                IdentityResponse.class);
+    }
+
+    /**
+     * Add a new street address to a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse addAddress(UserHandleMessage user, AddressMessage message)
+            throws IOException, InterruptedException {
+        AddressMsg body = new AddressMsg(this.configuration.getAuthHandle(), user, message);
+        return addRegistrationData(RegistrationDataEnum.ADDRESS, user.getUserPrivateKey(), body, AddressResponse.class);
+    }
+
+    /**
+     * Manages all add/<registration-data> calls
+     * 
+     * @param dataType
+     * @param userPrivateKey
+     * @param body
+     * @param responseType
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private ApiResponse addRegistrationData(RegistrationDataEnum dataType, String userPrivateKey, Object body,
+            Type responseType) throws IOException, InterruptedException {
+        String path = Endpoints.ADD_REGISTRATION_DATA.getUri() + "/" + dataType.getUri();
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(responseType, response);
+    }
+
+    /**
+     * Adds query parameters to the uri if any
+     * 
+     * @param page
+     * @param perPage
+     * @param order
+     * @return
+     */
     private String addQueryParameters(Integer page, Integer perPage, String order) {
         String queryParameters = "";
         queryParameters = addQueryParameter(queryParameters, "page", page == null ? null : page.toString());
@@ -1151,6 +1249,14 @@ public class SilaApi {
         return queryParameters;
     }
 
+    /**
+     * Adds a query parameter to the uri if the value is not null
+     * 
+     * @param queryParameters
+     * @param name
+     * @param value
+     * @return
+     */
     private String addQueryParameter(String queryParameters, String name, String value) {
         if (value != null && !value.isEmpty() && !value.isBlank()) {
             queryParameters += queryParameters.isEmpty() ? "?" : "&";
