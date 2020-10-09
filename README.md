@@ -431,7 +431,7 @@ ApiResponse response = api.cancelTransaction(cancelMsg);
 ```java
 System.out.println(response.getStatusCode()); // 200
 BaseResponse parsedResponse = (BaseResponse) response.getData();
-System.out.println(parsedResponse.getSuccess());
+System.out.println(parsedResponse.getSuccess()); // true
 System.out.println(parsedResponse.getStatus()); // SUCCESS
 System.out.println(parsedResponse.getMessage()); // Transaction some-uuid-code has been canceled
 ```
@@ -462,7 +462,32 @@ ApiResponse response = api.GetTransactions(userHandle, filters, userPrivateKey);
 
 ```java
 System.out.println(response.getStatusCode()); // 200
-System.out.println((GetTransactionsResponse) response.getData()); // Access response data.
+GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
+System.out.println(parsedResponse.success); // true
+System.out.println(parsedResponse.status); // SUCCESS
+System.out.println(parsedResponse.transactions.get(0).userHandle);
+System.out.println(parsedResponse.transactions.get(0).referenceId);
+System.out.println(parsedResponse.transactions.get(0).transactionId);
+System.out.println(parsedResponse.transactions.get(0).transactionHash);
+System.out.println(parsedResponse.transactions.get(0).transactionType);
+System.out.println(parsedResponse.transactions.get(0).silaAmount);
+System.out.println(parsedResponse.transactions.get(0).status);
+System.out.println(parsedResponse.transactions.get(0).usdStatus);
+System.out.println(parsedResponse.transactions.get(0).tokenStatus);
+System.out.println(parsedResponse.transactions.get(0).created);
+System.out.println(parsedResponse.transactions.get(0).lastUpdate);
+System.out.println(parsedResponse.transactions.get(0).createdEpoch);
+System.out.println(parsedResponse.transactions.get(0).lastUpdateEpoch)
+System.out.println(parsedResponse.transactions.get(0).descriptor);
+System.out.println(parsedResponse.transactions.get(0).descriptorAch);
+System.out.println(parsedResponse.transactions.get(0).achName);
+if (parsedResponse.transactions.get(0).transactionType.equals("transfer")) {
+    System.out.println(parsedResponse.transactions.get(0).destinationAddress);
+    System.out.println(parsedResponse.transactions.get(0).destinationHandle);
+    System.out.println(parsedResponse.transactions.get(0).handleAddress);
+} else {
+    System.out.println(parsedResponse.transactions.get(0).processingType);
+}
 ```
 
 #### Get Sila Balance
@@ -700,10 +725,10 @@ UploadDocumentMessage message = UploadDocumentMessage.builder()
         .filePath("/path/to/file") // Full path to the file
         .filename("logo-geko") // File name (without extension)
         .mimeType("image/png") // File mime-type
-        .documentType("") // Document type
-        .identityType("") // Identity type
-        .name("") // Optional. Descriptive name of the document
-        .description("") // Optional. General description of the document
+        .documentType("doc_green_card") // Document type
+        .identityType("other") // Identity type
+        .name("some file name") // Optional. Descriptive name of the document
+        .description("some file description") // Optional. General description of the document
         .build();
 ApiResponse response = api.uploadDocument(message);
 ```

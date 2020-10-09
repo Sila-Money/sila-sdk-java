@@ -38,7 +38,6 @@ public class GetTransactionsTests {
         GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
         assertTrue(parsedResponse.success);
         assertEquals("SUCCESS", parsedResponse.status);
-        System.out.println(response);
         assertThat("get transactions - size", parsedResponse.transactions.size(), greaterThan(1));
         assertThat("get transactions - user address", parsedResponse.transactions.get(0).userHandle,
                 not(isEmptyOrNullString()));
