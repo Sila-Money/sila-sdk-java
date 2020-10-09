@@ -25,14 +25,8 @@ public class UploadDocumentMsg {
     /**
      * 
      * @param authHandle
-     * @param userHandle
-     * @param name
-     * @param filename
      * @param hash
-     * @param mimeType
-     * @param documentType
-     * @param identityType
-     * @param description
+     * @param message
      */
     public UploadDocumentMsg(String authHandle, String hash, UploadDocumentMessage message) {
         this.header = new HeaderBuilder(authHandle).withUserHandle(message.getUserHandle()).useVersion(VersionEnum.V0_2)
