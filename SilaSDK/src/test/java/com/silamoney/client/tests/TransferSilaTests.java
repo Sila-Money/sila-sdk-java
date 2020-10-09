@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.domain.TransactionResponse;

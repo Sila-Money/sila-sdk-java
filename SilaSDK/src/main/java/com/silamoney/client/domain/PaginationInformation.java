@@ -20,6 +20,6 @@ public class PaginationInformation {
     @SerializedName("total_count")
     public Integer totalCount;
     @SerializedName("total_page_count")
-    public int totalPageCount;
+    public Integer totalPageCount;
     
 }
