@@ -20,6 +20,7 @@ import org.junit.runners.Suite.SuiteClasses;
     RegisterBusinessTests.class,
     DeleteRegistrationTests.class,
     AddRegistrationDataTests.class,
+    UpdateRegistrationDataTests.class,
     LinkBusinessMemberTests.class,
     UnlinkBusinessMemberTests.class,
     RequestKYCTests.class,

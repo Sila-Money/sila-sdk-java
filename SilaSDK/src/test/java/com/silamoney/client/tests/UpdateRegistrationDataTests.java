@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
@@ -15,10 +16,14 @@ import com.silamoney.client.domain.AddressMessage;
 import com.silamoney.client.domain.AddressResponse;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.BusinessEntityMessage;
+import com.silamoney.client.domain.BusinessEntityResponse;
 import com.silamoney.client.domain.EmailMessage;
 import com.silamoney.client.domain.EmailResponse;
 import com.silamoney.client.domain.IdentityMessage;
 import com.silamoney.client.domain.IdentityResponse;
+import com.silamoney.client.domain.IndividualEntityMessage;
+import com.silamoney.client.domain.IndividualEntityResponse;
 import com.silamoney.client.domain.PhoneMessage;
 import com.silamoney.client.domain.PhoneResponse;
 import com.silamoney.client.domain.UserHandleMessage;
@@ -26,7 +31,7 @@ import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
 
-public class AddRegistrationDataTests {
+public class UpdateRegistrationDataTests {
     SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
             DefaultConfigurations.privateKey);
 
@@ -34,15 +39,15 @@ public class AddRegistrationDataTests {
     public void Response200Email() throws Exception {
         UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-        EmailMessage message = EmailMessage.builder().email("some_new_email@domain.sila").build();
-        ApiResponse response = api.addEmail(user, message);
+        EmailMessage message = EmailMessage.builder().uuid(DefaultConfigurations.getEmailUuid())
+                .email("some_updated_email@domain.sila").build();
+        ApiResponse response = api.updateEmail(user, message);
         assertEquals(200, response.getStatusCode());
         EmailResponse parsedResponse = (EmailResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully added email")));
+        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully updated email")));
         assertThat(parsedResponse.getEmail(), notNullValue());
-        DefaultConfigurations.setEmailUuid(parsedResponse.getEmail().getUuid());
         assertThat(parsedResponse.getEmail().getAddedEpoch(), notNullValue());
         assertThat(parsedResponse.getEmail().getModifiedEpoch(), notNullValue());
         assertThat(parsedResponse.getEmail().getUuid(), notNullValue());
@@ -53,15 +58,15 @@ public class AddRegistrationDataTests {
     public void Response200Phone() throws Exception {
         UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-        PhoneMessage message = PhoneMessage.builder().phone("1234567890").build();
-        ApiResponse response = api.addPhone(user, message);
+        PhoneMessage message = PhoneMessage.builder().uuid(DefaultConfigurations.getPhoneUuid()).phone("1234567890")
+                .build();
+        ApiResponse response = api.updatePhone(user, message);
         assertEquals(200, response.getStatusCode());
         PhoneResponse parsedResponse = (PhoneResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully added phone")));
+        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully updated phone")));
         assertThat(parsedResponse.getPhone(), notNullValue());
-        DefaultConfigurations.setPhoneUuid(parsedResponse.getPhone().getUuid());
         assertThat(parsedResponse.getPhone().getAddedEpoch(), notNullValue());
         assertThat(parsedResponse.getPhone().getModifiedEpoch(), notNullValue());
         assertThat(parsedResponse.getPhone().getUuid(), notNullValue());
@@ -72,15 +77,15 @@ public class AddRegistrationDataTests {
     public void Response200Identity() throws Exception {
         UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-        IdentityMessage message = IdentityMessage.builder().identityAlias("SSN").identityValue("123452222").build();
-        ApiResponse response = api.addIdentity(user, message);
+        IdentityMessage message = IdentityMessage.builder().uuid(DefaultConfigurations.getIdentityUuid())
+                .identityAlias("SSN").identityValue("123452222").build();
+        ApiResponse response = api.updateIdentity(user, message);
         assertEquals(200, response.getStatusCode());
         IdentityResponse parsedResponse = (IdentityResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully added identity")));
+        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully updated identity")));
         assertThat(parsedResponse.getIdentity(), notNullValue());
-        DefaultConfigurations.setIdentityUuid(parsedResponse.getIdentity().getUuid());
         assertThat(parsedResponse.getIdentity().getAddedEpoch(), notNullValue());
         assertThat(parsedResponse.getIdentity().getModifiedEpoch(), notNullValue());
         assertThat(parsedResponse.getIdentity().getUuid(), notNullValue());
@@ -92,17 +97,16 @@ public class AddRegistrationDataTests {
     public void Response200Address() throws Exception {
         UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-        AddressMessage message = AddressMessage.builder().addressAlias("new address")
-                .streetAddress1("324 Songbird Avenue").streetAddress2("Apt. 132").city("Portland").state("VA")
-                .country("US").postalCode("12345").build();
-        ApiResponse response = api.addAddress(user, message);
+        AddressMessage message = AddressMessage.builder().uuid(DefaultConfigurations.getAddressUuid())
+                .addressAlias("new address").streetAddress1("324 Songbird Avenue").streetAddress2("Apt. 132")
+                .city("Portland").state("VA").country("US").postalCode("12345").build();
+        ApiResponse response = api.updateAddress(user, message);
         assertEquals(200, response.getStatusCode());
         AddressResponse parsedResponse = (AddressResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully added address")));
+        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully updated address")));
         assertThat(parsedResponse.getAddress(), notNullValue());
-        DefaultConfigurations.setAddressUuid(parsedResponse.getAddress().getUuid());
         assertThat(parsedResponse.getAddress().getAddedEpoch(), notNullValue());
         assertThat(parsedResponse.getAddress().getModifiedEpoch(), notNullValue());
         assertThat(parsedResponse.getAddress().getUuid(), notNullValue());
@@ -113,6 +117,59 @@ public class AddRegistrationDataTests {
         assertThat(parsedResponse.getAddress().getState(), notNullValue());
         assertThat(parsedResponse.getAddress().getCountry(), notNullValue());
         assertThat(parsedResponse.getAddress().getPostalCode(), notNullValue());
+    }
+
+    @Test
+    public void Response200IndividualEntity() throws Exception {
+        UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
+        IndividualEntityMessage message = IndividualEntityMessage.builder().firstName("NewFirst").lastName("NewLast")
+                .entityName("NewFirst NewLast").birthdate(LocalDate.of(1994, 1, 8)).build();
+        ApiResponse response = api.updateEntity(user, message);
+        assertEquals(200, response.getStatusCode());
+        IndividualEntityResponse parsedResponse = (IndividualEntityResponse) response.getData();
+        assertTrue(parsedResponse.getSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully updated entity")));
+        assertThat(parsedResponse.getUserHandle(),
+                stringContainsInOrder(Arrays.asList(DefaultConfigurations.getUserHandle().toLowerCase())));
+        assertEquals("individual", parsedResponse.getEntityType());
+        assertThat(parsedResponse.getEntity(), notNullValue());
+        assertThat(parsedResponse.getEntity().getCreatedEpoch(), notNullValue());
+        assertThat(parsedResponse.getEntity().getEntityName(), notNullValue());
+        assertThat(parsedResponse.getEntity().getBirthdate(), notNullValue());
+        assertThat(parsedResponse.getEntity().getFirstName(), notNullValue());
+        assertThat(parsedResponse.getEntity().getLastName(), notNullValue());
+    }
+
+    @Test
+    public void Response200BusinessEntity() throws Exception {
+        UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getBusinessHandle())
+                .userPrivateKey(DefaultConfigurations.getBusinessPrivateKey()).build();
+        BusinessEntityMessage message = BusinessEntityMessage.builder().entityName("New Company")
+                .birthdate(LocalDate.now()).businessType(DefaultConfigurations.getBusinessTypes().get(0).getName())
+                .naicsCode(DefaultConfigurations.getDefaultNaicCategoryDescription().getCode()).doingBusinessAs("NC")
+                .businessWebsite("https://somedomain.go").build();
+        ApiResponse response = api.updateEntity(user, message);
+        assertEquals(200, response.getStatusCode());
+        BusinessEntityResponse parsedResponse = (BusinessEntityResponse) response.getData();
+        assertTrue(parsedResponse.getSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully updated entity")));
+        assertThat(parsedResponse.getUserHandle(),
+                stringContainsInOrder(Arrays.asList(DefaultConfigurations.getBusinessHandle().toLowerCase())));
+        assertEquals("business", parsedResponse.getEntityType());
+        assertThat(parsedResponse.getEntity(), notNullValue());
+        assertThat(parsedResponse.getEntity().getCreatedEpoch(), notNullValue());
+        assertThat(parsedResponse.getEntity().getEntityName(), notNullValue());
+        assertThat(parsedResponse.getEntity().getBirthdate(), notNullValue());
+        assertThat(parsedResponse.getEntity().getBusinessType(), notNullValue());
+        assertThat(parsedResponse.getEntity().getNaicsCode(), notNullValue());
+        assertThat(parsedResponse.getEntity().getNaicsCategory(), notNullValue());
+        assertThat(parsedResponse.getEntity().getNaicsSubcategory(), notNullValue());
+        assertThat(parsedResponse.getEntity().getBusinessUuid(), notNullValue());
+        assertThat(parsedResponse.getEntity().getDoingBusinessAs(), notNullValue());
+        assertThat(parsedResponse.getEntity().getBusinessWebsite(), notNullValue());
     }
 
     @Test

@@ -19,4 +19,6 @@ public class AddressMessage {
     private String country;
     @Getter
     private String postalCode;
+    @Getter
+    private String uuid;
 }

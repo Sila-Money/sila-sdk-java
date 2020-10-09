@@ -50,8 +50,8 @@ public class ListDocumentsTests {
         docTypes.add(DefaultConfigurations.getDocumentTypes().get(0).getName());
         message = ListDocumentsMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).page(1).perPage(1).order("asc")
-                .search("logo").sortBy("name").docTypes(docTypes).startDate(LocalDate.now()).endDate(LocalDate.now())
-                .build();
+                .search("logo").sortBy("name").docTypes(docTypes).startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1)).build();
         response = api.listDocuments(message);
         assertEquals(200, response.getStatusCode());
         parsedResponse = (ListDocumentsResponse) response.getData();

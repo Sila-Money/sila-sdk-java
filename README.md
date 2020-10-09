@@ -812,7 +812,7 @@ System.out.println(response.getStatusCode()); // 200
 PhoneResponse parsedResponse = (PhoneResponse) response.getData();
 System.out.println(parsedResponse.getSuccess()); // true
 System.out.println(parsedResponse.getStatus()); // SUCCESS
-System.out.println(parsedResponse.getMessage()); // Successfully added email
+System.out.println(parsedResponse.getMessage()); // Successfully added phone
 System.out.println(parsedResponse.getPhone().getAddedEpoch());
 System.out.println(parsedResponse.getPhone().getModifiedEpoch());
 System.out.println(parsedResponse.getPhone().getUuid());
@@ -840,7 +840,7 @@ System.out.println(response.getStatusCode()); // 200
 IdentityResponse parsedResponse = (IdentityResponse) response.getData();
 System.out.println(parsedResponse.getSuccess()); // true
 System.out.println(parsedResponse.getStatus()); // SUCCESS
-System.out.println(parsedResponse.getMessage()); // Successfully added email
+System.out.println(parsedResponse.getMessage()); // Successfully added identity
 System.out.println(parsedResponse.getIdentity().getAddedEpoch());
 System.out.println(parsedResponse.getIdentity().getModifiedEpoch());
 System.out.println(parsedResponse.getIdentity().getUuid());
@@ -874,7 +874,7 @@ System.out.println(response.getStatusCode()); // 200
 AddressResponse parsedResponse = (AddressResponse) response.getData();
 System.out.println(parsedResponse.getSuccess()); // true
 System.out.println(parsedResponse.getStatus()); // SUCCESS
-System.out.println(parsedResponse.getMessage()); // Successfully added email
+System.out.println(parsedResponse.getMessage()); // Successfully added address
 System.out.println(parsedResponse.getAddress().getAddedEpoch());
 System.out.println(parsedResponse.getAddress().getModifiedEpoch());
 System.out.println(parsedResponse.getAddress().getUuid());
@@ -885,4 +885,203 @@ System.out.println(parsedResponse.getAddress().getCity());
 System.out.println(parsedResponse.getAddress().getState());
 System.out.println(parsedResponse.getAddress().getCountry());
 System.out.println(parsedResponse.getAddress().getPostalCode());
+```
+
+#### Update Email
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+EmailMessage message = EmailMessage.builder()
+        .uuid("some-uuid-code")
+        .email("some_new_email@domain.sila")
+        .build();
+ApiResponse response = api.updateEmail(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+EmailResponse parsedResponse = (EmailResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully updated email
+System.out.println(parsedResponse.getEmail().getAddedEpoch());
+System.out.println(parsedResponse.getEmail().getModifiedEpoch());
+System.out.println(parsedResponse.getEmail().getUuid());
+System.out.println(parsedResponse.getEmail().getEmail());
+```
+
+#### Update Phone
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+PhoneMessage message = PhoneMessage.builder()
+        .uuid("some-uuid-code")
+        .phone("1234567890")
+        .build();
+ApiResponse response = api.updatePhone(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+PhoneResponse parsedResponse = (PhoneResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully updated phone
+System.out.println(parsedResponse.getPhone().getAddedEpoch());
+System.out.println(parsedResponse.getPhone().getModifiedEpoch());
+System.out.println(parsedResponse.getPhone().getUuid());
+System.out.println(parsedResponse.getPhone().getPhone());
+```
+
+#### Update Identity
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+IdentityMessage message = IdentityMessage.builder()
+        .uuid("some-uuid-code")
+        .identityAlias("SSN")
+        .identityValue("123452222")
+        .build();
+ApiResponse response = api.updateIdentity(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+IdentityResponse parsedResponse = (IdentityResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully updated identity
+System.out.println(parsedResponse.getIdentity().getAddedEpoch());
+System.out.println(parsedResponse.getIdentity().getModifiedEpoch());
+System.out.println(parsedResponse.getIdentity().getUuid());
+System.out.println(parsedResponse.getIdentity().getIdentityType());
+System.out.println(parsedResponse.getIdentity().getIdentity());
+```
+
+#### Update Address
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+AddressMessage message = AddressMessage.builder()
+        .uuid("some-uuid-code")
+        .addressAlias("new address")
+        .streetAddress1("324 Songbird Avenue")
+        .streetAddress2("Apt. 132") // Optional.
+        .city("Portland")
+        .state("VA")
+        .country("US")
+        .postalCode("12345")
+        .build();
+ApiResponse response = api.updateAddress(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+AddressResponse parsedResponse = (AddressResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully updated address
+System.out.println(parsedResponse.getAddress().getAddedEpoch());
+System.out.println(parsedResponse.getAddress().getModifiedEpoch());
+System.out.println(parsedResponse.getAddress().getUuid());
+System.out.println(parsedResponse.getAddress().getNickname());
+System.out.println(parsedResponse.getAddress().getStreetAddress1());
+System.out.println(parsedResponse.getAddress().getStreetAddress2());
+System.out.println(parsedResponse.getAddress().getCity());
+System.out.println(parsedResponse.getAddress().getState());
+System.out.println(parsedResponse.getAddress().getCountry());
+System.out.println(parsedResponse.getAddress().getPostalCode());
+```
+
+#### Update Individual Entity
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+IndividualEntityMessage message = IndividualEntityMessage.builder()
+        .firstName("NewFirst")
+        .lastName("NewLast")
+        .entityName("NewFirst NewLast")
+        .birthdate(LocalDate.of(1994, 1, 8))
+        .build();
+ApiResponse response = api.updateEntity(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+IdentityResponse parsedResponse = (IdentityResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully updated entity
+System.out.println(parsedResponse.getUserHandle()); // user_handle
+System.out.println(parsedResponse.getEntityType()); // individual
+System.out.println(parsedResponse.getEntity().getCreatedEpoch());
+System.out.println(parsedResponse.getEntity().getEntityName());
+System.out.println(parsedResponse.getEntity().getBirthdate());
+System.out.println(parsedResponse.getEntity().getFirstName());
+System.out.println(parsedResponse.getEntity().getLastName());
+```
+
+#### Update Business Entity
+
+```java
+UserHandleMessage user = UserHandleMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .build();
+BusinessEntityMessage message = BusinessEntityMessage.builder()
+        .entityName("New Company")
+        .birthdate(LocalDate.now())
+        .businessType("corporation")
+        .naicsCode(721)
+        .doingBusinessAs("NC")
+        .businessWebsite("https://somedomain.go")
+        .build();
+ApiResponse response = api.updateEntity(user, message);
+```
+
+##### Success Object Response
+
+```java
+System.out.println(response.getStatusCode()); // 200
+IdentityResponse parsedResponse = (IdentityResponse) response.getData();
+System.out.println(parsedResponse.getSuccess()); // true
+System.out.println(parsedResponse.getStatus()); // SUCCESS
+System.out.println(parsedResponse.getMessage()); // Successfully updated entity
+System.out.println(parsedResponse.getUserHandle()); // user_handle
+System.out.println(parsedResponse.getEntityType()); // business
+System.out.println(parsedResponse.getEntity().getCreatedEpoch());
+System.out.println(parsedResponse.getEntity().getEntityName());
+System.out.println(parsedResponse.getEntity().getBirthdate());
+System.out.println(parsedResponse.getEntity().getBusinessType());
+System.out.println(parsedResponse.getEntity().getNaicsCode());
+System.out.println(parsedResponse.getEntity().getNaicsCategory());
+System.out.println(parsedResponse.getEntity().getNaicsSubcategory());
+System.out.println(parsedResponse.getEntity().getBusinessUuid());
+System.out.println(parsedResponse.getEntity().getDoingBusinessAs());
+System.out.println(parsedResponse.getEntity().getBusinessWebsite());
 ```

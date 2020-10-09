@@ -9,4 +9,6 @@ public class IdentityMessage {
     private String identityAlias;
     @Getter
     private String identityValue;
+    @Getter
+    private String uuid;
 }

@@ -41,7 +41,7 @@ public class IssueSilaTests {
     @Test
     public void Response200Success() throws Exception {
         AccountTransactionMessage issue = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 200, "default").withDescriptor("test descriptor")
+                DefaultConfigurations.getUserPrivateKey(), 1000, "default").withDescriptor("test descriptor")
                         .withBusinessUuid(DefaultConfigurations.correctUuid).build();
         ApiResponse response = api.issueSila(issue);
 
@@ -68,7 +68,7 @@ public class IssueSilaTests {
     @Test
     public void Response200SuccessSameDay() throws Exception {
         AccountTransactionMessage issue = new AccountTransactionMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), 200, "default")
+                DefaultConfigurations.getUserPrivateKey(), 1000, "default")
                         .withProcessingType(ProcessingTypeEnum.SAME_DAY).build();
         ApiResponse response = api.issueSila(issue);
 

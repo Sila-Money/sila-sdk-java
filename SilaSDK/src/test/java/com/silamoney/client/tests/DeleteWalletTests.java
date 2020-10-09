@@ -21,36 +21,36 @@ import org.junit.Test;
  */
 public class DeleteWalletTests {
 
-	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-			DefaultConfigurations.privateKey);
+    SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+            DefaultConfigurations.privateKey);
 
-	String userHandle = DefaultConfigurations.getUserHandle();
-	String userPrivateKey = DefaultConfigurations.getUserPrivateKey();
+    String userHandle = DefaultConfigurations.getUserHandle();
+    String userPrivateKey = DefaultConfigurations.getUserPrivateKey();
 
-	@Test
-	public void Response200() throws Exception {
-		 
-		ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey());
-		assertEquals(200, response.getStatusCode());
-	}
+    @Test
+    public void Response200() throws Exception {
 
-	@Test
-	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-			InterruptedException, ForbiddenException {
-		 
-		ApiResponse response = api.deleteWallet("", DefaultConfigurations.getUserPrivateKey());
-		assertEquals(400, response.getStatusCode());
-	}
+        ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getNewWallet().getPrivateKey());
+        assertEquals(200, response.getStatusCode());
+    }
 
-	@Test
-	public void Response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-			InterruptedException, ForbiddenException {
-		 
-		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-		ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey());
-		assertEquals(403, response.getStatusCode());
-	}
+    @Test
+    public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+            InterruptedException, ForbiddenException {
+
+        ApiResponse response = api.deleteWallet("", DefaultConfigurations.getUserPrivateKey());
+        assertEquals(400, response.getStatusCode());
+    }
+
+    @Test
+    public void Response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
+            InterruptedException, ForbiddenException {
+
+        api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+                "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
+        ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey());
+        assertEquals(403, response.getStatusCode());
+    }
 }

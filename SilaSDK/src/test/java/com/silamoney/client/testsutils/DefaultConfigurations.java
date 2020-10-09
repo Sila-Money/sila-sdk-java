@@ -40,6 +40,21 @@ public class DefaultConfigurations {
     @Getter
     @Setter
     private static String documentId;
+    @Getter
+    @Setter
+    private static String emailUuid;
+    @Getter
+    @Setter
+    private static String phoneUuid;
+    @Getter
+    @Setter
+    private static String identityUuid;
+    @Getter
+    @Setter
+    private static String addressUuid;
+    @Getter
+    @Setter
+    private static com.silamoney.client.domain.Wallet newWallet;
 
     /**
      * @return String

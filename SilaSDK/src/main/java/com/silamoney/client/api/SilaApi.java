@@ -1162,7 +1162,8 @@ public class SilaApi {
      */
     public ApiResponse addEmail(UserHandleMessage user, EmailMessage message) throws IOException, InterruptedException {
         EmailMsg body = new EmailMsg(this.configuration.getAuthHandle(), user, message);
-        return addRegistrationData(RegistrationDataEnum.EMAIL, user.getUserPrivateKey(), body, EmailResponse.class);
+        return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.EMAIL, user.getUserPrivateKey(),
+                body, EmailResponse.class);
     }
 
     /**
@@ -1176,7 +1177,8 @@ public class SilaApi {
      */
     public ApiResponse addPhone(UserHandleMessage user, PhoneMessage message) throws IOException, InterruptedException {
         PhoneMsg body = new PhoneMsg(this.configuration.getAuthHandle(), user, message);
-        return addRegistrationData(RegistrationDataEnum.PHONE, user.getUserPrivateKey(), body, PhoneResponse.class);
+        return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.PHONE, user.getUserPrivateKey(),
+                body, PhoneResponse.class);
     }
 
     /**
@@ -1191,8 +1193,8 @@ public class SilaApi {
     public ApiResponse addIdentity(UserHandleMessage user, IdentityMessage message)
             throws IOException, InterruptedException {
         IdentityMsg body = new IdentityMsg(this.configuration.getAuthHandle(), user, message);
-        return addRegistrationData(RegistrationDataEnum.IDENTITY, user.getUserPrivateKey(), body,
-                IdentityResponse.class);
+        return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.IDENTITY,
+                user.getUserPrivateKey(), body, IdentityResponse.class);
     }
 
     /**
@@ -1207,7 +1209,104 @@ public class SilaApi {
     public ApiResponse addAddress(UserHandleMessage user, AddressMessage message)
             throws IOException, InterruptedException {
         AddressMsg body = new AddressMsg(this.configuration.getAuthHandle(), user, message);
-        return addRegistrationData(RegistrationDataEnum.ADDRESS, user.getUserPrivateKey(), body, AddressResponse.class);
+        return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.ADDRESS, user.getUserPrivateKey(),
+                body, AddressResponse.class);
+    }
+
+    /**
+     * Update an existing email of a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateEmail(UserHandleMessage user, EmailMessage message)
+            throws IOException, InterruptedException {
+        EmailMsg body = new EmailMsg(this.configuration.getAuthHandle(), user, message);
+        return registrationData(Endpoints.UPDATE_REGISTRATION_DATA, RegistrationDataEnum.EMAIL,
+                user.getUserPrivateKey(), body, EmailResponse.class);
+    }
+
+    /**
+     * Update an existing phone number of a registered entity
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse updatePhone(UserHandleMessage user, PhoneMessage message)
+            throws IOException, InterruptedException {
+        PhoneMsg body = new PhoneMsg(this.configuration.getAuthHandle(), user, message);
+        return registrationData(Endpoints.UPDATE_REGISTRATION_DATA, RegistrationDataEnum.PHONE,
+                user.getUserPrivateKey(), body, PhoneResponse.class);
+    }
+
+    /**
+     * Update an existing identity of a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse updateIdentity(UserHandleMessage user, IdentityMessage message)
+            throws IOException, InterruptedException {
+        IdentityMsg body = new IdentityMsg(this.configuration.getAuthHandle(), user, message);
+        return registrationData(Endpoints.UPDATE_REGISTRATION_DATA, RegistrationDataEnum.IDENTITY,
+                user.getUserPrivateKey(), body, IdentityResponse.class);
+    }
+
+    /**
+     * Update an existing street address of a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse updateAddress(UserHandleMessage user, AddressMessage message)
+            throws IOException, InterruptedException {
+        AddressMsg body = new AddressMsg(this.configuration.getAuthHandle(), user, message);
+        return registrationData(Endpoints.UPDATE_REGISTRATION_DATA, RegistrationDataEnum.ADDRESS,
+                user.getUserPrivateKey(), body, AddressResponse.class);
+    }
+
+    /**
+     * Update an existing individual entity (name, birthdate, or business data).
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse updateEntity(UserHandleMessage user, IndividualEntityMessage message)
+            throws IOException, InterruptedException {
+        IndividualEntityMsg body = new IndividualEntityMsg(this.configuration.getAuthHandle(), user, message);
+        return registrationData(Endpoints.UPDATE_REGISTRATION_DATA, RegistrationDataEnum.ENTITY,
+                user.getUserPrivateKey(), body, IndividualEntityResponse.class);
+    }
+
+    /**
+     * Update an existing business entity (name, birthdate, or business data).
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse updateEntity(UserHandleMessage user, BusinessEntityMessage message)
+            throws IOException, InterruptedException {
+        BusinessEntityMsg body = new BusinessEntityMsg(this.configuration.getAuthHandle(), user, message);
+        return registrationData(Endpoints.UPDATE_REGISTRATION_DATA, RegistrationDataEnum.ENTITY,
+                user.getUserPrivateKey(), body, BusinessEntityResponse.class);
     }
 
     /**
@@ -1221,9 +1320,9 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      */
-    private ApiResponse addRegistrationData(RegistrationDataEnum dataType, String userPrivateKey, Object body,
-            Type responseType) throws IOException, InterruptedException {
-        String path = Endpoints.ADD_REGISTRATION_DATA.getUri() + "/" + dataType.getUri();
+    private ApiResponse registrationData(Endpoints endpoint, RegistrationDataEnum dataType, String userPrivateKey,
+            Object body, Type responseType) throws IOException, InterruptedException {
+        String path = endpoint.getUri() + "/" + dataType.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));

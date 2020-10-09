@@ -19,6 +19,8 @@ public class AddressMsg {
     private String country;
     @SerializedName("postal_code")
     private String postalCode;
+    @SerializedName("uuid")
+    private String uuid;
 
     public AddressMsg(String authHandle, UserHandleMessage user, AddressMessage message) {
         this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).build();
@@ -29,5 +31,6 @@ public class AddressMsg {
         this.state = message.getState();
         this.country = message.getCountry();
         this.postalCode = message.getPostalCode();
+        this.uuid = message.getUuid();
     }
 }

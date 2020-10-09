@@ -7,4 +7,6 @@ import lombok.Getter;
 public class PhoneMessage {
     @Getter
     private String phone;
+    @Getter
+    private String uuid;
 }

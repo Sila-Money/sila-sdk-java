@@ -13,7 +13,7 @@ public enum Endpoints {
     CERTIFY_BENEFICIAL_OWNER("/certify_beneficial_owner"), CERTIFY_BUSINESS("/certify_business"),
     GET_ENTITIES("/get_entities"), GET_DOCUMENT_TYPES("/document_types"), CANCEL_TRANSACTION("/cancel_transaction"),
     DELETE_REGISTRATION("/delete"), DOCUMENTS("/documents"), LIST_DOCUMENTS("/list_documents"),
-    GET_DOCUMENT("/get_document"), ADD_REGISTRATION_DATA("/add");
+    GET_DOCUMENT("/get_document"), ADD_REGISTRATION_DATA("/add"), UPDATE_REGISTRATION_DATA("/update");
 
     private String uri;
 
