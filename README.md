@@ -1,4 +1,4 @@
-# Sila Java SDK 0.2.10-rc2
+# Sila Java SDK 0.2.13-rc
 
 NOTE: This SDK is a release candidate.
 
@@ -14,7 +14,7 @@ Add the SDK from the Maven repository.
 <dependency>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.10-rc2</version>
+    <version>0.2.13-rc</version>
 </dependency>
 ```
 
