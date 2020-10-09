@@ -1,18 +1,14 @@
 package com.silamoney.client.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 public class DeleteRegistrationMessage {
     @Getter
-    private final String userHandle;
+    private String userHandle;
     @Getter
-    private final String userPrivateKey;
+    private String userPrivateKey;
     @Getter
-    private final String registrationId;
-
-    DeleteRegistrationMessage(String userHandle, String userPrivateKey, String registrationId) {
-        this.userHandle = userHandle;
-        this.userPrivateKey = userPrivateKey;
-        this.registrationId = registrationId;
-    }
+    private String uuid;
 }

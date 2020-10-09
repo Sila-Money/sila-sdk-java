@@ -12,7 +12,6 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.DeleteRegistrationMessage;
-import com.silamoney.client.domain.DeleteRegistrationMessageBuilder;
 import com.silamoney.client.domain.GetEntityResponse;
 import com.silamoney.client.domain.RegistrationDataEnum;
 import com.silamoney.client.testsutils.DefaultConfigurations;
@@ -29,8 +28,10 @@ public class DeleteRegistrationTests {
                 DefaultConfigurations.getUserPrivateKey());
         assertEquals(200, response.getStatusCode());
         GetEntityResponse entityResponse = (GetEntityResponse) response.getData();
-        DeleteRegistrationMessage message = new DeleteRegistrationMessageBuilder(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), entityResponse.getIdentities().get(0).getUuid()).build();
+        DeleteRegistrationMessage message = DeleteRegistrationMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
+                .uuid(entityResponse.getIdentities().get(0).getUuid()).build();
         response = api.deleteRegistrationData(RegistrationDataEnum.IDENTITY, message);
         assertEquals(200, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();

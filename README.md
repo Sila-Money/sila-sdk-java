@@ -105,7 +105,11 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user was
 Delete an existing email, phone number, street address, or identity.
 
 ```java
-DeleteRegistrationMessage message = new DeleteRegistrationMessageBuilder(userHandle, userPrivateKey, uuid).build();
+DeleteRegistrationMessage message = DeleteRegistrationMessage.builder()
+        .userHandle("user_handle")
+        .userPrivateKey("user_private_key")
+        .uuid("some-uuid-code")
+        .build();
 response = api.deleteRegistrationData(RegistrationDataEnum.IDENTITY, message);
 ```
 
