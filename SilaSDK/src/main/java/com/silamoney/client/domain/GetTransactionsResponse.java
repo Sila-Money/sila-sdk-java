@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- *Object used to map the get transactions method response.
+ * Object used to map the get transactions method response.
+ * 
  * @author Karlo Lorenzana
  */
 public class GetTransactionsResponse extends PaginationInformation {
@@ -13,6 +14,9 @@ public class GetTransactionsResponse extends PaginationInformation {
      */
     @SerializedName("success")
     public Boolean success;
+
+    @SerializedName("status")
+    public String status;
     /**
      * Transactions list used for the transactions.
      */

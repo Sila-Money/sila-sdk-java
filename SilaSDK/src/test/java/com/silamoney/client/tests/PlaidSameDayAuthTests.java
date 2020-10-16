@@ -6,14 +6,11 @@ import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BadRequestResponse;
-import com.silamoney.client.domain.PlaidSameDayAuthResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.client.testsutils.GsonUtils;
 
 import org.junit.Test;
 

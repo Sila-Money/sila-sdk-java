@@ -13,8 +13,7 @@ import com.google.gson.annotations.SerializedName;
 public class Header {
 
     private enum VersionEnum {
-        ZERO_2("0.2"),
-        V0_2("v0.2");
+        ZERO_2("0.2"), V0_2("v0.2");
 
         private final String value;
 
