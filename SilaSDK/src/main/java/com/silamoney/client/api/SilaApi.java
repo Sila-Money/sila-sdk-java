@@ -1353,6 +1353,7 @@ public class SilaApi {
      * Upload supporting documentation for KYC
      *
      * @param message
+     * @param inputStream
      * @return
      * @throws IOException
      * @throws NoSuchAlgorithmException

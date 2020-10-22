@@ -98,7 +98,8 @@ public class ApiClient {
      * @param path
      * @param headers
      * @param body
-     * @param filePath
+     * @param inputStream
+     * @param fileName
      * @return
      * @throws FileNotFoundException
      * @throws IOException
