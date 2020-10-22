@@ -1101,7 +1101,7 @@ public class SilaApi {
      */
     public ApiResponse uploadDocument(UploadDocumentMessage message, InputStream inputStream)
             throws FileNotFoundException, NoSuchAlgorithmException, IOException, InterruptedException {
-        String hash = EcdsaUtil.hashFile(message.getFilePath());
+        String hash = EcdsaUtil.hashFile(inputStream);
         UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
         String path = Endpoints.DOCUMENTS.getUri();
         String sBody = Serialization.serialize(body);

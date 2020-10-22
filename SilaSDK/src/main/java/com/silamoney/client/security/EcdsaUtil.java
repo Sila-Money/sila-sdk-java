@@ -1,9 +1,6 @@
 package com.silamoney.client.security;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -38,11 +35,11 @@ public class EcdsaUtil {
                 .concat(Numeric.toHexString(msg.getV()).substring(2));
     }
 
-    public static String hashFile(String filePath) throws FileNotFoundException, IOException, NoSuchAlgorithmException {
+    public static String hashFile(InputStream inputStream) throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         byte[] buffer = new byte[8192];
         int count;
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filePath))) {
+        try (BufferedInputStream bis = new BufferedInputStream(inputStream)) {
             while ((count = bis.read(buffer)) > 0) {
                 digest.update(buffer, 0, count);
             }
