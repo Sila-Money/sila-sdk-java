@@ -1,10 +1,6 @@
 package com.silamoney.client.api;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -84,14 +80,13 @@ public class ApiClient {
      * @throws InterruptedException
      */
     @SuppressWarnings("all")
-    public HttpResponse callApi(String path, Map<String, String> headers, String body, String filePath,
-            String contentType) throws FileNotFoundException, IOException, InterruptedException {
+    public HttpResponse callApi(String path, Map<String, String> headers, String body, InputStream inputStream,
+           String fileName, String contentType) throws FileNotFoundException, IOException, InterruptedException {
         var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addTextBody("data", body, ContentType.TEXT_PLAIN);
-        File f = new File(filePath);
-        builder.addBinaryBody("file", new FileInputStream(f), ContentType.create(contentType), f.getName());
+        builder.addBinaryBody("file", inputStream, ContentType.create(contentType), fileName);
         HttpEntity multipart = builder.build();
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         multipart.writeTo(outStream);

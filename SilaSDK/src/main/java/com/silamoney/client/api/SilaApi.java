@@ -1,5 +1,6 @@
 package com.silamoney.client.api;
 
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -1097,7 +1098,7 @@ public class SilaApi {
      * @throws FileNotFoundException
      * @throws InterruptedException
      */
-    public ApiResponse uploadDocument(UploadDocumentMessage message)
+    public ApiResponse uploadDocument(UploadDocumentMessage message, InputStream inputStream)
             throws FileNotFoundException, NoSuchAlgorithmException, IOException, InterruptedException {
         String hash = EcdsaUtil.hashFile(message.getFilePath());
         UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
@@ -1108,7 +1109,7 @@ public class SilaApi {
         headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
-                message.getFilePath(), message.getMimeType());
+                inputStream, message.getFilename(), message.getMimeType());
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
