@@ -1,9 +1,7 @@
 package com.silamoney.client.api;
 
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigInteger;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
@@ -1101,7 +1099,11 @@ public class SilaApi {
      */
     public ApiResponse uploadDocument(UploadDocumentMessage message, InputStream inputStream)
             throws FileNotFoundException, NoSuchAlgorithmException, IOException, InterruptedException {
-        String hash = EcdsaUtil.hashFile(inputStream);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        inputStream.transferTo(baos);
+        InputStream firstInputStream = new ByteArrayInputStream(baos.toByteArray());
+        InputStream secondInputStream = new ByteArrayInputStream(baos.toByteArray());
+        String hash = EcdsaUtil.hashFile(firstInputStream);
         UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
         String path = Endpoints.DOCUMENTS.getUri();
         String sBody = Serialization.serialize(body);
@@ -1110,7 +1112,7 @@ public class SilaApi {
         headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
-                inputStream, message.getFilename(), message.getMimeType());
+                secondInputStream, message.getFilename(), message.getMimeType());
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
