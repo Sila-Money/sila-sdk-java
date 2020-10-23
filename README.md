@@ -168,7 +168,8 @@ System.out.println(((BaseResponse)response.getData()).getMessage()); // user has
 
 #### LinkAccount
 
-Uses a provided Plaid public token to link a bank account to a verified entity.
+Uses a provided Plaid public token to link a bank account to a verified entity. Public token received in the /link/item/create [Plaid](https://plaid.com/docs/link/maintain-legacy-integration/) endpoint.
+
 
 ```java
 String userHandle = 'user.silamoney.eth';
