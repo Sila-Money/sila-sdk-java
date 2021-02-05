@@ -15,6 +15,8 @@ import com.silamoney.client.domain.AddressMessage;
 import com.silamoney.client.domain.AddressResponse;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.Device;
+import com.silamoney.client.domain.DeviceResponse;
 import com.silamoney.client.domain.EmailMessage;
 import com.silamoney.client.domain.EmailResponse;
 import com.silamoney.client.domain.IdentityMessage;
@@ -23,6 +25,7 @@ import com.silamoney.client.domain.PhoneMessage;
 import com.silamoney.client.domain.PhoneResponse;
 import com.silamoney.client.domain.UserHandleMessage;
 import com.silamoney.client.testsutils.DefaultConfigurations;
+import com.silamoney.client.util.Serialization;
 
 import org.junit.Test;
 
@@ -113,6 +116,18 @@ public class AddRegistrationDataTests {
         assertThat(parsedResponse.getAddress().getState(), notNullValue());
         assertThat(parsedResponse.getAddress().getCountry(), notNullValue());
         assertThat(parsedResponse.getAddress().getPostalCode(), notNullValue());
+    }
+
+    @Test
+    public void Response200Device() throws Exception {
+        UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
+        Device device = new Device("12345678909876");
+        ApiResponse response = api.addDevice(user, device);
+        assertEquals(200, response.getStatusCode());
+        DeviceResponse parsedResponse = (DeviceResponse) response.getData();
+        assertTrue(parsedResponse.getSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
     }
 
     @Test

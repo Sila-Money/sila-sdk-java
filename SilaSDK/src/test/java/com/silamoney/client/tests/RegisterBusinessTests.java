@@ -7,6 +7,7 @@ import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.BusinessType;
 import com.silamoney.client.domain.BusinessUser;
+import com.silamoney.client.domain.Device;
 import com.silamoney.client.domain.NaicsCategoryDescription;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
@@ -28,9 +29,9 @@ public class RegisterBusinessTests {
 		BusinessUser user = new BusinessUser(DefaultConfigurations.getBusinessHandle(), "Office", "123 Main Street",
 				null, "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getBusinessCryptoAddress(), "entity name", businessType,
-				"https://www.website.com", "doing business as", naicsCategory);
+				"https://www.website.com", "doing business as", naicsCategory, true);
 
-		ApiResponse response = api.registerBusiness(user);
+		ApiResponse response = api.registerBusiness(user, new Device("1234567890"));
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());

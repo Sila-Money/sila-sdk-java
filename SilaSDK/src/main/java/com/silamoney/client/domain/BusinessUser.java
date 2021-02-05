@@ -43,11 +43,13 @@ public class BusinessUser {
     private final NaicsCategoryDescription naicsCategory;
     @Getter
     private final String country;
+    @Getter
+    private final boolean smsOptIn;
 
     public BusinessUser(String handle, String addressAlias, String address, @Nullable String address2, String city,
             String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,
             String entityName, BusinessType businessType, String businessWebsite, String doingBusinessAs,
-            NaicsCategoryDescription naicsCategory) {
+            NaicsCategoryDescription naicsCategory, boolean smsOptIn) {
         this.handle = handle;
         this.addressAlias = addressAlias;
         this.address = address;
@@ -65,12 +67,13 @@ public class BusinessUser {
         this.doingBusinessAs = doingBusinessAs;
         this.naicsCategory = naicsCategory;
         this.country = "US";
+        this.smsOptIn = smsOptIn;
     }
 
     public BusinessUser(String handle, String addressAlias, String address, @Nullable String address2, String city,
             String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,
             String entityName, BusinessType businessType, String businessWebsite, String doingBusinessAs,
-            NaicsCategoryDescription naicsCategory, String country) {
+            NaicsCategoryDescription naicsCategory, String country, boolean smsOptIn) {
         this.handle = handle;
         this.addressAlias = addressAlias;
         this.address = address;
@@ -88,5 +91,6 @@ public class BusinessUser {
         this.doingBusinessAs = doingBusinessAs;
         this.naicsCategory = naicsCategory;
         this.country = country;
+        this.smsOptIn = smsOptIn;
     }
 }

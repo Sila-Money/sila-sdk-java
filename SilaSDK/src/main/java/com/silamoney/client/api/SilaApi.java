@@ -115,7 +115,25 @@ public class SilaApi {
      */
     public ApiResponse register(User user) throws IOException, InterruptedException, BadRequestException,
             InvalidSignatureException, ServerSideException, ForbiddenException {
-        EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
+        return register(user, null);
+    }
+
+    /**
+     * Attaches KYC data and specified blockchain address to an assigned handle.
+     *
+     * @param user
+     * @param device
+     * @return API response.
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ServerSideException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ForbiddenException
+     */
+    public ApiResponse register(User user, Device device) throws IOException, InterruptedException, BadRequestException,
+            InvalidSignatureException, ServerSideException, ForbiddenException {
+        EntityMsg body = new EntityMsg(user, device, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -848,7 +866,22 @@ public class SilaApi {
      */
     public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException,
             BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
-        EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
+        return registerBusiness(user, null);
+    }
+
+    /**
+     * @param user
+     * @return ApiResponse
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BadRequestException
+     * @throws InvalidSignatureException
+     * @throws ServerSideException
+     * @throws ForbiddenException
+     */
+    public ApiResponse registerBusiness(BusinessUser user, Device device) throws IOException, InterruptedException,
+            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+        EntityMsg body = new EntityMsg(user, device, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1223,6 +1256,22 @@ public class SilaApi {
         AddressMsg body = new AddressMsg(this.configuration.getAuthHandle(), user, message);
         return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.ADDRESS, user.getUserPrivateKey(),
                 body, AddressResponse.class);
+    }
+
+    /**
+     * Add a new device to a registered entity.
+     * 
+     * @param user
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse addDevice(UserHandleMessage user, Device device)
+            throws IOException, InterruptedException {
+        DeviceMsg body = new DeviceMsg(this.configuration.getAuthHandle(), user, device);
+        return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.DEVICE, user.getUserPrivateKey(),
+                body, DeviceResponse.class);
     }
 
     /**

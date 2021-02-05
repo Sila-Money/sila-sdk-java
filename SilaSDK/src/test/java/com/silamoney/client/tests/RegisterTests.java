@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.Device;
 import com.silamoney.client.domain.User;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
@@ -38,13 +39,13 @@ public class RegisterTests {
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
 		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
+				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate(), true);
 
 		User user2 = new User(DefaultConfigurations.getUser2Handle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				DefaultConfigurations.getUser2CryptoAddress(), birthdate.toDate());
+				DefaultConfigurations.getUser2CryptoAddress(), birthdate.toDate(), true);
 
-		ApiResponse response = api.register(user);
+		ApiResponse response = api.register(user, new Device("abcdefghijklmn"));
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 		response = api.register(user2);
@@ -63,7 +64,7 @@ public class RegisterTests {
 		String userCryptoAddressInternal = "0x" + aWallet.getAddress();
 		User user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City", "OR",
 				"97204-1234", "503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal,
-				birthdate.toDate());
+				birthdate.toDate(), true);
 		ApiResponse response = api.register(user);
 
 		// USER2
@@ -72,7 +73,8 @@ public class RegisterTests {
 		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		userCryptoAddressInternal = "0x" + aWallet.getAddress();
 		user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City", "OR", "97204-1234",
-				"503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal, birthdate.toDate());
+				"503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal, birthdate.toDate(),
+				true);
 		response = api.register(user);
 
 		// USER3 FAIL NAME
@@ -81,7 +83,8 @@ public class RegisterTests {
 		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		userCryptoAddressInternal = "0x" + aWallet.getAddress();
 		user = new User(userHandleInternal, "Fail", "User", "123 Main Street", null, "New City", "OR", "97204-1234",
-				"503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal, birthdate.toDate());
+				"503-123-4567", "example@silamoney.com", "123452222", userCryptoAddressInternal, birthdate.toDate(),
+				true);
 		response = api.register(user);
 		assertEquals(200, response.getStatusCode());
 	}
@@ -93,7 +96,7 @@ public class RegisterTests {
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
 		User user = new User(DefaultConfigurations.getUserHandle(), "Fail", "User", "123 Main Street", null, "New City",
 				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
+				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate(), true);
 
 		ApiResponse response = api.register(user);
 		assertEquals(400, response.getStatusCode());
@@ -105,11 +108,12 @@ public class RegisterTests {
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
 		User user = new User("invalidsignature.silamoney.eth", "Example", "User", "123 Main Street", null, "New City",
 				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				"0x1234567890abcdef1234567890abcdef12345678", birthdate.toDate());
+				"0x1234567890abcdef1234567890abcdef12345678", birthdate.toDate(), true);
 
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
 
-		api.register(user);
+		ApiResponse response = api.register(user);
+		assertEquals(401, response.getStatusCode());
 	}
 }

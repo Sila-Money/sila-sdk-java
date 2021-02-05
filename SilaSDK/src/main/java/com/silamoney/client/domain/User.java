@@ -39,6 +39,8 @@ public class User {
     private final Date birthdate;
     @Getter
     private final String country;
+    @Getter
+    private final boolean smsOptIn;
 
     /**
      * Constructor for user object.
@@ -56,10 +58,11 @@ public class User {
      * @param identityNumber
      * @param cryptoAddress
      * @param birthdate
+     * @param smsOptIn
      */
     public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
             String city, String state, String zipCode, String phone, String email, String identityNumber,
-            String cryptoAddress, Date birthdate) {
+            String cryptoAddress, Date birthdate, boolean smsOptIn) {
         this.handle = handle;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -74,11 +77,12 @@ public class User {
         this.cryptoAddress = cryptoAddress;
         this.birthdate = birthdate;
         this.country = "US";
+        this.smsOptIn = smsOptIn;
     }
 
     public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
             String city, String state, String zipCode, String phone, String email, String identityNumber,
-            String cryptoAddress, Date birthdate, String country) {
+            String cryptoAddress, Date birthdate, String country, boolean smsOptIn) {
         this.handle = handle;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -93,5 +97,6 @@ public class User {
         this.cryptoAddress = cryptoAddress;
         this.birthdate = birthdate;
         this.country = country;
+        this.smsOptIn = smsOptIn;
     }
 }
