@@ -2,6 +2,7 @@ package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -25,7 +26,6 @@ import com.silamoney.client.domain.PhoneMessage;
 import com.silamoney.client.domain.PhoneResponse;
 import com.silamoney.client.domain.UserHandleMessage;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.client.util.Serialization;
 
 import org.junit.Test;
 
@@ -43,13 +43,13 @@ public class AddRegistrationDataTests {
         EmailResponse parsedResponse = (EmailResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully added email")));
-        assertThat(parsedResponse.getEmail(), notNullValue());
+        assertTrue(parsedResponse.getMessage().contains("Successfully added email"));
+        assertNotEquals(parsedResponse.getEmail(), null);
         DefaultConfigurations.setEmailUuid(parsedResponse.getEmail().getUuid());
-        assertThat(parsedResponse.getEmail().getAddedEpoch(), notNullValue());
-        assertThat(parsedResponse.getEmail().getModifiedEpoch(), notNullValue());
-        assertThat(parsedResponse.getEmail().getUuid(), notNullValue());
-        assertThat(parsedResponse.getEmail().getEmail(), notNullValue());
+        assertNotEquals(parsedResponse.getEmail().getAddedEpoch(), null);
+        assertNotEquals(parsedResponse.getEmail().getModifiedEpoch(), null);
+        assertNotEquals(parsedResponse.getEmail().getUuid(), null);
+        assertNotEquals(parsedResponse.getEmail().getEmail(), null);
     }
 
     @Test
@@ -62,13 +62,13 @@ public class AddRegistrationDataTests {
         PhoneResponse parsedResponse = (PhoneResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully added phone")));
-        assertThat(parsedResponse.getPhone(), notNullValue());
+        assertTrue(parsedResponse.getMessage().contains("Successfully added phone"));
+        assertNotEquals(null, parsedResponse.getPhone());
         DefaultConfigurations.setPhoneUuid(parsedResponse.getPhone().getUuid());
-        assertThat(parsedResponse.getPhone().getAddedEpoch(), notNullValue());
-        assertThat(parsedResponse.getPhone().getModifiedEpoch(), notNullValue());
-        assertThat(parsedResponse.getPhone().getUuid(), notNullValue());
-        assertThat(parsedResponse.getPhone().getPhone(), notNullValue());
+        assertNotEquals(null, parsedResponse.getPhone().getAddedEpoch());
+        assertNotEquals(null, parsedResponse.getPhone().getModifiedEpoch());
+        assertNotEquals(null, parsedResponse.getPhone().getUuid());
+        assertNotEquals(null, parsedResponse.getPhone().getPhone());
     }
 
     @Test
@@ -81,14 +81,14 @@ public class AddRegistrationDataTests {
         IdentityResponse parsedResponse = (IdentityResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(), stringContainsInOrder(Arrays.asList("Successfully added identity")));
-        assertThat(parsedResponse.getIdentity(), notNullValue());
+        assertTrue(parsedResponse.getMessage().contains("Successfully added identity"));
+        assertNotEquals(null, parsedResponse.getIdentity());
         DefaultConfigurations.setIdentityUuid(parsedResponse.getIdentity().getUuid());
-        assertThat(parsedResponse.getIdentity().getAddedEpoch(), notNullValue());
-        assertThat(parsedResponse.getIdentity().getModifiedEpoch(), notNullValue());
-        assertThat(parsedResponse.getIdentity().getUuid(), notNullValue());
-        assertThat(parsedResponse.getIdentity().getIdentityType(), notNullValue());
-        assertThat(parsedResponse.getIdentity().getIdentity(), notNullValue());
+        assertNotEquals(null, parsedResponse.getIdentity().getAddedEpoch());
+        assertNotEquals(null, parsedResponse.getIdentity().getModifiedEpoch());
+        assertNotEquals(null, parsedResponse.getIdentity().getUuid());
+        assertNotEquals(null, parsedResponse.getIdentity().getIdentityType());
+        assertNotEquals(null, parsedResponse.getIdentity().getIdentity());
     }
 
     @Test
