@@ -99,4 +99,44 @@ public class User {
         this.country = country;
         this.smsOptIn = smsOptIn;
     }
+
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+            String city, String state, String zipCode, String phone, String email, String identityNumber,
+            String cryptoAddress, Date birthdate) {
+        this.handle = handle;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityNumber = identityNumber;
+        this.cryptoAddress = cryptoAddress;
+        this.birthdate = birthdate;
+        this.country = "US";
+        this.smsOptIn = false;
+    }
+
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+            String city, String state, String zipCode, String phone, String email, String identityNumber,
+            String cryptoAddress, Date birthdate, String country) {
+        this.handle = handle;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityNumber = identityNumber;
+        this.cryptoAddress = cryptoAddress;
+        this.birthdate = birthdate;
+        this.country = country;
+        this.smsOptIn = false;
+    }
 }
