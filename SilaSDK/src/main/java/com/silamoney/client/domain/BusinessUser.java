@@ -93,4 +93,52 @@ public class BusinessUser {
         this.country = country;
         this.smsOptIn = smsOptIn;
     }
+
+    public BusinessUser(String handle, String addressAlias, String address, @Nullable String address2, String city,
+            String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,
+            String entityName, BusinessType businessType, String businessWebsite, String doingBusinessAs,
+            NaicsCategoryDescription naicsCategory) {
+        this.handle = handle;
+        this.addressAlias = addressAlias;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityValue = identityValue;
+        this.cryptoAddress = cryptoAddress;
+        this.entityName = entityName;
+        this.businessType = businessType;
+        this.businessWebsite = businessWebsite;
+        this.doingBusinessAs = doingBusinessAs;
+        this.naicsCategory = naicsCategory;
+        this.country = "US";
+        this.smsOptIn = smsOptIn;
+    }
+
+    public BusinessUser(String handle, String addressAlias, String address, @Nullable String address2, String city,
+            String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,
+            String entityName, BusinessType businessType, String businessWebsite, String doingBusinessAs,
+            NaicsCategoryDescription naicsCategory, String country) {
+        this.handle = handle;
+        this.addressAlias = addressAlias;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityValue = identityValue;
+        this.cryptoAddress = cryptoAddress;
+        this.entityName = entityName;
+        this.businessType = businessType;
+        this.businessWebsite = businessWebsite;
+        this.doingBusinessAs = doingBusinessAs;
+        this.naicsCategory = naicsCategory;
+        this.country = country;
+        this.smsOptIn = smsOptIn;
+    }
 }
