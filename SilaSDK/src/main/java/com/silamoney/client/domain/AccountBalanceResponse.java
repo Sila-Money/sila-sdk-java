@@ -8,10 +8,10 @@ public class AccountBalanceResponse extends BaseResponse {
 
     @Getter
     @SerializedName("available_balance")
-    private int availableBalance;
+    private double availableBalance;
     @Getter
     @SerializedName("current_balance")
-    private int currentBalance;
+    private double currentBalance;
     @Getter
     @SerializedName("masked_account_number")
     private String maskedAccountNumber;
