@@ -39,13 +39,13 @@ public class RegisterTests {
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
 		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
-				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate());
+				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate(), "US", "asdfghjkl");
 
 		User user2 = new User(DefaultConfigurations.getUser2Handle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getUser2CryptoAddress(), birthdate.toDate());
 
-		ApiResponse response = api.register(user, new Device("abcdefghijklmn"));
+		ApiResponse response = api.register(user);
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 		response = api.register(user2);

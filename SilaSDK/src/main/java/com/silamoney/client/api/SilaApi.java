@@ -106,20 +106,7 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse register(User user) throws IOException, InterruptedException {
-        return register(user, null);
-    }
-
-    /**
-     * Attaches KYC data and specified blockchain address to an assigned handle.
-     *
-     * @param user
-     * @param device
-     * @return API response.
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse register(User user, Device device) throws IOException, InterruptedException {
-        EntityMsg body = new EntityMsg(user, device, this.configuration.getAuthHandle());
+        EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -777,17 +764,7 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException {
-        return registerBusiness(user, null);
-    }
-
-    /**
-     * @param user
-     * @return ApiResponse
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse registerBusiness(BusinessUser user, Device device) throws IOException, InterruptedException {
-        EntityMsg body = new EntityMsg(user, device, this.configuration.getAuthHandle());
+        EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();

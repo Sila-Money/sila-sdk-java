@@ -29,9 +29,9 @@ public class RegisterBusinessTests {
 		BusinessUser user = new BusinessUser(DefaultConfigurations.getBusinessHandle(), "Office", "123 Main Street",
 				null, "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
 				DefaultConfigurations.getBusinessCryptoAddress(), "en", businessType,
-				"https://www.website.com", "doing business as", naicsCategory, true);
+				"https://www.website.com", "doing business as", naicsCategory, true, "asdfghjkl");
 
-		ApiResponse response = api.registerBusiness(user, new Device("1234567890"));
+		ApiResponse response = api.registerBusiness(user);
 
 		assertEquals(400, response.getStatusCode());
 	}
@@ -47,7 +47,7 @@ public class RegisterBusinessTests {
 				, businessType,
 				"https://www.website.com", "doing business as", naicsCategory, true);
 
-		ApiResponse response = api.registerBusiness(user, new Device("1234567890"));
+		ApiResponse response = api.registerBusiness(user);
 
 		assertEquals(400, response.getStatusCode());
 	}
@@ -61,7 +61,7 @@ public class RegisterBusinessTests {
 				DefaultConfigurations.getBusinessCryptoAddress(), "entity name", businessType,
 				"https://www.website.com", "doing business as", naicsCategory, true);
 
-		ApiResponse response = api.registerBusiness(user, new Device("1234567890"));
+		ApiResponse response = api.registerBusiness(user);
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());

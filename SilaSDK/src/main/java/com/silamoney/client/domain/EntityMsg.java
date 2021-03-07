@@ -47,7 +47,12 @@ public class EntityMsg {
         this.contact = new Contact(user);
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
-        this.device = null;
+        if (user.getDeviceFingerprint() != null) {
+            this.device = new Device(user.getDeviceFingerprint());
+        } else {
+            this.device = null;            
+        }
+        
     }
 
     /**
