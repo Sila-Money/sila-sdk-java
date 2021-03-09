@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class DeleteAccountResponse extends BaseResponse {
 
-    @SerializedName("account_nickname")
+    @SerializedName("account_name")
     private String accountName;
     
 }
