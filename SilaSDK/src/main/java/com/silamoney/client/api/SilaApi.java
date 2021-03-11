@@ -21,6 +21,8 @@ import com.silamoney.client.util.Serialization;
 
 import io.reactivex.annotations.Nullable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -35,6 +37,8 @@ import java.security.NoSuchProviderException;
  * @author Karlo Lorenzana
  */
 public class SilaApi {
+
+    private static final Log log = LogFactory.getFactory().getInstance(SilaApi.class);
 
     private final Configuration configuration;
     private static final String AUTH_SIGNATURE = "authsignature";
@@ -162,7 +166,7 @@ public class SilaApi {
      * @throws ForbiddenException
      */
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
+            throws IOException, InterruptedException, InvalidSignatureException,
             ServerSideException, ForbiddenException {
         HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());
         String path = Endpoints.REQUEST_KYC.getUri();
@@ -1099,22 +1103,27 @@ public class SilaApi {
      */
     public ApiResponse uploadDocument(UploadDocumentMessage message, InputStream inputStream)
             throws FileNotFoundException, NoSuchAlgorithmException, IOException, InterruptedException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        inputStream.transferTo(baos);
-        InputStream firstInputStream = new ByteArrayInputStream(baos.toByteArray());
-        InputStream secondInputStream = new ByteArrayInputStream(baos.toByteArray());
-        String hash = EcdsaUtil.hashFile(firstInputStream);
-        UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
-        String path = Endpoints.DOCUMENTS.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            inputStream.transferTo(baos);
+            InputStream firstInputStream = new ByteArrayInputStream(baos.toByteArray());
+            InputStream secondInputStream = new ByteArrayInputStream(baos.toByteArray());
+            String hash = EcdsaUtil.hashFile(firstInputStream);
+            UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
+            String path = Endpoints.DOCUMENTS.getUri();
+            String sBody = Serialization.serialize(body);
+            Map<String, String> headers = new HashMap<>();
+            headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+            headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
 
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
-                secondInputStream, message.getFilename(), message.getMimeType());
+            HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
+                    secondInputStream, message.getFilename(), message.getMimeType());
 
-        return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
+            return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
+        } catch (Exception ex) {
+            log.error(Map.of("message", "Error uploading document", "error", ex, "uploadDocumentMessage", message));
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
