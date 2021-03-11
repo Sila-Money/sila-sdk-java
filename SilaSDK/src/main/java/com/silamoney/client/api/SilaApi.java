@@ -166,7 +166,7 @@ public class SilaApi {
      * @throws ForbiddenException
      */
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
-            throws IOException, InterruptedException, InvalidSignatureException,
+            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
             ServerSideException, ForbiddenException {
         HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());
         String path = Endpoints.REQUEST_KYC.getUri();
