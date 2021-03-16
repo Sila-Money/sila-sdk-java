@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -68,8 +69,8 @@ public class ApiClient {
     public HttpResponse callApi(String path, Map<String, String> headers, String body)
             throws IOException, InterruptedException {
         try {
+            logRequest(path, headers, body);
             HttpRequest finalRequest = prepareRequest(path, headers, body);
-
             return httpClient.send(finalRequest, BodyHandlers.ofString());
         } catch (Exception ex) {
             log.error(Map.of("message", "Error calling api", "error", ex, "path", path, "body", body));
@@ -92,8 +93,10 @@ public class ApiClient {
     @SuppressWarnings("all")
     public HttpResponse callApi(String path, Map<String, String> headers, String body, InputStream inputStream,
            String fileName, String contentType) throws FileNotFoundException, IOException, InterruptedException {
+        String fullPath = basePath + path;
+        logRequest(fullPath, headers, body);
         try {
-            var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
+            var request = HttpRequest.newBuilder().uri(URI.create(fullPath));
             headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody("data", body, ContentType.TEXT_PLAIN);
@@ -106,17 +109,25 @@ public class ApiClient {
             request.header("Content-Type", multipart.getContentType().getValue());
             return httpClient.send(request.build(), BodyHandlers.ofString());
         } catch (Exception ex) {
-            log.error(Map.of("message", "Error calling api", "error", ex, "path", path, "body", body));
+            log.error(Map.of("message", "Error calling api", "error", ex, "http_request_uri", fullPath, "body", body));
             throw new RuntimeException(ex);
         }
 
     }
 
     private HttpRequest prepareRequest(String path, Map<String, String> headers, String body) {
-        var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
-
+        String fullPath = basePath + path;
+        logRequest(fullPath, headers, body);
+        var request = HttpRequest.newBuilder().uri(URI.create(fullPath));
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
 
         return request.POST(HttpRequest.BodyPublishers.ofString(body)).build();
     }
+
+    private void logRequest(String path, Map<String, String> headers, String body) {
+        log.info(Map.of("body", body!=null ? body: "",
+            "http_request_uri", path,
+            "headers", headers != null ? headers : Collections.emptyMap()));
+    }
+
 }
