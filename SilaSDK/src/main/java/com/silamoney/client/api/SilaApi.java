@@ -79,6 +79,15 @@ public class SilaApi {
     }
 
     /**
+     * Constructor for SilaApi using a configuration.
+     *
+     * @param configuration
+     */
+    public SilaApi(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    /**
      * Checks if a specific handle is already taken.
      *
      * @param handle

@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 /**
@@ -39,7 +40,7 @@ import java.util.logging.Level;
  */
 public class ResponseUtil {
 
-    public static final Logger logger = new DefaultLogger(ResponseUtil.class);
+    public static final AtomicReference<Logger> logger = new AtomicReference<>(new DefaultLogger(ResponseUtil.class));
     private static final Set<String> substringsForHeaderExcludes = Set.of("secret", "key", "password", "auth", "cred");
 
     private ResponseUtil() {
@@ -49,7 +50,7 @@ public class ResponseUtil {
     public static ApiResponse prepareResponse(Type messageClass, HttpResponse<?> response) {
         Object body = response.body();
         String bodyString = body != null ? body.toString() : "";
-        logger.log(Level.INFO, Map.of("http_response_uri",response.request().uri(), "headers",
+        logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(), "headers",
             normHeaderMap(response.headers()),
             "body", bodyString));
         int statusCode = response.statusCode();
@@ -67,7 +68,7 @@ public class ResponseUtil {
     public static ApiResponse prepareFileResponse(HttpResponse<?> response) {
         Object body = response.body();
         String bodyString = body != null ? body.toString() : "";
-        logger.log(Level.INFO, Map.of("http_response_uri",response.request().uri(),
+        logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(),
             "statusCode", response.statusCode(),
             "headers", normHeaderMap(response.headers()), 
             "body", bodyString));
@@ -92,7 +93,7 @@ public class ResponseUtil {
     public static ApiResponse prepareResponse(HttpResponse<?> response, String msg) {
         Object body = response.body();
         String bodyString = body != null ? body.toString() : "";
-        logger.log(Level.INFO, Map.of("http_response_uri",response.request().uri(),
+        logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(),
             "headers", normHeaderMap(response.headers()),
             "body", bodyString));
         
@@ -265,7 +266,7 @@ public class ResponseUtil {
                     return new ApiResponse(statusCode, response.headers().map(), baseResponse, success);
             }
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, Map.of("message", "Error preparing response", "error", ex,
+            logger.get().log(Level.SEVERE, Map.of("message", "Error preparing response", "error", ex,
                 "statusCode", response.statusCode(),
                 "responseBody", bodyString,
                 "responseMessage", msg));
