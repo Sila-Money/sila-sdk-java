@@ -1,5 +1,7 @@
 package com.silamoney.client.api;
 
+import com.silamoney.client.util.DefaultLogger;
+import com.silamoney.client.util.Logger;
 import com.silamoney.client.util.ResponseUtil;
 import java.io.*;
 import java.net.URI;
@@ -10,8 +12,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.logging.Level;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -21,8 +22,6 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
  * @author Karlo Lorenzana
  */
 public class ApiClient {
-
-    private static final Log log = LogFactory.getFactory().getInstance(ApiClient.class);
 
     private String basePath;
 
@@ -50,10 +49,26 @@ public class ApiClient {
     private HttpClient httpClient;
 
     /**
+     * Logger logger to trace API calls
+     */
+    private Logger logger;
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    /**
      * API client constructor.
      */
+
+
     public ApiClient() {
         httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
+        logger = new DefaultLogger(ApiClient.class);
     }
 
     /**
@@ -74,7 +89,7 @@ public class ApiClient {
             HttpRequest finalRequest = prepareRequest(path, headers, body);
             return httpClient.send(finalRequest, BodyHandlers.ofString());
         } catch (Exception ex) {
-            log.error(Map.of("message", "Error calling api", "error", ex, "path", path, "body", body));
+            logger.log(Level.SEVERE, Map.of("message", "Error calling api", "error", ex, "path", path, "body", body));
             throw new RuntimeException(ex);
         }
     }
@@ -110,7 +125,7 @@ public class ApiClient {
             request.header("Content-Type", multipart.getContentType().getValue());
             return httpClient.send(request.build(), BodyHandlers.ofString());
         } catch (Exception ex) {
-            log.error(Map.of("message", "Error calling api", "error", ex, "http_request_uri", fullPath, "body", body));
+            logger.log(Level.SEVERE, Map.of("message", "Error calling api", "error", ex, "http_request_uri", fullPath, "body", body));
             throw new RuntimeException(ex);
         }
 
@@ -127,7 +142,7 @@ public class ApiClient {
 
     private void logRequest(String path, Map<String, String> headers, String body) {
         Map<String, Object> normHeaders = ResponseUtil.normHeaderMap(headers != null ? headers : Collections.emptyMap());
-        log.info(Map.of("body", body != null ? body : "",
+        logger.log(Level.INFO, Map.of("body", body != null ? body : "",
             "http_request_uri", path,
             "headers", normHeaders));
     }
