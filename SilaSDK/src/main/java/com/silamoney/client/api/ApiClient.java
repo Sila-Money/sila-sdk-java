@@ -1,5 +1,6 @@
 package com.silamoney.client.api;
 
+import com.silamoney.client.util.ResponseUtil;
 import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -125,9 +126,10 @@ public class ApiClient {
     }
 
     private void logRequest(String path, Map<String, String> headers, String body) {
-        log.info(Map.of("body", body!=null ? body: "",
+        Map<String, Object> normHeaders = ResponseUtil.normHeaderMap(headers != null ? headers : Collections.emptyMap());
+        log.info(Map.of("body", body != null ? body : "",
             "http_request_uri", path,
-            "headers", headers != null ? headers : Collections.emptyMap()));
+            "headers", normHeaders));
     }
 
 }

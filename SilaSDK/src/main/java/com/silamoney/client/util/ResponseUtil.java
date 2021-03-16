@@ -65,20 +65,6 @@ public class ResponseUtil {
                 Serialization.deserialize(bodyString, messageClass), statusCode == 200);
     }
 
-    private static Map<String, Object> normHeaderMap(HttpHeaders headers) {
-        Map<String, Object> normMap = new LinkedHashMap<>();
-        final Map<String, List<String>> headerMap = headers.map();
-        for (String key : headerMap.keySet()) {
-            String normKey = key.toLowerCase();
-            String normValue = String.join(",", headerMap.get(key));
-            if (substringsForHeaderExcludes.stream().anyMatch(normKey::contains)) {
-                normValue = "**************";
-            }
-            normMap.put(key, normValue);
-        }
-        return normMap;
-    }
-
     public static ApiResponse prepareFileResponse(HttpResponse<?> response) {
         Object body = response.body();
         String bodyString = body != null ? body.toString() : "";
@@ -287,4 +273,33 @@ public class ResponseUtil {
             throw new RuntimeException(ex);
         }
     }
+
+    public static Map<String, Object> normHeaderMap(HttpHeaders headers) {
+        Map<String, Object> normMap = new LinkedHashMap<>();
+        final Map<String, List<String>> headerMap = headers.map();
+        for (String key : headerMap.keySet()) {
+            String normKey = key.toLowerCase();
+            String normValue = String.join(",", headerMap.get(key));
+            if (substringsForHeaderExcludes.stream().anyMatch(normKey::contains)) {
+                normValue = "**************";
+            }
+            normMap.put(key, normValue);
+        }
+        return normMap;
+    }
+
+    public static Map<String, Object> normHeaderMap(Map<String, ?> headers) {
+        Map<String, Object> normMap = new LinkedHashMap<>();
+        for (String key : headers.keySet()) {
+            String normKey = key.toLowerCase();
+            String normValue = String.valueOf(headers.get(key));
+            if (substringsForHeaderExcludes.stream().anyMatch(normKey::contains)) {
+                normValue = "**************";
+            }
+            normMap.put(key, normValue);
+        }
+        return normMap;
+    }
+
+
 }
