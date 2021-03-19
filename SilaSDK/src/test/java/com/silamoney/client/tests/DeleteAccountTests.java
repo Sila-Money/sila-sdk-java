@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.DeleteAccountResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 

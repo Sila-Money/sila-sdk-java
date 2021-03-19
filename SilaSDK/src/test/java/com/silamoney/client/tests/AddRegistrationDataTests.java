@@ -53,6 +53,7 @@ public class AddRegistrationDataTests {
                                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
                 PhoneMessage message = PhoneMessage.builder().phone("1234567890").smsOptIn(true).build();
                 ApiResponse response = api.addPhone(user, message);
+                assertEquals("", ((BaseResponse)response.getData()).getMessage());
                 assertEquals(200, response.getStatusCode());
                 PhoneResponse parsedResponse = (PhoneResponse) response.getData();
                 assertTrue(parsedResponse.getSuccess());

@@ -83,6 +83,7 @@ public class SilaApi {
      * @return API response.
      * @throws IOException
      * @throws InterruptedException
+     * 
      */
     public ApiResponse checkHandle(String handle) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(handle, this.configuration.getAuthHandle());
@@ -104,6 +105,9 @@ public class SilaApi {
      * @return API response.
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse register(User user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
@@ -148,6 +152,8 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
             throws IOException, InterruptedException {
@@ -173,6 +179,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
@@ -199,6 +208,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken)
             throws IOException, InterruptedException {
@@ -217,6 +229,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId) throws IOException, InterruptedException {
@@ -236,6 +251,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String accountNumber,
             String routingNumber, String accountType) throws IOException, InterruptedException {
@@ -257,6 +275,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId, String accountNumber, String routingNumber, String accountType)
@@ -424,6 +445,7 @@ public class SilaApi {
      * Gets array of user handle's transactions with detailed status information.
      *
      * @deprecated
+     * You don't need to provide the user private key anymore.
      * @param userHandle
      * @param filters
      * @param userPrivateKey
@@ -445,6 +467,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse getTransactions(String userHandle, SearchFilters filters)
             throws IOException, InterruptedException {
