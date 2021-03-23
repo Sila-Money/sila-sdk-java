@@ -34,13 +34,13 @@ public class CheckHandleTests {
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
 
-	@Test
-	public void Response200Failure() throws Exception {
-		// HANDLE5
-		ApiResponse response = api.checkHandle("javasdk-893748932");
-		assertEquals(200, response.getStatusCode());
-		assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
-	}
+	// @Test
+	// public void Response200Failure() throws Exception {
+	// 	// HANDLE5
+	// 	ApiResponse response = api.checkHandle("javasdk-893748932");
+	// 	assertEquals(200, response.getStatusCode());
+	// 	assertEquals("FAILURE", ((BaseResponse) response.getData()).getStatus());
+	// }
 
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,

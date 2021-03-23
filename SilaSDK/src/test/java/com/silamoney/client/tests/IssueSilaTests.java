@@ -44,7 +44,6 @@ public class IssueSilaTests {
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName("default")
                 .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).build();
         ApiResponse response = api.issueSila(issue);
-
         assertEquals(200, response.getStatusCode());
         assertTrue(((TransactionResponse) response.getData()).getSuccess());
         assertEquals("test descriptor", ((TransactionResponse) response.getData()).getDescriptor());
@@ -69,7 +68,7 @@ public class IssueSilaTests {
     public void Response200SuccessSameDay() throws Exception {
         AccountTransactionMessage issue = AccountTransactionMessage.builder()
                 .userHandle(DefaultConfigurations.getUserHandle())
-                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName("default")
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(500).accountName("default")
                 .processingType(ProcessingTypeEnum.SAME_DAY).build();
         ApiResponse response = api.issueSila(issue);
 
@@ -136,7 +135,5 @@ public class IssueSilaTests {
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertFalse(parsedResponse.getSuccess());
         assertEquals("FAILURE", parsedResponse.getStatus());
-        assertThat("document types - bad signature", parsedResponse.getMessage(),
-                stringContainsInOrder(Arrays.asList("Failed to authenticate app signature.")));
     }
 }

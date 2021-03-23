@@ -29,9 +29,9 @@ import lombok.Setter;
 
 public class DefaultConfigurations {
 
-    public static String host = Environments.SilaEnvironment.SANDBOX.getUrl();
-    public static String appHandle = "digital_geko_e2e.silamoney.eth";
-    public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
+    public static String host = Environments.SilaEnvironment.STAGING.getUrl();
+    public static String appHandle = "end2end.silamoney.eth";
+    public static String privateKey = "98cf2bcc3244b7688cf73f68c441872d5f0e8fa1fc77d2d843a3ee96cb27b2a5";
 
     private static String userHandle;
     @Getter
@@ -114,7 +114,7 @@ public class DefaultConfigurations {
     /**
      * Default correct business uuid
      */
-    public static String correctUuid = "9f280665-629f-45bf-a694-133c86bffd5e";
+    public static String correctUuid = "ec5d1366-b56c-4442-b6c3-c919d548fcb5";
 
     /**
      * Default wrong business uuid

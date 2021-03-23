@@ -1,12 +1,7 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-
-import static org.hamcrest.Matchers.*;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
@@ -37,7 +32,5 @@ public class DeleteRegistrationTests {
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
         assertEquals("SUCCESS", parsedResponse.getStatus());
-        assertThat("delete registration - message", parsedResponse.getMessage(), stringContainsInOrder(
-                Arrays.asList(String.format("Successfully deleted %s", RegistrationDataEnum.IDENTITY.getUri()))));
     }
 }

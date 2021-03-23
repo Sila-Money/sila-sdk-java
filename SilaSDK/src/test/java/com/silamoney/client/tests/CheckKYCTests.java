@@ -61,15 +61,15 @@ public class CheckKYCTests {
         assertTrue(((CheckKYCResponse) response.getData()).getMessage().contains("Business has passed verification"));
     }
 
-    @Test
-    public void Response200Failure() throws Exception {
-        // KYCID3
-        String userHandle2Failure = "javasdk-349425739";
-        String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
-        ApiResponse response = api.checkKYC(userHandle2Failure, userPrivateKeyFailure);
-        assertEquals(200, response.getStatusCode());
-        assertEquals("FAILURE", ((CheckKYCResponse) response.getData()).getStatus());
-    }
+    // @Test
+    // public void Response200Failure() throws Exception {
+    //     // KYCID3
+    //     String userHandle2Failure = "javasdk-349425739";
+    //     String userPrivateKeyFailure = "f6406f347993b09ee3760e8ef0fb70abdeaa90265dc02de78f86da5eff9b6272";
+    //     ApiResponse response = api.checkKYC(userHandle2Failure, userPrivateKeyFailure);
+    //     assertEquals(200, response.getStatusCode());
+    //     assertEquals("FAILURE", ((CheckKYCResponse) response.getData()).getStatus());
+    // }
 
     @Test
     public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
