@@ -18,7 +18,7 @@ public class Member {
     private String role;
     private String details;
     @SerializedName("ownership_stake")
-    private float ownerShipStake;
+    private Float ownerShipStake;
     @SerializedName("verification_status")
     private String verificationStatus;
     @SerializedName("verification_required")

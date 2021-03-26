@@ -20,17 +20,17 @@ public class SearchFilters {
     @SerializedName("sort_ascending")
     private boolean sortAscending;
     @SerializedName("max_sila_amount")
-    private long maxSilaAmount;
+    private Long maxSilaAmount;
     @SerializedName("min_sila_amount")
-    private long minSilaAmount;
+    private Long minSilaAmount;
     private List<String> statuses;
     @SerializedName("start_epoch")
-    private long startEpoch;
+    private Long startEpoch;
     @SerializedName("end_epoch")
-    private long endEpoch;
-    private long page;
+    private Long endEpoch;
+    private Long page;
     @SerializedName("per_page")
-    private long perPage;
+    private Long perPage;
     @SerializedName("transaction_types")
     private List<String> transactionTypes;
     @SerializedName("bank_account_name")

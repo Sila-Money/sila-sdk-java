@@ -62,7 +62,6 @@ public class UpdateRegistrationDataTests {
                 PhoneMessage message = PhoneMessage.builder().uuid(DefaultConfigurations.getPhoneUuid())
                                 .phone("1234567890").smsOptIn(true).build();
                 ApiResponse response = api.updatePhone(user, message);
-                assertEquals("", ((BaseResponse)response.getData()).getMessage());
                 assertEquals(200, response.getStatusCode());
                 PhoneResponse parsedResponse = (PhoneResponse) response.getData();
                 assertTrue(parsedResponse.getSuccess());

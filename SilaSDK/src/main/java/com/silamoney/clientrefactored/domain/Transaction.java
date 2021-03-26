@@ -22,7 +22,7 @@ public class Transaction {
     @SerializedName("transaction_type")
     private String transactionType;
     @SerializedName("sila_amount")
-    private long silaAmount;
+    private Long silaAmount;
     private String status;
     @SerializedName("usd_status")
     private String usdStatus;
@@ -32,9 +32,9 @@ public class Transaction {
     @SerializedName("last_update")
     private String lastUpdate;
     @SerializedName("created_epoch")
-    private long createdEpoch;
+    private Long createdEpoch;
     @SerializedName("last_update_epoch")
-    private long lastUpdateEpoch;
+    private Long lastUpdateEpoch;
     private String descriptor;
     @SerializedName("ach_name")
     private String achName;
@@ -52,7 +52,7 @@ public class Transaction {
     private String processingType;
     private String submitted;
     @SerializedName("submitted_epoch")
-    private long submittedEpoch;
+    private Long submittedEpoch;
     @SerializedName("trace_number")
     private String traceNumber;
     private String addenda;

@@ -65,7 +65,6 @@ public class RedeemSilaTests {
                                         DefaultConfigurations.getUserPrivateKey());
                 }
 
-                System.out.println(((GetTransactionsResponse) response.getData()).transactions.get(0).status);
                 assertEquals("success", ((GetTransactionsResponse) response.getData()).transactions.get(0).status);
 
                 redeem = AccountTransactionMessage.builder().userHandle(DefaultConfigurations.getUserHandle())

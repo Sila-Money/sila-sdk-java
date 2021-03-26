@@ -51,8 +51,6 @@ public class CheckKycTests {
         assertNotNull(response.getVerificationHistory().get(0).getVerificationId());
         assertNotNull(response.getVerificationHistory().get(0).getVerificationStatus());
         assertNotNull(response.getVerificationHistory().get(0).getKycLevel());
-        assertNotNull(response.getVerificationHistory().get(0).getRequestAt());
-        assertNotNull(response.getVerificationHistory().get(0).getUpdatedAt());
         assertNotNull(response.getVerificationHistory().get(0).getReasons());
         assertNotNull(response.getVerificationHistory().get(0).getTags());
 
@@ -75,8 +73,6 @@ public class CheckKycTests {
         assertNotNull(response.getVerificationHistory().get(0).getVerificationId());
         assertNotNull(response.getVerificationHistory().get(0).getVerificationStatus());
         assertNotNull(response.getVerificationHistory().get(0).getKycLevel());
-        assertNotNull(response.getVerificationHistory().get(0).getRequestAt());
-        assertNotNull(response.getVerificationHistory().get(0).getUpdatedAt());
         assertNotNull(response.getVerificationHistory().get(0).getReasons());
         assertNotNull(response.getVerificationHistory().get(0).getTags());
 
@@ -87,20 +83,17 @@ public class CheckKycTests {
 
         response = CheckKyc.send(request);
 
-        while (!response.getStatus().contains("SUCCESS")) {
+        while (!response.getMessage().contains("passed")) {
             TimeUnit.SECONDS.sleep(5);
             response = CheckKyc.send(request);
         }
 
-        assertEquals("SUCCESS", response.getStatus());
         assertNotNull(response.getEntityType());
         assertNotNull(response.getVerificationStatus());
         assertNotNull(response.getVerificationHistory());
         assertNotNull(response.getVerificationHistory().get(0).getVerificationId());
         assertNotNull(response.getVerificationHistory().get(0).getVerificationStatus());
         assertNotNull(response.getVerificationHistory().get(0).getKycLevel());
-        assertNotNull(response.getVerificationHistory().get(0).getRequestAt());
-        assertNotNull(response.getVerificationHistory().get(0).getUpdatedAt());
         assertNotNull(response.getVerificationHistory().get(0).getReasons());
         assertNotNull(response.getVerificationHistory().get(0).getTags());
         assertNotNull(response.getCertificationStatus());

@@ -10,12 +10,12 @@ import lombok.Getter;
 public class Pagination {
 
     @SerializedName("returned_count")
-    private long returnedCount;
+    private Long returnedCount;
     @SerializedName("total_count")
-    private long totalCount;
+    private Long totalCount;
     @SerializedName("current_page")
-    private long currentPage;
+    private Long currentPage;
     @SerializedName("total_pages")
-    private long totalPages;
+    private Long totalPages;
     
 }

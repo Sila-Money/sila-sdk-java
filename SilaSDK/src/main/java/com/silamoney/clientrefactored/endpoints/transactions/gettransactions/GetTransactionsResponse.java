@@ -13,11 +13,11 @@ public class GetTransactionsResponse {
 
     private boolean success;
     private String status;
-    private long page;
+    private Long page;
     @SerializedName("returned_count")
-    private long returnedCount;
+    private Long returnedCount;
     @SerializedName("total_count")
-    private long totalCount;
+    private Long totalCount;
     private Pagination pagination;
     private List<Transaction> transactions;
 

@@ -5,7 +5,7 @@ public class InvalidAuthSignatureException extends Exception {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    private static final Long serialVersionUID = 1L;
 
     public InvalidAuthSignatureException(String message){
         super(message);

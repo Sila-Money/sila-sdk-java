@@ -23,7 +23,7 @@ public class Entity {
     @SerializedName("business_type_uuid")
     private String businessTypeUuid;
     @SerializedName("naics_code")
-    private int naicsCode;
+    private Integer naicsCode;
     @SerializedName("doing_business_as")
     private String doingBusinessAs;
     @SerializedName("business_website")

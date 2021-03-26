@@ -18,12 +18,12 @@ public class Verification {
     @SerializedName("kyc_level")
     private String kycLevel;
     @SerializedName("requested_at")
-    private long requestAt;
+    private Long requestAt;
     @SerializedName("updated_at")
-    private long updatedAt;
+    private Long updatedAt;
     private List<String> reasons;
     private List<String> tags;
-    private double score;
+    private Double score;
     @SerializedName("parent_verification")
     private Object parentVerification;
     @SerializedName("valid_kyc_levels")
