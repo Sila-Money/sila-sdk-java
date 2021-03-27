@@ -463,7 +463,6 @@ public class SilaApi {
      *
      * @param userHandle
      * @param filters
-     * @param userPrivateKey
      * @return
      * @throws IOException
      * @throws InterruptedException
