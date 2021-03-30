@@ -18,6 +18,9 @@ public class Contact {
     @SerializedName("email")
     private final String email;
 
+    @SerializedName("sms_opt_in")
+    private final boolean smsOptIn;
+
     /**
      * Constructor for contact object.
      *
@@ -27,6 +30,7 @@ public class Contact {
         this.contactAlias = "";
         this.email = user.getEmail();
         this.phone = user.getPhone();
+        this.smsOptIn = user.isSmsOptIn();
     }
 
     /**
@@ -37,5 +41,6 @@ public class Contact {
     public Contact(BusinessUser user) {
         this.email = user.getEmail();
         this.phone = user.getPhone();
+        this.smsOptIn = user.isSmsOptIn();
     }
 }

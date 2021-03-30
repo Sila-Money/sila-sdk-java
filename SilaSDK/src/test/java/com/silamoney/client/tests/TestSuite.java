@@ -1,5 +1,14 @@
 package com.silamoney.client.tests;
 
+import com.silamoney.client.testsrefactored.tests.CheckKycTests;
+import com.silamoney.client.testsrefactored.tests.CheckPartnerKycTests;
+import com.silamoney.client.testsrefactored.tests.GetTransactionsTests;
+import com.silamoney.client.testsrefactored.tests.LinkAccountTests;
+import com.silamoney.client.testsrefactored.tests.RegisterBusinessTests;
+import com.silamoney.client.testsrefactored.tests.RegisterTests;
+import com.silamoney.client.testsrefactored.tests.RequestKycTests;
+import com.silamoney.client.testsrefactored.tests.UpdateAccountTests;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -23,15 +32,19 @@ import org.junit.runners.Suite.SuiteClasses;
     UpdateRegistrationDataTests.class,
     LinkBusinessMemberTests.class,
     UnlinkBusinessMemberTests.class,
-    RequestKYCTests.class,
-    CheckKYCTests.class,
+    RequestKycTests.class,
+    CheckKycTests.class,
+    CheckPartnerKycTests.class,
     GetEntityTests.class,
     DocumentsTests.class,
     ListDocumentsTests.class,
     GetDocumentTests.class,
     certifyBeneficialOwnerTests.class,
     CertifyBusinessTests.class,
+    PlaidLinkTokenTests.class,
     LinkAccountTests.class,
+    UpdateAccountTests.class,
+    DeleteAccountTests.class,
     GetAccountsTests.class,
     GetAccountBalanceTests.class,
     CancelTransactionTests.class,

@@ -30,7 +30,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{\"header\":"
                                                 + "{"
-                                                + "\"auth_handle\":\"handle.silamoney.eth\","
+                                                + "\"app_handle\":\"handle.silamoney.eth\","
                                                 + "\"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\","
                                                 + "\"version\":\"0.2\","
                                                 + "\"crypto\":\"ETH\""
@@ -59,7 +59,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{\"header\":"
                                                 + "{"
-                                                + "\"auth_handle\":\"handle.silamoney.eth\","
+                                                + "\"app_handle\":\"handle.silamoney.eth\","
                                                 + "\"user_handle\":\"taken.silamoney.eth\","
                                                 + "\"version\":\"0.2\","
                                                 + "\"crypto\":\"ETH\""
@@ -88,7 +88,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{\"header\":"
                                                 + "{"
-                                                + "\"auth_handle\":\"handle.silamoney.eth\","
+                                                + "\"app_handle\":\"handle.silamoney.eth\","
                                                 + "\"user_handle\":\"badrequest.silamoney.eth\","
                                                 + "\"version\":\"0.2\","
                                                 + "\"crypto\":\"ETH\""
@@ -115,7 +115,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{\"header\":"
                                                 + "{"
-                                                + "\"auth_handle\":\"handle.silamoney.eth\","
+                                                + "\"app_handle\":\"handle.silamoney.eth\","
                                                 + "\"user_handle\":\"invalidsignature.silamoney.eth\","
                                                 + "\"version\":\"0.2\","
                                                 + "\"crypto\":\"ETH\""
@@ -146,7 +146,7 @@ public class MockServer {
                                                 "{"
                                                 + "\"header\": {"
                                                 + "\"user_handle\": \"" + DefaultConfigurations.getUserHandle() + "\","
-                                                + "\"auth_handle\": \"handle.silamoney.eth\","
+                                                + "\"app_handle\": \"handle.silamoney.eth\","
                                                 + "\"version\": \"0.2\","
                                                 + "\"crypto\": \"ETH\""
                                                 + "},"
@@ -205,7 +205,7 @@ public class MockServer {
                                                 "{"
                                                 + "\"header\": {"
                                                 + "\"user_handle\": \"badrequest.silamoney.eth\","
-                                                + "\"auth_handle\": \"handle.silamoney.eth\","
+                                                + "\"app_handle\": \"handle.silamoney.eth\","
                                                 + "\"version\": \"0.2\","
                                                 + "\"crypto\": \"ETH\""
                                                 + "},"
@@ -264,7 +264,7 @@ public class MockServer {
                                                 "{"
                                                 + "\"header\": {"
                                                 + "\"user_handle\": \"invalidsignature.silamoney.eth\","
-                                                + "\"auth_handle\": \"handle.silamoney.eth\","
+                                                + "\"app_handle\": \"handle.silamoney.eth\","
                                                 + "\"version\": \"0.2\","
                                                 + "\"crypto\": \"ETH\""
                                                 + "},"
@@ -325,7 +325,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -355,7 +355,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -385,7 +385,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -418,7 +418,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -448,7 +448,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"notpassed.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -478,7 +478,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -508,7 +508,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -541,7 +541,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -571,7 +571,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"failure.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -601,7 +601,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -631,7 +631,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -664,7 +664,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\","
                                                 + "    \"crypto\": \"ETH\""
@@ -698,7 +698,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\","
                                                 + "    \"crypto\": \"ETH\""
@@ -725,7 +725,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\","
                                                 + "    \"crypto\": \"ETH\""
@@ -754,7 +754,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -787,7 +787,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"failure.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -820,7 +820,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -849,7 +849,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -880,7 +880,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -913,7 +913,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"failure.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -946,7 +946,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -975,7 +975,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1006,7 +1006,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"" + DefaultConfigurations.getUserHandle() + "\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1039,7 +1039,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"failure.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1072,7 +1072,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1101,7 +1101,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"invalidsignature.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1132,7 +1132,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"user.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1227,7 +1227,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"badrequest.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1268,7 +1268,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"forbidden.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""
@@ -1309,7 +1309,7 @@ public class MockServer {
                                         JsonBody.json(
                                                 "{"
                                                 + "  \"header\": {"
-                                                + "    \"auth_handle\": \"handle.silamoney.eth\", "
+                                                + "    \"app_handle\": \"handle.silamoney.eth\", "
                                                 + "    \"user_handle\":\"serverside.silamoney.eth\", "
                                                 + "    \"version\": \"0.2\", "
                                                 + "    \"crypto\": \"ETH\""

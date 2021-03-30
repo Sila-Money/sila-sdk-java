@@ -22,7 +22,11 @@ public class Environments {
         /**
          * Sila production environment.
          */
-        PRODUCTION("https://api.silamoney.com/0.2");
+        PRODUCTION("https://api.silamoney.com/0.2"),
+        /**
+         * Sila staging environment.
+         */
+        STAGING("https://stageapi.silamoney.com/0.2");
 
         private final String url;
 

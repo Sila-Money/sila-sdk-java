@@ -41,7 +41,7 @@ public class Header {
     @SerializedName("user_handle")
     private final String userHandle;
 
-    @SerializedName("auth_handle")
+    @SerializedName("app_handle")
     private final String authHandle;
 
     @SerializedName("version")

@@ -1,7 +1,6 @@
 package com.silamoney.client.api;
 
 import java.math.BigInteger;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
@@ -11,10 +10,6 @@ import java.util.UUID;
 
 import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.*;
-import com.silamoney.client.exceptions.BadRequestException;
-import com.silamoney.client.exceptions.ForbiddenException;
-import com.silamoney.client.exceptions.InvalidSignatureException;
-import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
@@ -38,6 +33,12 @@ import java.security.NoSuchProviderException;
 public class SilaApi {
 
     private final Configuration configuration;
+    private static final String HEADER_STRING = "header";
+    private static final String CREATED_STRNG = "created";
+    private static final String APP_HANDLE_STRING = "app_handle";
+    private static final String USER_HANDLE_STRING = "user_handle";
+    private static final String BUSINESS_HANDLE_STRING = "business_handle";
+    private static final String SLASH = "/";
     private static final String AUTH_SIGNATURE = "authsignature";
     private static final String USER_SIGNATURE = "usersignature";
     private static final String BUSINESS_SIGNATURE = "businesssignature";
@@ -47,32 +48,32 @@ public class SilaApi {
      * Constructor for SilaApi using custom environment.
      *
      * @param environment
-     * @param appHandler
+     * @param appHandle
      * @param privateKey
      */
-    public SilaApi(String environment, String appHandler, String privateKey) {
-        this.configuration = new Configuration(environment, privateKey, appHandler);
+    public SilaApi(String environment, String appHandle, String privateKey) {
+        this.configuration = new Configuration(environment, privateKey, appHandle);
     }
 
     /**
      * Constructor for SilaApi using specified environment.
      *
      * @param environment
-     * @param appHandler
+     * @param appHandle
      * @param privateKey
      */
-    public SilaApi(Environments.SilaEnvironment environment, String appHandler, String privateKey) {
-        this.configuration = new Configuration(environment.getUrl(), privateKey, appHandler);
+    public SilaApi(Environments.SilaEnvironment environment, String appHandle, String privateKey) {
+        this.configuration = new Configuration(environment.getUrl(), privateKey, appHandle);
     }
 
     /**
      * Constructor for SilaApi using sandbox environment.
      *
-     * @param appHandler
+     * @param appHandle
      * @param privateKey
      */
-    public SilaApi(String appHandler, String privateKey) {
-        this.configuration = new Configuration(DEFAULT_ENVIRONMENT, privateKey, appHandler);
+    public SilaApi(String appHandle, String privateKey) {
+        this.configuration = new Configuration(DEFAULT_ENVIRONMENT, privateKey, appHandle);
     }
 
     /**
@@ -80,15 +81,11 @@ public class SilaApi {
      *
      * @param handle
      * @return API response.
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
      * @throws IOException
      * @throws InterruptedException
-     * @throws ForbiddenException
+     * 
      */
-    public ApiResponse checkHandle(String handle) throws BadRequestException, InvalidSignatureException,
-            ServerSideException, IOException, InterruptedException, ForbiddenException {
+    public ApiResponse checkHandle(String handle) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(handle, this.configuration.getAuthHandle());
         String path = Endpoints.CHECK_HANDLE.getUri();
         String sBody = Serialization.serialize(body);
@@ -108,13 +105,11 @@ public class SilaApi {
      * @return API response.
      * @throws IOException
      * @throws InterruptedException
-     * @throws ServerSideException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ForbiddenException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
-    public ApiResponse register(User user) throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse register(User user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
         String sBody = Serialization.serialize(body);
@@ -157,14 +152,11 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());
         String path = Endpoints.REQUEST_KYC.getUri();
         String sBody = Serialization.serialize(body);
@@ -187,6 +179,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
@@ -213,6 +208,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken)
             throws IOException, InterruptedException {
@@ -231,6 +229,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId) throws IOException, InterruptedException {
@@ -250,6 +251,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String accountNumber,
             String routingNumber, String accountType) throws IOException, InterruptedException {
@@ -271,6 +275,9 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId, String accountNumber, String routingNumber, String accountType)
@@ -297,13 +304,8 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.GET_ACCOUNTS.getUri();
         String sBody = Serialization.serialize(body);
@@ -324,14 +326,9 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse getAccountBalance(String userHandle, String userPrivateKey, String accountName)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
         GetAccountBalanceMsg body = new GetAccountBalanceMsg(userHandle, this.configuration.getAuthHandle(),
                 accountName);
         String path = Endpoints.GET_ACCOUNT_BALANCE.getUri();
@@ -354,13 +351,8 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse issueSila(AccountTransactionMessage message) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse issueSila(AccountTransactionMessage message) throws IOException, InterruptedException {
         String path = Endpoints.ISSUE_SILA.getUri();
         AccountTransactionMsg body = new AccountTransactionMsg(this.configuration.getAuthHandle(), message,
                 Message.ValueEnum.ISSUE_MSG);
@@ -389,15 +381,10 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
             @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
         TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, descriptor,
                 businessUuid, this.configuration.getAuthHandle());
         String path = Endpoints.TRANSFER_SILA.getUri();
@@ -420,13 +407,8 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse redeemSila(AccountTransactionMessage message) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse redeemSila(AccountTransactionMessage message) throws IOException, InterruptedException {
         AccountTransactionMsg body = new AccountTransactionMsg(this.configuration.getAuthHandle(), message,
                 Message.ValueEnum.REDEEM_MSG);
         String path = Endpoints.REDEEM_SILA.getUri();
@@ -462,27 +444,40 @@ public class SilaApi {
     /**
      * Gets array of user handle's transactions with detailed status information.
      *
+     * @deprecated
+     * You don't need to provide the user private key anymore.
      * @param userHandle
      * @param filters
      * @param userPrivateKey
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse getTransactions(String userHandle, SearchFilters filters, String userPrivateKey)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
+        return getTransactions(userHandle, filters);
+    }
+
+    /**
+     * Gets array of user handle's transactions with detailed status information.
+     *
+     * @param userHandle
+     * @param filters
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
+     */
+    public ApiResponse getTransactions(String userHandle, SearchFilters filters)
+            throws IOException, InterruptedException {
         GetTransactionsMsg body = new GetTransactionsMsg(userHandle, this.configuration.getAuthHandle(), filters);
         String path = Endpoints.GET_TRANSACTIONS.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
 
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
@@ -496,13 +491,8 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse silaBalance(String address) throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse silaBalance(String address) throws IOException, InterruptedException {
         SilaBalanceMsg body = new SilaBalanceMsg(address);
         String path = Endpoints.GET_SILA_BALANCE.getUri();
         String sBody = Serialization.serialize(body);
@@ -522,14 +512,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse plaidSameDayAuth(String userHandle, @Nullable String accountName, String userPrivateKey)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
         PlaidSameDayAuthMsg body = new PlaidSameDayAuthMsg(userHandle, accountName, this.configuration.getAuthHandle());
         String path = Endpoints.PLAID_SAMEDAY_AUTH.getUri();
         String sBody = Serialization.serialize(body);
@@ -567,13 +552,8 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse getWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse getWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetWalletMsg body = new GetWalletMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.GET_WALLET.getUri();
         String sBody = Serialization.serialize(body);
@@ -597,14 +577,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
-            String userPrivateKey) throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
+            String userPrivateKey) throws IOException, InterruptedException {
         RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature,
                 this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER_WALLET.getUri();
@@ -629,14 +604,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
         UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle());
         String path = Endpoints.UPDATE_WALLET.getUri();
         String sBody = Serialization.serialize(body);
@@ -657,13 +627,8 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse deleteWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse deleteWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         DeleteWalletMsg body = new DeleteWalletMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.DELETE_WALLET.getUri();
         String sBody = Serialization.serialize(body);
@@ -687,14 +652,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse getWallets(String userHandle, SearchFilters filters, String userPrivateKey)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
         GetWalletsMsg body = new GetWalletsMsg(userHandle, filters, this.configuration.getAuthHandle());
         String path = Endpoints.GET_WALLETS.getUri();
         String sBody = Serialization.serialize(body);
@@ -735,10 +695,10 @@ public class SilaApi {
         String path = Endpoints.GET_DOCUMENT_TYPES.getUri() + urlParams;
         HeaderBase header = new HeaderBuilder(this.configuration.getAuthHandle()).useVersion(VersionEnum.V0_2)
                 .withCrypto(CryptoEnum.ETH).withReference().build();
-        Map<String, HeaderBase> bodyMap = new HashMap<String, HeaderBase>();
-        bodyMap.put("header", header);
+        Map<String, HeaderBase> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
         String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<String, String>();
+        Map<String, String> headers = new HashMap<>();
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
@@ -751,19 +711,14 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse getBusinessTypes() throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
+    public ApiResponse getBusinessTypes() throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
 
-        Map<String, Map<String, String>> bodyMap = new HashMap<String, Map<String, String>>();
-        bodyMap.put("header", header);
+        Map<String, Map<String, String>> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_BUSINESS_TYPES.getUri();
         String sBody = Serialization.serialize(bodyMap);
@@ -782,19 +737,14 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse getBusinessRoles() throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
+    public ApiResponse getBusinessRoles() throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
 
-        Map<String, Map<String, String>> bodyMap = new HashMap<String, Map<String, String>>();
-        bodyMap.put("header", header);
+        Map<String, Map<String, String>> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_BUSINESS_ROLES.getUri();
         String sBody = Serialization.serialize(bodyMap);
@@ -811,19 +761,14 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse getNaicsCategories() throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
+    public ApiResponse getNaicsCategories() throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
 
-        Map<String, Map<String, String>> bodyMap = new HashMap<String, Map<String, String>>();
-        bodyMap.put("header", header);
+        Map<String, Map<String, String>> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_NAICS_CATEGORIES.getUri();
         String sBody = Serialization.serialize(bodyMap);
@@ -841,13 +786,8 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
+    public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
         String sBody = Serialization.serialize(body);
@@ -872,23 +812,18 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse linkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, BusinessRole businessRole, String memberHandle, String details,
-            Float ownershipStake) throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
-        header.put("user_handle", userHandle);
-        header.put("business_handle", businessHandle);
+            Float ownershipStake) throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
+        header.put(USER_HANDLE_STRING, userHandle);
+        header.put(BUSINESS_HANDLE_STRING, businessHandle);
 
-        Map<String, Object> bodyMap = new HashMap<String, Object>();
-        bodyMap.put("header", header);
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
         bodyMap.put("role", businessRole.getName());
         bodyMap.put("role_uuid", businessRole.getUuid());
         bodyMap.put("member_handle", memberHandle);
@@ -917,22 +852,17 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse unlinkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
-            String businessPrivateKey, BusinessRole businessRole) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
-        header.put("user_handle", userHandle);
-        header.put("business_handle", businessHandle);
+            String businessPrivateKey, BusinessRole businessRole) throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
+        header.put(USER_HANDLE_STRING, userHandle);
+        header.put(BUSINESS_HANDLE_STRING, businessHandle);
 
-        Map<String, Object> bodyMap = new HashMap<String, Object>();
-        bodyMap.put("header", header);
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
         bodyMap.put("role", businessRole.getName());
         bodyMap.put("role_uuid", businessRole.getUuid());
 
@@ -955,20 +885,15 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
-    public ApiResponse getEntity(String userHandle, String userPrivateKey) throws IOException, InterruptedException,
-            BadRequestException, InvalidSignatureException, ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
-        header.put("user_handle", userHandle);
+    public ApiResponse getEntity(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
+        header.put(USER_HANDLE_STRING, userHandle);
 
-        Map<String, Object> bodyMap = new HashMap<String, Object>();
-        bodyMap.put("header", header);
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_ENTITY.getUri();
         String sBody = Serialization.serialize(bodyMap);
@@ -992,23 +917,18 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse certifyBeneficialOwner(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, String memberHandle, String certificationToken)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
-        header.put("user_handle", userHandle);
-        header.put("business_handle", businessHandle);
+            throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
+        header.put(USER_HANDLE_STRING, userHandle);
+        header.put(BUSINESS_HANDLE_STRING, businessHandle);
 
-        Map<String, Object> bodyMap = new HashMap<String, Object>();
-        bodyMap.put("header", header);
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
         bodyMap.put("member_handle", memberHandle);
         bodyMap.put("certification_token", certificationToken);
 
@@ -1033,22 +953,17 @@ public class SilaApi {
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
-     * @throws BadRequestException
-     * @throws InvalidSignatureException
-     * @throws ServerSideException
-     * @throws ForbiddenException
      */
     public ApiResponse certifyBusiness(String userHandle, String userPrivateKey, String businessHandle,
-            String businessPrivateKey) throws IOException, InterruptedException, BadRequestException,
-            InvalidSignatureException, ServerSideException, ForbiddenException {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("created", EpochUtils.getEpoch() + "");
-        header.put("auth_handle", this.configuration.getAuthHandle());
-        header.put("user_handle", userHandle);
-        header.put("business_handle", businessHandle);
+            String businessPrivateKey) throws IOException, InterruptedException {
+        Map<String, String> header = new HashMap<>();
+        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
+        header.put(USER_HANDLE_STRING, userHandle);
+        header.put(BUSINESS_HANDLE_STRING, businessHandle);
 
-        Map<String, Object> bodyMap = new HashMap<String, Object>();
-        bodyMap.put("header", header);
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.CERTIFY_BUSINESS.getUri();
         String sBody = Serialization.serialize(bodyMap);
@@ -1064,12 +979,11 @@ public class SilaApi {
     }
 
     public ApiResponse getEntities(String entityType, Integer page, Integer perPage)
-            throws IOException, InterruptedException, BadRequestException, InvalidSignatureException,
-            ServerSideException, ForbiddenException {
+            throws IOException, InterruptedException {
         Header header = new Header(null, this.configuration.getAuthHandle());
 
-        Map<String, Object> bodyMap = new HashMap<String, Object>();
-        bodyMap.put("header", header);
+        Map<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put(HEADER_STRING, header);
         bodyMap.put("message", Message.ValueEnum.HEADER_MSG.getValue());
         bodyMap.put("entity_type", entityType);
 
@@ -1094,11 +1008,10 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws NoSuchAlgorithmException
-     * @throws FileNotFoundException
      * @throws InterruptedException
      */
     public ApiResponse uploadDocument(UploadDocumentMessage message)
-            throws FileNotFoundException, NoSuchAlgorithmException, IOException, InterruptedException {
+            throws NoSuchAlgorithmException, IOException, InterruptedException {
         String hash = EcdsaUtil.hashFile(message.getFilePath());
         UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
         String path = Endpoints.DOCUMENTS.getUri();
@@ -1226,6 +1139,21 @@ public class SilaApi {
     }
 
     /**
+     * Add a new device to a registered entity.
+     * 
+     * @param user
+     * @param device
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse addDevice(UserHandleMessage user, Device device) throws IOException, InterruptedException {
+        DeviceMsg body = new DeviceMsg(this.configuration.getAuthHandle(), user, device);
+        return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.DEVICE, user.getUserPrivateKey(),
+                body, DeviceResponse.class);
+    }
+
+    /**
      * Update an existing email of a registered entity.
      * 
      * @param user
@@ -1321,6 +1249,63 @@ public class SilaApi {
                 user.getUserPrivateKey(), body, BusinessEntityResponse.class);
     }
 
+    /**
+     * 
+     * @param userHandle
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse plaidLinkToken(String userHandle) throws IOException, InterruptedException {
+        String path = Endpoints.PLAID_LINK_TOKEN.getUri();
+
+        Map<String, Map<String,Object>> body = new HashMap<>();
+        Map<String, Object> header = new HashMap<>();
+        header.put("created", EpochUtils.getEpoch());
+        header.put("app_handle", this.configuration.getAuthHandle());
+        header.put("user_handle", userHandle);
+
+        body.put("header", header);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_LINK_TOKEN.getValue());
+    }
+
+    /**
+     * 
+     * @param userHandle
+     * @param accountName
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse deleteAccount(String userHandle, String accountName, String userPrivateKey) throws IOException, InterruptedException {
+        String path = Endpoints.DELETE_ACCOUNT.getUri();
+
+        Map<String, Object> body = new HashMap<>();
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        body.put("header", header);
+        body.put("account_name", accountName);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_ACCOUNT.getValue());
+    }
+
     private ApiResponse listDocuments(String path, String userPrivateKey, ListDocumentsMsg body)
             throws IOException, InterruptedException {
         String sBody = Serialization.serialize(body);
@@ -1345,7 +1330,7 @@ public class SilaApi {
      */
     private ApiResponse registrationData(Endpoints endpoint, RegistrationDataEnum dataType, String userPrivateKey,
             Object body, Type responseType) throws IOException, InterruptedException {
-        String path = endpoint.getUri() + "/" + dataType.getUri();
+        String path = endpoint.getUri() + SLASH + dataType.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
@@ -1370,4 +1355,5 @@ public class SilaApi {
         }
         return queryParameters;
     }
+
 }

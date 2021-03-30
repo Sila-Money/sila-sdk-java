@@ -11,6 +11,7 @@ import com.silamoney.client.domain.AccountBalanceResponse;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.CheckKYCResponse;
+import com.silamoney.client.domain.DeleteAccountResponse;
 import com.silamoney.client.domain.GetBusinessRolesResponse;
 import com.silamoney.client.domain.GetBusinessTypesResponse;
 import com.silamoney.client.domain.GetEntitiesResponse;
@@ -23,6 +24,7 @@ import com.silamoney.client.domain.GetWalletsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.LinkBusinessMemberResponse;
 import com.silamoney.client.domain.LinkBusinessOperationResponse;
+import com.silamoney.client.domain.PlaidLinkTokenResponse;
 import com.silamoney.client.domain.PlaidSameDayAuthResponse;
 import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.TransferSilaResponse;
@@ -85,6 +87,12 @@ public class ResponseUtil {
         }
 
         switch (msg) {
+            case "delete_account":
+                DeleteAccountResponse deleteAccountResponse = (DeleteAccountResponse) Serialization
+                        .deserialize(response.body().toString(), DeleteAccountResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), deleteAccountResponse,
+                        deleteAccountResponse.getSuccess());
             case "get_account_balance_msg":
                 AccountBalanceResponse accountBalanceResponse = (AccountBalanceResponse) Serialization
                         .deserialize(response.body().toString(), AccountBalanceResponse.class);
@@ -226,6 +234,12 @@ public class ResponseUtil {
                 transferSilaResponse.setSuccess(success);
 
                 return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
+            case "plaid_link_token":
+                PlaidLinkTokenResponse plaidLinkTokenResponse = (PlaidLinkTokenResponse) Serialization
+                        .deserialize(response.body().toString(), PlaidLinkTokenResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), plaidLinkTokenResponse,
+                        plaidLinkTokenResponse.isSuccess());
             default:
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);

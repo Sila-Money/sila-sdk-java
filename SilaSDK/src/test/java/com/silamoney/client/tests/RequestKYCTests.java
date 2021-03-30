@@ -26,7 +26,7 @@ public class RequestKYCTests {
 
 	@Test
 	public void response200() throws Exception {
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), null,
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "INSTANT-ACH",
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());

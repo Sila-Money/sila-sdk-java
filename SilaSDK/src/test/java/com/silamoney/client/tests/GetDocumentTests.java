@@ -58,8 +58,6 @@ public class GetDocumentTests {
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertFalse(parsedResponse.getSuccess());
         assertEquals("FAILURE", parsedResponse.getStatus());
-        assertThat(parsedResponse.getMessage(),
-                stringContainsInOrder(Arrays.asList("Failed to authenticate app signature.")));
     }
 
     @Test

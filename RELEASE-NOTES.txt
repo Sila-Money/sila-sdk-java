@@ -1,0 +1,18 @@
+v0.2.21
+ENHANCEMENTS
+-Implementing singleton instance for SilaApi object in the refacotred packages.
+-Register method now uses builder pattern with specific request and response objects.
+-LinkAccount method now uses builder pattern with specific request and response objects.
+-GetTransactions method now uses builder pattern with specific request and response objects.
+-RequestKyc method now uses builder pattern with specific request and response objects.
+-CheckKyc method now uses builder pattern with specific request and response objects.
+
+CHANGES
+-Register endpoint does not send empty fields anymore (unless the developer specify the field as blank string).
+-Adding /check_partner_kyc endpoint support.
+-Adding /update_account endpoint support.
+-Adding accountOwnerName and matchScore to the LinkAccountResponse object in the refactored packages.
+-Adding bankAccountName filter to SearchFilters object in the refactored packages.
+-Adding verificationUuid to the RequestKycResponse object in the refactored packages.
+-Adding all the fields to the CheckKycResponse object in the refactored packages.
+-Adding kycLevel to the CheckKycRequest object in the refactored packages.

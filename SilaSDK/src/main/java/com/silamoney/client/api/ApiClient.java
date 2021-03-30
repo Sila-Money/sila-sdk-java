@@ -24,6 +24,9 @@ public class ApiClient {
 
     private String basePath;
 
+    private static final String PRODUCT = "SilaSDK-java";
+    private static final String VERSION = "0.2.21";
+
     /**
      * Gets the api base path.
      * 
@@ -67,6 +70,7 @@ public class ApiClient {
     @SuppressWarnings("all")
     public HttpResponse callApi(String path, Map<String, String> headers, String body)
             throws IOException, InterruptedException {
+        headers.put("User-Agent", PRODUCT + '/' + VERSION);
         HttpRequest finalRequest = prepareRequest(path, headers, body);
 
         return httpClient.send(finalRequest, BodyHandlers.ofString());
@@ -86,6 +90,7 @@ public class ApiClient {
     @SuppressWarnings("all")
     public HttpResponse callApi(String path, Map<String, String> headers, String body, String filePath,
             String contentType) throws FileNotFoundException, IOException, InterruptedException {
+        headers.put("User-Agent", PRODUCT + '/' + VERSION);
         var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
