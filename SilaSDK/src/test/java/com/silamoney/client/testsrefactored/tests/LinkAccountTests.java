@@ -35,6 +35,7 @@ public class LinkAccountTests {
             .plaidToken(DefaultConfigurations.getPlaidToken())
             .userHandle(DefaultConfigurations.getUserHandle())
             .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
+            .plaidTokenType("legacy")
             .build();
 
         LinkAccountResponse response = LinkAccount.send(request);

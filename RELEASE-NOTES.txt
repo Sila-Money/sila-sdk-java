@@ -1,3 +1,24 @@
+v0.2.22
+In this release we included support for new endpoints and refactored some others.
+Refactors:
+    -GetAccount method now uses builder pattern with specific request and response objects.
+    -GetAccounts method now uses builder pattern with specific request and response objects.
+    -RegisterWallet method now uses builder pattern with specific request and response objects.
+    -UpdateWallet method now uses builder pattern with specific request and response objects.
+New Features:
+    -Adding support for /plaid_update_link_token.
+    -Adding support for plaid_token_type in /link_account endpoint
+    -Adding support for document_id and document_name in /update/identity endpoint.
+    -Adding support for uuid and dba in /get_entities endpoint.
+    -Adding support for status in /get_entity endpoint.
+    -Adding support for identity_type in /get_entities endpoint.
+    -Adding support for status and requires_certification in /get_business_types endpoint.
+    -Adding support for status in /get_business_roles endpoint.
+    -Adding support for status in /get_naics_categories endpoint.
+    -Adding support for match_score, account_owner_name and entity_name in Account object.
+    -Adding support for plaid_token_type in /link_account endpoint.
+
+
 v0.2.21
 ENHANCEMENTS
 -Implementing singleton instance for SilaApi object in the refacotred packages.

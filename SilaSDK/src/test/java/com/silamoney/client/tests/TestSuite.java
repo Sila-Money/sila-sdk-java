@@ -2,12 +2,15 @@ package com.silamoney.client.tests;
 
 import com.silamoney.client.testsrefactored.tests.CheckKycTests;
 import com.silamoney.client.testsrefactored.tests.CheckPartnerKycTests;
+import com.silamoney.client.testsrefactored.tests.GetAccountsTests;
 import com.silamoney.client.testsrefactored.tests.GetTransactionsTests;
 import com.silamoney.client.testsrefactored.tests.LinkAccountTests;
 import com.silamoney.client.testsrefactored.tests.RegisterBusinessTests;
 import com.silamoney.client.testsrefactored.tests.RegisterTests;
+import com.silamoney.client.testsrefactored.tests.RegisterWalletTests;
 import com.silamoney.client.testsrefactored.tests.RequestKycTests;
 import com.silamoney.client.testsrefactored.tests.UpdateAccountTests;
+import com.silamoney.client.testsrefactored.tests.UpdateWalletTests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

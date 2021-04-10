@@ -304,6 +304,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());
@@ -577,6 +580,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
             String userPrivateKey) throws IOException, InterruptedException {
@@ -604,6 +610,9 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
+     * @deprecated
+     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
             throws IOException, InterruptedException {

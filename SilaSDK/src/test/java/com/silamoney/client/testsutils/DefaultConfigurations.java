@@ -57,6 +57,9 @@ public class DefaultConfigurations {
     @Getter
     @Setter
     private static com.silamoney.client.domain.Wallet newWallet;
+    @Getter
+    @Setter
+    private static com.silamoney.clientrefactored.domain.Wallet newWalletRefactored;
 
     /**
      * @return String
