@@ -1,81 +1,68 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.exceptions.BadRequestException;
-import com.silamoney.client.exceptions.ForbiddenException;
-import com.silamoney.client.exceptions.InvalidSignatureException;
-import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
+import com.silamoney.clientrefactored.endpoints.entities.requestkyc.RequestKycRequest;
+import com.silamoney.clientrefactored.endpoints.entities.requestkyc.RequestKycResponse;
 
 import org.junit.Test;
 
-/**
- *
- * @author Karlo Lorenzana
- */
 public class RequestKYCTests {
 
 	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 			DefaultConfigurations.privateKey);
 
 	@Test
-	public void response200() throws Exception {
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "INSTANT-ACH",
-				DefaultConfigurations.getUserPrivateKey());
+	public void Response200Individual() throws Exception {
 
-		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		RequestKycRequest request = RequestKycRequest.builder().userHandle(DefaultConfigurations.getUserHandle())
+				.userPrivateKey(DefaultConfigurations.getUserPrivateKey()).kycLevel("INSTANT-ACH").build();
 
-		response = api.requestKYC(DefaultConfigurations.getUser2Handle(), null,
-				DefaultConfigurations.getUser2PrivateKey());
-		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		ApiResponse response = api.requestKYC(request);
+
+		RequestKycResponse parsedResponse = (RequestKycResponse) response.getData();
+
+		assertEquals("SUCCESS", parsedResponse.getStatus());
+		assertNotNull(parsedResponse.getMessage());
+		assertNotNull(parsedResponse.getReference());
+		assertNotNull(parsedResponse.getVerificationUuid());
+		assertTrue(parsedResponse.isSuccess());
+
+		request = RequestKycRequest.builder().userHandle(DefaultConfigurations.getUser2Handle())
+				.userPrivateKey(DefaultConfigurations.getUser2PrivateKey()).build();
+
+		response = api.requestKYC(request);
+
+		parsedResponse = (RequestKycResponse) response.getData();
+
+		assertEquals("SUCCESS", parsedResponse.getStatus());
+		assertNotNull(parsedResponse.getMessage());
+		assertNotNull(parsedResponse.getReference());
+		assertNotNull(parsedResponse.getVerificationUuid());
+		assertTrue(parsedResponse.isSuccess());
 	}
 
 	@Test
-	public void response200Business() throws Exception {
-		// KYCID1
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getBusinessHandle(), null,
-				DefaultConfigurations.getBusinessPrivateKey());
+	public void Response200Business() throws Exception {
 
-		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		RequestKycRequest request = RequestKycRequest.builder().userHandle(DefaultConfigurations.getBusinessHandle())
+				.userPrivateKey(DefaultConfigurations.getBusinessPrivateKey()).build();
+
+		ApiResponse response = api.requestKYC(request);
+
+		RequestKycResponse parsedResponse = (RequestKycResponse) response.getData();
+
+		assertEquals("SUCCESS", parsedResponse.getStatus());
+		assertNotNull(parsedResponse.getMessage());
+		assertNotNull(parsedResponse.getReference());
+		assertNotNull(parsedResponse.getVerificationUuid());
+		assertTrue(parsedResponse.isSuccess());
+
 	}
 
-	@Test
-	public void response403() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-			InterruptedException, ForbiddenException {
-		// KYCID4
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "FAIL",
-				DefaultConfigurations.getUserPrivateKey());
-
-		assertEquals(403, response.getStatusCode());
-	}
-
-	@Test
-	public void response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-			InterruptedException, ForbiddenException {
-		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), null,
-				DefaultConfigurations.getUserPrivateKey());
-
-		assertEquals(401, response.getStatusCode());
-		api.requestKYC(DefaultConfigurations.getUserHandle(), "", DefaultConfigurations.getUserPrivateKey());
-	}
-
-	@Test
-	public void response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
-			InterruptedException, ForbiddenException {
-		ApiResponse response = api.requestKYC("", null, DefaultConfigurations.getUserPrivateKey());
-
-		assertEquals(400, response.getStatusCode());
-	}
 }
