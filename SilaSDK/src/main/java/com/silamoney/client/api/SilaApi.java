@@ -1,38 +1,98 @@
 package com.silamoney.client.api;
 
-import java.math.BigInteger;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.net.http.HttpResponse;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import com.silamoney.client.config.Configuration;
-import com.silamoney.client.domain.*;
+import com.silamoney.client.domain.AccountTransactionMessage;
+import com.silamoney.client.domain.AccountTransactionMsg;
+import com.silamoney.client.domain.AddressMessage;
+import com.silamoney.client.domain.AddressMsg;
+import com.silamoney.client.domain.AddressResponse;
+import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.BusinessEntityMessage;
+import com.silamoney.client.domain.BusinessEntityMsg;
+import com.silamoney.client.domain.BusinessEntityResponse;
+import com.silamoney.client.domain.BusinessRole;
+import com.silamoney.client.domain.BusinessUser;
+import com.silamoney.client.domain.CancelTransactionMessage;
+import com.silamoney.client.domain.CancelTransactionMsg;
+import com.silamoney.client.domain.CryptoEnum;
+import com.silamoney.client.domain.DeleteRegistrationMessage;
+import com.silamoney.client.domain.DeleteRegistrationMsg;
+import com.silamoney.client.domain.DeleteWalletMsg;
+import com.silamoney.client.domain.Device;
+import com.silamoney.client.domain.DeviceMsg;
+import com.silamoney.client.domain.DeviceResponse;
+import com.silamoney.client.domain.DocumentTypesResponse;
+import com.silamoney.client.domain.DocumentsResponse;
+import com.silamoney.client.domain.EmailMessage;
+import com.silamoney.client.domain.EmailMsg;
+import com.silamoney.client.domain.EmailResponse;
+import com.silamoney.client.domain.Endpoints;
+import com.silamoney.client.domain.EntityMsg;
+import com.silamoney.client.domain.Environments;
+import com.silamoney.client.domain.GetAccountBalanceMsg;
+import com.silamoney.client.domain.GetAccountsMsg;
+import com.silamoney.client.domain.GetDocumentMessage;
+import com.silamoney.client.domain.GetDocumentMsg;
+import com.silamoney.client.domain.GetTransactionsMsg;
+import com.silamoney.client.domain.GetWalletMsg;
+import com.silamoney.client.domain.GetWalletsMsg;
+import com.silamoney.client.domain.Header;
+import com.silamoney.client.domain.HeaderBase;
+import com.silamoney.client.domain.HeaderBuilder;
+import com.silamoney.client.domain.HeaderMsg;
+import com.silamoney.client.domain.IdentityMessage;
+import com.silamoney.client.domain.IdentityMsg;
+import com.silamoney.client.domain.IdentityResponse;
+import com.silamoney.client.domain.IndividualEntityMessage;
+import com.silamoney.client.domain.IndividualEntityMsg;
+import com.silamoney.client.domain.IndividualEntityResponse;
+import com.silamoney.client.domain.LinkAccountMsg;
+import com.silamoney.client.domain.ListDocumentsMessage;
+import com.silamoney.client.domain.ListDocumentsMsg;
+import com.silamoney.client.domain.ListDocumentsResponse;
+import com.silamoney.client.domain.Message;
+import com.silamoney.client.domain.PaginationMessage;
+import com.silamoney.client.domain.PhoneMessage;
+import com.silamoney.client.domain.PhoneMsg;
+import com.silamoney.client.domain.PhoneResponse;
+import com.silamoney.client.domain.PlaidSameDayAuthMsg;
+import com.silamoney.client.domain.RegisterWalletMsg;
+import com.silamoney.client.domain.RegistrationDataEnum;
+import com.silamoney.client.domain.SearchFilters;
+import com.silamoney.client.domain.SilaBalanceMsg;
+import com.silamoney.client.domain.TransferMsg;
+import com.silamoney.client.domain.UpdateWalletMsg;
+import com.silamoney.client.domain.UploadDocumentMessage;
+import com.silamoney.client.domain.UploadDocumentMsg;
+import com.silamoney.client.domain.User;
+import com.silamoney.client.domain.UserHandleMessage;
+import com.silamoney.client.domain.VersionEnum;
+import com.silamoney.client.domain.Wallet;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
-import com.silamoney.clientrefactored.endpoints.accounts.getaccounts.GetAccountsRequest;
-import com.silamoney.clientrefactored.endpoints.accounts.linkaccount.LinkAccountRequest;
 import com.silamoney.clientrefactored.endpoints.accounts.plaidupdatelinktoken.PlaidUpdateLinkTokenRequest;
 import com.silamoney.clientrefactored.endpoints.accounts.updateaccount.UpdateAccountRequest;
-import com.silamoney.clientrefactored.endpoints.entities.checkkyc.CheckKycRequest;
 import com.silamoney.clientrefactored.endpoints.entities.checkpartnerkyc.CheckPartnerKycRequest;
-import com.silamoney.clientrefactored.endpoints.entities.requestkyc.RequestKycRequest;
-import com.silamoney.clientrefactored.endpoints.transactions.gettransactions.GetTransactionsRequest;
-
-import io.reactivex.annotations.Nullable;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletFile;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
+import io.reactivex.annotations.Nullable;
 
 /**
  *
@@ -160,7 +220,6 @@ public class SilaApi {
      * @throws InterruptedException
      * 
      */
-    @Deprecated(forRemoval = true)
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
             throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());
@@ -187,7 +246,6 @@ public class SilaApi {
      * @throws InterruptedException
      * 
      */
-    @Deprecated(forRemoval = true)
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.CHECK_KYC.getUri();
@@ -285,7 +343,6 @@ public class SilaApi {
      * @throws InterruptedException
      * 
      */
-    @Deprecated(forRemoval = true)
     private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId, String accountNumber, String routingNumber, String accountType)
             throws IOException, InterruptedException {
@@ -313,7 +370,6 @@ public class SilaApi {
      * @throws InterruptedException
      * 
      */
-    @Deprecated(forRemoval = true)
     public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.GET_ACCOUNTS.getUri();
@@ -477,7 +533,6 @@ public class SilaApi {
      * @throws InterruptedException
      * 
      */
-    @Deprecated(forRemoval = true)
     public ApiResponse getTransactions(String userHandle, SearchFilters filters)
             throws IOException, InterruptedException {
         GetTransactionsMsg body = new GetTransactionsMsg(userHandle, this.configuration.getAuthHandle(), filters);
@@ -587,7 +642,6 @@ public class SilaApi {
      * @throws InterruptedException
      * 
      */
-    @Deprecated(forRemoval = true)
     public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
             String userPrivateKey) throws IOException, InterruptedException {
         RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature,
@@ -616,7 +670,6 @@ public class SilaApi {
      * @throws InterruptedException
      * 
      */
-    @Deprecated(forRemoval = true)
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
             throws IOException, InterruptedException {
         UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle());

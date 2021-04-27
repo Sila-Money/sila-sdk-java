@@ -7,9 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.CheckKYCResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.clientrefactored.endpoints.entities.checkkyc.CheckKycRequest;
-import com.silamoney.clientrefactored.endpoints.entities.checkkyc.CheckKycResponse;
 
 import org.junit.Test;
 
@@ -20,19 +19,16 @@ public class CheckKYCTests {
 
     @Test
     public void Response200() throws Exception {
+        
+        ApiResponse response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
-        CheckKycRequest request = CheckKycRequest.builder().userHandle(DefaultConfigurations.getUserHandle())
-                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-
-        ApiResponse response = api.checkKYC(request);
-
-        CheckKycResponse parsedResponse = (CheckKycResponse) response.getData();
+        CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
 
         while (!parsedResponse.getStatus().contains("SUCCESS")) {
             TimeUnit.SECONDS.sleep(5);
-            response = api.checkKYC(request);
+            response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
-            parsedResponse = (CheckKycResponse) response.getData();
+            parsedResponse = (CheckKYCResponse) response.getData();
         }
 
         assertEquals("SUCCESS", parsedResponse.getStatus());
@@ -45,18 +41,15 @@ public class CheckKYCTests {
         assertNotNull(parsedResponse.getVerificationHistory().get(0).getReasons());
         assertNotNull(parsedResponse.getVerificationHistory().get(0).getTags());
 
-        request = CheckKycRequest.builder().userHandle(DefaultConfigurations.getUser2Handle())
-                .userPrivateKey(DefaultConfigurations.getUser2PrivateKey()).build();
+        response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
 
-        response = api.checkKYC(request);
-
-        parsedResponse = (CheckKycResponse) response.getData();
+        parsedResponse = (CheckKYCResponse) response.getData();
 
         while (!parsedResponse.getStatus().contains("SUCCESS")) {
             TimeUnit.SECONDS.sleep(5);
-            response = api.checkKYC(request);
+            response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
 
-            parsedResponse = (CheckKycResponse) response.getData();
+            parsedResponse = (CheckKYCResponse) response.getData();
         }
 
         assertEquals("SUCCESS", parsedResponse.getStatus());
@@ -69,18 +62,15 @@ public class CheckKYCTests {
         assertNotNull(parsedResponse.getVerificationHistory().get(0).getReasons());
         assertNotNull(parsedResponse.getVerificationHistory().get(0).getTags());
 
-        request = CheckKycRequest.builder().userHandle(DefaultConfigurations.getBusinessHandle())
-                .userPrivateKey(DefaultConfigurations.getBusinessPrivateKey()).build();
+        response = api.checkKYC(DefaultConfigurations.getBusinessHandle(), DefaultConfigurations.getBusinessPrivateKey());
 
-        response = api.checkKYC(request);
-
-        parsedResponse = (CheckKycResponse) response.getData();
+        parsedResponse = (CheckKYCResponse) response.getData();
 
         while (!parsedResponse.getStatus().contains("SUCCESS")) {
             TimeUnit.SECONDS.sleep(5);
-            response = api.checkKYC(request);
+            response = api.checkKYC(DefaultConfigurations.getBusinessHandle(), DefaultConfigurations.getBusinessPrivateKey());
 
-            parsedResponse = (CheckKycResponse) response.getData();
+            parsedResponse = (CheckKYCResponse) response.getData();
         }
 
         assertNotNull(parsedResponse.getEntityType());

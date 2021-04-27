@@ -2,11 +2,12 @@ package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.Account;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.clientrefactored.endpoints.accounts.getaccounts.GetAccountsRequest;
-import com.silamoney.clientrefactored.endpoints.accounts.getaccounts.GetAccountsResponse;
 
 import org.junit.Test;
 
@@ -18,15 +19,11 @@ public class GetAccountsTests {
         @Test
         public void Response200() throws Exception {
 
-                GetAccountsRequest request = GetAccountsRequest.builder()
-                                .userHandle(DefaultConfigurations.getUserHandle())
-                                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
+                ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
-                ApiResponse response = api.getAccounts(request);
+                List<Account> parsedResponse = (List<Account>)response.getData();
 
-                GetAccountsResponse parsedResponse = (GetAccountsResponse)response.getData();
-
-                assertTrue(parsedResponse.getAccounts().size() > 0);
+                assertTrue(parsedResponse.size() > 0);
         }
 
 }
