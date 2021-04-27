@@ -1,55 +1,32 @@
 package com.silamoney.client.tests;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
+import static org.junit.Assert.assertTrue;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.exceptions.BadRequestException;
-import com.silamoney.client.exceptions.ForbiddenException;
-import com.silamoney.client.exceptions.InvalidSignatureException;
-import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
+import com.silamoney.clientrefactored.endpoints.accounts.getaccounts.GetAccountsRequest;
+import com.silamoney.clientrefactored.endpoints.accounts.getaccounts.GetAccountsResponse;
 
 import org.junit.Test;
 
-/**
- *
- * @author Karlo Lorenzana
- */
 public class GetAccountsTests {
 
         SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                         DefaultConfigurations.privateKey);
 
-        String userHandle = "javasdk-893748932";
-        String userPrivateKey = "f6b5751234d4586873714066c538b9ddaa51ee5e3188a58236be1671f0be0ed3";
-
         @Test
-        public void Response200Success() throws Exception {
-                // BANKACCOUNT5
-                ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(),
-                                DefaultConfigurations.getUserPrivateKey());
+        public void Response200() throws Exception {
 
-                assertEquals(200, response.getStatusCode());
+                GetAccountsRequest request = GetAccountsRequest.builder()
+                                .userHandle(DefaultConfigurations.getUserHandle())
+                                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
+
+                ApiResponse response = api.getAccounts(request);
+
+                GetAccountsResponse parsedResponse = (GetAccountsResponse)response.getData();
+
+                assertTrue(parsedResponse.getAccounts().size() > 0);
         }
 
-        @Test
-        public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException,
-                        IOException, InterruptedException, ForbiddenException {
-                ApiResponse response = api.getAccounts("", DefaultConfigurations.getUserPrivateKey());
-                assertEquals(400, response.getStatusCode());
-        }
-
-        @Test
-        public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException,
-                        IOException, InterruptedException, ForbiddenException {
-                api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-                                "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-
-                ApiResponse response = api.getAccounts(DefaultConfigurations.getUserHandle(),
-                                DefaultConfigurations.getUserPrivateKey());
-                assertEquals(401, response.getStatusCode());
-        }
 }

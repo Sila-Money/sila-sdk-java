@@ -1,15 +1,15 @@
 package com.silamoney.client.tests;
 
 import com.silamoney.client.testsrefactored.tests.CheckKycTests;
-import com.silamoney.client.testsrefactored.tests.CheckPartnerKycTests;
-import com.silamoney.client.testsrefactored.tests.GetAccountsTests;
-import com.silamoney.client.testsrefactored.tests.GetTransactionsTests;
-import com.silamoney.client.testsrefactored.tests.LinkAccountTests;
+// import com.silamoney.client.testsrefactored.tests.CheckPartnerKycTests;
+// import com.silamoney.client.testsrefactored.tests.GetAccountsTests;
+// import com.silamoney.client.testsrefactored.tests.GetTransactionsTests;
+// import com.silamoney.client.testsrefactored.tests.LinkAccountTests;
 import com.silamoney.client.testsrefactored.tests.RegisterBusinessTests;
 import com.silamoney.client.testsrefactored.tests.RegisterTests;
 import com.silamoney.client.testsrefactored.tests.RegisterWalletTests;
-import com.silamoney.client.testsrefactored.tests.RequestKycTests;
-import com.silamoney.client.testsrefactored.tests.UpdateAccountTests;
+// import com.silamoney.client.testsrefactored.tests.RequestKycTests;
+// import com.silamoney.client.testsrefactored.tests.UpdateAccountTests;
 import com.silamoney.client.testsrefactored.tests.UpdateWalletTests;
 
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
     UpdateRegistrationDataTests.class,
     LinkBusinessMemberTests.class,
     UnlinkBusinessMemberTests.class,
-    RequestKycTests.class,
+    RequestKYCTests.class,
     CheckKycTests.class,
     CheckPartnerKycTests.class,
     GetEntityTests.class,
@@ -45,22 +45,23 @@ import org.junit.runners.Suite.SuiteClasses;
     certifyBeneficialOwnerTests.class,
     CertifyBusinessTests.class,
     PlaidLinkTokenTests.class,
+    PlaidUpdateLinkTokenTests.class,
     LinkAccountTests.class,
     UpdateAccountTests.class,
     DeleteAccountTests.class,
     GetAccountsTests.class,
-    GetAccountBalanceTests.class,
-    CancelTransactionTests.class,
-    IssueSilaTests.class,
-    TransferSilaTests.class, 
-    RedeemSilaTests.class,
-    GetTransactionsTests.class,
-    PlaidSameDayAuthTests.class,
-    RegisterWalletTests.class,
-    GetWalletTests.class,
-    GetWalletsTests.class,
-    UpdateWalletTests.class,
-    DeleteWalletTests.class,
-    SilaBalanceTests.class
+    // GetAccountBalanceTests.class,
+    // CancelTransactionTests.class,
+    // IssueSilaTests.class,
+    // TransferSilaTests.class, 
+    // RedeemSilaTests.class,
+    // GetTransactionsTests.class,
+    // PlaidSameDayAuthTests.class,
+    // RegisterWalletTests.class,
+    // GetWalletTests.class,
+    // GetWalletsTests.class,
+    // UpdateWalletTests.class,
+    // DeleteWalletTests.class,
+    // SilaBalanceTests.class
 })
 public class TestSuite {}

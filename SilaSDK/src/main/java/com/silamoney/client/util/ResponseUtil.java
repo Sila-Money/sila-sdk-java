@@ -3,6 +3,7 @@ package com.silamoney.client.util;
 import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
