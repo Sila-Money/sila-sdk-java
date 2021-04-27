@@ -106,8 +106,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse register(User user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
@@ -152,8 +150,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
+     * 
      */
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
             throws IOException, InterruptedException {
@@ -180,8 +177,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
@@ -276,8 +271,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId, String accountNumber, String routingNumber, String accountType)
@@ -305,8 +298,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());
@@ -470,8 +461,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse getTransactions(String userHandle, SearchFilters filters)
             throws IOException, InterruptedException {
@@ -581,8 +570,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
             String userPrivateKey) throws IOException, InterruptedException {
@@ -611,8 +598,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
             throws IOException, InterruptedException {
@@ -1313,6 +1298,80 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_ACCOUNT.getValue());
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse checkPartnerKyc(CheckPartnerKycRequest request) throws IOException, InterruptedException {
+        String path = "/check_partner_kyc";
+
+        Header header = new Header(null, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("query_app_handle", request.getQueryAppHandle());
+        body.put("query_user_handle", request.getQueryUserHandle());
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, "check_partner_kyc");
+    }
+
+    /**
+     * 
+     * @param request
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public ApiResponse updateAccount(UpdateAccountRequest request) throws IOException, InterruptedException {
+        String path = "/update_account";
+
+        Header header = new Header(request.getUserHandle(), this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("account_name", request.getAccountName());
+        body.put("new_account_name", request.getNewAccountName());
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, request.getUserPrivateKey()));
+
+        return ResponseUtil.prepareResponse(response, "update_account");
+    }
+
+    public ApiResponse plaidUpdateLinkToken(PlaidUpdateLinkTokenRequest request) throws IOException, InterruptedException {
+        String path = "/plaid_update_link_token";
+
+        Header header = new Header(request.getUserHandle(), this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("account_name", request.getAccountName());
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, "plaid_update_link_token");
     }
 
     private ApiResponse listDocuments(String path, String userPrivateKey, ListDocumentsMsg body)

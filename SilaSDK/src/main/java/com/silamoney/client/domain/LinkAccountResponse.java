@@ -9,12 +9,16 @@ import lombok.Getter;
  *
  * @author Karlo Lorenzana
  */
+@Getter
 public class LinkAccountResponse extends BaseResponse {
-    @Getter
+    
     @SerializedName(value = "account_name")
     private String accountName;
-
-    @Getter
     @SerializedName(value = "match_score")
     private Float matchScore;
+    @SerializedName(value = "account_owner_name")
+    private String accountOwnerName;
+    @SerializedName(value = "entity_name")
+    private String entityName;
+
 }

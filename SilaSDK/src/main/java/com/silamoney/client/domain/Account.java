@@ -38,4 +38,19 @@ public class Account {
      */
     @SerializedName("account_link_status")
     public String accountListStatus;
+
+    @SerializedName("routing_number")
+    public String routingNumber;
+
+    @SerializedName("active")
+    public boolean active;
+
+    @SerializedName("match_score")
+    public Float matchScore;
+
+    @SerializedName("account_owner_name")
+    public String accountOwnerName;
+
+    @SerializedName("entity_name")
+    public String entityName;
 }
