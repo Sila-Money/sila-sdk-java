@@ -25,6 +25,7 @@ import com.silamoney.client.domain.BusinessRole;
 import com.silamoney.client.domain.BusinessUser;
 import com.silamoney.client.domain.CancelTransactionMessage;
 import com.silamoney.client.domain.CancelTransactionMsg;
+import com.silamoney.client.domain.CheckPartnerKycRequest;
 import com.silamoney.client.domain.CryptoEnum;
 import com.silamoney.client.domain.DeleteRegistrationMessage;
 import com.silamoney.client.domain.DeleteRegistrationMsg;
@@ -67,11 +68,13 @@ import com.silamoney.client.domain.PhoneMessage;
 import com.silamoney.client.domain.PhoneMsg;
 import com.silamoney.client.domain.PhoneResponse;
 import com.silamoney.client.domain.PlaidSameDayAuthMsg;
+import com.silamoney.client.domain.PlaidUpdateLinkTokenRequest;
 import com.silamoney.client.domain.RegisterWalletMsg;
 import com.silamoney.client.domain.RegistrationDataEnum;
 import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.domain.SilaBalanceMsg;
 import com.silamoney.client.domain.TransferMsg;
+import com.silamoney.client.domain.UpdateAccountRequest;
 import com.silamoney.client.domain.UpdateWalletMsg;
 import com.silamoney.client.domain.UploadDocumentMessage;
 import com.silamoney.client.domain.UploadDocumentMsg;
@@ -83,9 +86,6 @@ import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
-import com.silamoney.clientrefactored.endpoints.accounts.plaidupdatelinktoken.PlaidUpdateLinkTokenRequest;
-import com.silamoney.clientrefactored.endpoints.accounts.updateaccount.UpdateAccountRequest;
-import com.silamoney.clientrefactored.endpoints.entities.checkpartnerkyc.CheckPartnerKycRequest;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
@@ -1420,9 +1420,9 @@ public class SilaApi {
         Map<String, String> headers = new HashMap<>();
 
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, request.getUserPrivateKey()));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, request.getUserPrivateKey()));
 
         return ResponseUtil.prepareResponse(response, "update_account");
     }

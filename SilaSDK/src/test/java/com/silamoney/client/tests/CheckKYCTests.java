@@ -24,7 +24,7 @@ public class CheckKYCTests {
 
         CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
 
-        while (!parsedResponse.getStatus().contains("SUCCESS")) {
+        while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending")){
             TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
@@ -45,7 +45,7 @@ public class CheckKYCTests {
 
         parsedResponse = (CheckKYCResponse) response.getData();
 
-        while (!parsedResponse.getStatus().contains("SUCCESS")) {
+        while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending")) {
             TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
 
@@ -66,7 +66,7 @@ public class CheckKYCTests {
 
         parsedResponse = (CheckKYCResponse) response.getData();
 
-        while (!parsedResponse.getStatus().contains("SUCCESS")) {
+        while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending") && !parsedResponse.getMessage().contains("Business has passed verification")) {
             TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getBusinessHandle(), DefaultConfigurations.getBusinessPrivateKey());
 

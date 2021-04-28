@@ -1,14 +1,13 @@
 package com.silamoney.client.tests;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.UpdateAccountRequest;
+import com.silamoney.client.domain.UpdateAccountResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.clientrefactored.endpoints.accounts.updateaccount.UpdateAccountRequest;
-import com.silamoney.clientrefactored.endpoints.accounts.updateaccount.UpdateAccountResponse;
 
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ public class UpdateAccountTests {
 
 		assertNotNull(parsedResponse.getStatus());
 		assertNotNull(parsedResponse.getMessage());
-		assertNotNull(parsedResponse.getAccount().getAccountLinkStatus());
+		assertNotNull(parsedResponse.getAccount().getAccountListStatus());
         assertNotNull(parsedResponse.getAccount().getAccountName());
         assertNotNull(parsedResponse.getAccount().getAccountNumber());
         assertNotNull(parsedResponse.getAccount().getAccountStatus());

@@ -2,11 +2,14 @@ package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+
 /**
  * Object used in the GetAccounts response.
  *
  * @author Karlo Lorenzana
  */
+@Getter
 public class Account {
 
     /**

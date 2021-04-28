@@ -31,7 +31,7 @@ public class DeleteWalletTests {
     public void Response200() throws Exception {
 
         ApiResponse response = api.deleteWallet(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getNewWalletRefactored().getPrivateKey());
+                DefaultConfigurations.getNewWallet().getPrivateKey());
         assertEquals(200, response.getStatusCode());
     }
 

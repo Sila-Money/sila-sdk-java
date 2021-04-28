@@ -4,9 +4,9 @@ import static org.junit.Assert.assertNotNull;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.PlaidUpdateLinkTokenRequest;
+import com.silamoney.client.domain.PlaidUpdateLinkTokenResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.clientrefactored.endpoints.accounts.plaidupdatelinktoken.PlaidUpdateLinkTokenRequest;
-import com.silamoney.clientrefactored.endpoints.accounts.plaidupdatelinktoken.PlaidUpdateLinkTokenResponse;
 
 import org.junit.Test;
 

@@ -2,8 +2,6 @@ package com.silamoney.client.domain;
 
 import java.util.List;
 
-import com.silamoney.clientrefactored.domain.Account;
-import com.silamoney.clientrefactored.domain.Change;
 
 import lombok.Getter;
 

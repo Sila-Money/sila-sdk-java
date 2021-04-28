@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.CheckPartnerKycRequest;
+import com.silamoney.client.domain.CheckPartnerKycResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import com.silamoney.clientrefactored.endpoints.entities.checkpartnerkyc.CheckPartnerKycRequest;
-import com.silamoney.clientrefactored.endpoints.entities.checkpartnerkyc.CheckPartnerKycResponse;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
