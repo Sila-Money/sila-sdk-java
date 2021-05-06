@@ -79,6 +79,16 @@ public class DefaultConfigurations {
         return user2Handle;
     }
 
+    private static String user3Handle;
+
+    /**
+     * @return String
+     */
+    public static String getUser3Handle() {
+        user3Handle = user3Handle == null || user3Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user3Handle;
+        return user3Handle;
+    }
+
     private static String businessHandle;
 
     /**
@@ -253,6 +263,31 @@ public class DefaultConfigurations {
         return user2CryptoAddress;
     }
 
+    private static String user3CryptoAddress;
+
+    /**
+     * @return String
+     */
+    public static String getUser3CryptoAddress() {
+        if (user3CryptoAddress == null || user3CryptoAddress.isBlank()) {
+            try {
+
+                ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+                BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+                user3PrivateKey = privateKeyInDec.toString(16);
+
+                WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+                user3CryptoAddress = "0x" + aWallet.getAddress();
+            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+                    | CipherException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user3CryptoAddress;
+    }
+
     private static String userPrivateKey;
 
     /**
@@ -271,6 +306,16 @@ public class DefaultConfigurations {
     public static String getUser2PrivateKey() {
         getUser2CryptoAddress();
         return user2PrivateKey;
+    }
+
+    private static String user3PrivateKey;
+
+    /**
+     * @return String
+     */
+    public static String getUser3PrivateKey() {
+        getUser3CryptoAddress();
+        return user3PrivateKey;
     }
 
     private static String businessCryptoAddress;

@@ -25,7 +25,6 @@ import com.silamoney.client.domain.BusinessRole;
 import com.silamoney.client.domain.BusinessUser;
 import com.silamoney.client.domain.CancelTransactionMessage;
 import com.silamoney.client.domain.CancelTransactionMsg;
-import com.silamoney.client.domain.CheckPartnerKycRequest;
 import com.silamoney.client.domain.CryptoEnum;
 import com.silamoney.client.domain.DeleteRegistrationMessage;
 import com.silamoney.client.domain.DeleteRegistrationMsg;
@@ -68,13 +67,11 @@ import com.silamoney.client.domain.PhoneMessage;
 import com.silamoney.client.domain.PhoneMsg;
 import com.silamoney.client.domain.PhoneResponse;
 import com.silamoney.client.domain.PlaidSameDayAuthMsg;
-import com.silamoney.client.domain.PlaidUpdateLinkTokenRequest;
 import com.silamoney.client.domain.RegisterWalletMsg;
 import com.silamoney.client.domain.RegistrationDataEnum;
 import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.domain.SilaBalanceMsg;
 import com.silamoney.client.domain.TransferMsg;
-import com.silamoney.client.domain.UpdateAccountRequest;
 import com.silamoney.client.domain.UpdateWalletMsg;
 import com.silamoney.client.domain.UploadDocumentMessage;
 import com.silamoney.client.domain.UploadDocumentMsg;
@@ -278,7 +275,26 @@ public class SilaApi {
     @Deprecated(forRemoval = true)
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken)
             throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null);
+        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null, null);
+    }
+
+    /**
+     * Uses a provided Plaid public token to link a bank account to a verified
+     * entity. It selectes the first account return with the plaid token.
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @param accountName
+     * @param publicToken 
+     * @param publicToken
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     * 
+     */
+    public ApiResponse linkAccountPlaidToken(String userHandle, String userPrivateKey, String accountName, String plaidToken, String accountId, String plaidTokenType)
+            throws IOException, InterruptedException {
+        return linkAccount(userHandle, userPrivateKey, accountName, plaidToken, accountId, null, null, null, plaidTokenType);
     }
 
     /**
@@ -300,7 +316,7 @@ public class SilaApi {
     @Deprecated(forRemoval = true)
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId) throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null);
+        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null, null);
     }
 
     /**
@@ -324,30 +340,15 @@ public class SilaApi {
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String accountNumber,
             String routingNumber, String accountType) throws IOException, InterruptedException {
         return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber,
-                accountType);
+                accountType, null);
     }
 
-    /**
-     * Makes a request to the link_acccount endpoint
-     *
-     * @param userHandle
-     * @param userPrivateKey
-     * @param accountName
-     * @param publicToken
-     * @param accountId
-     * @param accountNumber
-     * @param routingNumber
-     * @param accountType
-     * @return {@link ApiResponse}
-     * @throws IOException
-     * @throws InterruptedException
-     * 
-     */
     private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
-            String accountId, String accountNumber, String routingNumber, String accountType)
+            String accountId, String accountNumber, String routingNumber, String accountType, String plaidTokenType)
             throws IOException, InterruptedException {
         LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId, accountNumber,
                 routingNumber, accountType, this.configuration.getAuthHandle());
+        body.setPlaidTokenType(plaidTokenType);
         String path = Endpoints.LINK_ACCOUNT.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -381,6 +382,7 @@ public class SilaApi {
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
+        System.out.println(response.body());
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
     }
 
@@ -1379,15 +1381,16 @@ public class SilaApi {
      * @throws InterruptedException
      * @throws IOException
      */
-    public ApiResponse checkPartnerKyc(CheckPartnerKycRequest request) throws IOException, InterruptedException {
+    public ApiResponse checkPartnerKyc(String queryAppHandle, String queryUserHandle)
+            throws IOException, InterruptedException {
         String path = "/check_partner_kyc";
 
         Header header = new Header(null, this.configuration.getAuthHandle());
 
         Map<String, Object> body = new HashMap<>();
         body.put("header", header);
-        body.put("query_app_handle", request.getQueryAppHandle());
-        body.put("query_user_handle", request.getQueryUserHandle());
+        body.put("query_app_handle", queryAppHandle);
+        body.put("query_user_handle", queryUserHandle);
 
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1406,21 +1409,22 @@ public class SilaApi {
      * @throws InterruptedException
      * @throws IOException
      */
-    public ApiResponse updateAccount(UpdateAccountRequest request) throws IOException, InterruptedException {
+    public ApiResponse updateAccount(String userHandle, String userPrivateKey, String accountName,
+            String newAccountName) throws IOException, InterruptedException {
         String path = "/update_account";
 
-        Header header = new Header(request.getUserHandle(), this.configuration.getAuthHandle());
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
 
         Map<String, Object> body = new HashMap<>();
         body.put("header", header);
-        body.put("account_name", request.getAccountName());
-        body.put("new_account_name", request.getNewAccountName());
+        body.put("account_name", accountName);
+        body.put("new_account_name", newAccountName);
 
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
 
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, request.getUserPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
@@ -1434,14 +1438,15 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      */
-    public ApiResponse plaidUpdateLinkToken(PlaidUpdateLinkTokenRequest request) throws IOException, InterruptedException {
+    public ApiResponse plaidUpdateLinkToken(String userHandle, String accountName)
+            throws IOException, InterruptedException {
         String path = "/plaid_update_link_token";
 
-        Header header = new Header(request.getUserHandle(), this.configuration.getAuthHandle());
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
 
         Map<String, Object> body = new HashMap<>();
         body.put("header", header);
-        body.put("account_name", request.getAccountName());
+        body.put("account_name", accountName);
 
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
