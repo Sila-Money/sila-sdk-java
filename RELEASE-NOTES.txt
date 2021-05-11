@@ -1,3 +1,8 @@
+v0.2.23
+New Features:
+    -Adding support for /check_instant_ach.
+    -Adding support for blockchain_address in /get_transactions.
+
 v0.2.22
 In this release we included support for new endpoints and refactored some others.
 New Features:

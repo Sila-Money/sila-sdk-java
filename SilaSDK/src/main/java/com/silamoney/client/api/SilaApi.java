@@ -382,7 +382,6 @@ public class SilaApi {
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-        System.out.println(response.body());
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
     }
 
@@ -1456,6 +1455,27 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
         return ResponseUtil.prepareResponse(response, "plaid_update_link_token");
+    }
+
+    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey)
+            throws IOException, InterruptedException {
+        String path = "/check_instant_ach";
+
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("account_name", accountName);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, "check_instant_ach");
     }
 
     private ApiResponse listDocuments(String path, String userPrivateKey, ListDocumentsMsg body)
