@@ -279,18 +279,16 @@ public class SilaApi {
     }
 
     /**
-     * Uses a provided Plaid public token to link a bank account to a verified
-     * entity. It selectes the first account return with the plaid token.
-     *
+     * 
      * @param userHandle
      * @param userPrivateKey
      * @param accountName
-     * @param publicToken 
-     * @param publicToken
-     * @return {@link ApiResponse}
+     * @param plaidToken
+     * @param accountId
+     * @param plaidTokenType
+     * @return
      * @throws IOException
      * @throws InterruptedException
-     * 
      */
     public ApiResponse linkAccountPlaidToken(String userHandle, String userPrivateKey, String accountName, String plaidToken, String accountId, String plaidTokenType)
             throws IOException, InterruptedException {
