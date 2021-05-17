@@ -2,6 +2,7 @@ package com.silamoney.client.testsrefactored.tests;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
@@ -42,12 +43,13 @@ public class RegisterWalletTests {
             .walletVerificationSignature(walletVerificationSignature)
             .build();
 
-        RegisterWalletResponse response = RegisterWallet.send(request);
+        ApiResponse response = RegisterWallet.send(request);
+        RegisterWalletResponse parsedResponse = (RegisterWalletResponse) response.getData();
 
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
-        assertNotNull(response.getStatus());
-        assertNotNull(response.getWalletNickname());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
+        assertNotNull(parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getWalletNickname());
 
         DefaultConfigurations.setNewWalletRefactored(wallet);
     }

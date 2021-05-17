@@ -1375,10 +1375,11 @@ public class SilaApi {
 
     /**
      * 
-     * @param request
+     * @param queryAppHandle
+     * @param queryUserHandle
      * @return
-     * @throws InterruptedException
      * @throws IOException
+     * @throws InterruptedException
      */
     public ApiResponse checkPartnerKyc(String queryAppHandle, String queryUserHandle)
             throws IOException, InterruptedException {
@@ -1403,10 +1404,13 @@ public class SilaApi {
 
     /**
      * 
-     * @param request
+     * @param userHandle
+     * @param userPrivateKey
+     * @param accountName
+     * @param newAccountName
      * @return
-     * @throws InterruptedException
      * @throws IOException
+     * @throws InterruptedException
      */
     public ApiResponse updateAccount(String userHandle, String userPrivateKey, String accountName,
             String newAccountName) throws IOException, InterruptedException {
@@ -1432,7 +1436,8 @@ public class SilaApi {
 
     /**
      * 
-     * @param request
+     * @param userHandle
+     * @param accountName
      * @return
      * @throws IOException
      * @throws InterruptedException
@@ -1457,6 +1462,15 @@ public class SilaApi {
         return ResponseUtil.prepareResponse(response, "plaid_update_link_token");
     }
 
+    /**
+     * 
+     * @param accountName
+     * @param userHandle
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey)
             throws IOException, InterruptedException {
         String path = "/check_instant_ach";

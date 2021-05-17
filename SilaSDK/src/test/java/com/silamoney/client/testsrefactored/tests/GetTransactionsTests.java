@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
 import com.silamoney.clientrefactored.configuration.SilaApi;
@@ -43,9 +44,10 @@ public class GetTransactionsTests {
             )
             .build();
 
-        GetTransactionsResponse response = GetTransactions.send(request);
+        ApiResponse response = GetTransactions.send(request);
+        GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
 
 	}
 
@@ -64,10 +66,11 @@ public class GetTransactionsTests {
             )
             .build();
 
-        GetTransactionsResponse response = GetTransactions.send(request);
+            ApiResponse response = GetTransactions.send(request);
+            GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
 
-        assertTrue(response.getTransactions().size() > 0);
-        for (Transaction transaction : response.getTransactions()) {
+        assertTrue(parsedResponse.getTransactions().size() > 0);
+        for (Transaction transaction : parsedResponse.getTransactions()) {
             assertEquals("redeem", transaction.getTransactionType());
         }
 
@@ -88,10 +91,11 @@ public class GetTransactionsTests {
             )
             .build();
 
-        GetTransactionsResponse response = GetTransactions.send(request);
+            ApiResponse response = GetTransactions.send(request);
+            GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
 
-        assertTrue(response.getTransactions().size() > 0);
-        for (Transaction transaction : response.getTransactions()) {
+        assertTrue(parsedResponse.getTransactions().size() > 0);
+        for (Transaction transaction : parsedResponse.getTransactions()) {
             assertEquals("issue", transaction.getTransactionType());
         }
 
@@ -112,10 +116,11 @@ public class GetTransactionsTests {
             )
             .build();
 
-        GetTransactionsResponse response = GetTransactions.send(request);
+            ApiResponse response = GetTransactions.send(request);
+            GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
 
-        assertTrue(response.getTransactions().size() > 0);
-        for (Transaction transaction : response.getTransactions()) {
+        assertTrue(parsedResponse.getTransactions().size() > 0);
+        for (Transaction transaction : parsedResponse.getTransactions()) {
             assertEquals("transfer", transaction.getTransactionType());
         }
 

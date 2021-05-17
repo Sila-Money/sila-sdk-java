@@ -3,6 +3,7 @@ package com.silamoney.client.testsrefactored.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
 import com.silamoney.clientrefactored.configuration.SilaApi;
@@ -70,10 +71,12 @@ public class RegisterBusinessTests {
 				)
 				.userHandle(DefaultConfigurations.getBusinessHandle())
 				.build();
-		RegisterResponse response = Register.send(request);
+				
+		ApiResponse response = Register.send(request);
+		RegisterResponse parsedResponse = (RegisterResponse) response.getData();
 
-		assertEquals("SUCCESS", response.getStatus());
-		assertTrue(response.isSuccess());
+		assertEquals("SUCCESS", parsedResponse.getStatus());
+		assertTrue(parsedResponse.isSuccess());
 	}
 
 	@AfterClass

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
@@ -44,13 +45,14 @@ public class UpdateWalletTests {
             .nickname("wallet_test_UPD")
             .build();
 
-        UpdateWalletResponse response = UpdateWallet.send(request);
+        ApiResponse response = UpdateWallet.send(request);
+        UpdateWalletResponse parsedResponse = (UpdateWalletResponse) response.getData();
 
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getStatus());
-        assertTrue(response.isSuccess());
-        assertEquals("wallet_test_UPD", response.getWallet().getNickname());
-        assertTrue(response.getChanges().size() > 0);
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getStatus());
+        assertTrue(parsedResponse.isSuccess());
+        assertEquals("wallet_test_UPD", parsedResponse.getWallet().getNickname());
+        assertTrue(parsedResponse.getChanges().size() > 0);
     }
     
 }

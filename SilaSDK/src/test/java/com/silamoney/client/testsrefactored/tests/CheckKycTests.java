@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.concurrent.TimeUnit;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
 import com.silamoney.clientrefactored.configuration.SilaApi;
@@ -37,22 +38,23 @@ public class CheckKycTests {
             .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
             .build();
         
-        CheckKycResponse response = CheckKyc.send(request);
+        ApiResponse response = CheckKyc.send(request);
+        CheckKycResponse parsedResponse = (CheckKycResponse) response.getData();
 
-        while (!response.getStatus().contains("SUCCESS")) {
+        while (!parsedResponse.getStatus().contains("SUCCESS")) {
             TimeUnit.SECONDS.sleep(5);
             response = CheckKyc.send(request);
         }
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertNotNull(response.getEntityType());
-        assertNotNull(response.getVerificationStatus());
-        assertNotNull(response.getVerificationHistory());
-        assertNotNull(response.getVerificationHistory().get(0).getVerificationId());
-        assertNotNull(response.getVerificationHistory().get(0).getVerificationStatus());
-        assertNotNull(response.getVerificationHistory().get(0).getKycLevel());
-        assertNotNull(response.getVerificationHistory().get(0).getReasons());
-        assertNotNull(response.getVerificationHistory().get(0).getTags());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getEntityType());
+        assertNotNull(parsedResponse.getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationId());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getKycLevel());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getReasons());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getTags());
 
         request = CheckKycRequest.builder()
             .userHandle(DefaultConfigurations.getUser2Handle())
@@ -60,21 +62,22 @@ public class CheckKycTests {
             .build();
 
         response = CheckKyc.send(request);
+        parsedResponse = (CheckKycResponse) response.getData();
 
-        while (!response.getStatus().contains("SUCCESS")) {
+        while (!parsedResponse.getStatus().contains("SUCCESS")) {
             TimeUnit.SECONDS.sleep(5);
             response = CheckKyc.send(request);
         }
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertNotNull(response.getEntityType());
-        assertNotNull(response.getVerificationStatus());
-        assertNotNull(response.getVerificationHistory());
-        assertNotNull(response.getVerificationHistory().get(0).getVerificationId());
-        assertNotNull(response.getVerificationHistory().get(0).getVerificationStatus());
-        assertNotNull(response.getVerificationHistory().get(0).getKycLevel());
-        assertNotNull(response.getVerificationHistory().get(0).getReasons());
-        assertNotNull(response.getVerificationHistory().get(0).getTags());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getEntityType());
+        assertNotNull(parsedResponse.getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationId());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getKycLevel());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getReasons());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getTags());
 
         request = CheckKycRequest.builder()
             .userHandle(DefaultConfigurations.getBusinessHandle())
@@ -82,23 +85,24 @@ public class CheckKycTests {
             .build();
 
         response = CheckKyc.send(request);
+        parsedResponse = (CheckKycResponse) response.getData();
 
-        while (!response.getMessage().contains("passed")) {
+        while (!parsedResponse.getMessage().contains("passed")) {
             TimeUnit.SECONDS.sleep(5);
             response = CheckKyc.send(request);
         }
 
-        assertNotNull(response.getEntityType());
-        assertNotNull(response.getVerificationStatus());
-        assertNotNull(response.getVerificationHistory());
-        assertNotNull(response.getVerificationHistory().get(0).getVerificationId());
-        assertNotNull(response.getVerificationHistory().get(0).getVerificationStatus());
-        assertNotNull(response.getVerificationHistory().get(0).getKycLevel());
-        assertNotNull(response.getVerificationHistory().get(0).getReasons());
-        assertNotNull(response.getVerificationHistory().get(0).getTags());
-        assertNotNull(response.getCertificationStatus());
-        assertNotNull(response.getCertificationHistory());
-        assertNotNull(response.getMembers());
+        assertNotNull(parsedResponse.getEntityType());
+        assertNotNull(parsedResponse.getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationId());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getKycLevel());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getReasons());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getTags());
+        assertNotNull(parsedResponse.getCertificationStatus());
+        assertNotNull(parsedResponse.getCertificationHistory());
+        assertNotNull(parsedResponse.getMembers());
 
     }
     

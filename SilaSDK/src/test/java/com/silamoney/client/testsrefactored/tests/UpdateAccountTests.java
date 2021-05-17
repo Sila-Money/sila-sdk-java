@@ -3,6 +3,7 @@ package com.silamoney.client.testsrefactored.tests;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
 import com.silamoney.clientrefactored.configuration.SilaApi;
@@ -36,20 +37,21 @@ public class UpdateAccountTests {
             .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
 			.build();
 
-		UpdateAccountResponse response = UpdateAccount.send(request);
+		ApiResponse response = UpdateAccount.send(request);
+		UpdateAccountResponse parsedResponse = (UpdateAccountResponse) response.getData();
 
-		assertNotNull(response.getStatus());
-		assertNotNull(response.getMessage());
-		assertNotNull(response.getAccount().getAccountLinkStatus());
-        assertNotNull(response.getAccount().getAccountName());
-        assertNotNull(response.getAccount().getAccountNumber());
-        assertNotNull(response.getAccount().getAccountStatus());
-        assertNotNull(response.getAccount().getAccountType());
-        assertNotNull(response.getAccount().getRoutingNumber());
-        assertTrue(response.getAccount().isActive());
-		assertNotNull(response.getChanges().get(0).getAttribute());
-        assertNotNull(response.getChanges().get(0).getNewValue());
-        assertNotNull(response.getChanges().get(0).getOldValue());
+		assertNotNull(parsedResponse.getStatus());
+		assertNotNull(parsedResponse.getMessage());
+		assertNotNull(parsedResponse.getAccount().getAccountLinkStatus());
+        assertNotNull(parsedResponse.getAccount().getAccountName());
+        assertNotNull(parsedResponse.getAccount().getAccountNumber());
+        assertNotNull(parsedResponse.getAccount().getAccountStatus());
+        assertNotNull(parsedResponse.getAccount().getAccountType());
+        assertNotNull(parsedResponse.getAccount().getRoutingNumber());
+        assertTrue(parsedResponse.getAccount().isActive());
+		assertNotNull(parsedResponse.getChanges().get(0).getAttribute());
+        assertNotNull(parsedResponse.getChanges().get(0).getNewValue());
+        assertNotNull(parsedResponse.getChanges().get(0).getOldValue());
 	}
     
 }

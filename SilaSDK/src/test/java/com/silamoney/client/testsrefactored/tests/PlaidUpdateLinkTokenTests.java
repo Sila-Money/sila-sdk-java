@@ -3,6 +3,7 @@ package com.silamoney.client.testsrefactored.tests;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
@@ -23,31 +24,29 @@ import org.junit.Test;
 public class PlaidUpdateLinkTokenTests {
 
     @BeforeClass
-	public static void init() {
-		SilaApi.init(Environment.SANDBOX, DefaultConfigurations.appHandle,
-				DefaultConfigurations.privateKey);
-	}
+    public static void init() {
+        SilaApi.init(Environment.SANDBOX, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+    }
 
     @AfterClass
-	public static void dispose() {
-		SilaApi.dispose();
-	}
+    public static void dispose() {
+        SilaApi.dispose();
+    }
 
     @Test
     public void Response200() throws Exception {
 
-        PlaidUpdateLinkTokenRequest request = PlaidUpdateLinkTokenRequest.builder()
-            .accountName("defaultpt")
-            .userHandle(DefaultConfigurations.getUserHandle())
-            .build();
+        PlaidUpdateLinkTokenRequest request = PlaidUpdateLinkTokenRequest.builder().accountName("defaultpt")
+                .userHandle(DefaultConfigurations.getUserHandle()).build();
 
-        PlaidUpdateLinkTokenResponse response = PlaidUpdateLinkToken.send(request);
+        ApiResponse response = PlaidUpdateLinkToken.send(request);
+        PlaidUpdateLinkTokenResponse parsedResponse = (PlaidUpdateLinkTokenResponse) response.getData();
 
-        assertTrue(response.isSuccess());
-        assertNotNull(response.getStatus());
-        assertNotNull(response.getLinkToken());
-        assertNotNull(response.getMessage());
+        assertTrue(parsedResponse.isSuccess());
+        assertNotNull(parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getLinkToken());
+        assertNotNull(parsedResponse.getMessage());
 
     }
-    
+
 }
