@@ -3,6 +3,7 @@ package com.silamoney.client.testsrefactored.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
 import com.silamoney.clientrefactored.configuration.SilaApi;
@@ -35,16 +36,18 @@ public class LinkAccountTests {
             .plaidToken(DefaultConfigurations.getPlaidToken())
             .userHandle(DefaultConfigurations.getUserHandle())
             .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
+            .plaidTokenType("legacy")
             .build();
 
-        LinkAccountResponse response = LinkAccount.send(request);
+        ApiResponse response = LinkAccount.send(request);
+        LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertEquals("defaultpt", response.getAccountName());
-        assertNotNull(response.getAccountOwnerName());
-        assertNotNull(response.getEntityName());
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertEquals("defaultpt", parsedResponse.getAccountName());
+        assertNotNull(parsedResponse.getAccountOwnerName());
+        assertNotNull(parsedResponse.getEntityName());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
 
 	}
 
@@ -60,12 +63,13 @@ public class LinkAccountTests {
             .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
             .build();
 
-        LinkAccountResponse response = LinkAccount.send(request);
+            ApiResponse response = LinkAccount.send(request);
+            LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertEquals("default", response.getAccountName());
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertEquals("default", parsedResponse.getAccountName());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
 
         request = LinkAccountRequest.builder()
             .accountName("defaultupdate")
@@ -77,11 +81,12 @@ public class LinkAccountTests {
             .build();
 
         response = LinkAccount.send(request);
+        parsedResponse = (LinkAccountResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertEquals("defaultupdate", response.getAccountName());
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertEquals("defaultupdate", parsedResponse.getAccountName());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
 
         request = LinkAccountRequest.builder()
             .accountName("defaultunlink")
@@ -93,11 +98,12 @@ public class LinkAccountTests {
             .build();
 
         response = LinkAccount.send(request);
+        parsedResponse = (LinkAccountResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertEquals("defaultunlink", response.getAccountName());
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertEquals("defaultunlink", parsedResponse.getAccountName());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
 
     }
     

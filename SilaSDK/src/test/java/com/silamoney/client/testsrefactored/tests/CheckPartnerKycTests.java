@@ -3,6 +3,7 @@ package com.silamoney.client.testsrefactored.tests;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
 import com.silamoney.clientrefactored.configuration.SilaApi;
@@ -19,23 +20,21 @@ public class CheckPartnerKycTests {
 
 	@BeforeClass
 	public static void init() {
-		SilaApi.init(Environment.SANDBOX, DefaultConfigurations.appHandle,
-				DefaultConfigurations.privateKey);
+		SilaApi.init(Environment.SANDBOX, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
 	}
 
 	@Test
 	public void Register200CheckKycApp() throws Exception {
 		CheckPartnerKycRequest request = CheckPartnerKycRequest.builder()
-			.queryAppHandle(DefaultConfigurations.appHandle)
-			.queryUserHandle(DefaultConfigurations.getUserHandle())
-			.build();
+				.queryAppHandle(DefaultConfigurations.appHandle).queryUserHandle(DefaultConfigurations.getUserHandle())
+				.build();
 
 		try {
-			CheckPartnerKycResponse response = CheckPartnerKyc.send(request);	
+			ApiResponse response = CheckPartnerKyc.send(request);
+			//CheckPartnerKycResponse parsedResponse = (CheckPartnerKycResponse) response.getData();	
 		} catch (Exception e) {
 			assertTrue(!e.getMessage().isBlank());
 		}
-		
 
 		// assertNotNull(response.getStatus());
 		// assertNotNull(response.getMessage());

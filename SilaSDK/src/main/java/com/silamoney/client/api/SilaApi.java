@@ -1,30 +1,95 @@
 package com.silamoney.client.api;
 
-import java.math.BigInteger;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.net.http.HttpResponse;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import com.silamoney.client.config.Configuration;
-import com.silamoney.client.domain.*;
+import com.silamoney.client.domain.AccountTransactionMessage;
+import com.silamoney.client.domain.AccountTransactionMsg;
+import com.silamoney.client.domain.AddressMessage;
+import com.silamoney.client.domain.AddressMsg;
+import com.silamoney.client.domain.AddressResponse;
+import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.BusinessEntityMessage;
+import com.silamoney.client.domain.BusinessEntityMsg;
+import com.silamoney.client.domain.BusinessEntityResponse;
+import com.silamoney.client.domain.BusinessRole;
+import com.silamoney.client.domain.BusinessUser;
+import com.silamoney.client.domain.CancelTransactionMessage;
+import com.silamoney.client.domain.CancelTransactionMsg;
+import com.silamoney.client.domain.CryptoEnum;
+import com.silamoney.client.domain.DeleteRegistrationMessage;
+import com.silamoney.client.domain.DeleteRegistrationMsg;
+import com.silamoney.client.domain.DeleteWalletMsg;
+import com.silamoney.client.domain.Device;
+import com.silamoney.client.domain.DeviceMsg;
+import com.silamoney.client.domain.DeviceResponse;
+import com.silamoney.client.domain.DocumentTypesResponse;
+import com.silamoney.client.domain.DocumentsResponse;
+import com.silamoney.client.domain.EmailMessage;
+import com.silamoney.client.domain.EmailMsg;
+import com.silamoney.client.domain.EmailResponse;
+import com.silamoney.client.domain.Endpoints;
+import com.silamoney.client.domain.EntityMsg;
+import com.silamoney.client.domain.Environments;
+import com.silamoney.client.domain.GetAccountBalanceMsg;
+import com.silamoney.client.domain.GetAccountsMsg;
+import com.silamoney.client.domain.GetDocumentMessage;
+import com.silamoney.client.domain.GetDocumentMsg;
+import com.silamoney.client.domain.GetTransactionsMsg;
+import com.silamoney.client.domain.GetWalletMsg;
+import com.silamoney.client.domain.GetWalletsMsg;
+import com.silamoney.client.domain.Header;
+import com.silamoney.client.domain.HeaderBase;
+import com.silamoney.client.domain.HeaderBuilder;
+import com.silamoney.client.domain.HeaderMsg;
+import com.silamoney.client.domain.IdentityMessage;
+import com.silamoney.client.domain.IdentityMsg;
+import com.silamoney.client.domain.IdentityResponse;
+import com.silamoney.client.domain.IndividualEntityMessage;
+import com.silamoney.client.domain.IndividualEntityMsg;
+import com.silamoney.client.domain.IndividualEntityResponse;
+import com.silamoney.client.domain.LinkAccountMsg;
+import com.silamoney.client.domain.ListDocumentsMessage;
+import com.silamoney.client.domain.ListDocumentsMsg;
+import com.silamoney.client.domain.ListDocumentsResponse;
+import com.silamoney.client.domain.Message;
+import com.silamoney.client.domain.PaginationMessage;
+import com.silamoney.client.domain.PhoneMessage;
+import com.silamoney.client.domain.PhoneMsg;
+import com.silamoney.client.domain.PhoneResponse;
+import com.silamoney.client.domain.PlaidSameDayAuthMsg;
+import com.silamoney.client.domain.RegisterWalletMsg;
+import com.silamoney.client.domain.RegistrationDataEnum;
+import com.silamoney.client.domain.SearchFilters;
+import com.silamoney.client.domain.SilaBalanceMsg;
+import com.silamoney.client.domain.TransferMsg;
+import com.silamoney.client.domain.UpdateWalletMsg;
+import com.silamoney.client.domain.UploadDocumentMessage;
+import com.silamoney.client.domain.UploadDocumentMsg;
+import com.silamoney.client.domain.User;
+import com.silamoney.client.domain.UserHandleMessage;
+import com.silamoney.client.domain.VersionEnum;
+import com.silamoney.client.domain.Wallet;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
-
-import io.reactivex.annotations.Nullable;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletFile;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
+import io.reactivex.annotations.Nullable;
 
 /**
  *
@@ -106,8 +171,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse register(User user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
@@ -152,8 +215,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
+     * 
      */
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
             throws IOException, InterruptedException {
@@ -180,8 +242,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
@@ -209,12 +269,30 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
+     * @deprecated This method is deprecated. Please refer to the documentation for
+     *             the new implementation.
      */
+    @Deprecated(forRemoval = true)
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken)
             throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null);
+        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null, null);
+    }
+
+    /**
+     * 
+     * @param userHandle
+     * @param userPrivateKey
+     * @param accountName
+     * @param plaidToken
+     * @param accountId
+     * @param plaidTokenType
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkAccountPlaidToken(String userHandle, String userPrivateKey, String accountName, String plaidToken, String accountId, String plaidTokenType)
+            throws IOException, InterruptedException {
+        return linkAccount(userHandle, userPrivateKey, accountName, plaidToken, accountId, null, null, null, plaidTokenType);
     }
 
     /**
@@ -230,12 +308,13 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
+     * @deprecated This method is deprecated. Please refer to the documentation for
+     *             the new implementation.
      */
+    @Deprecated(forRemoval = true)
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId) throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null);
+        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null, null);
     }
 
     /**
@@ -252,38 +331,22 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
+     * @deprecated This method is deprecated. Please refer to the documentation for
+     *             the new implementation.
      */
+    @Deprecated(forRemoval = true)
     public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String accountNumber,
             String routingNumber, String accountType) throws IOException, InterruptedException {
         return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber,
-                accountType);
+                accountType, null);
     }
 
-    /**
-     * Makes a request to the link_acccount endpoint
-     *
-     * @param userHandle
-     * @param userPrivateKey
-     * @param accountName
-     * @param publicToken
-     * @param accountId
-     * @param accountNumber
-     * @param routingNumber
-     * @param accountType
-     * @return {@link ApiResponse}
-     * @throws IOException
-     * @throws InterruptedException
-     * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
-     */
     private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
-            String accountId, String accountNumber, String routingNumber, String accountType)
+            String accountId, String accountNumber, String routingNumber, String accountType, String plaidTokenType)
             throws IOException, InterruptedException {
         LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId, accountNumber,
                 routingNumber, accountType, this.configuration.getAuthHandle());
+        body.setPlaidTokenType(plaidTokenType);
         String path = Endpoints.LINK_ACCOUNT.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -304,6 +367,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
      */
     public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());
@@ -444,8 +508,7 @@ public class SilaApi {
     /**
      * Gets array of user handle's transactions with detailed status information.
      *
-     * @deprecated
-     * You don't need to provide the user private key anymore.
+     * @deprecated You don't need to provide the user private key anymore.
      * @param userHandle
      * @param filters
      * @param userPrivateKey
@@ -453,6 +516,7 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      */
+    @Deprecated(forRemoval = true)
     public ApiResponse getTransactions(String userHandle, SearchFilters filters, String userPrivateKey)
             throws IOException, InterruptedException {
         return getTransactions(userHandle, filters);
@@ -467,8 +531,6 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      * 
-     * @deprecated
-     * This method is deprecated. Please refer to the documentation for the new implementation.
      */
     public ApiResponse getTransactions(String userHandle, SearchFilters filters)
             throws IOException, InterruptedException {
@@ -577,6 +639,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
      */
     public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
             String userPrivateKey) throws IOException, InterruptedException {
@@ -604,6 +667,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
+     * 
      */
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
             throws IOException, InterruptedException {
@@ -1259,13 +1323,13 @@ public class SilaApi {
     public ApiResponse plaidLinkToken(String userHandle) throws IOException, InterruptedException {
         String path = Endpoints.PLAID_LINK_TOKEN.getUri();
 
-        Map<String, Map<String,Object>> body = new HashMap<>();
+        Map<String, Map<String, Object>> body = new HashMap<>();
         Map<String, Object> header = new HashMap<>();
-        header.put("created", EpochUtils.getEpoch());
-        header.put("app_handle", this.configuration.getAuthHandle());
-        header.put("user_handle", userHandle);
+        header.put(CREATED_STRNG, EpochUtils.getEpoch());
+        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
+        header.put(USER_HANDLE_STRING, userHandle);
 
-        body.put("header", header);
+        body.put(HEADER_STRING, header);
 
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1286,13 +1350,14 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      */
-    public ApiResponse deleteAccount(String userHandle, String accountName, String userPrivateKey) throws IOException, InterruptedException {
+    public ApiResponse deleteAccount(String userHandle, String accountName, String userPrivateKey)
+            throws IOException, InterruptedException {
         String path = Endpoints.DELETE_ACCOUNT.getUri();
 
         Map<String, Object> body = new HashMap<>();
         Header header = new Header(userHandle, this.configuration.getAuthHandle());
 
-        body.put("header", header);
+        body.put(HEADER_STRING, header);
         body.put("account_name", accountName);
 
         String sBody = Serialization.serialize(body);
@@ -1304,6 +1369,125 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_ACCOUNT.getValue());
+    }
+
+    /**
+     * 
+     * @param queryAppHandle
+     * @param queryUserHandle
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse checkPartnerKyc(String queryAppHandle, String queryUserHandle)
+            throws IOException, InterruptedException {
+        String path = "/check_partner_kyc";
+
+        Header header = new Header(null, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("query_app_handle", queryAppHandle);
+        body.put("query_user_handle", queryUserHandle);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, "check_partner_kyc");
+    }
+
+    /**
+     * 
+     * @param userHandle
+     * @param userPrivateKey
+     * @param accountName
+     * @param newAccountName
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateAccount(String userHandle, String userPrivateKey, String accountName,
+            String newAccountName) throws IOException, InterruptedException {
+        String path = "/update_account";
+
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("account_name", accountName);
+        body.put("new_account_name", newAccountName);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, "update_account");
+    }
+
+    /**
+     * 
+     * @param userHandle
+     * @param accountName
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse plaidUpdateLinkToken(String userHandle, String accountName)
+            throws IOException, InterruptedException {
+        String path = "/plaid_update_link_token";
+
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("account_name", accountName);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, "plaid_update_link_token");
+    }
+
+    /**
+     * 
+     * @param accountName
+     * @param userHandle
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey)
+            throws IOException, InterruptedException {
+        String path = "/check_instant_ach";
+
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("account_name", accountName);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, "check_instant_ach");
     }
 
     private ApiResponse listDocuments(String path, String userPrivateKey, ListDocumentsMsg body)

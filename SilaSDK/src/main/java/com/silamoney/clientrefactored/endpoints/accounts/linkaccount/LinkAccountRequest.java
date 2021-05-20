@@ -15,5 +15,6 @@ public class LinkAccountRequest {
     private String accountNumber;
     private String routingNumber;
     private String accountType;
+    private String plaidTokenType;
     
 }

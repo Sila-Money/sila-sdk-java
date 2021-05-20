@@ -22,5 +22,11 @@ public class Account {
     private boolean active;
     @SerializedName("account_link_status")
     private String accountLinkStatus;
+    @SerializedName("match_score")
+    private Float matchScore;
+    @SerializedName("account_owner_name")
+    private String accountOwnerName;
+    @SerializedName("entity_name")
+    private String entityName;
     
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
 import com.silamoney.clientrefactored.configuration.SilaApi;
@@ -37,13 +38,14 @@ public class RequestKycTests {
             .kycLevel("INSTANT-ACH")
             .build();
 
-        RequestKycResponse response = RequestKyc.send(request);
+        ApiResponse response = RequestKyc.send(request);
+        RequestKycResponse parsedResponse = (RequestKycResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
-        assertNotNull(response.getVerificationUuid());
-        assertTrue(response.isSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
+        assertNotNull(parsedResponse.getVerificationUuid());
+        assertTrue(parsedResponse.isSuccess());
 
         request = RequestKycRequest.builder()
             .userHandle(DefaultConfigurations.getUser2Handle())
@@ -51,12 +53,13 @@ public class RequestKycTests {
             .build();
 
         response = RequestKyc.send(request);
+        parsedResponse = (RequestKycResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
-        assertNotNull(response.getVerificationUuid());
-        assertTrue(response.isSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
+        assertNotNull(parsedResponse.getVerificationUuid());
+        assertTrue(parsedResponse.isSuccess());
 
 	}
 
@@ -68,13 +71,14 @@ public class RequestKycTests {
             .userPrivateKey(DefaultConfigurations.getBusinessPrivateKey())
             .build();
 
-        RequestKycResponse response = RequestKyc.send(request);
+            ApiResponse response = RequestKyc.send(request);
+            RequestKycResponse parsedResponse = (RequestKycResponse) response.getData();
 
-        assertEquals("SUCCESS", response.getStatus());
-        assertNotNull(response.getMessage());
-        assertNotNull(response.getReference());
-        assertNotNull(response.getVerificationUuid());
-        assertTrue(response.isSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
+        assertNotNull(parsedResponse.getVerificationUuid());
+        assertTrue(parsedResponse.isSuccess());
 
 	}
     
