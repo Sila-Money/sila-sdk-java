@@ -5,10 +5,10 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class SearchFilters {
     
     @SerializedName("transaction_id")

@@ -1,10 +1,10 @@
 package com.silamoney.clientrefactored.endpoints.accounts.linkaccount;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class LinkAccountRequest {
     
     private String userHandle;

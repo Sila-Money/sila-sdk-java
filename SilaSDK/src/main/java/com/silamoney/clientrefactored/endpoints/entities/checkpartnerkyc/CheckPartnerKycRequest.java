@@ -1,10 +1,10 @@
 package com.silamoney.clientrefactored.endpoints.entities.checkpartnerkyc;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class CheckPartnerKycRequest {
     
     private String queryAppHandle;

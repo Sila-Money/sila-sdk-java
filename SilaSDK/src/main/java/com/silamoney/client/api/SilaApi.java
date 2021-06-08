@@ -44,6 +44,7 @@ import com.silamoney.client.domain.GetAccountBalanceMsg;
 import com.silamoney.client.domain.GetAccountsMsg;
 import com.silamoney.client.domain.GetDocumentMessage;
 import com.silamoney.client.domain.GetDocumentMsg;
+import com.silamoney.client.domain.GetInstitutionsResponse;
 import com.silamoney.client.domain.GetTransactionsMsg;
 import com.silamoney.client.domain.GetWalletMsg;
 import com.silamoney.client.domain.GetWalletsMsg;
@@ -57,6 +58,7 @@ import com.silamoney.client.domain.IdentityResponse;
 import com.silamoney.client.domain.IndividualEntityMessage;
 import com.silamoney.client.domain.IndividualEntityMsg;
 import com.silamoney.client.domain.IndividualEntityResponse;
+import com.silamoney.client.domain.InstitutionSearchFilters;
 import com.silamoney.client.domain.LinkAccountMsg;
 import com.silamoney.client.domain.ListDocumentsMessage;
 import com.silamoney.client.domain.ListDocumentsMsg;
@@ -290,9 +292,10 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      */
-    public ApiResponse linkAccountPlaidToken(String userHandle, String userPrivateKey, String accountName, String plaidToken, String accountId, String plaidTokenType)
-            throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, plaidToken, accountId, null, null, null, plaidTokenType);
+    public ApiResponse linkAccountPlaidToken(String userHandle, String userPrivateKey, String accountName,
+            String plaidToken, String accountId, String plaidTokenType) throws IOException, InterruptedException {
+        return linkAccount(userHandle, userPrivateKey, accountName, plaidToken, accountId, null, null, null,
+                plaidTokenType);
     }
 
     /**
@@ -1488,6 +1491,27 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
         return ResponseUtil.prepareResponse(response, "check_instant_ach");
+    }
+
+    public ApiResponse getInstitutions(InstitutionSearchFilters searchFilters)
+            throws IOException, InterruptedException {
+        String path = "/get_institutions";
+
+        Header header = new Header(null, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", header);
+        body.put("message", "header_msg");
+        body.put("search_filters", searchFilters);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(GetInstitutionsResponse.class, response);
     }
 
     private ApiResponse listDocuments(String path, String userPrivateKey, ListDocumentsMsg body)

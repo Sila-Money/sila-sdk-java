@@ -3,10 +3,10 @@ package com.silamoney.clientrefactored.domain;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class Entity {
 
     private String birthdate;
