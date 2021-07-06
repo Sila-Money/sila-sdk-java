@@ -1,10 +1,10 @@
 package com.silamoney.clientrefactored.endpoints.wallets.updatewallet;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class UpdateWalletRequest {
     
     private String userHandle;

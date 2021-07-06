@@ -1,10 +1,10 @@
 package com.silamoney.clientrefactored.endpoints.accounts.checkinstantach;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class CheckInstantACHRequest {
     
     private String userHandle;

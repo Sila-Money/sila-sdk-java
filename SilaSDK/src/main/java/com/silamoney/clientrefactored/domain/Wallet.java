@@ -3,15 +3,10 @@ package com.silamoney.clientrefactored.domain;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-/**
- * Class for Registering Wallet Endpoint
- * 
- * @author wzelada
- */
 @Builder
-@Getter
+@Data
 public class Wallet {
 
     @SerializedName("blockchain_address")

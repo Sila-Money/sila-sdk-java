@@ -3,10 +3,10 @@ package com.silamoney.clientrefactored.endpoints.wallets.registerwallet;
 import com.silamoney.clientrefactored.domain.Wallet;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class RegisterWalletRequest {
     
     private String userHandle;

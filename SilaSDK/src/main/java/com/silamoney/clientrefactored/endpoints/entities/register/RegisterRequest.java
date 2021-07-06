@@ -8,10 +8,10 @@ import com.silamoney.clientrefactored.domain.Entity;
 import com.silamoney.clientrefactored.domain.Identity;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class RegisterRequest {
     
     private String userHandle;

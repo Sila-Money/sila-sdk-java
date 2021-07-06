@@ -1,10 +1,10 @@
 package com.silamoney.clientrefactored.endpoints.entities.checkkyc;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 @Builder
-@Getter
+@Data
 public class CheckKycRequest {
     
     private String userHandle;
