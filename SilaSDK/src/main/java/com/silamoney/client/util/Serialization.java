@@ -1,6 +1,7 @@
 package com.silamoney.client.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
@@ -15,7 +16,8 @@ public class Serialization {
         
     }
 
-    private static final Gson Serializer = new Gson();
+    private static final Gson Serializer = new GsonBuilder().registerTypeHierarchyAdapter(
+        String.class, new SerializerImplementation()).create();    
 
     /**
      * Converts the object into a json string.

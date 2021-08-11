@@ -7,6 +7,7 @@ import com.silamoney.client.domain.AccountBalanceResponse;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.CheckKYCResponse;
+import com.silamoney.client.domain.CheckPartnerKycResponse;
 import com.silamoney.client.domain.GetBusinessRolesResponse;
 import com.silamoney.client.domain.GetBusinessTypesResponse;
 import com.silamoney.client.domain.GetEntitiesResponse;
@@ -19,9 +20,14 @@ import com.silamoney.client.domain.GetWalletsResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.LinkBusinessMemberResponse;
 import com.silamoney.client.domain.LinkBusinessOperationResponse;
+import com.silamoney.client.domain.PlaidLinkTokenResponse;
 import com.silamoney.client.domain.PlaidSameDayAuthResponse;
+import com.silamoney.client.domain.PlaidUpdateLinkTokenResponse;
+import com.silamoney.client.domain.RegisterWalletResponse;
 import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.TransferSilaResponse;
+import com.silamoney.client.domain.UpdateAccountResponse;
+import com.silamoney.client.domain.UpdateWalletResponse;
 import java.lang.reflect.Type;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
@@ -253,6 +259,43 @@ public class ResponseUtil {
                     transferSilaResponse.setSuccess(success);
 
                     return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
+                case "plaid_link_token":
+                    PlaidLinkTokenResponse plaidLinkTokenResponse = (PlaidLinkTokenResponse) Serialization
+                        .deserialize(bodyString, PlaidLinkTokenResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), plaidLinkTokenResponse,
+                        plaidLinkTokenResponse.isSuccess());
+                case "register_wallet_msg":
+                    RegisterWalletResponse registerWalletResponse = (RegisterWalletResponse) Serialization
+                        .deserialize(bodyString, RegisterWalletResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), registerWalletResponse,
+                        registerWalletResponse.getSuccess());
+                case "update_wallet_msg":
+                    UpdateWalletResponse updateWalletResponse = (UpdateWalletResponse) Serialization
+                        .deserialize(bodyString, UpdateWalletResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), updateWalletResponse,
+                        updateWalletResponse.getSuccess());
+                case "check_partner_kyc":
+                    CheckPartnerKycResponse checkPartnerKycResponse = (CheckPartnerKycResponse) Serialization
+                        .deserialize(bodyString, CheckPartnerKycResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), checkPartnerKycResponse,
+                        checkPartnerKycResponse.isSuccess());
+                case "update_account":
+                    UpdateAccountResponse updateAccountResponse = (UpdateAccountResponse) Serialization
+                        .deserialize(bodyString, UpdateAccountResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), updateAccountResponse,
+                        updateAccountResponse.isSuccess());
+                case "plaid_update_link_token":
+                    PlaidUpdateLinkTokenResponse plaidUpdateLinkTokenResponse = (PlaidUpdateLinkTokenResponse) Serialization
+                        .deserialize(bodyString, PlaidUpdateLinkTokenResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), plaidUpdateLinkTokenResponse,
+                        plaidUpdateLinkTokenResponse.isSuccess());
+
                 default:
                     BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString,
                             BaseResponse.class);

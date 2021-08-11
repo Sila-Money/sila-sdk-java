@@ -1,6 +1,9 @@
 package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
+
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,6 +133,10 @@ public class SearchFilters {
 
     @SerializedName("nickname")
     public String nickname;
+
+    @SerializedName("bank_account_name")
+    @Setter
+    public String bankAccountName;
 
     /**
      * Sets the transaction id to the filters.

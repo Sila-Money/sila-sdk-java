@@ -108,4 +108,22 @@ public class Transaction {
 
     @SerializedName("processing_type")
     public String processingType;
+
+    @SerializedName("error_code")
+    public String errorCode;
+
+    @SerializedName("error_desc")
+    public String errorDesc;
+
+    @SerializedName("return_code")
+    public String returnCode;
+
+    @SerializedName("return_desc")
+    public String returnDesc;
+
+    @SerializedName("trace_number")
+    public String traceNumber;
+
+    @SerializedName("addenda")
+    public String addenda;
 }

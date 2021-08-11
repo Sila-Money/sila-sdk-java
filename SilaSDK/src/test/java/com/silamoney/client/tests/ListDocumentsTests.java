@@ -92,7 +92,5 @@ public class ListDocumentsTests {
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertFalse(parsedResponse.getSuccess());
         assertEquals("FAILURE", parsedResponse.getStatus());
-        assertThat("document types - bad signature", parsedResponse.getMessage(),
-                stringContainsInOrder(Arrays.asList("Failed to authenticate app signature.")));
     }
 }

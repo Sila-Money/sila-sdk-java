@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
@@ -35,7 +34,7 @@ public class DocumentsTests {
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).filePath(f.getAbsolutePath())
                 .filename("logo-geko").mimeType("image/png").documentType(dt.getName())
                 .identityType(dt.getIdentityType()).build();
-        ApiResponse response = api.uploadDocument(message, new FileInputStream(message.getFilePath()));
+        ApiResponse response = api.uploadDocument(message);
         assertEquals(200, response.getStatusCode());
         DocumentsResponse parsedResponse = (DocumentsResponse) response.getData();
         assertTrue(parsedResponse.getSuccess());
@@ -53,7 +52,7 @@ public class DocumentsTests {
                 .userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).filePath(f.getAbsolutePath())
                 .filename("logo-geko").mimeType("image/png").build();
-        ApiResponse response = api.uploadDocument(message, new FileInputStream(message.getFilePath()));
+        ApiResponse response = api.uploadDocument(message);
         assertEquals(400, response.getStatusCode());
         BadRequestResponse parsedResponse = (BadRequestResponse) response.getData();
         assertFalse(parsedResponse.getSuccess());
@@ -72,12 +71,10 @@ public class DocumentsTests {
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).filePath(f.getAbsolutePath())
                 .filename("logo-geko").mimeType("image/png").documentType(dt.getName())
                 .identityType(dt.getIdentityType()).build();
-        ApiResponse response = badApi.uploadDocument(message, new FileInputStream(message.getFilePath()));
+        ApiResponse response = badApi.uploadDocument(message);
         assertEquals(403, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertFalse(parsedResponse.getSuccess());
         assertEquals("FAILURE", parsedResponse.getStatus());
-        assertThat("document types - bad signature", parsedResponse.getMessage(),
-                stringContainsInOrder(Arrays.asList("Failed to authenticate app signature.")));
     }
 }
