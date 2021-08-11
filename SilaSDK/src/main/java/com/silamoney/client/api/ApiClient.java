@@ -111,6 +111,24 @@ public class ApiClient {
     @SuppressWarnings("all")
     public HttpResponse callApi(String path, Map<String, String> headers, String body, String filePath,
         String contentType) throws FileNotFoundException, IOException, InterruptedException {
+        final File file = new File(filePath);
+        return callApi(path, headers, body, new FileInputStream(file), contentType, file.getName());
+    }
+
+    /**
+     *
+     * @param path
+     * @param headers
+     * @param body
+     * @param filePath
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    @SuppressWarnings("all")
+    public HttpResponse callApi(String path, Map<String, String> headers, String body, InputStream binaryStream,
+        String contentType, String name) throws FileNotFoundException, IOException, InterruptedException {
         String fullPath = basePath + path;
         logRequest(fullPath, headers, body);
         try {
@@ -119,8 +137,7 @@ public class ApiClient {
             headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody("data", body, ContentType.TEXT_PLAIN);
-            File f = new File(filePath);
-            builder.addBinaryBody("file", new FileInputStream(f), ContentType.create(contentType), f.getName());
+            builder.addBinaryBody("file", binaryStream, ContentType.create(contentType), name);
             HttpEntity multipart = builder.build();
             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
             multipart.writeTo(outStream);
@@ -133,6 +150,7 @@ public class ApiClient {
             throw new RuntimeException(ex);
         }
     }
+
 
     private HttpRequest prepareRequest(String path, Map<String, String> headers, String body) {
         String fullPath = basePath + path;
