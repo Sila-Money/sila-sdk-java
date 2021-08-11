@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.domain.TransactionResponse;
@@ -35,7 +36,7 @@ public class TransferSilaTests {
 	public void Response200Success() throws Exception {
 		// TRANSACTIONS4
 		 
-		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth", null,
+		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, DefaultConfigurations.getUser2Handle(), null,
 				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey());
 				
@@ -88,7 +89,7 @@ public class TransferSilaTests {
 		 
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, "geko.silamoney.eth", null,
+		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, DefaultConfigurations.getUser2Handle(), null,
 				"test descriptor", UUID.randomUUID().toString(),
 				DefaultConfigurations.getUserPrivateKey());
 		

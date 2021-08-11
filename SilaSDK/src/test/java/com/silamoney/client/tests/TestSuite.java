@@ -10,6 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
+    GetInstitutionsTest.class,
     GetBusinessTypesTests.class,
     GetBusinessRolesTests.class,
     GetNaicsCategoriesTest.class,
@@ -25,13 +26,19 @@ import org.junit.runners.Suite.SuiteClasses;
     UnlinkBusinessMemberTests.class,
     RequestKYCTests.class,
     CheckKYCTests.class,
+    CheckPartnerKycTests.class,
     GetEntityTests.class,
     DocumentsTests.class,
     ListDocumentsTests.class,
     GetDocumentTests.class,
     certifyBeneficialOwnerTests.class,
     CertifyBusinessTests.class,
+    PlaidLinkTokenTests.class,
     LinkAccountTests.class,
+    CheckInstantAchTests.class,
+    PlaidUpdateLinkTokenTests.class,
+    UpdateAccountTests.class,
+    DeleteAccountTests.class,
     GetAccountsTests.class,
     GetAccountBalanceTests.class,
     CancelTransactionTests.class,

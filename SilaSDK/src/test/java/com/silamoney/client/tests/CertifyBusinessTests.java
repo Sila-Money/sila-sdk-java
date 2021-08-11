@@ -25,8 +25,8 @@ public class CertifyBusinessTests {
 				DefaultConfigurations.getUserPrivateKey(), DefaultConfigurations.getBusinessHandle(),
 				DefaultConfigurations.getBusinessPrivateKey());
 
+		assertEquals("Business successfully certified.", ((BaseResponse) response.getData()).getMessage());
 		assertEquals(200, response.getStatusCode());
 		assertTrue(response.getSuccess());
-		assertEquals("Business successfully certified.", ((BaseResponse) response.getData()).getMessage());
 	}
 }

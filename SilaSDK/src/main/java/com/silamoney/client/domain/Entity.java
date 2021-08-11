@@ -5,11 +5,14 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+
 /**
  * Object used in the entity msg.
  *
  * @author Karlo Lorenzana
  */
+@Getter
 public class Entity {
 
     private enum RelationshipEnum {
@@ -62,6 +65,10 @@ public class Entity {
     private String status;
     @SerializedName(value = "blockchain_addresses")
     private List<String> blockchainAddresses;
+    @SerializedName(value = "uuid")
+    private String uuid;
+    @SerializedName(value = "dba")
+    private String dba;
 
     /**
      * Constructor for Entity object.
@@ -87,145 +94,5 @@ public class Entity {
         this.businessWebsite = user.getBusinessWebsite();
         this.doingBusinessAs = user.getDoingBusinessAs();
         this.naicsCode = user.getNaicsCategory().getCode();
-    }
-
-    /**
-     * @return the birthdate
-     */
-    public String getBirthdate() {
-        return birthdate;
-    }
-
-    /**
-     * @return the entityName
-     */
-    public String getEntityName() {
-        return entityName;
-    }
-
-    /**
-     * @return the lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * @return the relationship
-     */
-    public String getRelationship() {
-        return relationship;
-    }
-
-    /**
-     * @return the firstName
-     */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @return the businessType
-     */
-    public String getBusinessType() {
-        return businessType;
-    }
-
-    /**
-     * @return the businessTypeUuid
-     */
-    public String getBusinessTypeUuid() {
-        return businessTypeUuid;
-    }
-
-    /**
-     * @return the businessWebsite
-     */
-    public String getBusinessWebsite() {
-        return businessWebsite;
-    }
-
-    /**
-     * @return the doingBusinessAs
-     */
-    public String getDoingBusinessAs() {
-        return doingBusinessAs;
-    }
-
-    /**
-     * @return the naicsCode
-     */
-    public int getNaicsCode() {
-        return naicsCode;
-    }
-
-    /**
-     * @return the createdEpoch
-     */
-    public int getCreatedEpoch() {
-        return createdEpoch;
-    }
-
-    /**
-     * @return the businessUuid
-     */
-    public String getBusinessUuid() {
-        return businessUuid;
-    }
-
-    /**
-     * @return the naicsCategory
-     */
-    public String getNaicsCategory() {
-        return naicsCategory;
-    }
-
-    /**
-     * @return the naicsSubcategory
-     */
-    public String getNaicsSubcategory() {
-        return naicsSubcategory;
-    }
-
-    /**
-     * @return the handle
-     */
-    public String getHandle() {
-        return handle;
-    }
-
-    /**
-     * @return the fullName
-     */
-    public String getFullName() {
-        return fullName;
-    }
-
-    /**
-     * @return the created
-     */
-    public int getCreated() {
-        return created;
-    }
-
-    /**
-     * @return the status
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * @return the blockchainAddresses
-     */
-    public List<String> getBlockchainAddresses() {
-        return blockchainAddresses;
     }
 }

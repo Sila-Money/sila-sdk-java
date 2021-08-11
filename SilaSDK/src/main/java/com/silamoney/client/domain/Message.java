@@ -121,9 +121,13 @@ public class Message {
          */
         GET_ENTITIES("get_entities"),
         /**
-         * String value for GetEntities.
+         * String value for PlaidLinkToken.
          */
-        ADD_OR_UPDATE("add_or_update");
+        PLAID_LINK_TOKEN("plaid_link_token"),
+        /**
+         * String value for DeleteAccount.
+         */
+        DELETE_ACCOUNT("delete_account");
 
         private final String value;
 

@@ -9,4 +9,6 @@ public class PhoneMessage {
     private String phone;
     @Getter
     private String uuid;
+    @Getter
+    private boolean smsOptIn;
 }

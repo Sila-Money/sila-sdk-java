@@ -29,7 +29,7 @@
       <url>https://github.com/icon-savings/sila-sdk-java</url>
       <tag>v1.21</tag>
     </scm>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.66</version>
+            <version>1.68</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.web3j</groupId>
             <artifactId>core</artifactId>
-            <version>4.5.5</version>
+            <version>4.8.4</version>
         </dependency>
         <dependency>
             <groupId>org.mock-server</groupId>

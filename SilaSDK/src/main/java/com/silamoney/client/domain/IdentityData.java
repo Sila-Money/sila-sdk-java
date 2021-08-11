@@ -11,4 +11,10 @@ public class IdentityData extends RegistrationData {
     @Getter
     @SerializedName("identity")
     private String identity;
+    @Getter
+    @SerializedName("document_id")
+    private String documentId;
+    @Getter
+    @SerializedName("document_name")
+    private String documentName;
 }

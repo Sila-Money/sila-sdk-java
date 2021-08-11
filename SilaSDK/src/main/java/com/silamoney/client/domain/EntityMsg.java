@@ -30,6 +30,9 @@ public class EntityMsg {
     @SerializedName("entity")
     private final Entity entity;
 
+    @SerializedName("device")
+    private final Device device;
+
     /**
      * Constructor for the EntityMsg object.
      *
@@ -44,6 +47,12 @@ public class EntityMsg {
         this.contact = new Contact(user);
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
+        if (user.getDeviceFingerprint() != null) {
+            this.device = new Device(user.getDeviceFingerprint());
+        } else {
+            this.device = null;            
+        }
+        
     }
 
     /**
@@ -60,5 +69,41 @@ public class EntityMsg {
         this.contact = new Contact(user);
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
+        this.device = null;
+    }
+
+    /**
+     * Constructor for the EntityMsg object.
+     *
+     * @param user
+     * @param device
+     * @param appHandle
+     */
+    public EntityMsg(User user, Device device, String appHandle) {
+        this.header = new Header(user.getHandle(), appHandle);
+        this.message = Message.ValueEnum.ENTITY_MSG.getValue();
+        this.address = new Address(user);
+        this.identity = new Identity(user);
+        this.contact = new Contact(user);
+        this.cryptoEntry = new CryptoEntry(user);
+        this.entity = new Entity(user);
+        this.device = device;
+    }
+
+    /**
+     * Constructor for the EntityMsg object.
+     *
+     * @param user
+     * @param appHandle
+     */
+    public EntityMsg(BusinessUser user, Device device, String appHandle) {
+        this.header = new Header(user.getHandle(), appHandle);
+        this.message = Message.ValueEnum.ENTITY_MSG.getValue();
+        this.address = new Address(user);
+        this.identity = new Identity(user);
+        this.contact = new Contact(user);
+        this.cryptoEntry = new CryptoEntry(user);
+        this.entity = new Entity(user);
+        this.device = device;
     }
 }

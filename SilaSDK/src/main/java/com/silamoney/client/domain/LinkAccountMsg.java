@@ -2,11 +2,14 @@ package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Setter;
+
 /**
  * Object sent in the link account method.
  *
  * @author Karlo Lorenzana
- */
+*/
+@Setter
 public class LinkAccountMsg {
 
     @SerializedName("public_token")
@@ -32,6 +35,9 @@ public class LinkAccountMsg {
 
     @SerializedName("account_type")
     private final String accountType;
+
+    @SerializedName("plaid_token_type")
+    private String plaidTokenType;
 
     /**
      * Constructor for LinkAccountMsg object.

@@ -24,7 +24,7 @@ public class certifyBeneficialOwnerTests {
 				DefaultConfigurations.getUserPrivateKey(), DefaultConfigurations.getBusinessHandle(),
 				DefaultConfigurations.getBusinessPrivateKey(), DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getBusinessOwnerToken());
 
-		assertEquals(200, response.getStatusCode());
 		assertEquals("Beneficial owner successfully certified.", ((BaseResponse) response.getData()).getMessage());
+		assertEquals(200, response.getStatusCode());
 	}
 }

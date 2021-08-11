@@ -3,7 +3,7 @@ package com.silamoney.client.domain;
 import com.google.gson.annotations.SerializedName;
 
 public class HeaderBase {
-    @SerializedName("auth_handle")
+    @SerializedName("app_handle")
     private final String authHandle;
     @SerializedName("created")
     private final Integer created;
