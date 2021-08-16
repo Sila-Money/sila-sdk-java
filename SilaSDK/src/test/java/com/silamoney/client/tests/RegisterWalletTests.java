@@ -37,7 +37,24 @@ public class RegisterWalletTests {
         assertEquals(200, response.getStatusCode());
         DefaultConfigurations.setNewWallet(wallet);
     }
+    @Test
+    public void Response200WithDefault() throws Exception {
 
+        Wallet wallet = api.generateWallet();
+        String wallet_verification_signature = EcdsaUtil.sign(wallet.getBlockChainAddress(), wallet.getPrivateKey());
+
+        ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
+                wallet_verification_signature, DefaultConfigurations.getUserPrivateKey(),true);
+        assertEquals(200, response.getStatusCode());
+
+        Wallet wallet1 = api.generateWallet();
+        String wallet_verification_signature1 = EcdsaUtil.sign(wallet1.getBlockChainAddress(), wallet1.getPrivateKey());
+
+        ApiResponse response1 = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet1,
+                wallet_verification_signature1, DefaultConfigurations.getUserPrivateKey());
+        assertEquals(200, response1.getStatusCode());
+        DefaultConfigurations.setNewWallet(wallet1);
+    }
     @Test
     public void ResponseBadWallet() throws BadRequestException, InvalidSignatureException, ServerSideException,
             IOException, InterruptedException, ForbiddenException {

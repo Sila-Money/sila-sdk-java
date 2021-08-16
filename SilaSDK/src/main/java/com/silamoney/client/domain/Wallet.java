@@ -46,4 +46,11 @@ public class Wallet {
         this.privateKey = privateKey;
         this.nickname = nickname;
     }
+    public Wallet(String blockChainAddress, String privateKey, String blockChainNetwork, String nickname,boolean defaultWallet) {
+        this.blockChainAddress = blockChainAddress;
+        this.blockChainNetwork = blockChainNetwork;
+        this.privateKey = privateKey;
+        this.nickname = nickname;
+        this.defaultWallet=defaultWallet;
+    }
 }

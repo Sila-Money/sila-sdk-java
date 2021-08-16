@@ -1,16 +1,14 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.BusinessType;
-import com.silamoney.client.domain.BusinessUser;
-import com.silamoney.client.domain.Device;
-import com.silamoney.client.domain.NaicsCategoryDescription;
+import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
+import junit.framework.Assert;
 import org.junit.Test;
 
 /**
@@ -65,5 +63,6 @@ public class RegisterBusinessTests {
 
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		assertNotNull(((RegisterBusinessResponse) response.getData()).getBusiness_uuid());
 	}
 }

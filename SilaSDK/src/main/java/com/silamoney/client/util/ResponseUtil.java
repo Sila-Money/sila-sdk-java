@@ -7,33 +7,7 @@ import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
-import com.silamoney.client.domain.Account;
-import com.silamoney.client.domain.AccountBalanceResponse;
-import com.silamoney.client.domain.BadRequestResponse;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.CheckKYCResponse;
-import com.silamoney.client.domain.CheckPartnerKycResponse;
-import com.silamoney.client.domain.DeleteAccountResponse;
-import com.silamoney.client.domain.GetBusinessRolesResponse;
-import com.silamoney.client.domain.GetBusinessTypesResponse;
-import com.silamoney.client.domain.GetEntitiesResponse;
-import com.silamoney.client.domain.GetEntityResponse;
-import com.silamoney.client.domain.GetNaicsCategoriesResponse;
-import com.silamoney.client.domain.GetSilaBalanceResponse;
-import com.silamoney.client.domain.GetTransactionsResponse;
-import com.silamoney.client.domain.GetWalletResponse;
-import com.silamoney.client.domain.GetWalletsResponse;
-import com.silamoney.client.domain.LinkAccountResponse;
-import com.silamoney.client.domain.LinkBusinessMemberResponse;
-import com.silamoney.client.domain.LinkBusinessOperationResponse;
-import com.silamoney.client.domain.PlaidLinkTokenResponse;
-import com.silamoney.client.domain.PlaidSameDayAuthResponse;
-import com.silamoney.client.domain.PlaidUpdateLinkTokenResponse;
-import com.silamoney.client.domain.RegisterWalletResponse;
-import com.silamoney.client.domain.TransactionResponse;
-import com.silamoney.client.domain.TransferSilaResponse;
-import com.silamoney.client.domain.UpdateAccountResponse;
-import com.silamoney.client.domain.UpdateWalletResponse;
+import com.silamoney.client.domain.*;
 
 /**
  * Class to manage the different kinds of responses.
@@ -276,6 +250,17 @@ public class ResponseUtil {
 
             return new ApiResponse(statusCode, response.headers().map(), plaidUpdateLinkTokenResponse,
                     plaidUpdateLinkTokenResponse.isSuccess());
+        case "register_business":
+            RegisterBusinessResponse registerBusinessResponse = (RegisterBusinessResponse) Serialization.deserialize(response.body().toString(),
+                    RegisterBusinessResponse.class);
+
+            if (success && (!"SUCCESS".equals(registerBusinessResponse.getStatus()) && registerBusinessResponse.getStatus() != null)) {
+                success = false;
+            }
+
+            registerBusinessResponse.setSuccess(success);
+
+            return new ApiResponse(statusCode, response.headers().map(), registerBusinessResponse, success);
         default:
             BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                     BaseResponse.class);

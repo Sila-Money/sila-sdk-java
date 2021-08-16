@@ -86,6 +86,7 @@ import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
 
+import org.apache.http.util.TextUtils;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -634,7 +635,7 @@ public class SilaApi {
 
     /**
      * Adds another "wallet"/blockchain address to a user handle.
-     * 
+     *
      * @param userHandle
      * @param wallet
      * @param walletVerificationSignature
@@ -642,10 +643,29 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * 
      */
     public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
-            String userPrivateKey) throws IOException, InterruptedException {
+                                      String userPrivateKey) throws IOException, InterruptedException {
+        return registerWalletData(userHandle, wallet, walletVerificationSignature, userPrivateKey);
+    }
+    /**
+     * Add another input default
+     *
+     * * @param userHandle
+     * @param wallet
+     * @param walletVerificationSignature
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse registerWallet(String userHandle, Wallet wallet, String walletVerificationSignature,
+                                      String userPrivateKey, Boolean defaultValue) throws IOException, InterruptedException {
+        wallet.defaultWallet = defaultValue;
+        return registerWalletData(userHandle, wallet, walletVerificationSignature, userPrivateKey);
+    }
+
+    private ApiResponse registerWalletData(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey) throws IOException, InterruptedException {
         RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature,
                 this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER_WALLET.getUri();
@@ -864,7 +884,7 @@ public class SilaApi {
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_BUSINESS.getValue());
     }
 
     /**
@@ -1317,13 +1337,27 @@ public class SilaApi {
     }
 
     /**
-     * 
      * @param userHandle
      * @return
      * @throws IOException
      * @throws InterruptedException
      */
     public ApiResponse plaidLinkToken(String userHandle) throws IOException, InterruptedException {
+        return plaidLinkTokenData(userHandle, null);
+    }
+
+    /**
+     * @param userHandle
+     * @param androidPackageName
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse plaidLinkToken(String userHandle, String androidPackageName) throws IOException, InterruptedException {
+        return plaidLinkTokenData(userHandle, androidPackageName);
+    }
+
+    private ApiResponse plaidLinkTokenData(String userHandle, String androidPackageName) throws IOException, InterruptedException {
         String path = Endpoints.PLAID_LINK_TOKEN.getUri();
 
         Map<String, Map<String, Object>> body = new HashMap<>();
@@ -1331,7 +1365,9 @@ public class SilaApi {
         header.put(CREATED_STRNG, EpochUtils.getEpoch());
         header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
         header.put(USER_HANDLE_STRING, userHandle);
-
+        if (!TextUtils.isEmpty(androidPackageName)) {
+            header.put("android_package_name", androidPackageName);
+        }
         body.put(HEADER_STRING, header);
 
         String sBody = Serialization.serialize(body);
