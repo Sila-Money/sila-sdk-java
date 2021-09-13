@@ -10,8 +10,7 @@ public class JsonUtils {
     private JsonUtils() {
     }
 
-    private static Gson gson = new GsonBuilder()
-            .registerTypeHierarchyAdapter(String.class, new SerializerImplementation()).create();
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static String serialize(Object obj) {
         return gson.toJson(obj);

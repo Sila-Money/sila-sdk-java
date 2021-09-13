@@ -13,5 +13,6 @@ public class RegisterWalletRequest {
     private String userPrivateKey;
     private String walletVerificationSignature;
     private Wallet wallet;
+    private boolean defaultWallet;
     
 }

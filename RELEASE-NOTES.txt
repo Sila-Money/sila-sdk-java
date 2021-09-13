@@ -1,3 +1,9 @@
+v0.2.26
+   - Add new input "default" for /register_wallet.
+   - Add new input "android_package_name" for /plaid_link_token.
+   - Add new param in response (business_uuid) for /register (for business user only).
+   - Allowed empty string to be added as input in API payload
+
 v0.2.24
 New Features:
     -Adding support for /get_institutions.

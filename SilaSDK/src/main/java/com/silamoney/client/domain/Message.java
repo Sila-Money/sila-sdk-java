@@ -127,7 +127,11 @@ public class Message {
         /**
          * String value for DeleteAccount.
          */
-        DELETE_ACCOUNT("delete_account");
+        DELETE_ACCOUNT("delete_account"),
+        /**
+         * String value for RegisterBusiness.
+         */
+        REGISTER_BUSINESS("register_business");
 
         private final String value;
 
