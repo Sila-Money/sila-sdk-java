@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.26</version>
+    <version>0.2.28</version>
     <packaging>jar</packaging>
 
     <name>Silamoney SDK</name>
@@ -20,16 +20,10 @@
 
     <developers>
         <developer>
-            <name>Karlo Lorenzana</name>
-            <email>klorenzana@digitalgeko.com</email>
-            <organization>DigitalGeko</organization>
-            <organizationUrl>https://digitalgeko.com/</organizationUrl>
-        </developer>
-        <developer>
-            <name>Carlos Sosa</name>
-            <email>csosa@digitalgeko.com</email>
-            <organization>DigitalGeko</organization>
-            <organizationUrl>https://digitalgeko.com/</organizationUrl>
+            <name>Aditi Pancholi</name>
+            <email>aditi@arcgate.com</email>
+            <organization>ArcGate</organization>
+            <organizationUrl>https://www.arcgate.com/</organizationUrl>
         </developer>
     </developers>
 
@@ -78,6 +72,11 @@
             <groupId>org.web3j</groupId>
             <artifactId>core</artifactId>
             <version>4.8.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.5</version>
         </dependency>
         <dependency>
             <groupId>org.mock-server</groupId>

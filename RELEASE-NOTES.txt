@@ -1,3 +1,8 @@
+v0.2.28
+   - Allowed "search filter" as optional for /get_institutions.
+   - Added devices tag in response for /get_entity.
+   - Added new optional param active in /update_account (for freeze and unfreeze account).
+
 v0.2.26
    - Add new input "default" for /register_wallet.
    - Add new input "android_package_name" for /plaid_link_token.

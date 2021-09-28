@@ -45,7 +45,7 @@ public class LinkAccountTests {
 	public void Response200SuccessNoPublicToken() throws Exception {
 		// BANKACCOUNT2
 		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "default", "123456789012", "123456789", "CHECKING");
+				DefaultConfigurations.getUserPrivateKey(), "default", "123456789012", "123456780", "CHECKING");
 
 		assertEquals(200, response.getStatusCode());
 		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
@@ -58,7 +58,7 @@ public class LinkAccountTests {
 		assertEquals(200, response.getStatusCode());
 
 		response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "defaultupdate", "123456789012", "123456789", "CHECKING");
+				DefaultConfigurations.getUserPrivateKey(), "defaultupdate", "123456789012", "123456780", "CHECKING");
 		assertEquals(200, response.getStatusCode());
 	}
 

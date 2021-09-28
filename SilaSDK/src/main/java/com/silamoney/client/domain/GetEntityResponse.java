@@ -21,6 +21,7 @@ public class GetEntityResponse {
     private List<Phone> phones;
     private List<Membership> memberships;
     private List<Member> members;
+    private List<Devices> devices;
     private String status;
 
 }
