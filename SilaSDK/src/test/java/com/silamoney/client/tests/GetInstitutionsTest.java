@@ -36,6 +36,6 @@ public class GetInstitutionsTest {
 	public void Register200WithoutSearchFilter() throws Exception {
 		ApiResponse response = api.getInstitutions();
 		GetInstitutionsResponse parsedResponse = (GetInstitutionsResponse) response.getData();
-		assertNotNull(parsedResponse.getInstitutions().size());
+		assertNotNull(parsedResponse.getInstitutions());
 	}
 }

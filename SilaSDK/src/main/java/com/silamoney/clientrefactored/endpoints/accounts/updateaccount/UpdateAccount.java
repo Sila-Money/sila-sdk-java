@@ -33,7 +33,7 @@ public class UpdateAccount extends AbstractEndpoint {
         body.put("account_name", request.getAccountName());
         if (request.getNewAccountName() != null)
             body.put("new_account_name", request.getNewAccountName());
-        if (request.getActive() != null && !request.getActive().isEmpty() && request.getActive().isPresent()) {
+        if (request.getActive()!=null&&request.getActive().isPresent()) {
             body.put("active", request.getActive().get());
         }
 
