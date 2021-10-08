@@ -261,6 +261,17 @@ public class ResponseUtil {
             registerBusinessResponse.setSuccess(success);
 
             return new ApiResponse(statusCode, response.headers().map(), registerBusinessResponse, success);
+            case "check_instant_ach":
+                CheckInstantAchResponse checkInstantAchResponse = (CheckInstantAchResponse) Serialization.deserialize(response.body().toString(),
+                        CheckInstantAchResponse.class);
+
+                if (success && (!"SUCCESS".equals(checkInstantAchResponse.getStatus()) && checkInstantAchResponse.getStatus() != null)) {
+                    success = false;
+                }
+
+                checkInstantAchResponse.setSuccess(success);
+
+                return new ApiResponse(statusCode, response.headers().map(), checkInstantAchResponse, success);
         default:
             BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                     BaseResponse.class);

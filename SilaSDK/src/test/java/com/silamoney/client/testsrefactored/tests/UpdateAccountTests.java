@@ -59,7 +59,7 @@ public class UpdateAccountTests {
 				.accountName("defaultupdated")
 				.userHandle(DefaultConfigurations.getUserHandle())
 				.userPrivateKey(DefaultConfigurations.getUserPrivateKey())
-				.active(Optional.of(false))
+				.active(false)
 				.build();
 
 		ApiResponse response1 = UpdateAccount.send(request1);
@@ -83,7 +83,7 @@ public class UpdateAccountTests {
 				.accountName("defaultupdated")
 				.userHandle(DefaultConfigurations.getUserHandle())
 				.userPrivateKey(DefaultConfigurations.getUserPrivateKey())
-				.active(Optional.of(true))
+				.active(true)
 				.build();
 
 		ApiResponse response2 = UpdateAccount.send(request2);

@@ -13,9 +13,6 @@ public class UpdateAccountRequest {
     private String userPrivateKey;
     private String accountName;
     private String newAccountName;
-    private Optional<Boolean> active=getOptional();
-    Optional<Boolean> getOptional() {
-        return Optional.empty();
-    }
+    private Boolean active;
 
 }
