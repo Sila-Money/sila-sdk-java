@@ -28,7 +28,7 @@ public class PlaidLinkTokenTests {
     @Test
     public void Response200AndroidPackageName() throws IOException, InterruptedException {
 
-        ApiResponse response = api.plaidLinkToken(DefaultConfigurations.getUserHandle(), "com.test.android");
+        ApiResponse response = api.plaidLinkToken(DefaultConfigurations.getUserHandle(), "com.sila.package");
 
         assertEquals(200, response.getStatusCode());
         assertNotNull(((PlaidLinkTokenResponse) response.getData()).getLinkToken());

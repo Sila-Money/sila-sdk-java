@@ -1,8 +1,5 @@
 package com.silamoney.client.testsrefactored.tests;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
@@ -14,6 +11,10 @@ import com.silamoney.clientrefactored.endpoints.accounts.updateaccount.UpdateAcc
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 public class UpdateAccountTests {
 
@@ -52,6 +53,53 @@ public class UpdateAccountTests {
 		assertNotNull(parsedResponse.getChanges().get(0).getAttribute());
         assertNotNull(parsedResponse.getChanges().get(0).getNewValue());
         assertNotNull(parsedResponse.getChanges().get(0).getOldValue());
+
+        //Freeze
+		UpdateAccountRequest request1 = UpdateAccountRequest.builder()
+				.accountName("defaultupdated")
+				.userHandle(DefaultConfigurations.getUserHandle())
+				.userPrivateKey(DefaultConfigurations.getUserPrivateKey())
+				.active(false)
+				.build();
+
+		ApiResponse response1 = UpdateAccount.send(request1);
+		UpdateAccountResponse parsedResponse1 = (UpdateAccountResponse) response1.getData();
+
+		assertNotNull(parsedResponse1.getStatus());
+		assertNotNull(parsedResponse1.getMessage());
+		assertNotNull(parsedResponse1.getAccount().getAccountLinkStatus());
+		assertNotNull(parsedResponse1.getAccount().getAccountName());
+		assertNotNull(parsedResponse1.getAccount().getAccountNumber());
+		assertNotNull(parsedResponse1.getAccount().getAccountStatus());
+		assertNotNull(parsedResponse1.getAccount().getAccountType());
+		assertNotNull(parsedResponse1.getAccount().getRoutingNumber());
+		assertFalse(parsedResponse1.getAccount().isActive());
+		assertNotNull(parsedResponse1.getChanges().get(0).getAttribute());
+		assertNotNull(parsedResponse1.getChanges().get(0).getNewValue());
+		assertNotNull(parsedResponse1.getChanges().get(0).getOldValue());
+
+		//UnFreeze
+		UpdateAccountRequest request2 = UpdateAccountRequest.builder()
+				.accountName("defaultupdated")
+				.userHandle(DefaultConfigurations.getUserHandle())
+				.userPrivateKey(DefaultConfigurations.getUserPrivateKey())
+				.active(true)
+				.build();
+
+		ApiResponse response2 = UpdateAccount.send(request2);
+		UpdateAccountResponse parsedResponse2 = (UpdateAccountResponse) response2.getData();
+
+		assertNotNull(parsedResponse2.getStatus());
+		assertNotNull(parsedResponse2.getMessage());
+		assertNotNull(parsedResponse2.getAccount().getAccountLinkStatus());
+		assertNotNull(parsedResponse2.getAccount().getAccountName());
+		assertNotNull(parsedResponse2.getAccount().getAccountNumber());
+		assertNotNull(parsedResponse2.getAccount().getAccountStatus());
+		assertNotNull(parsedResponse2.getAccount().getAccountType());
+		assertNotNull(parsedResponse2.getAccount().getRoutingNumber());
+		assertTrue(parsedResponse2.getAccount().isActive());
+		assertNotNull(parsedResponse2.getChanges().get(0).getAttribute());
+		assertNotNull(parsedResponse2.getChanges().get(0).getNewValue());
+		assertNotNull(parsedResponse2.getChanges().get(0).getOldValue());
 	}
-    
 }

@@ -151,7 +151,7 @@ public class SilaApi {
      * @return API response.
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      */
     public ApiResponse checkHandle(String handle) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(handle, this.configuration.getAuthHandle());
@@ -173,7 +173,7 @@ public class SilaApi {
      * @return API response.
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      */
     public ApiResponse register(User user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
@@ -190,7 +190,7 @@ public class SilaApi {
 
     /**
      * Delete an existing email, phone number, street address, or identity.
-     * 
+     *
      * @param message
      * @return
      * @throws IOException
@@ -218,7 +218,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      */
     public ApiResponse requestKYC(String userHandle, String kycLevel, String userPrivateKey)
             throws IOException, InterruptedException {
@@ -244,7 +244,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
@@ -271,7 +271,7 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      * @deprecated This method is deprecated. Please refer to the documentation for
      *             the new implementation.
      */
@@ -282,7 +282,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param userHandle
      * @param userPrivateKey
      * @param accountName
@@ -311,7 +311,7 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      * @deprecated This method is deprecated. Please refer to the documentation for
      *             the new implementation.
      */
@@ -334,7 +334,7 @@ public class SilaApi {
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      * @deprecated This method is deprecated. Please refer to the documentation for
      *             the new implementation.
      */
@@ -371,7 +371,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      */
     public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());
@@ -438,7 +438,7 @@ public class SilaApi {
     /**
      * Starts a transfer of the requested amount of SILA to the requested
      * destination handle.
-     * 
+     *
      * @param userHandle
      * @param amount
      * @param destination
@@ -493,7 +493,7 @@ public class SilaApi {
 
     /**
      * Cancel a pending transaction under certain circumstances
-     * 
+     *
      * @param message
      * @return
      */
@@ -534,7 +534,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      */
     public ApiResponse getTransactions(String userHandle, SearchFilters filters)
             throws IOException, InterruptedException {
@@ -571,7 +571,7 @@ public class SilaApi {
 
     /**
      * Request a public_token for plaid's same day microdeposit auth.
-     * 
+     *
      * @param userHandle
      * @param accountName
      * @param userPrivateKey
@@ -596,7 +596,7 @@ public class SilaApi {
 
     /**
      * Gets a random generated wallet
-     * 
+     *
      * @return Wallet
      */
     public Wallet generateWallet() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException,
@@ -612,7 +612,7 @@ public class SilaApi {
     /**
      * Gets details about the user wallet used to generate the usersignature
      * header..
-     * 
+     *
      * @param userHandle
      * @param userPrivateKey
      * @return
@@ -682,7 +682,7 @@ public class SilaApi {
 
     /**
      * Updates nickname and/or default status of a wallet.
-     * 
+     *
      * @param userHandle
      * @param nickname
      * @param status
@@ -690,7 +690,7 @@ public class SilaApi {
      * @return
      * @throws IOException
      * @throws InterruptedException
-     * 
+     *
      */
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
             throws IOException, InterruptedException {
@@ -708,7 +708,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param userHandle
      * @param userPrivateKey
      * @return
@@ -757,7 +757,7 @@ public class SilaApi {
 
     /**
      * List the document types for KYC supporting documentation
-     * 
+     *
      * @return
      * @throws IOException
      * @throws InterruptedException
@@ -768,7 +768,7 @@ public class SilaApi {
 
     /**
      * List the document types for KYC supporting documentation
-     * 
+     *
      * @param pagination
      * @return
      * @throws IOException
@@ -794,7 +794,7 @@ public class SilaApi {
 
     /**
      * Gets a list of valid business types that can be registered.
-     * 
+     *
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
@@ -820,7 +820,7 @@ public class SilaApi {
 
     /**
      * Retrieves the list of pre-defined business roles.
-     * 
+     *
      * @return ApiResponse
      * @throws IOException
      * @throws InterruptedException
@@ -1090,7 +1090,7 @@ public class SilaApi {
 
     /**
      * Upload supporting documentation for KYC
-     * 
+     *
      * @param message
      * @return
      * @throws IOException
@@ -1115,7 +1115,7 @@ public class SilaApi {
 
     /**
      * List previously uploaded supporting documentation for KYC
-     * 
+     *
      * @param message
      * @return
      * @throws IOException
@@ -1129,7 +1129,7 @@ public class SilaApi {
 
     /**
      * List previously uploaded supporting documentation for KYC with pagination
-     * 
+     *
      * @param message
      * @param pagination
      * @return
@@ -1145,7 +1145,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param message
      * @return
      * @throws IOException
@@ -1165,7 +1165,7 @@ public class SilaApi {
 
     /**
      * Add a new email to a registered entity.
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1180,7 +1180,7 @@ public class SilaApi {
 
     /**
      * Add a new phone number to a registered entity.
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1195,7 +1195,7 @@ public class SilaApi {
 
     /**
      * Add a new identity to a registered entity.
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1211,7 +1211,7 @@ public class SilaApi {
 
     /**
      * Add a new street address to a registered entity.
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1227,7 +1227,7 @@ public class SilaApi {
 
     /**
      * Add a new device to a registered entity.
-     * 
+     *
      * @param user
      * @param device
      * @return
@@ -1242,7 +1242,7 @@ public class SilaApi {
 
     /**
      * Update an existing email of a registered entity.
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1258,7 +1258,7 @@ public class SilaApi {
 
     /**
      * Update an existing phone number of a registered entity
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1274,7 +1274,7 @@ public class SilaApi {
 
     /**
      * Update an existing identity of a registered entity.
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1290,7 +1290,7 @@ public class SilaApi {
 
     /**
      * Update an existing street address of a registered entity.
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1306,7 +1306,7 @@ public class SilaApi {
 
     /**
      * Update an existing individual entity (name, birthdate, or business data).
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1322,7 +1322,7 @@ public class SilaApi {
 
     /**
      * Update an existing business entity (name, birthdate, or business data).
-     * 
+     *
      * @param user
      * @param message
      * @return
@@ -1360,15 +1360,16 @@ public class SilaApi {
     private ApiResponse plaidLinkTokenData(String userHandle, String androidPackageName) throws IOException, InterruptedException {
         String path = Endpoints.PLAID_LINK_TOKEN.getUri();
 
-        Map<String, Map<String, Object>> body = new HashMap<>();
+        Map<String, Object> body = new HashMap<>();
         Map<String, Object> header = new HashMap<>();
         header.put(CREATED_STRNG, EpochUtils.getEpoch());
         header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
         header.put(USER_HANDLE_STRING, userHandle);
-        if (!TextUtils.isEmpty(androidPackageName)) {
-            header.put("android_package_name", androidPackageName);
-        }
+
         body.put(HEADER_STRING, header);
+        if (androidPackageName != null) {
+            body.put("android_package_name", androidPackageName);
+        }
 
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1381,7 +1382,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param userHandle
      * @param accountName
      * @param userPrivateKey
@@ -1411,7 +1412,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param queryAppHandle
      * @param queryUserHandle
      * @return
@@ -1440,7 +1441,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param userHandle
      * @param userPrivateKey
      * @param accountName
@@ -1450,7 +1451,41 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse updateAccount(String userHandle, String userPrivateKey, String accountName,
-            String newAccountName) throws IOException, InterruptedException {
+                                     String newAccountName) throws IOException, InterruptedException {
+        return updateAccountData(userHandle, userPrivateKey, accountName, newAccountName, false, null);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param accountName
+     * @param newAccountName
+     * @param active
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateAccount(String userHandle, String userPrivateKey, String accountName,
+                                     String newAccountName, Boolean active) throws IOException, InterruptedException {
+        return updateAccountData(userHandle, userPrivateKey, accountName, newAccountName, active, "active");
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param accountName
+     * @param active
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateAccount(String userHandle, String userPrivateKey, String accountName
+            , Boolean active) throws IOException, InterruptedException {
+        return updateAccountData(userHandle, userPrivateKey, accountName, null, active, "active");
+    }
+
+    public ApiResponse updateAccountData(String userHandle, String userPrivateKey, String accountName,
+                                         String newAccountName, boolean active, String activeType) throws IOException, InterruptedException {
         String path = "/update_account";
 
         Header header = new Header(userHandle, this.configuration.getAuthHandle());
@@ -1458,7 +1493,11 @@ public class SilaApi {
         Map<String, Object> body = new HashMap<>();
         body.put("header", header);
         body.put("account_name", accountName);
-        body.put("new_account_name", newAccountName);
+        if (newAccountName != null)
+            body.put("new_account_name", newAccountName);
+        if (!TextUtils.isEmpty(activeType)) {
+            body.put("active", active);
+        }
 
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1472,7 +1511,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param userHandle
      * @param accountName
      * @return
@@ -1500,7 +1539,7 @@ public class SilaApi {
     }
 
     /**
-     * 
+     *
      * @param accountName
      * @param userHandle
      * @param userPrivateKey
@@ -1529,7 +1568,18 @@ public class SilaApi {
         return ResponseUtil.prepareResponse(response, "check_instant_ach");
     }
 
-    public ApiResponse getInstitutions(InstitutionSearchFilters searchFilters)
+    /**
+     * @param searchFilters
+     */
+    public ApiResponse getInstitutions(InstitutionSearchFilters searchFilters) throws IOException, InterruptedException {
+        return getInstitutionsData(searchFilters);
+    }
+
+    public ApiResponse getInstitutions() throws IOException, InterruptedException {
+        return getInstitutionsData(null);
+    }
+
+    public ApiResponse getInstitutionsData(InstitutionSearchFilters searchFilters)
             throws IOException, InterruptedException {
         String path = "/get_institutions";
 
@@ -1538,7 +1588,8 @@ public class SilaApi {
         Map<String, Object> body = new HashMap<>();
         body.put("header", header);
         body.put("message", "header_msg");
-        body.put("search_filters", searchFilters);
+        if (searchFilters != null)
+            body.put("search_filters", searchFilters);
 
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1563,7 +1614,7 @@ public class SilaApi {
 
     /**
      * Manages all add/<registration-data> calls
-     * 
+     *
      * @param dataType
      * @param userPrivateKey
      * @param body
@@ -1586,7 +1637,7 @@ public class SilaApi {
 
     /**
      * Adds a query parameter to the uri if the value is not null
-     * 
+     *
      * @param queryParameters
      * @param name
      * @param value
