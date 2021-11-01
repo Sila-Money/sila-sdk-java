@@ -12,80 +12,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.silamoney.client.config.Configuration;
-import com.silamoney.client.domain.AccountTransactionMessage;
-import com.silamoney.client.domain.AccountTransactionMsg;
-import com.silamoney.client.domain.AddressMessage;
-import com.silamoney.client.domain.AddressMsg;
-import com.silamoney.client.domain.AddressResponse;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.BusinessEntityMessage;
-import com.silamoney.client.domain.BusinessEntityMsg;
-import com.silamoney.client.domain.BusinessEntityResponse;
-import com.silamoney.client.domain.BusinessRole;
-import com.silamoney.client.domain.BusinessUser;
-import com.silamoney.client.domain.CancelTransactionMessage;
-import com.silamoney.client.domain.CancelTransactionMsg;
-import com.silamoney.client.domain.CryptoEnum;
-import com.silamoney.client.domain.DeleteRegistrationMessage;
-import com.silamoney.client.domain.DeleteRegistrationMsg;
-import com.silamoney.client.domain.DeleteWalletMsg;
-import com.silamoney.client.domain.Device;
-import com.silamoney.client.domain.DeviceMsg;
-import com.silamoney.client.domain.DeviceResponse;
-import com.silamoney.client.domain.DocumentTypesResponse;
-import com.silamoney.client.domain.DocumentsResponse;
-import com.silamoney.client.domain.EmailMessage;
-import com.silamoney.client.domain.EmailMsg;
-import com.silamoney.client.domain.EmailResponse;
-import com.silamoney.client.domain.Endpoints;
-import com.silamoney.client.domain.EntityMsg;
-import com.silamoney.client.domain.Environments;
-import com.silamoney.client.domain.GetAccountBalanceMsg;
-import com.silamoney.client.domain.GetAccountsMsg;
-import com.silamoney.client.domain.GetDocumentMessage;
-import com.silamoney.client.domain.GetDocumentMsg;
-import com.silamoney.client.domain.GetInstitutionsResponse;
-import com.silamoney.client.domain.GetTransactionsMsg;
-import com.silamoney.client.domain.GetWalletMsg;
-import com.silamoney.client.domain.GetWalletsMsg;
-import com.silamoney.client.domain.Header;
-import com.silamoney.client.domain.HeaderBase;
-import com.silamoney.client.domain.HeaderBuilder;
-import com.silamoney.client.domain.HeaderMsg;
-import com.silamoney.client.domain.IdentityMessage;
-import com.silamoney.client.domain.IdentityMsg;
-import com.silamoney.client.domain.IdentityResponse;
-import com.silamoney.client.domain.IndividualEntityMessage;
-import com.silamoney.client.domain.IndividualEntityMsg;
-import com.silamoney.client.domain.IndividualEntityResponse;
-import com.silamoney.client.domain.InstitutionSearchFilters;
-import com.silamoney.client.domain.LinkAccountMsg;
-import com.silamoney.client.domain.ListDocumentsMessage;
-import com.silamoney.client.domain.ListDocumentsMsg;
-import com.silamoney.client.domain.ListDocumentsResponse;
-import com.silamoney.client.domain.Message;
-import com.silamoney.client.domain.PaginationMessage;
-import com.silamoney.client.domain.PhoneMessage;
-import com.silamoney.client.domain.PhoneMsg;
-import com.silamoney.client.domain.PhoneResponse;
-import com.silamoney.client.domain.PlaidSameDayAuthMsg;
-import com.silamoney.client.domain.RegisterWalletMsg;
-import com.silamoney.client.domain.RegistrationDataEnum;
-import com.silamoney.client.domain.SearchFilters;
-import com.silamoney.client.domain.SilaBalanceMsg;
-import com.silamoney.client.domain.TransferMsg;
-import com.silamoney.client.domain.UpdateWalletMsg;
-import com.silamoney.client.domain.UploadDocumentMessage;
-import com.silamoney.client.domain.UploadDocumentMsg;
-import com.silamoney.client.domain.User;
-import com.silamoney.client.domain.UserHandleMessage;
-import com.silamoney.client.domain.VersionEnum;
-import com.silamoney.client.domain.Wallet;
+import com.silamoney.client.domain.*;
 import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
-
+import com.silamoney.client.domain.WebhookSearchFilters;
 import org.apache.http.util.TextUtils;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
@@ -111,7 +43,8 @@ public class SilaApi {
     private static final String USER_SIGNATURE = "usersignature";
     private static final String BUSINESS_SIGNATURE = "businesssignature";
     private static final String DEFAULT_ENVIRONMENT = Environments.SilaEnvironment.SANDBOX.getUrl();
-
+    private static final String CARD_NAME = "card_name";
+    private static final String SEARCH_FILTERS = "search_filters";
     /**
      * Constructor for SilaApi using custom environment.
      *
@@ -1649,6 +1582,145 @@ public class SilaApi {
             queryParameters += name + "=" + value;
         }
         return queryParameters;
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param cardName
+     * @param token
+     * @param accountPostalCode
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
+                                String accountPostalCode)
+            throws IOException, InterruptedException {
+        String path = Endpoints.LINK_CARD.getUri();
+        LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle());
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_CARD_MSG.getValue());
+    }
+    /**
+     * Gets card names linked to user handle.
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse getCards(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
+        String path = Endpoints.GET_CARDS.getUri();
+        Map<String, Object> body = new HashMap<>();
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+        body.put(HEADER_STRING, header);
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_CARD_MSG.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param cardName
+     * @param userPrivateKey
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse deleteCard(String userHandle, String cardName, String userPrivateKey)
+            throws IOException, InterruptedException {
+        String path = Endpoints.DELETE_CARD.getUri();
+
+        Map<String, Object> body = new HashMap<>();
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        body.put(HEADER_STRING, header);
+        body.put(CARD_NAME, cardName);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_CARD.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param searchFilters
+     */
+    public ApiResponse getWebhooks(String userHandle,WebhookSearchFilters searchFilters) throws IOException, InterruptedException {
+        return getWebhooksData(userHandle,searchFilters);
+    }
+
+    public ApiResponse getWebhooks(String userHandle) throws IOException, InterruptedException {
+        return getWebhooksData( userHandle,null);
+    }
+
+    public ApiResponse getWebhooksData(String userHandle,WebhookSearchFilters searchFilters)
+            throws IOException, InterruptedException {
+        String path = Endpoints.GET_WEBHOOKS.getUri();
+
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put(HEADER_STRING, header);
+        if (searchFilters != null)
+            body.put(SEARCH_FILTERS, searchFilters);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response,Message.ValueEnum.GET_WEBHOOKS.getValue());
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param transactionId
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse reverseTransaction(String userHandle ,String userPrivateKey, String transactionId)
+            throws IOException, InterruptedException {
+        String path = Endpoints.REVERSE_TRANSACTION.getUri();
+
+        Map<String, Object> body = new HashMap<>();
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+
+        body.put(HEADER_STRING, header);
+        body.put("transaction_id", transactionId);
+
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response,"reverse_transaction_msg");
     }
 
 }

@@ -14,7 +14,7 @@ public enum Endpoints {
     GET_ENTITIES("/get_entities"), GET_DOCUMENT_TYPES("/document_types"), CANCEL_TRANSACTION("/cancel_transaction"),
     DELETE_REGISTRATION("/delete"), DOCUMENTS("/documents"), LIST_DOCUMENTS("/list_documents"),
     GET_DOCUMENT("/get_document"), ADD_REGISTRATION_DATA("/add"), UPDATE_REGISTRATION_DATA("/update"),
-    PLAID_LINK_TOKEN("/plaid_link_token"),DELETE_ACCOUNT("/delete_account");
+    PLAID_LINK_TOKEN("/plaid_link_token"),DELETE_ACCOUNT("/delete_account"),LINK_CARD("/link_card"),DELETE_CARD("/delete_card"),GET_CARDS("/get_cards"),GET_WEBHOOKS("/get_webhooks"),REVERSE_TRANSACTION("/reverse_transaction");
 
     private String uri;
 

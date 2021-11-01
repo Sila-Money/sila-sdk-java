@@ -11,7 +11,7 @@ public class AccountTransactionMsg {
     @SerializedName("amount")
     private final int amount;
     @SerializedName("account_name")
-    private final String accountName;
+    private String accountName;
     @SerializedName("header")
     private final Header header;
     @SerializedName("message")
@@ -22,6 +22,8 @@ public class AccountTransactionMsg {
     private final String businessUuid;
     @SerializedName("processing_type")
     private final String processingType;
+    @SerializedName("card_name")
+    private String cardName;
 
     /**
      * Constructor for IssueMsg object.
@@ -30,6 +32,7 @@ public class AccountTransactionMsg {
      */
     public AccountTransactionMsg(String authHandle, AccountTransactionMessage message, Message.ValueEnum messageType) {
         this.accountName = message.getAccountName();
+        this.cardName = message.getCardName();
         this.amount = message.getAmount();
         this.header = new Header(message.getUserHandle(), authHandle);
         this.message = messageType.getValue();

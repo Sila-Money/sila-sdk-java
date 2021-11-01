@@ -70,7 +70,7 @@ public class AddRegistrationDataTests {
         public void Response200Identity() throws Exception {
                 UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-                IdentityMessage message = IdentityMessage.builder().identityAlias("SSN").identityValue("123452222")
+                IdentityMessage message = IdentityMessage.builder().identityAlias("SSN").identityValue("123452383")
                                 .build();
                 ApiResponse response = api.addIdentity(user, message);
                 assertEquals(200, response.getStatusCode());

@@ -108,6 +108,28 @@ public class ResponseUtil {
             linkAccountResponse.setSuccess(success);
 
             return new ApiResponse(statusCode, response.headers().map(), linkAccountResponse, success);
+        case "link_card_msg":
+                LinkCardResponse linkCardResponse = (LinkCardResponse) Serialization
+                        .deserialize(response.body().toString(), LinkCardResponse.class);
+
+                if (success && !"SUCCESS".equals(linkCardResponse.getStatus())) {
+                    success = false;
+                }
+
+                linkCardResponse.setSuccess(success);
+
+                return new ApiResponse(statusCode, response.headers().map(), linkCardResponse, success);
+        case "get_cards":
+                GetCardsResponse getCardsResponse = (GetCardsResponse) Serialization
+                        .deserialize(response.body().toString(), GetCardsResponse.class);
+
+                if (success && !"SUCCESS".equals(getCardsResponse.getStatus())) {
+                    success = false;
+                }
+
+                getCardsResponse.setSuccess(success);
+
+                return new ApiResponse(statusCode, response.headers().map(), getCardsResponse, success);
         case "get_accounts_msg":
             TypeToken<ArrayList<Account>> token = new TypeToken<ArrayList<Account>>() {
             };
@@ -250,6 +272,12 @@ public class ResponseUtil {
 
             return new ApiResponse(statusCode, response.headers().map(), plaidUpdateLinkTokenResponse,
                     plaidUpdateLinkTokenResponse.isSuccess());
+        case "get_webhooks":
+                GetWebhooksResponse getWebhooksResponse = (GetWebhooksResponse) Serialization
+                        .deserialize(response.body().toString(), GetWebhooksResponse.class);
+
+                return new ApiResponse(statusCode, response.headers().map(), getWebhooksResponse,
+                        getWebhooksResponse.getSuccess());
         case "register_business":
             RegisterBusinessResponse registerBusinessResponse = (RegisterBusinessResponse) Serialization.deserialize(response.body().toString(),
                     RegisterBusinessResponse.class);
