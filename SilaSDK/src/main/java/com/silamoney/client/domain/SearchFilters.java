@@ -138,10 +138,6 @@ public class SearchFilters {
     @Setter
     public String bankAccountName;
 
-    @SerializedName("card_account_name")
-    @Setter
-    public String cardAccountName;
-
     /**
      * Sets the transaction id to the filters.
      *

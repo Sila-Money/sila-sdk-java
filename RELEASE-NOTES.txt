@@ -8,7 +8,7 @@ New Features:
 Enhancements:
 	- Added card_name a new optional input in /issue_sila.
 	- Added card_name a new optional input in /redeem_sila.
-	- Added card_account_name a new optional input in search filters in /get_transactions.
+	- Added new param to the response ("card_name") in /get_transactions.
 	- Exposed RateLimit-Limit and RateLimit-Remaining parameters in header in APIs endpoint.
 
 v0.2.28

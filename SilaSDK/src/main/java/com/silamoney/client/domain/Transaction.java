@@ -130,6 +130,6 @@ public class Transaction {
     /**
      * String field used for the card account name.
      */
-    @SerializedName("card_account_name")
-    public String cardAccountName;
+    @SerializedName("card_name")
+    public String cardName;
 }
