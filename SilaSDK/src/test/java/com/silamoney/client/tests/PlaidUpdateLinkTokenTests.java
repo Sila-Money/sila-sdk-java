@@ -21,7 +21,7 @@ public class PlaidUpdateLinkTokenTests {
 
         LocalDate birthdate = new LocalDate(1900, 01, 31);
         User user = new User(DefaultConfigurations.getUser3Handle(), "Example", "User", "123 Main Street", null,
-				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452222",
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
 				DefaultConfigurations.getUser3CryptoAddress(), birthdate.toDate());
 
         api.register(user);

@@ -40,18 +40,23 @@ import org.junit.runners.Suite.SuiteClasses;
     UpdateAccountTests.class,
     DeleteAccountTests.class,
     GetAccountsTests.class,
+    LinkCardTests.class,
+    GetCardsTests.class,
     GetAccountBalanceTests.class,
     CancelTransactionTests.class,
     IssueSilaTests.class,
     TransferSilaTests.class, 
     RedeemSilaTests.class,
     GetTransactionsTests.class,
+    GetWebhooksTests.class,
+    ReverseTransactionTests.class,
     PlaidSameDayAuthTests.class,
     RegisterWalletTests.class,
     GetWalletTests.class,
     GetWalletsTests.class,
     UpdateWalletTests.class,
     DeleteWalletTests.class,
+    DeleteCardTests.class,
     SilaBalanceTests.class
 })
 public class TestSuite {}

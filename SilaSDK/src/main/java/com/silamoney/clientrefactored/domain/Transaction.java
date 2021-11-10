@@ -46,6 +46,8 @@ public class Transaction {
     private String handleAddress;
     @SerializedName("bank_account_name")
     private String bankAccountName;
+    @SerializedName("card_name")
+    private String cardName;
     @SerializedName("descriptot_ach")
     private String descriptorAch;
     @SerializedName("processing_type")

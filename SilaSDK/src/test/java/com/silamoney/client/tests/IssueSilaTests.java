@@ -78,7 +78,16 @@ public class IssueSilaTests {
         assertEquals("SUCCESS", parsedResponse.getStatus());
         assertNotNull(parsedResponse.getTransactionId());
     }
-
+    @Test
+    public void Response200SuccessWithCardName() throws Exception {
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).cardName("visa")
+                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).build();
+        ApiResponse response = api.issueSila(issue);
+        assertEquals(200, response.getStatusCode());
+        assertTrue(((TransactionResponse) response.getData()).getSuccess());
+    }
     @Test
     public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
             InterruptedException, ForbiddenException {

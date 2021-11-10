@@ -131,7 +131,23 @@ public class Message {
         /**
          * String value for RegisterBusiness.
          */
-        REGISTER_BUSINESS("register_business");
+        REGISTER_BUSINESS("register_business"),
+        /**
+         * String value for LinkCardMsg.
+         */
+        LINK_CARD_MSG("link_card_msg"),
+        /**
+         * String value for DeleteCard.
+         */
+        DELETE_CARD("delete_card"),
+        /**
+         * String value for GetCards.
+         */
+        GET_CARD_MSG("get_cards"),
+        /**
+         * String value for GetWebhooks.
+         */
+        GET_WEBHOOKS("get_webhooks");
 
         private final String value;
 

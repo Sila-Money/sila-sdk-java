@@ -126,4 +126,10 @@ public class Transaction {
 
     @SerializedName("addenda")
     public String addenda;
+
+    /**
+     * String field used for the card account name.
+     */
+    @SerializedName("card_name")
+    public String cardName;
 }
