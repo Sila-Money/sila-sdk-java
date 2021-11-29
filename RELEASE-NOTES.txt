@@ -1,3 +1,7 @@
+v0.2.30-rc
+Hotfix:
+    - Added new param to the response ("qualification_details") in /check_instant_ach.
+
 v0.2.30
 New Features:
 	- Added support for /link_card.
