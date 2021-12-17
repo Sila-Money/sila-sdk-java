@@ -1,3 +1,7 @@
+v0.2.30-rc2
+Hotfix:
+    - Added new field in response ("wallet_id") for /get_wallet and /get_wallets.
+
 v0.2.30-rc
 Hotfix:
     - Added new param to the response ("qualification_details") in /check_instant_ach.
