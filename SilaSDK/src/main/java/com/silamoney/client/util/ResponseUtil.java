@@ -198,6 +198,11 @@ public class ResponseUtil {
                     CheckKYCResponse.class);
 
             return new ApiResponse(statusCode, response.headers().map(), checkKYCResponse, success);
+        case "request_kyc":
+            RequestKycResponse requestKycResponse = (RequestKycResponse) Serialization.deserialize(response.body().toString(),
+                    RequestKycResponse.class);
+
+            return new ApiResponse(statusCode, response.headers().map(), requestKycResponse, success);
         case "unlink_business_member":
             LinkBusinessOperationResponse LinkBusinessOperationResponse = (LinkBusinessOperationResponse) Serialization
                     .deserialize(response.body().toString(), LinkBusinessOperationResponse.class);

@@ -165,7 +165,7 @@ public class SilaApi {
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.REQUEST_KYC.getValue());
     }
 
     /**

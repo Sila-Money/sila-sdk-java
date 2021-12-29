@@ -147,7 +147,11 @@ public class Message {
         /**
          * String value for GetWebhooks.
          */
-        GET_WEBHOOKS("get_webhooks");
+        GET_WEBHOOKS("get_webhooks"),
+        /**
+         * String value for GetWebhooks.
+         */
+        REQUEST_KYC("request_kyc");;
 
         private final String value;
 
