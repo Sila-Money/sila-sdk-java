@@ -1,3 +1,7 @@
+v0.2.30-rc3
+Hotfix:
+    - Allowed RequestKycResponse in response for /request_kyc.
+
 v0.2.30-rc2
 Hotfix:
     - Added new field in response ("wallet_id") for /get_wallet and /get_wallets.

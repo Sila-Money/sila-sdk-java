@@ -7,6 +7,7 @@ import java.io.IOException;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.RequestKycResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -30,7 +31,8 @@ public class RequestKYCTests {
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
-		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+		RequestKycResponse parsedResponse= (RequestKycResponse) response.getData();
+		assertEquals("SUCCESS", parsedResponse.getStatus());
 
 		response = api.requestKYC(DefaultConfigurations.getUser2Handle(), null,
 				DefaultConfigurations.getUser2PrivateKey());
