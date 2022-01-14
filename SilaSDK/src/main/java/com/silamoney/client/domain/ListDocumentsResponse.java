@@ -14,6 +14,9 @@ public class ListDocumentsResponse {
     @SerializedName("status")
     private String status;
     @Getter
+    @SerializedName("reference")
+    private String reference;
+    @Getter
     @SerializedName("documents")
     private List<Document> documents;
     @Getter

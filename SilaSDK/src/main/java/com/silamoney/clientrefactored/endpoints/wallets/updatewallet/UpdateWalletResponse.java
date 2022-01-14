@@ -17,5 +17,6 @@ public class UpdateWalletResponse {
     @SerializedName("wallet")
     private Wallet wallet;
     private List<Change> changes;
+    private String reference;
 
 }

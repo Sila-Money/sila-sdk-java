@@ -1,5 +1,6 @@
 package com.silamoney.client.domain;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +23,8 @@ public class BaseResponse {
     @Getter
     @Setter
     private Boolean success;
+
+    @Getter
+    @SerializedName("error_code")
+    private String errorCode;
 }

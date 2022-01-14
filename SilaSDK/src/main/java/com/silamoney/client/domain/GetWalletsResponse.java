@@ -10,5 +10,8 @@ public class GetWalletsResponse extends PaginationInformation {
     private boolean success;
     @Getter
     private List<Wallet> wallets;
+
+    @Getter
+    private String reference;
     
 }

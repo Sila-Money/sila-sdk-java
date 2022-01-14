@@ -14,5 +14,6 @@ public class GetNaicsCategoriesResponse {
     @SerializedName(value = "naics_categories")
     private Map<String, ArrayList<NaicsCategoryDescription>> naicsCategories;
     private String status;
+    private String reference;
 
 }

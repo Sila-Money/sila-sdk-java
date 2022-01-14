@@ -25,4 +25,7 @@ public class GetTransactionsResponse extends PaginationInformation {
 
     public Pagination pagination;
 
+    @SerializedName("reference")
+    public String reference;
+
 }

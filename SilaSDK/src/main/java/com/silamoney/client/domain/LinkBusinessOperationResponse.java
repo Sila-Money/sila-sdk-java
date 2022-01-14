@@ -9,5 +9,6 @@ public class LinkBusinessOperationResponse {
     private boolean success;
     private String role;
     private String status;
+    private String reference;
 
 }

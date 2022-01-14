@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
@@ -29,6 +30,7 @@ public class CancelTransactionTests {
                                 .accountName("default").build();
                 ApiResponse response = api.issueSila(redeem);
                 assertEquals(200, response.getStatusCode());
+                TimeUnit.SECONDS.sleep(2);
                 String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
                 CancelTransactionMessage message = CancelTransactionMessage.builder()
                                 .userHandle(DefaultConfigurations.getUserHandle())

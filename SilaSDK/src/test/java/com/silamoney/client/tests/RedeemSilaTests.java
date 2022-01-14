@@ -94,7 +94,7 @@ public class RedeemSilaTests {
                         .userHandle(DefaultConfigurations.getUserHandle())
                         .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200)
                         .cardName("visa").descriptor("test descriptor")
-                        .businessUuid(DefaultConfigurations.correctUuid).build();
+                        .businessUuid(DefaultConfigurations.correctUuid).processingType(ProcessingTypeEnum.CARD).build();
                 ApiResponse response = api.redeemSila(redeem);
 
                 assertEquals(200, response.getStatusCode());

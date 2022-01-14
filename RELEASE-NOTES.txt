@@ -1,3 +1,11 @@
+v0.2.36
+Enhancements:
+	- Added reference in response for all API endpoint.
+	- Allowed CARD a new optional input to the processing_type in /redeem_sila.
+	- Added uuid a new optional input to the SearchFilters in /get_wallets.
+	- Added new field errorCode in response for Instant ACH.
+	- Added new input fields queued,pending_confirmation,reversed,rollback and review in statuses array to the SearchFilters in /get_transactions.
+
 v0.2.30-rc3
 Hotfix:
     - Allowed RequestKycResponse in response for /request_kyc.
