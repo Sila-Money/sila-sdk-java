@@ -1118,9 +1118,10 @@ public class SilaApi {
             throws NoSuchAlgorithmException, IOException, InterruptedException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         inputStream.transferTo(baos);
-        InputStream firstInputStream = new ByteArrayInputStream(baos.toByteArray());
-        InputStream secondInputStream = new ByteArrayInputStream(baos.toByteArray());
-        String hash = EcdsaUtil.hashFile(firstInputStream);
+        InputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        bais.mark(0);
+        String hash = EcdsaUtil.hashFile(bais);
+        bais.reset();
         UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
         String path = Endpoints.DOCUMENTS.getUri();
         String sBody = Serialization.serialize(body);
@@ -1129,7 +1130,7 @@ public class SilaApi {
         headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
-                secondInputStream, message.getMimeType(), fileName);
+                bais, message.getMimeType(), fileName);
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
