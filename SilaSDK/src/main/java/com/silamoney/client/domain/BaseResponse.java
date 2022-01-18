@@ -23,8 +23,4 @@ public class BaseResponse {
     @Getter
     @Setter
     private Boolean success;
-
-    @Getter
-    @SerializedName("error_code")
-    private String errorCode;
 }

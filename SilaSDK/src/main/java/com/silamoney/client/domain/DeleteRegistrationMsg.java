@@ -9,7 +9,7 @@ public class DeleteRegistrationMsg {
     private final String uuid;
 
     public DeleteRegistrationMsg(String appHandle, DeleteRegistrationMessage message) {
-        this.header = new HeaderBuilder(appHandle).withUserHandle(message.getUserHandle()).build();
+        this.header = new HeaderBuilder(appHandle).withUserHandle(message.getUserHandle()).withReference().build();
         this.uuid = message.getUuid();
     }
 }

@@ -34,10 +34,6 @@ public class SilaApi {
 
     private final Configuration configuration;
     private static final String HEADER_STRING = "header";
-    private static final String CREATED_STRNG = "created";
-    private static final String APP_HANDLE_STRING = "app_handle";
-    private static final String USER_HANDLE_STRING = "user_handle";
-    private static final String BUSINESS_HANDLE_STRING = "business_handle";
     private static final String SLASH = "/";
     private static final String AUTH_SIGNATURE = "authsignature";
     private static final String USER_SIGNATURE = "usersignature";
@@ -733,11 +729,8 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse getBusinessTypes() throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-
-        Map<String, Map<String, String>> bodyMap = new HashMap<>();
+        Header header = new Header(null, this.configuration.getAuthHandle());
+        Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_BUSINESS_TYPES.getUri();
@@ -759,11 +752,8 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse getBusinessRoles() throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-
-        Map<String, Map<String, String>> bodyMap = new HashMap<>();
+        Header header = new Header(null, this.configuration.getAuthHandle());
+        Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_BUSINESS_ROLES.getUri();
@@ -783,11 +773,8 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse getNaicsCategories() throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-
-        Map<String, Map<String, String>> bodyMap = new HashMap<>();
+        Header header = new Header(null, this.configuration.getAuthHandle());
+        Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_NAICS_CATEGORIES.getUri();
@@ -836,11 +823,13 @@ public class SilaApi {
     public ApiResponse linkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, BusinessRole businessRole, String memberHandle, String details,
             Float ownershipStake) throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-        header.put(USER_HANDLE_STRING, userHandle);
-        header.put(BUSINESS_HANDLE_STRING, businessHandle);
+//        Map<String, String> header = new HashMap<>();
+//        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
+//        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
+//        header.put(USER_HANDLE_STRING, userHandle);
+//        header.put(BUSINESS_HANDLE_STRING, businessHandle);
+//        header.put(REFERENCE, UUID.randomUUID().toString());
+        Header header=new Header(userHandle,this.configuration.getAuthHandle(),businessHandle);
 
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
@@ -875,11 +864,7 @@ public class SilaApi {
      */
     public ApiResponse unlinkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, BusinessRole businessRole) throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-        header.put(USER_HANDLE_STRING, userHandle);
-        header.put(BUSINESS_HANDLE_STRING, businessHandle);
+        Header header=new Header(userHandle,this.configuration.getAuthHandle(),businessHandle);
 
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
@@ -907,11 +892,7 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse getEntity(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-        header.put(USER_HANDLE_STRING, userHandle);
-
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
 
@@ -941,11 +922,7 @@ public class SilaApi {
     public ApiResponse certifyBeneficialOwner(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, String memberHandle, String certificationToken)
             throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-        header.put(USER_HANDLE_STRING, userHandle);
-        header.put(BUSINESS_HANDLE_STRING, businessHandle);
+        Header header=new Header(userHandle,this.configuration.getAuthHandle(),businessHandle);
 
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
@@ -976,11 +953,7 @@ public class SilaApi {
      */
     public ApiResponse certifyBusiness(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey) throws IOException, InterruptedException {
-        Map<String, String> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch() + "");
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-        header.put(USER_HANDLE_STRING, userHandle);
-        header.put(BUSINESS_HANDLE_STRING, businessHandle);
+        Header header=new Header(userHandle,this.configuration.getAuthHandle(),businessHandle);
 
         Map<String, Object> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
@@ -1294,10 +1267,7 @@ public class SilaApi {
         String path = Endpoints.PLAID_LINK_TOKEN.getUri();
 
         Map<String, Object> body = new HashMap<>();
-        Map<String, Object> header = new HashMap<>();
-        header.put(CREATED_STRNG, EpochUtils.getEpoch());
-        header.put(APP_HANDLE_STRING, this.configuration.getAuthHandle());
-        header.put(USER_HANDLE_STRING, userHandle);
+        Header header=new Header(userHandle,this.configuration.getAuthHandle());
 
         body.put(HEADER_STRING, header);
         if (androidPackageName != null) {

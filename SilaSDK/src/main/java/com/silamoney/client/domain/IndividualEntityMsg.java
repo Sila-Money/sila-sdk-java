@@ -17,7 +17,7 @@ public class IndividualEntityMsg {
     private String birthdate;
 
     public IndividualEntityMsg(String authHandle, UserHandleMessage user, IndividualEntityMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).build();
+        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
         this.firstName = message.getFirstName();
         this.lastName = message.getLastName();
         this.entityName = message.getEntityName();

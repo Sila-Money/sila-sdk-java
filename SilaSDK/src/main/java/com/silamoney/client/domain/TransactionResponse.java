@@ -1,6 +1,7 @@
 package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
 
 /**
  * Response used for the majority of endpoints.
@@ -13,7 +14,9 @@ public class TransactionResponse extends BaseResponse {
     private String transactionId;
     
     private String descriptor;
-
+	@Getter
+	@SerializedName("error_code")
+	private String errorCode;
     /**
      * Gets the response transaction.
      * @return transaction id

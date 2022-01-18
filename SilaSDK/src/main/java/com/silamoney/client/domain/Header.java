@@ -50,6 +50,9 @@ public class Header {
     @SerializedName("crypto")
     private final String crypto;
 
+    @SerializedName("business_handle")
+    private String businessHandle;
+
     /**
      * Constructor for header object.
      *
@@ -59,6 +62,23 @@ public class Header {
     public Header(String userHandle, String appHandle) {
         this.authHandle = appHandle;
         this.userHandle = userHandle;
+
+        this.created = (int) (((new Date()).getTime() / 1000) - 100);
+        this.crypto = CryptoEnum.ETH.value;
+        this.reference = UUID.randomUUID().toString();
+        this.version = VersionEnum.ZERO_2.value;
+    }
+    /**
+     * Constructor for header object.
+     *
+     * @param userHandle
+     * @param appHandle
+     * @param businessHandle
+     */
+    public Header(String userHandle, String appHandle,String businessHandle) {
+        this.authHandle = appHandle;
+        this.userHandle = userHandle;
+        this.businessHandle=businessHandle;
 
         this.created = (int) (((new Date()).getTime() / 1000) - 100);
         this.crypto = CryptoEnum.ETH.value;

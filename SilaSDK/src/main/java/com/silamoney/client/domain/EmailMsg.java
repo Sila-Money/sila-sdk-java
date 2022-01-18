@@ -11,7 +11,7 @@ public class EmailMsg {
     private String uuid;
 
     public EmailMsg(String authHandle, UserHandleMessage user, EmailMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).build();
+        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
         this.email = message.getEmail();
         this.uuid = message.getUuid();
     }
