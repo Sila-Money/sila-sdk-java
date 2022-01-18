@@ -1,5 +1,7 @@
 package com.silamoney.client.api;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -1113,8 +1115,12 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse uploadDocument(UploadDocumentMessage message, InputStream inputStream, String fileName)
-        throws NoSuchAlgorithmException, IOException, InterruptedException {
-        String hash = EcdsaUtil.hashFile(inputStream);
+            throws NoSuchAlgorithmException, IOException, InterruptedException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        inputStream.transferTo(baos);
+        InputStream firstInputStream = new ByteArrayInputStream(baos.toByteArray());
+        InputStream secondInputStream = new ByteArrayInputStream(baos.toByteArray());
+        String hash = EcdsaUtil.hashFile(firstInputStream);
         UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
         String path = Endpoints.DOCUMENTS.getUri();
         String sBody = Serialization.serialize(body);
@@ -1123,7 +1129,7 @@ public class SilaApi {
         headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
-            inputStream, message.getMimeType(), fileName);
+                secondInputStream, message.getMimeType(), fileName);
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
