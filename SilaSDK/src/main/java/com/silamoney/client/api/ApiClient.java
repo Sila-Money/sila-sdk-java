@@ -120,7 +120,6 @@ public class ApiClient {
      * @param path
      * @param headers
      * @param body
-     * @param filePath
      * @return
      * @throws FileNotFoundException
      * @throws IOException
