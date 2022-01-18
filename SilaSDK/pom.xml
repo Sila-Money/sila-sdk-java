@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.icon.sila</groupId>
     <artifactId>icon-sila-sdk</artifactId>
-    <version>1.26-SNAPSHOT</version>
+    <version>1.26</version>
     <packaging>jar</packaging>
 
     <name>Icon Sila SDK</name>
@@ -27,7 +27,7 @@
       <connection>scm:git:git@github.com:icon-savings/sila-sdk-java.git</connection>
       <developerConnection>scm:git:git@github.com:icon-savings/sila-sdk-java.git</developerConnection>
       <url>https://github.com/icon-savings/sila-sdk-java</url>
-      <tag>v1.23</tag>
+      <tag>v1.26</tag>
     </scm>
 
     <properties>
