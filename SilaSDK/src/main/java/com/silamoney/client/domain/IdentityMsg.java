@@ -13,7 +13,7 @@ public class IdentityMsg {
     private String uuid;
 
     public IdentityMsg(String authHandle, UserHandleMessage user, IdentityMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).build();
+        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
         this.identityAlias = message.getIdentityAlias();
         this.identityValue = message.getIdentityValue();
         this.uuid = message.getUuid();

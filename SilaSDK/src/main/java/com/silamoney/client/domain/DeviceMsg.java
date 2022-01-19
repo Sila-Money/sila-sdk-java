@@ -9,7 +9,7 @@ public class DeviceMsg {
     private String deviceFingerPrint;
 
     public DeviceMsg(String authHandle, UserHandleMessage user, Device device) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).build();
+        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
         this.deviceFingerPrint = device.getDeviceFingerPrint();
     }
 }

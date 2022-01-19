@@ -12,5 +12,5 @@ public class PlaidUpdateLinkTokenResponse {
     private String status;
     @SerializedName(value = "link_token")
     private String linkToken;
-
+    private String reference;
 }

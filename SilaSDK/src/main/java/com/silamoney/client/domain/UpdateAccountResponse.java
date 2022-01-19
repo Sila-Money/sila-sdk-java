@@ -13,5 +13,6 @@ public class UpdateAccountResponse {
     private String status;
     private Account account;
     private List<Change> changes;
+    private String reference;
 
 }

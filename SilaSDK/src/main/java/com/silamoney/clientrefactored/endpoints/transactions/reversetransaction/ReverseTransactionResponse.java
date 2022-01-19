@@ -15,5 +15,8 @@ public class ReverseTransactionResponse {
     private String message;
     private String status;
     private String reference;
+
+    @SerializedName("error_code")
+    private String errorCode;
 }
 

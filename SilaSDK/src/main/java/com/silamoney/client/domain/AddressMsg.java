@@ -23,7 +23,7 @@ public class AddressMsg {
     private String uuid;
 
     public AddressMsg(String authHandle, UserHandleMessage user, AddressMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).build();
+        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
         this.addressAlias = message.getAddressAlias();
         this.streetAddress1 = message.getStreetAddress1();
         this.streetAddress2 = message.getStreetAddress2();

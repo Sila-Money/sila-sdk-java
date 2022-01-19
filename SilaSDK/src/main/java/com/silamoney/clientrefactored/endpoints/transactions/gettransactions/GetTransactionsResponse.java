@@ -20,6 +20,7 @@ public class GetTransactionsResponse {
     private Long totalCount;
     private Pagination pagination;
     private List<Transaction> transactions;
+    private String reference;
 
 }
 

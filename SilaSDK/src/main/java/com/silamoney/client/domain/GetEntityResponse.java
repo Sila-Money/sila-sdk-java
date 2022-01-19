@@ -23,5 +23,6 @@ public class GetEntityResponse {
     private List<Member> members;
     private List<Devices> devices;
     private String status;
+    private String reference;
 
 }
