@@ -149,9 +149,29 @@ public class Message {
          */
         GET_WEBHOOKS("get_webhooks"),
         /**
-         * String value for GetWebhooks.
+         * String value for Request KYC.
          */
-        REQUEST_KYC("request_kyc");;
+        REQUEST_KYC("request_kyc"),
+        /**
+         * String value for GetPaymentMethods.
+         */
+        GET_PAYMENT_METHODS("get_payment_methods"),
+        /**
+         * String value for OpenVirtualAccount.
+         */
+        OPEN_VIRTUAL_ACCOUNT("open_virtual_account"),
+        /**
+         * String value for GetVirtualAccounts.
+         */
+        GET_VIRTUAL_ACCOUNTS("get_virtual_accounts"),
+        /**
+         * String value for GetVirtualAccount.
+         */
+        GET_VIRTUAL_ACCOUNT("get_virtual_account"),
+        /**
+         * String value for UpdateVirtualAccount.
+         */
+        UPDATE_VIRTUAL_ACCOUNT("update_virtual_account");
 
         private final String value;
 

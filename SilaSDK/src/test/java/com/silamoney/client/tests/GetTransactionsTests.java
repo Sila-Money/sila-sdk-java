@@ -101,4 +101,21 @@ public class GetTransactionsTests {
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(403, response.getStatusCode());
 	}
+
+	@Test
+	public void Response200WithSourceIdDestinationId() throws Exception {
+		SearchFilters filters = new SearchFilters();
+		filters.setDestinationId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId());
+		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
+		assertTrue(parsedResponse.success);
+		assertEquals("SUCCESS", parsedResponse.status);
+		assertTrue(parsedResponse.transactions.size()>0);
+		assertNotNull(parsedResponse.transactions.get(0).silaLedgerType);
+		assertNotNull(parsedResponse.transactions.get(0).sourceId);
+		assertNotNull(parsedResponse.transactions.get(0).destinationId);
+	}
 }

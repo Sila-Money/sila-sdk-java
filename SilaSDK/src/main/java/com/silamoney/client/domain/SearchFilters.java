@@ -156,6 +156,28 @@ public class SearchFilters {
     @SerializedName("uuid")
     public String uuid;
 
+    @SerializedName("source_id")
+    private String sourceId;
+
+    @SerializedName("destination_id")
+    private String destinationId;
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public String getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(String destinationId) {
+        this.destinationId = destinationId;
+    }
+
     /**
      * Sets the transaction id to the filters.
      *

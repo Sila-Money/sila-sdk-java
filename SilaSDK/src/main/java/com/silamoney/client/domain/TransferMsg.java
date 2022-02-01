@@ -30,6 +30,13 @@ public class TransferMsg {
     @SerializedName("business_uuid")
     private final String businessUuid;
 
+    @SerializedName("source_id")
+    private String sourceId;
+
+    @SerializedName("destination_id")
+    private String destinationId;
+
+
     /**
      ** Constructor for TransferMsg object.
      *
@@ -39,6 +46,8 @@ public class TransferMsg {
      * @param descriptor
      * @param businessUuid
      * @param appHandle
+     * @param sourceId
+     * @param destinationId
      */
     public TransferMsg(String userHandle,
             String destination,
@@ -46,7 +55,7 @@ public class TransferMsg {
             String destinationAddress,
             String descriptor, 
             String businessUuid, 
-            String appHandle) {
+            String appHandle,String sourceId,String destinationId) {
         this.amount = amount;
         this.destination = destination;
         this.destinationAddress = destinationAddress;
@@ -54,5 +63,7 @@ public class TransferMsg {
         this.message = Message.ValueEnum.TRANSFER_MSG.getValue();
         this.descriptor = descriptor;
         this.businessUuid = businessUuid;
+        this.sourceId = sourceId;
+        this.destinationId = destinationId;;
     }
 }

@@ -21,4 +21,8 @@ public class AccountTransactionMessage {
     private ProcessingTypeEnum processingType;
     @Getter
     private String cardName;
+    @Getter
+    private String sourceId;
+    @Getter
+    private String destinationId;
 }

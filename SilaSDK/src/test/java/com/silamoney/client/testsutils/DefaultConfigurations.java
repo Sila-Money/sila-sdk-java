@@ -11,12 +11,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import com.silamoney.client.domain.BusinessRole;
-import com.silamoney.client.domain.BusinessType;
-import com.silamoney.client.domain.DocumentType;
-import com.silamoney.client.domain.Environments;
-import com.silamoney.client.domain.NaicsCategoryDescription;
-import com.silamoney.client.domain.SearchFilters;
+import com.silamoney.client.domain.*;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
@@ -409,5 +404,36 @@ public class DefaultConfigurations {
     public static void setBusinessOwnerToken(String businessOwnerToken) {
         DefaultConfigurations.businessOwnerToken = businessOwnerToken;
     }
+
+    public static List<VirtualAccount> getVirtualAccounts() {
+        return virtualAccounts;
+    }
+
+    public static void setVirtualAccounts(List<VirtualAccount> virtualAccounts) {
+        DefaultConfigurations.virtualAccounts = virtualAccounts;
+    }
+
+    private static List<VirtualAccount> virtualAccounts;
+
+    public static VirtualAccount getVirtualAccounts2() {
+        return virtualAccounts2;
+    }
+
+    public static void setVirtualAccounts2(VirtualAccount virtualAccounts2) {
+        DefaultConfigurations.virtualAccounts2 = virtualAccounts2;
+    }
+
+    private static VirtualAccount virtualAccounts2;
+
+    public static List<PaymentMethods> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public static void setPaymentMethods(List<PaymentMethods> paymentMethods) {
+        DefaultConfigurations.paymentMethods = paymentMethods;
+    }
+
+    private static List<PaymentMethods> paymentMethods;
+
 
 }

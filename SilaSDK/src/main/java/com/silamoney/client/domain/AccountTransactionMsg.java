@@ -24,6 +24,10 @@ public class AccountTransactionMsg {
     private final String processingType;
     @SerializedName("card_name")
     private String cardName;
+    @SerializedName("source_id")
+    private String sourceId;
+    @SerializedName("destination_id")
+    private String destinationId;
 
     /**
      * Constructor for IssueMsg object.
@@ -39,5 +43,7 @@ public class AccountTransactionMsg {
         this.descriptor = message.getDescriptor();
         this.businessUuid = message.getBusinessUuid();
         this.processingType = message.getProcessingType() == null ? null : message.getProcessingType().getValue();
+        this.sourceId = message.getSourceId();
+        this.destinationId = message.getDestinationId();
     }
 }
