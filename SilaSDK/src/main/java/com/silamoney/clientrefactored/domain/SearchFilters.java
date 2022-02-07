@@ -37,5 +37,8 @@ public class SearchFilters {
     private String bankAccountName;
     @SerializedName("blockchain_address")
     private String blockchainAddress;
-
+    @SerializedName("source_id")
+    private String sourceId;
+    @SerializedName("destination_id")
+    private String destinationId;
 }

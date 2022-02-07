@@ -294,17 +294,42 @@ public class ResponseUtil {
             registerBusinessResponse.setSuccess(success);
 
             return new ApiResponse(statusCode, response.headers().map(), registerBusinessResponse, success);
-            case "check_instant_ach":
-                CheckInstantAchResponse checkInstantAchResponse = (CheckInstantAchResponse) Serialization.deserialize(response.body().toString(),
-                        CheckInstantAchResponse.class);
+        case "check_instant_ach":
+             CheckInstantAchResponse checkInstantAchResponse = (CheckInstantAchResponse) Serialization.deserialize(response.body().toString(),
+                     CheckInstantAchResponse.class);
 
-                if (success && (!"SUCCESS".equals(checkInstantAchResponse.getStatus()) && checkInstantAchResponse.getStatus() != null)) {
-                    success = false;
-                }
+             if (success && (!"SUCCESS".equals(checkInstantAchResponse.getStatus()) && checkInstantAchResponse.getStatus() != null)) {
+                 success = false;
+             }
 
-                checkInstantAchResponse.setSuccess(success);
+             checkInstantAchResponse.setSuccess(success);
 
-                return new ApiResponse(statusCode, response.headers().map(), checkInstantAchResponse, success);
+             return new ApiResponse(statusCode, response.headers().map(), checkInstantAchResponse, success);
+        case "get_payment_methods":
+             GetPaymentMethodsResponse getPaymentMethodsResponse = (GetPaymentMethodsResponse) Serialization
+                     .deserialize(response.body().toString(), GetPaymentMethodsResponse.class);
+
+             return new ApiResponse(statusCode, response.headers().map(), getPaymentMethodsResponse, success);
+        case "open_virtual_account":
+            VirtualAccountResponse openVirtualAccountResponse = (VirtualAccountResponse) Serialization
+                    .deserialize(response.body().toString(), VirtualAccountResponse.class);
+
+            return new ApiResponse(statusCode, response.headers().map(), openVirtualAccountResponse, success);
+        case "get_virtual_accounts":
+            GetVirtualAccountsResponse getVirtualAccountsResponse = (GetVirtualAccountsResponse) Serialization
+                    .deserialize(response.body().toString(), GetVirtualAccountsResponse.class);
+
+            return new ApiResponse(statusCode, response.headers().map(), getVirtualAccountsResponse, success);
+        case "get_virtual_account":
+            GetVirtualAccountResponse getVirtualAccountResponse = (GetVirtualAccountResponse) Serialization
+                    .deserialize(response.body().toString(), GetVirtualAccountResponse.class);
+
+            return new ApiResponse(statusCode, response.headers().map(), getVirtualAccountResponse, success);
+        case "update_virtual_account":
+            VirtualAccountResponse virtualAccountResponse = (VirtualAccountResponse) Serialization
+                    .deserialize(response.body().toString(), VirtualAccountResponse.class);
+
+            return new ApiResponse(statusCode, response.headers().map(), virtualAccountResponse, success);
         default:
             BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                     BaseResponse.class);

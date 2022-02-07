@@ -152,4 +152,20 @@ public class RedeemSilaTests {
                 assertFalse(parsedResponse.getSuccess());
                 assertEquals("FAILURE", parsedResponse.getStatus());
         }
+
+        @Test
+        public void Response200SuccessWithVirtualAccount() throws Exception {
+                AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                        .userHandle(DefaultConfigurations.getUserHandle())
+                        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200)
+                        .accountName("default").descriptor("test descriptor").sourceId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId())
+                        .businessUuid(DefaultConfigurations.correctUuid).build();
+                ApiResponse response = api.redeemSila(redeem);
+                assertEquals(200, response.getStatusCode());
+                assertTrue(((TransactionResponse) response.getData()).getSuccess());
+                assertEquals("test descriptor", ((TransactionResponse) response.getData()).getDescriptor());
+                assertEquals("SUCCESS", ((TransactionResponse) response.getData()).getStatus());
+                assertNotNull(((TransactionResponse) response.getData()).getTransactionId());
+
+        }
 }
