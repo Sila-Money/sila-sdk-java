@@ -1,4 +1,4 @@
-package com.silamoney.clientrefactored.endpoints.webhooks;
+package com.silamoney.clientrefactored.endpoints.webhooks.getWebhooks;
 
 import com.silamoney.clientrefactored.domain.WebhookSearchFilters;
 import lombok.Builder;

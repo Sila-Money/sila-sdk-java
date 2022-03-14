@@ -47,8 +47,8 @@ public class EntityMsg {
         this.contact = new Contact(user);
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
-        if (user.getDeviceFingerprint() != null) {
-            this.device = new Device(user.getDeviceFingerprint());
+        if (user.getDeviceFingerprint() != null || user.getSessionIdentifier() != null) {
+            this.device = new Device(user.getDeviceFingerprint(), user.getSessionIdentifier());
         } else {
             this.device = null;            
         }
@@ -69,7 +69,11 @@ public class EntityMsg {
         this.contact = new Contact(user);
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
-        this.device = null;
+        if (user.getDeviceFingerprint() != null || user.getSessionIdentifier() != null) {
+            this.device = new Device(user.getDeviceFingerprint(), user.getSessionIdentifier());
+        } else {
+            this.device = null;
+        }
     }
 
     /**

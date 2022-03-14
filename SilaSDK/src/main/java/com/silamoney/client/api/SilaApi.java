@@ -176,7 +176,26 @@ public class SilaApi {
      *
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
-        HeaderMsg body = new HeaderMsg(userHandle, this.configuration.getAuthHandle());
+        return checkKYCData(userHandle, userPrivateKey, null);
+    }
+
+    /**
+     * Returns whether entity attached to user handle is verified, not valid, or
+     * still pending.
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @param keyLevel
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse checkKYC(String userHandle, String userPrivateKey, String keyLevel) throws IOException, InterruptedException {
+        return checkKYCData(userHandle, userPrivateKey, keyLevel);
+    }
+
+    public ApiResponse checkKYCData(String userHandle, String userPrivateKey, String keyLevel) throws IOException, InterruptedException {
+        HeaderMsg body = keyLevel != null ? new HeaderMsg(userHandle, keyLevel, this.configuration.getAuthHandle()) : new HeaderMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.CHECK_KYC.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -1472,6 +1491,24 @@ public class SilaApi {
      */
     public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey)
             throws IOException, InterruptedException {
+        return checkInstantAchData(accountName,userHandle,userPrivateKey,null);
+    }
+    /**
+     * @param accountName
+     * @param userHandle
+     * @param userPrivateKey
+     * @param kycLevel
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey,String kycLevel)
+            throws IOException, InterruptedException {
+        return checkInstantAchData(accountName,userHandle,userPrivateKey,kycLevel);
+    }
+
+    public ApiResponse checkInstantAchData(String accountName, String userHandle, String userPrivateKey, String kycLevel)
+            throws IOException, InterruptedException {
         String path = "/check_instant_ach";
 
         Header header = new Header(userHandle, this.configuration.getAuthHandle());
@@ -1479,7 +1516,9 @@ public class SilaApi {
         Map<String, Object> body = new HashMap<>();
         body.put("header", header);
         body.put("account_name", accountName);
-
+        if (kycLevel != null) {
+            body.put("kyc_level", kycLevel);
+        }
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
 
@@ -1852,5 +1891,21 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
 
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_VIRTUAL_ACCOUNT.getValue());
+    }
+
+    public ApiResponse retryWebhooks(String userHandle, String eventUuid)
+            throws IOException, InterruptedException {
+        String path = Endpoints.RETRY_WEBHOOK.getUri();
+        Header header = new Header(userHandle, this.configuration.getAuthHandle());
+        Map<String, Object> body = new HashMap<>();
+        body.put(HEADER_STRING, header);
+        body.put("message", "header_msg");
+        body.put("event_uuid", eventUuid);
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.RETRY_WEBHOOK.getValue());
     }
 }

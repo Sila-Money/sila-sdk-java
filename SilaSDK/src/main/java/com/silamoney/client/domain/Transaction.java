@@ -150,4 +150,7 @@ public class Transaction {
     public String effectiveDate;
     @SerializedName("effective_epoch")
     public String effectiveEpoch;
+
+    @SerializedName("child_transactions")
+    public List<Transaction> childTransactions;
 }

@@ -162,6 +162,17 @@ public class SearchFilters {
     @SerializedName("destination_id")
     private String destinationId;
 
+    @SerializedName("processing_type")
+    public String processingType;
+
+    public String getProcessingType() {
+        return processingType;
+    }
+
+    public void setProcessingType(ProcessingTypeEnum processingType) {
+        this.processingType = processingType == null ? null : processingType.getValue();
+    }
+
     public String getSourceId() {
         return sourceId;
     }

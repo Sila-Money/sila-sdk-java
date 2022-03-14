@@ -9,11 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.AccountTransactionMessage;
-import com.silamoney.client.domain.BadRequestResponse;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.CancelTransactionMessage;
-import com.silamoney.client.domain.TransactionResponse;
+import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
@@ -79,5 +75,26 @@ public class CancelTransactionTests {
                 BaseResponse parsedResponse = (BaseResponse) response.getData();
                 assertFalse(response.getSuccess());
                 assertEquals("FAILURE", parsedResponse.getStatus());
+        }
+
+        @Test
+        public void Response200SuccessInstantSettlement() throws Exception {
+                AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                        .userHandle(DefaultConfigurations.getUserHandle())
+                        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(100).processingType(ProcessingTypeEnum.INSTANT_SETTLEMENT)
+                        .accountName("default").build();
+                ApiResponse response = api.issueSila(redeem);
+                assertEquals(200, response.getStatusCode());
+                TimeUnit.SECONDS.sleep(2);
+                String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
+                CancelTransactionMessage message = CancelTransactionMessage.builder()
+                        .userHandle(DefaultConfigurations.getUserHandle())
+                        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).transactionId(transactionId)
+                        .build();
+                response = api.cancelTransaction(message);
+                assertEquals(200, response.getStatusCode());
+                BaseResponse parsedResponse = (BaseResponse) response.getData();
+                assertTrue(parsedResponse.getSuccess());
+                assertEquals("SUCCESS", parsedResponse.getStatus());
         }
 }

@@ -27,4 +27,16 @@ public class CheckInstantAchTests {
         assertNotNull(parsedResponse.getSuccess());
     }
 
+    @Test
+    public void CheckInstantAchTestWithSardine() throws Exception {
+
+        ApiResponse response = api.checkInstantAch("defaultptsardine", DefaultConfigurations.getUser4Handle(),
+                DefaultConfigurations.getUser4PrivateKey(), "INSTANT-ACHV2");
+
+        CheckInstantAchResponse parsedResponse = (CheckInstantAchResponse) response.getData();
+
+        assertNotNull(parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getSuccess());
+    }
 }

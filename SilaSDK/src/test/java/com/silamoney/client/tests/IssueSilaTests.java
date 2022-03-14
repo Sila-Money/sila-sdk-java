@@ -176,4 +176,20 @@ public class IssueSilaTests {
         assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).sourceId);
         assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).destinationId);
     }
+
+    @Test
+    public void Response200SuccessInstantSettlement() throws Exception {
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName("default")
+                .processingType(ProcessingTypeEnum.INSTANT_SETTLEMENT).build();
+        ApiResponse response = api.issueSila(issue);
+
+        assertEquals(200, response.getStatusCode());
+        TransactionResponse parsedResponse = (TransactionResponse) response.getData();
+        assertTrue(parsedResponse.getSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getTransactionId());
+    }
+
 }

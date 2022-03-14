@@ -168,4 +168,19 @@ public class RedeemSilaTests {
                 assertNotNull(((TransactionResponse) response.getData()).getTransactionId());
 
         }
+
+        @Test
+        public void Response200SuccessInstantSettlement() throws Exception {
+                AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                        .userHandle(DefaultConfigurations.getUserHandle())
+                        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200)
+                        .accountName("default").build();
+                ApiResponse response = api.redeemSila(redeem);
+
+                assertEquals(200, response.getStatusCode());
+                TransactionResponse parsedResponse = (TransactionResponse) response.getData();
+                assertTrue(parsedResponse.getSuccess());
+                assertEquals("SUCCESS", parsedResponse.getStatus());
+                assertNotNull(parsedResponse.getTransactionId());
+        }
 }

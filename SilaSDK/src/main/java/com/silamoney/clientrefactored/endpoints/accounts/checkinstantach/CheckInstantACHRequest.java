@@ -10,5 +10,5 @@ public class CheckInstantACHRequest {
     private String userHandle;
     private String userPrivateKey;
     private String accountName;
-    
+    private String kycLevel;
 }

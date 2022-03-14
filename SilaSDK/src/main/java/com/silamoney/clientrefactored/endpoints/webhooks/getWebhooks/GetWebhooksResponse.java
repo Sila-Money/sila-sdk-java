@@ -1,4 +1,4 @@
-package com.silamoney.clientrefactored.endpoints.webhooks;
+package com.silamoney.clientrefactored.endpoints.webhooks.getWebhooks;
 
 import com.google.gson.annotations.SerializedName;
 import com.silamoney.clientrefactored.domain.Pagination;

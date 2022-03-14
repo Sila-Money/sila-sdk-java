@@ -282,7 +282,40 @@ public class DefaultConfigurations {
 
         return user3CryptoAddress;
     }
+    private static String user4CryptoAddress;
 
+    /**
+     * @return String
+     */
+    public static String getUser4CryptoAddress() {
+        if (user4CryptoAddress == null || user4CryptoAddress.isBlank()) {
+            try {
+
+                ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+                BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+                user4PrivateKey = privateKeyInDec.toString(16);
+
+                WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+                user4CryptoAddress = "0x" + aWallet.getAddress();
+            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+                    | CipherException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user4CryptoAddress;
+    }
+
+    public static String getUser4PrivateKey() {
+        return user4PrivateKey;
+    }
+
+    public static void setUser4PrivateKey(String user4PrivateKey) {
+        DefaultConfigurations.user4PrivateKey = user4PrivateKey;
+    }
+
+    private static String user4PrivateKey;
     private static String userPrivateKey;
 
     /**
@@ -435,5 +468,31 @@ public class DefaultConfigurations {
 
     private static List<PaymentMethods> paymentMethods;
 
+    private static String user4Handle;
+
+    /**
+     * @return String
+     */
+    public static String getUser4Handle() {
+        user4Handle = user4Handle == null || user4Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user4Handle;
+        return user4Handle;
+    }
+    /**
+     * Default session_identifier
+     */
+    public static String sessionIdentifier = "c096f601-f927-44bc-9215-7fc7fa97c6d7";
+    private static String plaidToken2;
+
+    /**
+     * @return String
+     */
+    public static String getPlaidToken2() {
+        try {
+            plaidToken2 = plaidToken2 == null || plaidToken2.isBlank() ? PlaidTokenHelper.getPlaidToken() : plaidToken2;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return plaidToken2;
+    }
 
 }
