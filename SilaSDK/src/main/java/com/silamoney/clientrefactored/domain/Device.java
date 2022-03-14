@@ -12,4 +12,6 @@ public class Device {
     @SerializedName("device_fingerprint")
     private String deivceFingerprint;
 
+    @SerializedName("session_identifier")
+    private String sessionIdentifier;
 }

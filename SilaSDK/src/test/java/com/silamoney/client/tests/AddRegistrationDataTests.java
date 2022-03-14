@@ -151,4 +151,15 @@ public class AddRegistrationDataTests {
                 assertFalse(parsedResponse.getSuccess());
                 assertEquals("FAILURE", parsedResponse.getStatus());
         }
+        @Test
+        public void Response200DeviceWithSessionIdentifier() throws Exception {
+                UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUser4Handle())
+                        .userPrivateKey(DefaultConfigurations.getUser4PrivateKey()).build();
+                Device device = new Device("12345678909876",DefaultConfigurations.sessionIdentifier);
+                ApiResponse response = api.addDevice(user, device);
+                assertEquals(200, response.getStatusCode());
+                DeviceResponse parsedResponse = (DeviceResponse) response.getData();
+                assertTrue(parsedResponse.getSuccess());
+                assertEquals("SUCCESS", parsedResponse.getStatus());
+        }
 }

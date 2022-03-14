@@ -9,11 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.AccountTransactionMessage;
-import com.silamoney.client.domain.BadRequestResponse;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.CancelTransactionMessage;
-import com.silamoney.client.domain.TransactionResponse;
+import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;

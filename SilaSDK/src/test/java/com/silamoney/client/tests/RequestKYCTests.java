@@ -80,4 +80,14 @@ public class RequestKYCTests {
 
 		assertEquals(400, response.getStatusCode());
 	}
+
+	@Test
+	public void response200WithSardine() throws Exception {
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getUser4Handle(), "INSTANT-ACHV2",
+				DefaultConfigurations.getUser4PrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		RequestKycResponse parsedResponse= (RequestKycResponse) response.getData();
+		assertEquals("SUCCESS", parsedResponse.getStatus());
+	}
 }

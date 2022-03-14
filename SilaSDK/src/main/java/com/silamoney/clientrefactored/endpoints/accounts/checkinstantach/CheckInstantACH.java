@@ -27,7 +27,7 @@ public class CheckInstantACH extends AbstractEndpoint {
                 body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
                                 .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
                 body.put("message", "get_accounts_msg");
-
+                body.put("kyc_level", request.getKycLevel());
                 String serializedBody = JsonUtils.serialize(body);
 
                 Map<String, String> headers = new HashMap<>();

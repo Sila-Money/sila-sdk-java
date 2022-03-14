@@ -43,6 +43,8 @@ public class User {
     private final boolean smsOptIn;
     @Getter
     private final String deviceFingerprint;
+    @Getter
+    private final String sessionIdentifier;
 
     /**
      * Constructor for user object.
@@ -81,6 +83,7 @@ public class User {
         this.country = "US";
         this.smsOptIn = smsOptIn;
         this.deviceFingerprint = null;
+        this.sessionIdentifier=null;
     }
 
     public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
@@ -102,6 +105,7 @@ public class User {
         this.country = country;
         this.smsOptIn = smsOptIn;
         this.deviceFingerprint = null;
+        this.sessionIdentifier=null;
     }
 
     public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
@@ -123,6 +127,7 @@ public class User {
         this.country = "US";
         this.smsOptIn = false;
         this.deviceFingerprint = null;
+        this.sessionIdentifier=null;
     }
 
     public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
@@ -144,6 +149,7 @@ public class User {
         this.country = country;
         this.smsOptIn = false;
         this.deviceFingerprint = null;
+        this.sessionIdentifier=null;
     }
 
     /**
@@ -183,6 +189,7 @@ public class User {
         this.country = "US";
         this.smsOptIn = smsOptIn;
         this.deviceFingerprint = deviceFingerprint;
+        this.sessionIdentifier=null;
     }
 
     public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
@@ -204,6 +211,7 @@ public class User {
         this.country = country;
         this.smsOptIn = smsOptIn;
         this.deviceFingerprint = deviceFingerprint;
+        this.sessionIdentifier=null;
     }
 
     public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
@@ -225,5 +233,72 @@ public class User {
         this.country = country;
         this.smsOptIn = false;
         this.deviceFingerprint = deviceFingerprint;
+        this.sessionIdentifier=null;
+    }
+    //Sardine
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+                String city, String state, String zipCode, String phone, String email, String identityNumber,
+                String cryptoAddress, Date birthdate, boolean smsOptIn, String deviceFingerprint,String sessionIdentifier) {
+        this.handle = handle;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityNumber = identityNumber;
+        this.cryptoAddress = cryptoAddress;
+        this.birthdate = birthdate;
+        this.country = "US";
+        this.smsOptIn = smsOptIn;
+        this.deviceFingerprint = deviceFingerprint;
+        this.sessionIdentifier=sessionIdentifier;
+    }
+
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+                String city, String state, String zipCode, String phone, String email, String identityNumber,
+                String cryptoAddress, Date birthdate, String country, boolean smsOptIn,String deviceFingerprint,String sessionIdentifier) {
+        this.handle = handle;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityNumber = identityNumber;
+        this.cryptoAddress = cryptoAddress;
+        this.birthdate = birthdate;
+        this.country = country;
+        this.smsOptIn = smsOptIn;
+        this.deviceFingerprint = deviceFingerprint;
+        this.sessionIdentifier=sessionIdentifier;
+    }
+
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+                String city, String state, String zipCode, String phone, String email, String identityNumber,
+                String cryptoAddress, Date birthdate, String country, String deviceFingerprint,String sessionIdentifier) {
+        this.handle = handle;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityNumber = identityNumber;
+        this.cryptoAddress = cryptoAddress;
+        this.birthdate = birthdate;
+        this.country = country;
+        this.smsOptIn = false;
+        this.deviceFingerprint = deviceFingerprint;
+        this.sessionIdentifier=sessionIdentifier;
     }
 }

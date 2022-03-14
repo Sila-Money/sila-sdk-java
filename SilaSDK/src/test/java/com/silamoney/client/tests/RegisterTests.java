@@ -116,4 +116,16 @@ public class RegisterTests {
 		ApiResponse response = api.register(user);
 		assertEquals(401, response.getStatusCode());
 	}
+	@Test
+	public void Response200WithSardine() throws Exception {
+		// HANDLE2
+		LocalDate birthdate = new LocalDate(1989, 01, 31);
+		User user = new User(DefaultConfigurations.getUser4Handle(), "Example", "User", "123 Main Street", null,
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
+				DefaultConfigurations.getUser4CryptoAddress(), birthdate.toDate(), "US", "asdfghjkl",DefaultConfigurations.sessionIdentifier);
+
+		ApiResponse response = api.register(user);
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 }

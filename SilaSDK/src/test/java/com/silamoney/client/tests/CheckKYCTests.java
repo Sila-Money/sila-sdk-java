@@ -86,5 +86,24 @@ public class CheckKYCTests {
         assertNotNull(parsedResponse.getMembers());
 
     }
+    @Test
+    public void Response200withSardine() throws Exception {
+
+        ApiResponse response = api.checkKYC(DefaultConfigurations.getUser4Handle(), DefaultConfigurations.getUser4PrivateKey(),"INSTANT-ACHV2");
+
+        CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
+
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getEntityType());
+        assertNotNull(parsedResponse.getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationId());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getKycLevel());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getReasons());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getTags());
+
+
+    }
 
 }

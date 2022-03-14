@@ -1,4 +1,4 @@
-package com.silamoney.clientrefactored.endpoints.webhooks;
+package com.silamoney.clientrefactored.endpoints.webhooks.retryWebhook;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.exceptions.ForbiddenException;
@@ -12,16 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class GetWebhooks extends AbstractEndpoint {
+public class RetryWebhook extends AbstractEndpoint {
 
-    private static Logger logger = Logger.getLogger(GetWebhooks.class.getName());
+    private static Logger logger = Logger.getLogger(RetryWebhook.class.getName());
 
-    private static final String ENDPOINT = "/get_webhooks";
+    private static final String ENDPOINT = "/retry_webhook";
 
-    private GetWebhooks() {
+    private RetryWebhook() {
     }
 
-    public static ApiResponse send(GetWebhooksRequest request)
+    public static ApiResponse send(RetryWebhookRequest request)
             throws BadRequestException, InvalidAuthSignatureException, ForbiddenException {
         Map<String, Object> body = new HashMap<>();
         body.put("header", Header.builder()
@@ -31,10 +31,8 @@ public class GetWebhooks extends AbstractEndpoint {
                 .reference(UuidUtils.generateRandomUuid())
                 .build()
         );
-
-        if (request.getSearchFilters() != null)
-            body.put("search_filters", request.getSearchFilters());
-
+        body.put("message","header_msg");
+        body.put("event_uuid",request.getEventUuid());
         String serializedBody = JsonUtils.serialize(body);
 
         Map<String, String> headers = new HashMap<>();
@@ -42,7 +40,7 @@ public class GetWebhooks extends AbstractEndpoint {
         HeadersUtils.addContentType(headers, "application/json");
 
         try {
-            return ResponseUtils.prepareResponse(GetWebhooksResponse.class,
+            return ResponseUtils.prepareResponse(RetryWebhookResponse.class,
                     API_CLIENT.send(ENDPOINT, serializedBody, headers));
         } catch (Exception e) {
             return null;

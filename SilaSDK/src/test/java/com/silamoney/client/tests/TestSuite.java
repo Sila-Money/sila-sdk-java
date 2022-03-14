@@ -54,6 +54,7 @@ import org.junit.runners.Suite.SuiteClasses;
     RedeemSilaTests.class,
     GetTransactionsTests.class,
     GetWebhooksTests.class,
+    RetryWebhooksTests.class,
     ReverseTransactionTests.class,
     PlaidSameDayAuthTests.class,
     RegisterWalletTests.class,

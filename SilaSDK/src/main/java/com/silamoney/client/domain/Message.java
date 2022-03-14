@@ -171,7 +171,11 @@ public class Message {
         /**
          * String value for UpdateVirtualAccount.
          */
-        UPDATE_VIRTUAL_ACCOUNT("update_virtual_account");
+        UPDATE_VIRTUAL_ACCOUNT("update_virtual_account"),
+        /**
+         * String value for retryWebhook.
+         */
+        RETRY_WEBHOOK("retryWebhook");
 
         private final String value;
 

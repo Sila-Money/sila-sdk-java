@@ -41,4 +41,6 @@ public class SearchFilters {
     private String sourceId;
     @SerializedName("destination_id")
     private String destinationId;
+    @SerializedName("processing_type")
+    private String processingType;
 }
