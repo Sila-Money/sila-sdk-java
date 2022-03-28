@@ -14,5 +14,6 @@ public class RegisterResponse {
     @Expose
     @SerializedName("business_uuid")
     private String business_uuid;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

@@ -19,6 +19,7 @@ public class LinkCardResponse {
     private String avs;
     @SerializedName("card_details")
     private Card cardDetails;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }
 

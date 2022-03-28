@@ -10,7 +10,9 @@ public class UpdateVirtualAccountRequest {
     private String userHandle;
     private String userPrivateKey;
     private final String virtualAccountId;
-    private final String virtualAccountName;
-    private final Boolean active;
+    private String virtualAccountName;
+    private Boolean active;
+    private Boolean achCreditEnabled;
+    private Boolean achDebitEnabled;
     
 }

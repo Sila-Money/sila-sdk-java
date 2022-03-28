@@ -13,5 +13,6 @@ public class RegisterWalletResponse {
     private String status;
     @SerializedName("wallet_nickname")
     private String walletNickname;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

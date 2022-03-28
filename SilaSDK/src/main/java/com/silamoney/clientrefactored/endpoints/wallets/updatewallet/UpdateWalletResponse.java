@@ -18,5 +18,6 @@ public class UpdateWalletResponse {
     private Wallet wallet;
     private List<Change> changes;
     private String reference;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

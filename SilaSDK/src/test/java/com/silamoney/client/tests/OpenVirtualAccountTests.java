@@ -29,4 +29,16 @@ public class OpenVirtualAccountTests {
         assertEquals("virtual_account", parsedResponse.getVirtualAccount().getVirtualAccountName());
         DefaultConfigurations.setVirtualAccounts2(parsedResponse.getVirtualAccount());;
     }
+    @Test
+    public void Response200WithAchCreditEnabledAchDebitEnabled()throws Exception{
+        ApiResponse response = api.openVirtualAccount(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey(),"virtual_account_default",true,true);
+        assertEquals(200, response.getStatusCode());
+        VirtualAccountResponse parsedResponse = (VirtualAccountResponse) response.getData();
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertEquals("virtual_account_default", parsedResponse.getVirtualAccount().getVirtualAccountName());
+        assertEquals(true,parsedResponse.getVirtualAccount().isAchCreditEnabled());
+        assertEquals(true,parsedResponse.getVirtualAccount().isAchDebitEnabled());
+    }
+
 }

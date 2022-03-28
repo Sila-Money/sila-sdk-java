@@ -74,6 +74,10 @@ public class PaymentMethods {
     @SerializedName("closed_epoch")
     private String closedEpoch;
     private boolean closed;
+    @SerializedName("ach_credit_enabled")
+    private boolean achCreditEnabled;
+    @SerializedName("ach_debit_enabled")
+    private boolean achDebitEnabled;
 
 
     public boolean active;

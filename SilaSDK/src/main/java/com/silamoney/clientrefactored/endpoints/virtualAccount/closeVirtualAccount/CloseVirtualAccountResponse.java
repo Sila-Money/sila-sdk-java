@@ -1,4 +1,4 @@
-package com.silamoney.clientrefactored.endpoints.virtualAccount.getVirtualAccount;
+package com.silamoney.clientrefactored.endpoints.virtualAccount.closeVirtualAccount;
 
 import com.google.gson.annotations.SerializedName;
 import com.silamoney.clientrefactored.domain.Balance;
@@ -6,7 +6,7 @@ import com.silamoney.clientrefactored.domain.VirtualAccount;
 import lombok.Getter;
 
 @Getter
-public class GetVirtualAccountResponse {
+public class CloseVirtualAccountResponse {
 
     private boolean success;
     private String status;
@@ -16,5 +16,6 @@ public class GetVirtualAccountResponse {
     private String reference;
     @SerializedName("response_time_ms")
     private String responseTimeMs;
+
 }
 

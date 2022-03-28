@@ -175,7 +175,15 @@ public class Message {
         /**
          * String value for retryWebhook.
          */
-        RETRY_WEBHOOK("retryWebhook");
+        RETRY_WEBHOOK("retryWebhook"),
+        /**
+         * String value for CloseVirtualAccount.
+         */
+        CLOSE_VIRTUAL_ACCOUNT("close_virtual_account"),
+        /**
+         * String value for CreateTestVirtualAccountAchTransaction.
+         */
+        CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION("create_test_virtual_account_ach_transaction");
 
         private final String value;
 

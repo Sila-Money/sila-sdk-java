@@ -18,5 +18,8 @@ public class ReverseTransactionResponse {
 
     @SerializedName("error_code")
     private String errorCode;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
+
 }
 

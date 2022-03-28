@@ -7,6 +7,7 @@ import java.net.http.HttpResponse;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -1805,8 +1806,54 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName)
             throws IOException, InterruptedException {
+        return openVirtualAccountData(userHandle, userPrivateKey, virtualAccountName, null, null);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey)
+            throws IOException, InterruptedException {
+        return openVirtualAccountData(userHandle, userPrivateKey, null, null, null);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param achCreditEnabled
+     * @param achDebitEnabled
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, Boolean achCreditEnabled, Boolean achDebitEnabled)
+            throws IOException, InterruptedException {
+        return openVirtualAccountData(userHandle, userPrivateKey, null, achCreditEnabled, achDebitEnabled);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountName
+     * @param achCreditEnabled
+     * @param achDebitEnabled
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled)
+            throws IOException, InterruptedException {
+        return openVirtualAccountData(userHandle, userPrivateKey, virtualAccountName, achCreditEnabled, achDebitEnabled);
+    }
+
+    public ApiResponse openVirtualAccountData(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled)
+            throws IOException, InterruptedException {
         String path = Endpoints.OPEN_VIRTUAL_ACCOUNT.getUri();
-        OpenVirtualAccountMsg body = new OpenVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountName);
+        OpenVirtualAccountMsg body = new OpenVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountName, achCreditEnabled, achDebitEnabled);
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
 
@@ -1880,8 +1927,30 @@ public class SilaApi {
      */
     public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active)
             throws IOException, InterruptedException {
+        return updateVirtualAccountData(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, null, null);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountId
+     * @param virtualAccountName
+     * @param active
+     * @param achCreditEnabled
+     * @param achDebitEnabled
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled)
+            throws IOException, InterruptedException {
+        return updateVirtualAccountData(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled);
+    }
+
+    public ApiResponse updateVirtualAccountData(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled)
+            throws IOException, InterruptedException {
         String path = Endpoints.UPDATE_VIRTUAL_ACCOUNT.getUri();
-        UpdateVirtualAccountMsg body = new UpdateVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId, virtualAccountName, active);
+        UpdateVirtualAccountMsg body = new UpdateVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled);
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
 
@@ -1907,5 +1976,78 @@ public class SilaApi {
         headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.RETRY_WEBHOOK.getValue());
+    }
+
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountId
+     * @param accountNumber
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse closeVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String accountNumber)
+            throws IOException, InterruptedException {
+        String path = Endpoints.CLOSE_VIRTUAL_ACCOUNT.getUri();
+        CloseVirtualAccountMsg body = new CloseVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId, accountNumber);
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CLOSE_VIRTUAL_ACCOUNT.getValue());
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param amount
+     * @param virtualAccountNumber
+     * @param date
+     * @param tranCode
+     * @param entityName
+     * @param ced
+     * @param achName
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse createTestVirtualAccountAchTransaction(String userHandle, String userPrivateKey, int amount, String virtualAccountNumber, Date date, int tranCode, String entityName, String ced, String achName)throws IOException, InterruptedException {
+        return createTestVirtualAccountAchTransactionData(userHandle,userPrivateKey,amount,virtualAccountNumber,date,tranCode,entityName,ced,achName);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param amount
+     * @param virtualAccountNumber
+     * @param tranCode
+     * @param entityName
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse createTestVirtualAccountAchTransaction(String userHandle, String userPrivateKey, int amount, String virtualAccountNumber, int tranCode, String entityName)throws IOException, InterruptedException {
+        return createTestVirtualAccountAchTransactionData(userHandle,userPrivateKey,amount,virtualAccountNumber,null,tranCode,entityName,null,null);
+    }
+
+    public ApiResponse createTestVirtualAccountAchTransactionData(String userHandle, String userPrivateKey, int amount, String virtualAccountNumber, Date date, int tranCode, String entityName, String ced, String achName)throws IOException, InterruptedException {
+        String path = Endpoints.CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION.getUri();
+        CreateTestVirtualAccountAchTransactionMsg body = new CreateTestVirtualAccountAchTransactionMsg(userHandle,this.configuration.getAuthHandle(), amount,virtualAccountNumber,date,tranCode,entityName,ced,achName);
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION.getValue());
     }
 }

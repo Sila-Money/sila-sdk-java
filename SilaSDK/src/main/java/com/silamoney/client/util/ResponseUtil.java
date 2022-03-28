@@ -325,6 +325,7 @@ public class ResponseUtil {
                     .deserialize(response.body().toString(), GetVirtualAccountResponse.class);
 
             return new ApiResponse(statusCode, response.headers().map(), getVirtualAccountResponse, success);
+        case "close_virtual_account":
         case "update_virtual_account":
             VirtualAccountResponse virtualAccountResponse = (VirtualAccountResponse) Serialization
                     .deserialize(response.body().toString(), VirtualAccountResponse.class);

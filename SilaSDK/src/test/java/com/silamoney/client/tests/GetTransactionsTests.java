@@ -133,4 +133,17 @@ public class GetTransactionsTests {
 		assertTrue(parsedResponse.transactions.size()>0);
 		assertEquals(ProcessingTypeEnum.INSTANT_SETTLEMENT.getValue(),parsedResponse.transactions.get(0).processingType);
 	}
+	@Test
+	public void Response200WithPaymentMethodId() throws Exception {
+		SearchFilters filters = new SearchFilters();
+		filters.setPaymentMethodId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId());
+		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
+		assertTrue(parsedResponse.success);
+		assertEquals("SUCCESS", parsedResponse.status);
+		assertTrue(parsedResponse.transactions.size() > 0);
+	}
 }

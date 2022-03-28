@@ -49,6 +49,8 @@ import org.junit.runners.Suite.SuiteClasses;
     GetPaymentMethodsTests.class,
     GetAccountBalanceTests.class,
     CancelTransactionTests.class,
+    CloseVirtualAccountTests.class,
+    CreateTestVirtualAccountAchTransactionTests.class,
     IssueSilaTests.class,
     TransferSilaTests.class, 
     RedeemSilaTests.class,

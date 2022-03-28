@@ -19,6 +19,7 @@ public class LinkAccountResponse {
     private String accountOwnerName;
     @SerializedName("entity_name")
     private String entityName;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }
 

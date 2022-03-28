@@ -480,7 +480,7 @@ public class DefaultConfigurations {
     /**
      * Default session_identifier
      */
-    public static String sessionIdentifier = "c096f601-f927-44bc-9215-7fc7fa97c6d7";
+    public static String sessionIdentifier = "ppppp-aaaa-dddd-99ce-c45944174e0c";
     private static String plaidToken2;
 
     /**

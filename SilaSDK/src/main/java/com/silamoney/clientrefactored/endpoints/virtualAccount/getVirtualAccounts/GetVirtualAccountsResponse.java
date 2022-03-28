@@ -16,6 +16,7 @@ public class GetVirtualAccountsResponse {
     @SerializedName("virtual_accounts")
     private List<VirtualAccount> virtualAccounts;
     private String reference;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }
 

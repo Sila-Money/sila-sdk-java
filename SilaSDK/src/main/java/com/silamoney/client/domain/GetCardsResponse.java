@@ -7,19 +7,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter
-public class GetCardsResponse {
-    @SerializedName("status")
-    private String status;
-    @Setter
-    @SerializedName("success")
-    private Boolean success;
+public class GetCardsResponse extends BaseResponse {
     @SerializedName("cards")
     private List<Card> cards;
-    @SerializedName("reference")
-    private String reference;
-    @SerializedName("message")
-    private String message;
     @SerializedName("pagination")
     private Pagination pagination;
-
 }

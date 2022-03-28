@@ -44,4 +44,24 @@ public class UpdateVirtualAccountTests {
         assertNotNull(parsedResponse2.getStatus());
         assertNotNull(parsedResponse2.getMessage());
     }
+    @Test
+    public void Register200WithAchCreditEnabledAchDebitEnabled() throws Exception {
+        VirtualAccount virtualAccount=DefaultConfigurations.getVirtualAccounts().get(0);
+        ApiResponse response = api.updateVirtualAccount(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey(), virtualAccount.getVirtualAccountId(), virtualAccount.getVirtualAccountName(), false,true,true);
+        assertEquals(200, response.getStatusCode());
+        VirtualAccountResponse parsedResponse = (VirtualAccountResponse) response.getData();
+
+        assertNotNull(parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getMessage());
+        response = api.updateVirtualAccount(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey(), virtualAccount.getVirtualAccountId(), virtualAccount.getVirtualAccountName(), true);
+        assertEquals(200, response.getStatusCode());
+        parsedResponse = (VirtualAccountResponse) response.getData();
+
+        assertNotNull(parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getMessage());
+        System.out.println(parsedResponse.getVirtualAccount().isAchCreditEnabled()); // true/false
+        System.out.println(parsedResponse.getVirtualAccount().isAchDebitEnabled());  // true/false
+    }
 }

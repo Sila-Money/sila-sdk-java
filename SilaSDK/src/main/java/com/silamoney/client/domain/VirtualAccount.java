@@ -21,5 +21,8 @@ public class VirtualAccount {
     private String closedEpoch;
     private boolean active;
     private boolean closed;
-
+    @SerializedName("ach_credit_enabled")
+    private boolean achCreditEnabled;
+    @SerializedName("ach_debit_enabled")
+    private boolean achDebitEnabled;
 }

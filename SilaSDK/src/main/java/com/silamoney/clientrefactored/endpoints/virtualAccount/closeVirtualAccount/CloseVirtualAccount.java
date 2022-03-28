@@ -1,4 +1,4 @@
-package com.silamoney.clientrefactored.endpoints.virtualAccount.openVirtualAccount;
+package com.silamoney.clientrefactored.endpoints.virtualAccount.closeVirtualAccount;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.exceptions.ForbiddenException;
@@ -13,33 +13,33 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class OpenVirtualAccount extends AbstractEndpoint {
+public class CloseVirtualAccount extends AbstractEndpoint {
 
-        private static Logger logger = Logger.getLogger(OpenVirtualAccount.class.getName());
+        private static Logger logger = Logger.getLogger(CloseVirtualAccount.class.getName());
 
-        private static final String ENDPOINT = "/open_virtual_account";
+        private static final String ENDPOINT = "/close_virtual_account";
 
-        private OpenVirtualAccount() {
+        private CloseVirtualAccount() {
         }
 
-        public static ApiResponse send(OpenVirtualAccountRequest request)
+        public static ApiResponse send(CloseVirtualAccountRequest request)
                         throws BadRequestException, InvalidAuthSignatureException, ForbiddenException {
                 Map<String, Object> body = new HashMap<>();
                 body.put("header", Header.builder()
-                        .appHandle(APP_HANDLE)
-                        .userHandle(request.getUserHandle())
-                        .created(EpochUtils.getEpochTime())
-                        .reference(UuidUtils.generateRandomUuid())
-                        .build()
+                    .appHandle(APP_HANDLE)
+                    .userHandle(request.getUserHandle())
+                    .created(EpochUtils.getEpochTime())
+                    .reference(UuidUtils.generateRandomUuid())
+                    .build()
                 );
-                body.put("virtual_account_name", request.getVirtualAccountName());
-                body.put("ach_credit_enabled", request.getAchCreditEnabled());
-                body.put("ach_debit_enabled", request.getAchDebitEnabled());
+                body.put("virtual_account_id", request.getVirtualAccountId());
+                body.put("account_number", request.getAccountNumber());
                 String serializedBody = JsonUtils.serialize(body);
+
                 Map<String, String> headers = new HashMap<>();
                 HeadersUtils.addAuthSignature(headers, serializedBody);
-                HeadersUtils.addContentType(headers, "application/json");
                 HeadersUtils.addUserSignature(headers, serializedBody, request.getUserPrivateKey());
+                HeadersUtils.addContentType(headers, "application/json");
 
                 try {
                         return ResponseUtils.prepareResponse(VirtualAccountResponse.class,
