@@ -1,20 +1,16 @@
-package com.silamoney.client.domain;
+package com.silamoney.clientrefactored.endpoints.virtualAccount.createTestVirtualAccountAchTransaction;
 
 import com.google.gson.annotations.SerializedName;
-
 import lombok.Getter;
 
 @Getter
-public class CheckPartnerKycResponse {
+public class CreateTestVirtualAccountAchTransactionResponse {
 
     private boolean success;
     private String reference;
     private String message;
     private String status;
-    @SerializedName("entity_type")
-    private String entityType;
-    @SerializedName("verification_status")
-    private String verificationStatus;
     @SerializedName("response_time_ms")
     private String responseTimeMs;
+
 }

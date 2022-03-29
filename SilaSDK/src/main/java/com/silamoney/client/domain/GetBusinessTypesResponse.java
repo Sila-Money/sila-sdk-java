@@ -15,4 +15,6 @@ public class GetBusinessTypesResponse {
     private String message;
     private String status;
     private String reference;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

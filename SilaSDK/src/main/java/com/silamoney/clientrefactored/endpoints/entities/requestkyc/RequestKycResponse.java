@@ -13,5 +13,7 @@ public class RequestKycResponse {
     private String status;
     @SerializedName("verification_uuid")
     private String verificationUuid;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 
 }

@@ -30,6 +30,8 @@ public class UpdateVirtualAccount extends AbstractEndpoint {
         body.put("virtual_account_id", request.getVirtualAccountId());
         body.put("virtual_account_name", request.getVirtualAccountName());
         body.put("active", request.getActive());
+        body.put("ach_credit_enabled", request.getAchCreditEnabled());
+        body.put("ach_debit_enabled", request.getAchDebitEnabled());
         String serializedBody = JsonUtils.serialize(body);
 
         Map<String, String> headers = new HashMap<>();

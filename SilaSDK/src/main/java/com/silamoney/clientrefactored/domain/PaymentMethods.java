@@ -64,6 +64,20 @@ public class PaymentMethods {
     @SerializedName("currency")
     public String currency;
 
+    //payment_method_type=virtual_account
+    @SerializedName("virtual_account_id")
+    private String virtualAccountId;
+    @SerializedName("virtual_account_name")
+    private String virtualAccountName;
+    @SerializedName("created_epoch")
+    private String created_epoch;
+    @SerializedName("closed_epoch")
+    private String closedEpoch;
+    private boolean closed;
+    @SerializedName("ach_credit_enabled")
+    private boolean achCreditEnabled;
+    @SerializedName("ach_debit_enabled")
+    private boolean achDebitEnabled;
 
     public boolean active;
 }

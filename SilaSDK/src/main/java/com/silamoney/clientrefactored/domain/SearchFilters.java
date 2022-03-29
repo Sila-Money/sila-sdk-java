@@ -43,4 +43,6 @@ public class SearchFilters {
     private String destinationId;
     @SerializedName("processing_type")
     private String processingType;
+    @SerializedName("payment_method_id")
+    private String paymentMethodId;
 }

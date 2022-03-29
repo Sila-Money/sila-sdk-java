@@ -18,4 +18,8 @@ public class RegistrationDataResponse {
     @Getter
     @SerializedName("reference")
     protected String reference;
+
+    @Getter
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

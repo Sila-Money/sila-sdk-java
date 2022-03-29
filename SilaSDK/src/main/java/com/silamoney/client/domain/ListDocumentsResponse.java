@@ -22,4 +22,7 @@ public class ListDocumentsResponse {
     @Getter
     @SerializedName("pagination")
     private Pagination pagination;
+    @Getter
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

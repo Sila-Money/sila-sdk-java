@@ -17,8 +17,6 @@ public class UploadDocumentMsg {
     private final String mimeType;
     @SerializedName("document_type")
     private final String documentType;
-    @SerializedName("identity_type")
-    private final String identityType;
     @SerializedName("description")
     private final String description;
 
@@ -37,7 +35,6 @@ public class UploadDocumentMsg {
         this.hash = hash;
         this.mimeType = message.getMimeType();
         this.documentType = message.getDocumentType();
-        this.identityType = message.getIdentityType();
         this.description = message.getDescription();
     }
 }

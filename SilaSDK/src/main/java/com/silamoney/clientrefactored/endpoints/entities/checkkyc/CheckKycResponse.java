@@ -29,5 +29,6 @@ public class CheckKycResponse {
     @SerializedName("certification_history")
     private List<Certification> certificationHistory;
     private List<Member> members;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

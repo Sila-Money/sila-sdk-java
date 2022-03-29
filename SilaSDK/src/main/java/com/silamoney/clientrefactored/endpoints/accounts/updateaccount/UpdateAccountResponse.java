@@ -2,6 +2,7 @@ package com.silamoney.clientrefactored.endpoints.accounts.updateaccount;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
 import com.silamoney.clientrefactored.domain.Account;
 import com.silamoney.clientrefactored.domain.Change;
 
@@ -16,4 +17,6 @@ public class UpdateAccountResponse {
     private Account account;
     private List<Change> changes;
     private String reference;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

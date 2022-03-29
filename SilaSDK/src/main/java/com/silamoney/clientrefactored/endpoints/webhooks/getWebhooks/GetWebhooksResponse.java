@@ -21,4 +21,6 @@ public class GetWebhooksResponse {
     @SerializedName("total_count")
     private int totalCount;
     private Pagination pagination;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

@@ -17,4 +17,6 @@ public class GetCardsResponse {
     private String reference;
     private String message;
     private Pagination pagination;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

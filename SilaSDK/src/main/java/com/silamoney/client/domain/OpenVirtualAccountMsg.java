@@ -15,10 +15,15 @@ public class OpenVirtualAccountMsg {
 
     @SerializedName("header")
     private final Header header;
+    @SerializedName("ach_credit_enabled")
+    private final Boolean achCreditEnabled;
+    @SerializedName("ach_debit_enabled")
+    private final Boolean achDebitEnabled;
 
-    public OpenVirtualAccountMsg(String userHandle,
-                                 String appHandle,  String virtualAccountName) {
+    public OpenVirtualAccountMsg(String userHandle, String appHandle, String virtualAccountName, Boolean ahcCreditEnabled, Boolean achDebitEnabled) {
         this.virtualAccountName = virtualAccountName;
         this.header = new Header(userHandle, appHandle);
+        this.achCreditEnabled = ahcCreditEnabled;
+        this.achDebitEnabled = achDebitEnabled;
     }
 }

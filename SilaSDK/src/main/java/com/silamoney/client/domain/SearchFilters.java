@@ -153,7 +153,7 @@ public class SearchFilters {
     @Setter
     public String bankAccountName;
 
-    @SerializedName("uuid")
+    @SerializedName("wallet_id")
     public String uuid;
 
     @SerializedName("source_id")
@@ -164,6 +164,18 @@ public class SearchFilters {
 
     @SerializedName("processing_type")
     public String processingType;
+
+    @SerializedName("payment_method_id")
+    private String paymentMethodId;
+
+
+    public String getPaymentMethodId() {
+        return paymentMethodId;
+    }
+
+    public void setPaymentMethodId(String paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
+    }
 
     public String getProcessingType() {
         return processingType;

@@ -24,5 +24,7 @@ public class GetEntityResponse {
     private List<Devices> devices;
     private String status;
     private String reference;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 
 }

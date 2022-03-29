@@ -21,6 +21,7 @@ public class GetTransactionsResponse {
     private Pagination pagination;
     private List<Transaction> transactions;
     private String reference;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }
 

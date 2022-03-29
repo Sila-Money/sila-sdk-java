@@ -17,6 +17,7 @@ public class GetPaymentMethodsResponse {
     @SerializedName("payment_methods")
     private List<PaymentMethods> paymentMethods;
     private String reference;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }
 
