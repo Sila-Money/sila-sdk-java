@@ -1,3 +1,7 @@
+v0.2.41-rc
+Hotfix:
+    - Added new fields submitted, submitted_epoch and error_msg to the response in /get_transactions.
+
 v0.2.41
 New Features:
     - Added support for /close_virtual_transaction.

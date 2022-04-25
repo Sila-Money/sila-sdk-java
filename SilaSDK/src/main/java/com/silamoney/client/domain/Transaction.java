@@ -153,4 +153,19 @@ public class Transaction {
 
     @SerializedName("child_transactions")
     public List<Transaction> childTransactions;
+    /**
+     * String field used for the submitted.
+     */
+    @SerializedName("submitted")
+    public String submitted;
+    /**
+     * Integer field used for the submitted epoch.
+     */
+    @SerializedName("submitted_epoch")
+    public Integer submittedEpoch;
+    /**
+     * String field used for the error message.
+     */
+    @SerializedName("error_msg")
+    public String errorMsg;
 }
