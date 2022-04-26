@@ -1,6 +1,7 @@
 package com.silamoney.client.api;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
 import java.net.http.HttpResponse;
@@ -1058,6 +1059,32 @@ public class SilaApi {
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
+
+    /**
+     * Upload supporting documentation for KYC
+     *
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InterruptedException
+     */
+    public ApiResponse uploadDocument(UploadDocumentMessage message, InputStream inputStream, String fileName)
+        throws NoSuchAlgorithmException, IOException, InterruptedException {
+        String hash = EcdsaUtil.hashFile(inputStream);
+        UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
+        String path = Endpoints.DOCUMENTS.getUri();
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
+        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
+
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
+            inputStream, message.getMimeType(), fileName);
+
+        return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
+    }
+
 
     /**
      * List previously uploaded supporting documentation for KYC
