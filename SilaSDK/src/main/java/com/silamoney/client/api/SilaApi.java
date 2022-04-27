@@ -43,6 +43,16 @@ public class SilaApi {
     private static final String DEFAULT_ENVIRONMENT = Environments.SilaEnvironment.SANDBOX.getUrl();
     private static final String CARD_NAME = "card_name";
     private static final String SEARCH_FILTERS = "search_filters";
+
+    /**
+     * Constructor for SilaApi using a configuration.
+     *
+     * @param configuration
+     */
+    public SilaApi(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
     /**
      * Constructor for SilaApi using custom environment.
      *

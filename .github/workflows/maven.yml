@@ -30,3 +30,6 @@ jobs:
         MAVEN_S3_KEY: ${{ secrets.MAVEN_S3_KEY  }}
         MAVEN_S3_SECRET: ${{ secrets.MAVEN_S3_SECRET  }}
         MAVEN_S3_REGION: 'us-west-2'     
+        AWS_REGION: us-west-2
+        AWS_KEY: ${{ secrets.CI_S3_KEY  }}
+        AWS_SECRET: ${{ secrets.CI_S3_SECRET }}
