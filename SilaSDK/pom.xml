@@ -91,17 +91,6 @@
     </dependencies>
 
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>iconsavings-maven-repo-snapshot</id>
-            <url>s3://iconsavings-maven-repo/snapshot</url>
-        </snapshotRepository>
-        <repository>
-            <id>iconsavings-maven-repo-release</id>
-            <url>s3://iconsavings-maven-repo/release</url>
-        </repository>
-    </distributionManagement>
-
     <profiles>
         <profile>
             <id>releases</id>
@@ -260,8 +249,22 @@
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <releaseProfiles>releases</releaseProfiles>
+                    <arguments>-Dmaven.javadoc.skip=true -DskipTests</arguments>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>iconsavings-maven-repo-snapshot</id>
+            <url>s3://iconsavings-maven-repo/snapshot</url>
+        </snapshotRepository>
+        <repository>
+            <id>iconsavings-maven-repo-release</id>
+            <url>s3://iconsavings-maven-repo/release</url>
+        </repository>
+    </distributionManagement>
+
+
 </project>
