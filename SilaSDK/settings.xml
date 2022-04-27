@@ -2,18 +2,18 @@
     <servers>
         <server>
             <id>iconsavings-maven-repo-snapshot</id>
-            <username>${MAVEN_S3_KEY}</username>
-            <password>${MAVEN_S3_SECRET}</password>
+            <username>${env.MAVEN_S3_KEY}</username>
+            <password>${env.MAVEN_S3_SECRET}</password>
             <configuration>
-                <region>us-west-2</region>
+                <region>${env.MAVEN_S3_REGION}</region>
             </configuration>
         </server>
         <server>
             <id>iconsavings-maven-repo-release</id>
-            <username>${MAVEN_S3_KEY}</username>
-            <password>${MAVEN_S3_SECRET}</password>
+            <username>${env.MAVEN_S3_KEY}</username>
+            <password>${env.MAVEN_S3_SECRET}</password>
             <configuration>
-                <region>us-west-2</region>
+                <region>${env.MAVEN_S3_REGION}</region>
             </configuration>
         </server>
     </servers>
