@@ -1,23 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 
-            http://maven.apache.org/xsd/settings-1.1.0.xsd">
+<settings>
     <servers>
         <server>
-            <id>ossrh</id>
-            <username>#{SONATYPE_USER}#</username>
-            <password>#{SONATYPE_PASSWORD}#</password>
+            <id>iconsavings-maven-repo-snapshot</id>
+            <username>${MAVEN_S3_KEY}</username>
+            <password>${MAVEN_S3_SECRET}</password>
+            <configuration>
+                <region>us-west-2</region>
+            </configuration>
+        </server>
+        <server>
+            <id>iconsavings-maven-repo-release</id>
+            <username>${MAVEN_S3_KEY}</username>
+            <password>${MAVEN_S3_SECRET}</password>
+            <configuration>
+                <region>${MAVEN_S3_REGION}</region>
+            </configuration>
         </server>
     </servers>
     <profiles>
         <profile>
-            <id>ossrh</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <gpg.keyname>#{KEY_NAME}#</gpg.keyname>
-                <gpg.passphrase>#{KEY_PHRASE}#</gpg.passphrase>
-            </properties>
+            <id>release</id>
+            <repositories>
+                <repository>
+                    <id>iconsavings-maven-repo-release</id>
+                    <url>s3://iconsavings-maven-repo/release</url>
+                </repository>
+            </repositories>
         </profile>
     </profiles>
+
+    <activeProfiles>
+        <activeProfile>release</activeProfile>
+    </activeProfiles>
 </settings>
