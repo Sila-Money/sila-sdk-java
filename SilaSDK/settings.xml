@@ -13,7 +13,7 @@
             <username>${MAVEN_S3_KEY}</username>
             <password>${MAVEN_S3_SECRET}</password>
             <configuration>
-                <region>${MAVEN_S3_REGION}</region>
+                <region>us-west-2</region>
             </configuration>
         </server>
     </servers>
