@@ -24,4 +24,5 @@ jobs:
         MAVEN_S3_SECRET: ${{ secrets.MAVEN_S3_SECRET  }}
         MAVEN_S3_REGION: 'us-west-2'     
     - name: Build with Maven
+      working-directory: ./SilaSDK
       run: mvn --settings settings.xml --file pom.xml clean test
