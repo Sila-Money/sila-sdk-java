@@ -14,7 +14,9 @@ public enum Endpoints {
     GET_ENTITIES("/get_entities"), GET_DOCUMENT_TYPES("/document_types"), CANCEL_TRANSACTION("/cancel_transaction"),
     DELETE_REGISTRATION("/delete"), DOCUMENTS("/documents"), LIST_DOCUMENTS("/list_documents"),
     GET_DOCUMENT("/get_document"), ADD_REGISTRATION_DATA("/add"), UPDATE_REGISTRATION_DATA("/update"),
-    PLAID_LINK_TOKEN("/plaid_link_token"),DELETE_ACCOUNT("/delete_account");
+    PLAID_LINK_TOKEN("/plaid_link_token"),DELETE_ACCOUNT("/delete_account"),LINK_CARD("/link_card"),DELETE_CARD("/delete_card"),GET_CARDS("/get_cards"),GET_WEBHOOKS("/get_webhooks"),REVERSE_TRANSACTION("/reverse_transaction"),
+    GET_PAYMENT_METHODS("/get_payment_methods"),OPEN_VIRTUAL_ACCOUNT("/open_virtual_account"),GET_VIRTUAL_ACCOUNTS("/get_virtual_accounts"),
+    GET_VIRTUAL_ACCOUNT("/get_virtual_account"),UPDATE_VIRTUAL_ACCOUNT("/update_virtual_account"),RETRY_WEBHOOK("/retry_webhook"),CLOSE_VIRTUAL_ACCOUNT("/close_virtual_account"),CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION("/create_test_virtual_account_ach_transaction");
 
     private String uri;
 

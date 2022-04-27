@@ -21,13 +21,21 @@ public class GetInstitutions extends AbstractEndpoint {
 
         private GetInstitutions() {
         }
-
         public static ApiResponse send(GetInstitutionsRequest request) {
+                return sendData(request);
+        }
+
+        public static ApiResponse send() {
+                return sendData(null);
+        }
+
+        public static ApiResponse sendData(GetInstitutionsRequest request) {
                 Map<String, Object> body = new HashMap<>();
                 body.put("header", Header.builder().appHandle(APP_HANDLE)
-                                .created(EpochUtils.getEpochTime()).build());
+                        .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
                 body.put("message", "header_msg");
-                body.put("search_filters", request.getSearchFilters());
+                if (request != null)
+                        body.put("search_filters", request.getSearchFilters());
 
                 String serializedBody = JsonUtils.serialize(body);
 
@@ -42,5 +50,6 @@ public class GetInstitutions extends AbstractEndpoint {
                         return null;
                 }
         }
+
 
 }

@@ -39,7 +39,7 @@ public class RegisterTests {
 						.cryptoAddress(DefaultConfigurations.getUserCryptoAddress()).build())
 				.entity(Entity.builder().birthdate("1900-01-31").entityName("Example User").firstName("Example")
 						.lastName("User").build())
-				.identity(Identity.builder().identityAlias("SSN").identityValue("123452222").build())
+				.identity(Identity.builder().identityAlias("SSN").identityValue("123452383").build())
 				.device(Device.builder().deivceFingerprint("asdfghjkl").build())
 				.userHandle(DefaultConfigurations.getUserHandle()).build();
 
@@ -60,7 +60,7 @@ public class RegisterTests {
 						.cryptoAddress(DefaultConfigurations.getUser2CryptoAddress()).build())
 				.entity(Entity.builder().birthdate("1900-01-31").entityName("Example User").firstName("Example")
 						.lastName("User").build())
-				.identity(Identity.builder().identityAlias("SSN").identityValue("123452222").build())
+				.identity(Identity.builder().identityAlias("SSN").identityValue("123452383").build())
 				.device(Device.builder().deivceFingerprint("asdfghjkl").build())
 				.userHandle(DefaultConfigurations.getUser2Handle()).build();
 		ApiResponse response = Register.send(request);

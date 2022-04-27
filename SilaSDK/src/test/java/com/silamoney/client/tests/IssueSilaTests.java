@@ -62,6 +62,7 @@ public class IssueSilaTests {
         }
 
         assertEquals("success", ((GetTransactionsResponse) response.getData()).transactions.get(0).status);
+        assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).ledgerAccountId);
     }
 
     @Test
@@ -78,7 +79,16 @@ public class IssueSilaTests {
         assertEquals("SUCCESS", parsedResponse.getStatus());
         assertNotNull(parsedResponse.getTransactionId());
     }
-
+    @Test
+    public void Response200SuccessWithCardName() throws Exception {
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).cardName("visa")
+                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).build();
+        ApiResponse response = api.issueSila(issue);
+        assertEquals(200, response.getStatusCode());
+        assertTrue(((TransactionResponse) response.getData()).getSuccess());
+    }
     @Test
     public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
             InterruptedException, ForbiddenException {
@@ -136,4 +146,50 @@ public class IssueSilaTests {
         assertFalse(parsedResponse.getSuccess());
         assertEquals("FAILURE", parsedResponse.getStatus());
     }
+
+    @Test
+    public void Response200WithVirtualAccount() throws Exception {
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName("default")
+                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).destinationId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId()).build();
+        ApiResponse response = api.issueSila(issue);
+        assertEquals(200, response.getStatusCode());
+        assertTrue(((TransactionResponse) response.getData()).getSuccess());
+        assertEquals("test descriptor", ((TransactionResponse) response.getData()).getDescriptor());
+        assertEquals("SUCCESS", ((TransactionResponse) response.getData()).getStatus());
+        assertNotNull(((TransactionResponse) response.getData()).getTransactionId());
+
+        String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
+        SearchFilters filters = new SearchFilters();
+        filters.setTransactionId(transactionId);
+        response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+                DefaultConfigurations.getUserPrivateKey());
+        while (!((GetTransactionsResponse) response.getData()).transactions.get(0).status.equals("success")) {
+            TimeUnit.SECONDS.sleep(20);
+            response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+                    DefaultConfigurations.getUserPrivateKey());
+        }
+
+        assertEquals("success", ((GetTransactionsResponse) response.getData()).transactions.get(0).status);
+        assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).silaLedgerType);
+        assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).sourceId);
+        assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).destinationId);
+    }
+
+    @Test
+    public void Response200SuccessInstantSettlement() throws Exception {
+        AccountTransactionMessage issue = AccountTransactionMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).accountName("default")
+                .processingType(ProcessingTypeEnum.INSTANT_SETTLEMENT).build();
+        ApiResponse response = api.issueSila(issue);
+
+        assertEquals(200, response.getStatusCode());
+        TransactionResponse parsedResponse = (TransactionResponse) response.getData();
+        assertTrue(parsedResponse.getSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getTransactionId());
+    }
+
 }

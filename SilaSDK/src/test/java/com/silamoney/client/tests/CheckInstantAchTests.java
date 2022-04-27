@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.CheckInstantAchResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
@@ -20,11 +20,23 @@ public class CheckInstantAchTests {
         ApiResponse response = api.checkInstantAch("defaultpt", DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey());
 
-        BaseResponse parsedResponse = (BaseResponse) response.getData();
+        CheckInstantAchResponse parsedResponse = (CheckInstantAchResponse) response.getData();
 
         assertNotNull(parsedResponse.getStatus());
         assertNotNull(parsedResponse.getMessage());
         assertNotNull(parsedResponse.getSuccess());
     }
 
+    @Test
+    public void CheckInstantAchTestWithSardine() throws Exception {
+
+        ApiResponse response = api.checkInstantAch("defaultptsardine", DefaultConfigurations.getUser4Handle(),
+                DefaultConfigurations.getUser4PrivateKey(), "INSTANT-ACHV2");
+
+        CheckInstantAchResponse parsedResponse = (CheckInstantAchResponse) response.getData();
+
+        assertNotNull(parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getSuccess());
+    }
 }

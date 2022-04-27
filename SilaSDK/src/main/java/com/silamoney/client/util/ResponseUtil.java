@@ -6,28 +6,39 @@ import com.silamoney.client.domain.Account;
 import com.silamoney.client.domain.AccountBalanceResponse;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
+import com.silamoney.client.domain.CheckInstantAchResponse;
 import com.silamoney.client.domain.CheckKYCResponse;
 import com.silamoney.client.domain.CheckPartnerKycResponse;
+import com.silamoney.client.domain.DeleteAccountResponse;
 import com.silamoney.client.domain.GetBusinessRolesResponse;
 import com.silamoney.client.domain.GetBusinessTypesResponse;
+import com.silamoney.client.domain.GetCardsResponse;
 import com.silamoney.client.domain.GetEntitiesResponse;
 import com.silamoney.client.domain.GetEntityResponse;
 import com.silamoney.client.domain.GetNaicsCategoriesResponse;
+import com.silamoney.client.domain.GetPaymentMethodsResponse;
 import com.silamoney.client.domain.GetSilaBalanceResponse;
 import com.silamoney.client.domain.GetTransactionsResponse;
+import com.silamoney.client.domain.GetVirtualAccountResponse;
+import com.silamoney.client.domain.GetVirtualAccountsResponse;
 import com.silamoney.client.domain.GetWalletResponse;
 import com.silamoney.client.domain.GetWalletsResponse;
+import com.silamoney.client.domain.GetWebhooksResponse;
 import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.domain.LinkBusinessMemberResponse;
 import com.silamoney.client.domain.LinkBusinessOperationResponse;
+import com.silamoney.client.domain.LinkCardResponse;
 import com.silamoney.client.domain.PlaidLinkTokenResponse;
 import com.silamoney.client.domain.PlaidSameDayAuthResponse;
 import com.silamoney.client.domain.PlaidUpdateLinkTokenResponse;
+import com.silamoney.client.domain.RegisterBusinessResponse;
 import com.silamoney.client.domain.RegisterWalletResponse;
+import com.silamoney.client.domain.RequestKycResponse;
 import com.silamoney.client.domain.TransactionResponse;
 import com.silamoney.client.domain.TransferSilaResponse;
 import com.silamoney.client.domain.UpdateAccountResponse;
 import com.silamoney.client.domain.UpdateWalletResponse;
+import com.silamoney.client.domain.VirtualAccountResponse;
 import java.lang.reflect.Type;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
@@ -62,13 +73,13 @@ public class ResponseUtil {
         int statusCode = response.statusCode();
         if (statusCode == 400) {
             return new ApiResponse(statusCode, response.headers().map(),
-                    Serialization.deserialize(bodyString, BadRequestResponse.class), false);
+                Serialization.deserialize(bodyString, BadRequestResponse.class), false);
         } else if (statusCode != 200) {
             return new ApiResponse(statusCode, response.headers().map(),
-                    Serialization.deserialize(bodyString, BaseResponse.class), false);
+                Serialization.deserialize(bodyString, BaseResponse.class), false);
         }
         return new ApiResponse(statusCode, response.headers().map(),
-                Serialization.deserialize(bodyString, messageClass), statusCode == 200);
+            Serialization.deserialize(bodyString, messageClass), statusCode == 200);
     }
 
     public static ApiResponse prepareFileResponse(HttpResponse<?> response) {
@@ -76,15 +87,15 @@ public class ResponseUtil {
         String bodyString = body != null ? body.toString() : "";
         logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(),
             "statusCode", response.statusCode(),
-            "headers", normHeaderMap(response.headers()), 
+            "headers", normHeaderMap(response.headers()),
             "body", bodyString));
         int statusCode = response.statusCode();
         if (statusCode == 400) {
             return new ApiResponse(statusCode, response.headers().map(),
-                    Serialization.deserialize(bodyString, BadRequestResponse.class), false);
+                Serialization.deserialize(bodyString, BadRequestResponse.class), false);
         } else if (statusCode != 200) {
             return new ApiResponse(statusCode, response.headers().map(),
-                    Serialization.deserialize(bodyString, BaseResponse.class), false);
+                Serialization.deserialize(bodyString, BaseResponse.class), false);
         }
         return new ApiResponse(statusCode, response.headers().map(), bodyString, statusCode == 200);
     }
@@ -92,8 +103,6 @@ public class ResponseUtil {
     /**
      * Creates an ApiResponse based on the sent HttpResponse.
      *
-     * @param response
-     * @param msg
      * @return ApiResponse
      */
     public static ApiResponse prepareResponse(HttpResponse<?> response, String msg) {
@@ -102,7 +111,7 @@ public class ResponseUtil {
         logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(),
             "headers", normHeaderMap(response.headers()),
             "body", bodyString));
-        
+
         int statusCode = response.statusCode();
 
         boolean success = true;
@@ -113,38 +122,44 @@ public class ResponseUtil {
         try {
             if (statusCode == 400) {
                 BadRequestResponse badRequestResponse = (BadRequestResponse) Serialization
-                        .deserialize(bodyString, BadRequestResponse.class);
+                    .deserialize(bodyString, BadRequestResponse.class);
                 return new ApiResponse(statusCode, response.headers().map(), badRequestResponse, success);
             }
 
             switch (msg) {
+                case "delete_account":
+                    DeleteAccountResponse deleteAccountResponse = (DeleteAccountResponse) Serialization
+                        .deserialize(bodyString, DeleteAccountResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), deleteAccountResponse,
+                        deleteAccountResponse.getSuccess());
                 case "get_account_balance_msg":
                     AccountBalanceResponse accountBalanceResponse = (AccountBalanceResponse) Serialization
-                            .deserialize(bodyString, AccountBalanceResponse.class);
+                        .deserialize(bodyString, AccountBalanceResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), accountBalanceResponse,
-                            accountBalanceResponse.getSuccess());
+                        accountBalanceResponse.getSuccess());
                 case "plaid_sameday_auth_msg":
                     PlaidSameDayAuthResponse plaidSameDayAuthResponse = (PlaidSameDayAuthResponse) Serialization
-                            .deserialize(bodyString, PlaidSameDayAuthResponse.class);
+                        .deserialize(bodyString, PlaidSameDayAuthResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), plaidSameDayAuthResponse,
-                            plaidSameDayAuthResponse.getSuccess());
+                        plaidSameDayAuthResponse.getSuccess());
                 case "get_wallets_msg":
                     GetWalletsResponse getWalletsResponse = (GetWalletsResponse) Serialization
-                            .deserialize(bodyString, GetWalletsResponse.class);
+                        .deserialize(bodyString, GetWalletsResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getWalletsResponse,
-                            getWalletsResponse.isSuccess());
+                        getWalletsResponse.isSuccess());
                 case "get_wallet_msg":
                     GetWalletResponse getWalletResponse = (GetWalletResponse) Serialization
-                            .deserialize(bodyString, GetWalletResponse.class);
+                        .deserialize(bodyString, GetWalletResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getWalletResponse,
-                            getWalletResponse.getSuccess());
+                        getWalletResponse.getSuccess());
                 case "link_account_msg":
                     LinkAccountResponse linkAccountResponse = (LinkAccountResponse) Serialization
-                            .deserialize(bodyString, LinkAccountResponse.class);
+                        .deserialize(bodyString, LinkAccountResponse.class);
 
                     if (success && !"SUCCESS".equals(linkAccountResponse.getStatus())) {
                         success = false;
@@ -153,6 +168,28 @@ public class ResponseUtil {
                     linkAccountResponse.setSuccess(success);
 
                     return new ApiResponse(statusCode, response.headers().map(), linkAccountResponse, success);
+                case "link_card_msg":
+                    LinkCardResponse linkCardResponse = (LinkCardResponse) Serialization
+                        .deserialize(bodyString, LinkCardResponse.class);
+
+                    if (success && !"SUCCESS".equals(linkCardResponse.getStatus())) {
+                        success = false;
+                    }
+
+                    linkCardResponse.setSuccess(success);
+
+                    return new ApiResponse(statusCode, response.headers().map(), linkCardResponse, success);
+                case "get_cards":
+                    GetCardsResponse getCardsResponse = (GetCardsResponse) Serialization
+                        .deserialize(bodyString, GetCardsResponse.class);
+
+                    if (success && !"SUCCESS".equals(getCardsResponse.getStatus())) {
+                        success = false;
+                    }
+
+                    getCardsResponse.setSuccess(success);
+
+                    return new ApiResponse(statusCode, response.headers().map(), getCardsResponse, success);
                 case "get_accounts_msg":
                     TypeToken<ArrayList<Account>> token = new TypeToken<ArrayList<Account>>() {
                     };
@@ -175,7 +212,7 @@ public class ResponseUtil {
                         return new ApiResponse(statusCode, response.headers().map(), list, success);
                     } catch (Exception e) {
                         BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString,
-                                BaseResponse.class);
+                            BaseResponse.class);
 
                         if (success && !"SUCCESS".equals(baseResponse.getStatus())) {
                             success = false;
@@ -187,59 +224,66 @@ public class ResponseUtil {
                     }
                 case "get_transactions_msg":
                     GetTransactionsResponse getTransactionsResponse = (GetTransactionsResponse) Serialization
-                            .deserialize(bodyString, GetTransactionsResponse.class);
+                        .deserialize(bodyString, GetTransactionsResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getTransactionsResponse, success);
                 case "get_sila_balance":
                     GetSilaBalanceResponse getSilaBalanceResponse = (GetSilaBalanceResponse) Serialization
-                            .deserialize(bodyString, GetSilaBalanceResponse.class);
+                        .deserialize(bodyString, GetSilaBalanceResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getSilaBalanceResponse,
-                            getSilaBalanceResponse.getSuccess());
+                        getSilaBalanceResponse.getSuccess());
                 case "get_business_types":
                     GetBusinessTypesResponse businessTypesResponse = (GetBusinessTypesResponse) Serialization
-                            .deserialize(bodyString, GetBusinessTypesResponse.class);
+                        .deserialize(bodyString, GetBusinessTypesResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), businessTypesResponse, success);
                 case "get_business_roles":
                     GetBusinessRolesResponse businessRolesResponse = (GetBusinessRolesResponse) Serialization
-                            .deserialize(bodyString, GetBusinessRolesResponse.class);
+                        .deserialize(bodyString, GetBusinessRolesResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), businessRolesResponse, success);
                 case "get_naics_categories":
                     GetNaicsCategoriesResponse getNaicsCategoriesResponse = (GetNaicsCategoriesResponse) Serialization
-                            .deserialize(bodyString, GetNaicsCategoriesResponse.class);
+                        .deserialize(bodyString, GetNaicsCategoriesResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getNaicsCategoriesResponse, success);
                 case "link_business_member":
                     LinkBusinessMemberResponse linkBusinessMemberResponse = (LinkBusinessMemberResponse) Serialization
-                            .deserialize(bodyString, LinkBusinessMemberResponse.class);
+                        .deserialize(bodyString, LinkBusinessMemberResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), linkBusinessMemberResponse, success);
                 case "check_kyc":
-                    CheckKYCResponse checkKYCResponse = (CheckKYCResponse) Serialization
-                            .deserialize(bodyString, CheckKYCResponse.class);
+                    CheckKYCResponse checkKYCResponse = (CheckKYCResponse) Serialization.deserialize(
+                        bodyString,
+                        CheckKYCResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), checkKYCResponse, success);
+                case "request_kyc":
+                    RequestKycResponse requestKycResponse = (RequestKycResponse) Serialization.deserialize(
+                        bodyString,
+                        RequestKycResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), requestKycResponse, success);
                 case "unlink_business_member":
                     LinkBusinessOperationResponse LinkBusinessOperationResponse = (LinkBusinessOperationResponse) Serialization
-                            .deserialize(bodyString, LinkBusinessOperationResponse.class);
+                        .deserialize(bodyString, LinkBusinessOperationResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), LinkBusinessOperationResponse, success);
                 case "get_entity":
                     GetEntityResponse getEntityResponse = (GetEntityResponse) Serialization
-                            .deserialize(bodyString, GetEntityResponse.class);
+                        .deserialize(bodyString, GetEntityResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getEntityResponse, success);
                 case "get_entities":
                     GetEntitiesResponse getEntitiesResponse = (GetEntitiesResponse) Serialization
-                            .deserialize(bodyString, GetEntitiesResponse.class);
+                        .deserialize(bodyString, GetEntitiesResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getEntitiesResponse, success);
                 case "issue_msg":
                 case "redeem_msg":
                     TransactionResponse issueSilaResponse = (TransactionResponse) Serialization
-                            .deserialize(bodyString, TransactionResponse.class);
+                        .deserialize(bodyString, TransactionResponse.class);
 
                     if (success && !"SUCCESS".equals(issueSilaResponse.getStatus())) {
                         success = false;
@@ -250,7 +294,7 @@ public class ResponseUtil {
                     return new ApiResponse(statusCode, response.headers().map(), issueSilaResponse, success);
                 case "transfer_msg":
                     TransferSilaResponse transferSilaResponse = (TransferSilaResponse) Serialization
-                            .deserialize(bodyString, TransferSilaResponse.class);
+                        .deserialize(bodyString, TransferSilaResponse.class);
 
                     if (success && !"SUCCESS".equals(transferSilaResponse.getStatus())) {
                         success = false;
@@ -295,10 +339,67 @@ public class ResponseUtil {
 
                     return new ApiResponse(statusCode, response.headers().map(), plaidUpdateLinkTokenResponse,
                         plaidUpdateLinkTokenResponse.isSuccess());
+                case "get_webhooks":
+                    GetWebhooksResponse getWebhooksResponse = (GetWebhooksResponse) Serialization
+                        .deserialize(bodyString, GetWebhooksResponse.class);
 
+                    return new ApiResponse(statusCode, response.headers().map(), getWebhooksResponse,
+                        getWebhooksResponse.getSuccess());
+                case "register_business":
+                    RegisterBusinessResponse registerBusinessResponse = (RegisterBusinessResponse) Serialization.deserialize(
+                        bodyString,
+                        RegisterBusinessResponse.class);
+
+                    if (success && (!"SUCCESS".equals(registerBusinessResponse.getStatus())
+                        && registerBusinessResponse.getStatus() != null)) {
+                        success = false;
+                    }
+
+                    registerBusinessResponse.setSuccess(success);
+
+                    return new ApiResponse(statusCode, response.headers().map(), registerBusinessResponse, success);
+                case "check_instant_ach":
+                    CheckInstantAchResponse checkInstantAchResponse = (CheckInstantAchResponse) Serialization.deserialize(
+                        bodyString,
+                        CheckInstantAchResponse.class);
+
+                    if (success && (!"SUCCESS".equals(checkInstantAchResponse.getStatus())
+                        && checkInstantAchResponse.getStatus() != null)) {
+                        success = false;
+                    }
+
+                    checkInstantAchResponse.setSuccess(success);
+
+                    return new ApiResponse(statusCode, response.headers().map(), checkInstantAchResponse, success);
+                case "get_payment_methods":
+                    GetPaymentMethodsResponse getPaymentMethodsResponse = (GetPaymentMethodsResponse) Serialization
+                        .deserialize(bodyString, GetPaymentMethodsResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), getPaymentMethodsResponse, success);
+                case "open_virtual_account":
+                    VirtualAccountResponse openVirtualAccountResponse = (VirtualAccountResponse) Serialization
+                        .deserialize(bodyString, VirtualAccountResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), openVirtualAccountResponse, success);
+                case "get_virtual_accounts":
+                    GetVirtualAccountsResponse getVirtualAccountsResponse = (GetVirtualAccountsResponse) Serialization
+                        .deserialize(bodyString, GetVirtualAccountsResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), getVirtualAccountsResponse, success);
+                case "get_virtual_account":
+                    GetVirtualAccountResponse getVirtualAccountResponse = (GetVirtualAccountResponse) Serialization
+                        .deserialize(bodyString, GetVirtualAccountResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), getVirtualAccountResponse, success);
+                case "close_virtual_account":
+                case "update_virtual_account":
+                    VirtualAccountResponse virtualAccountResponse = (VirtualAccountResponse) Serialization
+                        .deserialize(bodyString, VirtualAccountResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), virtualAccountResponse, success);
                 default:
                     BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString,
-                            BaseResponse.class);
+                        BaseResponse.class);
 
                     if (success && (!"SUCCESS".equals(baseResponse.getStatus()) && baseResponse.getStatus() != null)) {
                         success = false;
@@ -316,6 +417,7 @@ public class ResponseUtil {
             throw new RuntimeException(ex);
         }
     }
+
 
     public static Map<String, Object> normHeaderMap(HttpHeaders headers) {
         Map<String, Object> normMap = new LinkedHashMap<>();

@@ -36,6 +36,7 @@ public class RegisterWallet extends AbstractEndpoint {
                         .build()
                 );
                 body.put("wallet_verification_signature", request.getWalletVerificationSignature());
+                request.getWallet().setDefaultWallet(request.isDefaultWallet());
                 body.put("wallet", request.getWallet());
 
                 String serializedBody = JsonUtils.serialize(body);

@@ -1,6 +1,8 @@
 package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+
 import java.util.List;
 
 /**
@@ -25,4 +27,9 @@ public class GetTransactionsResponse extends PaginationInformation {
 
     public Pagination pagination;
 
+    @SerializedName("reference")
+    public String reference;
+    @Getter
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

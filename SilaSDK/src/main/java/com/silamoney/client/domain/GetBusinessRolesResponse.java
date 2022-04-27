@@ -14,5 +14,7 @@ public class GetBusinessRolesResponse {
     private List<BusinessRole> businessRoles;
     private String message;
     private String status;
-
+    private String reference;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

@@ -70,7 +70,7 @@ public class AddRegistrationDataTests {
         public void Response200Identity() throws Exception {
                 UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-                IdentityMessage message = IdentityMessage.builder().identityAlias("SSN").identityValue("123452222")
+                IdentityMessage message = IdentityMessage.builder().identityAlias("SSN").identityValue("123452383")
                                 .build();
                 ApiResponse response = api.addIdentity(user, message);
                 assertEquals(200, response.getStatusCode());
@@ -150,5 +150,16 @@ public class AddRegistrationDataTests {
                 BaseResponse parsedResponse = (BaseResponse) response.getData();
                 assertFalse(parsedResponse.getSuccess());
                 assertEquals("FAILURE", parsedResponse.getStatus());
+        }
+        @Test
+        public void Response200DeviceWithSessionIdentifier() throws Exception {
+                UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUser4Handle())
+                        .userPrivateKey(DefaultConfigurations.getUser4PrivateKey()).build();
+                Device device = new Device("12345678909876",DefaultConfigurations.sessionIdentifier);
+                ApiResponse response = api.addDevice(user, device);
+                assertEquals(200, response.getStatusCode());
+                DeviceResponse parsedResponse = (DeviceResponse) response.getData();
+                assertTrue(parsedResponse.getSuccess());
+                assertEquals("SUCCESS", parsedResponse.getStatus());
         }
 }

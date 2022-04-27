@@ -14,9 +14,15 @@ public class ListDocumentsResponse {
     @SerializedName("status")
     private String status;
     @Getter
+    @SerializedName("reference")
+    private String reference;
+    @Getter
     @SerializedName("documents")
     private List<Document> documents;
     @Getter
     @SerializedName("pagination")
     private Pagination pagination;
+    @Getter
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

@@ -26,7 +26,7 @@ public class ApiClient {
     private String basePath;
 
     private static final String PRODUCT = "SilaSDK-java";
-    private static final String VERSION = "0.2.24";
+    private static final String VERSION = "0.2.41";
 
     /**
      * Gets the api base path.
@@ -88,6 +88,7 @@ public class ApiClient {
     public HttpResponse callApi(String path, Map<String, String> headers, String body)
         throws IOException, InterruptedException {
         try {
+		 headers.put("User-Agent", PRODUCT + '/' + VERSION);
             logRequest(path, headers, body);
             HttpRequest finalRequest = prepareRequest(path, headers, body);
             return httpClient.send(finalRequest, BodyHandlers.ofString());
@@ -120,6 +121,7 @@ public class ApiClient {
      * @param path
      * @param headers
      * @param body
+     * @param filePath
      * @return
      * @throws FileNotFoundException
      * @throws IOException

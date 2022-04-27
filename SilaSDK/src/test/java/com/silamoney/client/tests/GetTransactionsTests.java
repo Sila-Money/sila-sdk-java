@@ -11,6 +11,7 @@ import java.io.IOException;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.GetTransactionsResponse;
+import com.silamoney.client.domain.ProcessingTypeEnum;
 import com.silamoney.client.domain.SearchFilters;
 import com.silamoney.client.domain.Transaction;
 import com.silamoney.client.exceptions.BadRequestException;
@@ -100,5 +101,49 @@ public class GetTransactionsTests {
 		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(403, response.getStatusCode());
+	}
+
+	@Test
+	public void Response200WithSourceIdDestinationId() throws Exception {
+		SearchFilters filters = new SearchFilters();
+		filters.setDestinationId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId());
+		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
+		assertTrue(parsedResponse.success);
+		assertEquals("SUCCESS", parsedResponse.status);
+		assertTrue(parsedResponse.transactions.size()>0);
+		assertNotNull(parsedResponse.transactions.get(0).silaLedgerType);
+		assertNotNull(parsedResponse.transactions.get(0).sourceId);
+		assertNotNull(parsedResponse.transactions.get(0).destinationId);
+	}
+	@Test
+	public void Response200WithInstantSettlement() throws Exception {
+		SearchFilters filters = new SearchFilters();
+		filters.setProcessingType(ProcessingTypeEnum.INSTANT_SETTLEMENT);
+		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
+		assertTrue(parsedResponse.success);
+		assertEquals("SUCCESS", parsedResponse.status);
+		assertTrue(parsedResponse.transactions.size()>0);
+		assertEquals(ProcessingTypeEnum.INSTANT_SETTLEMENT.getValue(),parsedResponse.transactions.get(0).processingType);
+	}
+	@Test
+	public void Response200WithPaymentMethodId() throws Exception {
+		SearchFilters filters = new SearchFilters();
+		filters.setPaymentMethodId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId());
+		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
+		assertTrue(parsedResponse.success);
+		assertEquals("SUCCESS", parsedResponse.status);
+		assertTrue(parsedResponse.transactions.size() > 0);
 	}
 }

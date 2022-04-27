@@ -45,7 +45,7 @@ public class LinkAccountTests {
 	public void Response200SuccessNoPublicToken() throws Exception {
 		// BANKACCOUNT2
 		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "default", "123456789012", "123456789", "CHECKING");
+				DefaultConfigurations.getUserPrivateKey(), "default", "123456789012", "123456780", "CHECKING");
 
 		assertEquals(200, response.getStatusCode());
 		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
@@ -58,7 +58,7 @@ public class LinkAccountTests {
 		assertEquals(200, response.getStatusCode());
 
 		response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "defaultupdate", "123456789012", "123456789", "CHECKING");
+				DefaultConfigurations.getUserPrivateKey(), "defaultupdate", "123456789012", "123456780", "CHECKING");
 		assertEquals(200, response.getStatusCode());
 	}
 
@@ -91,5 +91,19 @@ public class LinkAccountTests {
 
 		assertEquals(401, response.getStatusCode());
 		assertEquals("FAILURE", ((LinkAccountResponse) response.getData()).getStatus());
+	}
+
+	@Test
+	public void Response200SuccessWithSardine() throws Exception {
+		// BANKACCOUNT1
+		ApiResponse response = api.linkAccount(DefaultConfigurations.getUser4Handle(),
+				DefaultConfigurations.getUser4PrivateKey(), "defaultptsardine",DefaultConfigurations.getPlaidToken2());
+
+		assertEquals(200, response.getStatusCode());
+		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
+		assertEquals("SUCCESS", parsedResponse.getStatus());
+		assertThat(parsedResponse.getMessage(),
+				containsString("successfully linked with status \"instantly_verified\""));
+		assertEquals("defaultptsardine", parsedResponse.getAccountName());
 	}
 }

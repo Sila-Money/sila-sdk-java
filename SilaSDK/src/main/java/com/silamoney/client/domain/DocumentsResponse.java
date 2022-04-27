@@ -20,4 +20,7 @@ public class DocumentsResponse {
     @Getter
     @SerializedName("document_id")
     private String documentId;
+    @Getter
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

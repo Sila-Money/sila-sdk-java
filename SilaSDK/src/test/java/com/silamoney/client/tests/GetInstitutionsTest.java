@@ -32,4 +32,10 @@ public class GetInstitutionsTest {
 
 		assertNotNull(parsedResponse.getInstitutions().get(0).getName());
 	}
+	@Test
+	public void Register200WithoutSearchFilter() throws Exception {
+		ApiResponse response = api.getInstitutions();
+		GetInstitutionsResponse parsedResponse = (GetInstitutionsResponse) response.getData();
+		assertNotNull(parsedResponse.getInstitutions());
+	}
 }

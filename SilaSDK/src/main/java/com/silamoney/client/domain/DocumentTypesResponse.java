@@ -17,9 +17,15 @@ public class DocumentTypesResponse {
     @SerializedName("message")
     private String message;
     @Getter
+    @SerializedName("reference")
+    private String reference;
+    @Getter
     @SerializedName("document_types")
     private List<DocumentType> documentTypes;
     @Getter
     @SerializedName("pagination")
     private Pagination pagination;
+    @Getter
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

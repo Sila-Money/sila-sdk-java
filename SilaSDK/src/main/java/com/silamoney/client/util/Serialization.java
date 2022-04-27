@@ -16,9 +16,7 @@ public class Serialization {
         
     }
 
-    private static final Gson Serializer = new GsonBuilder().registerTypeHierarchyAdapter(
-        String.class, new SerializerImplementation()).create();    
-
+    private static final Gson Serializer = new Gson();
     /**
      * Converts the object into a json string.
      *

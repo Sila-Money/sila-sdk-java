@@ -21,6 +21,10 @@ public class GetEntityResponse {
     private List<Phone> phones;
     private List<Membership> memberships;
     private List<Member> members;
+    private List<Devices> devices;
     private String status;
+    private String reference;
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 
 }

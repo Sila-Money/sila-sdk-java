@@ -19,4 +19,10 @@ public class AccountTransactionMessage {
     private String businessUuid;
     @Getter
     private ProcessingTypeEnum processingType;
+    @Getter
+    private String cardName;
+    @Getter
+    private String sourceId;
+    @Getter
+    private String destinationId;
 }

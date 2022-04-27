@@ -1,8 +1,5 @@
 package com.silamoney.client.testsrefactored.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import com.silamoney.clientrefactored.configuration.Environment;
@@ -20,6 +17,8 @@ import com.silamoney.clientrefactored.endpoints.entities.register.RegisterRespon
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class RegisterBusinessTests {
 
@@ -62,7 +61,7 @@ public class RegisterBusinessTests {
 				)
 				.identity(Identity.builder()
 					.identityAlias("EIN")
-					.identityValue("123452222")
+					.identityValue("123452383")
 					.build()
 				)
 				.device(Device.builder()
@@ -76,6 +75,7 @@ public class RegisterBusinessTests {
 		RegisterResponse parsedResponse = (RegisterResponse) response.getData();
 
 		assertEquals("SUCCESS", parsedResponse.getStatus());
+		assertNotNull(parsedResponse.getBusiness_uuid());
 		assertTrue(parsedResponse.isSuccess());
 	}
 

@@ -127,7 +127,63 @@ public class Message {
         /**
          * String value for DeleteAccount.
          */
-        DELETE_ACCOUNT("delete_account");
+        DELETE_ACCOUNT("delete_account"),
+        /**
+         * String value for RegisterBusiness.
+         */
+        REGISTER_BUSINESS("register_business"),
+        /**
+         * String value for LinkCardMsg.
+         */
+        LINK_CARD_MSG("link_card_msg"),
+        /**
+         * String value for DeleteCard.
+         */
+        DELETE_CARD("delete_card"),
+        /**
+         * String value for GetCards.
+         */
+        GET_CARD_MSG("get_cards"),
+        /**
+         * String value for GetWebhooks.
+         */
+        GET_WEBHOOKS("get_webhooks"),
+        /**
+         * String value for Request KYC.
+         */
+        REQUEST_KYC("request_kyc"),
+        /**
+         * String value for GetPaymentMethods.
+         */
+        GET_PAYMENT_METHODS("get_payment_methods"),
+        /**
+         * String value for OpenVirtualAccount.
+         */
+        OPEN_VIRTUAL_ACCOUNT("open_virtual_account"),
+        /**
+         * String value for GetVirtualAccounts.
+         */
+        GET_VIRTUAL_ACCOUNTS("get_virtual_accounts"),
+        /**
+         * String value for GetVirtualAccount.
+         */
+        GET_VIRTUAL_ACCOUNT("get_virtual_account"),
+        /**
+         * String value for UpdateVirtualAccount.
+         */
+        UPDATE_VIRTUAL_ACCOUNT("update_virtual_account"),
+        /**
+         * String value for retryWebhook.
+         */
+        RETRY_WEBHOOK("retryWebhook"),
+        /**
+         * String value for CloseVirtualAccount.
+         */
+        CLOSE_VIRTUAL_ACCOUNT("close_virtual_account"),
+        /**
+         * String value for CreateTestVirtualAccountAchTransaction.
+         */
+        CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION("create_test_virtual_account_ach_transaction");
 
         private final String value;
 

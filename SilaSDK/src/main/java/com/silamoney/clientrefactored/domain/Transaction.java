@@ -46,6 +46,8 @@ public class Transaction {
     private String handleAddress;
     @SerializedName("bank_account_name")
     private String bankAccountName;
+    @SerializedName("card_name")
+    private String cardName;
     @SerializedName("descriptot_ach")
     private String descriptorAch;
     @SerializedName("processing_type")
@@ -66,4 +68,20 @@ public class Transaction {
     private String returnDesc;
     private List<Timeline> timeline;
 
+    @SerializedName("sila_ledger_type")
+    public String silaLedgerType;
+    @SerializedName("destination_sila_ledger_type")
+    public String destinationSilaLedgerType;
+    @SerializedName("destination_ledger_account_id")
+    public String destinationLedgerAccountId;
+    @SerializedName("ledger_account_id ")
+    public String ledgerAccountId;
+    @SerializedName("source_id")
+    public String sourceId;
+    @SerializedName("destination_id")
+    public String destinationId;
+    @SerializedName("effective_date")
+    public String effectiveDate;
+    @SerializedName("effective_epoch")
+    public String effectiveEpoch;
 }

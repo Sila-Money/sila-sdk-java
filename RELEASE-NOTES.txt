@@ -1,0 +1,131 @@
+v0.2.41-rc
+Hotfix:
+    - Added new fields submitted, submitted_epoch and error_msg to the response in /get_transactions.
+
+v0.2.41
+New Features:
+    - Added support for /close_virtual_transaction.
+    - Added support for /create_test_virtual_account_ach_transaction.
+Enhancements:
+    - Added virtual accounts as a type/section & achCreditEnabled and achDebitEnabled boolean fields to the response in /get_payment_methods.
+    - Allowed paymentMethodId a new optional input to the SearchFilters in /get_transactions.
+    - Added response_time_ms in response for all API endpoint.
+    - Updated uuid to wallet_id input field in internal code in SearchFilters in /get_wallets.
+    - Added achCreditEnabled and achDebitEnabled new optional inputs fields and corresponding response fields in /open_virtual_account.
+    - Added achCreditEnabled and achDebitEnabled new optional inputs fields and corresponding response fields in /update_virtual_account.
+    - Added achCreditEnabled and achDebitEnabled boolean fields to the response in /get_virtual_account.
+    - Added achCreditEnabled and achDebitEnabled boolean fields to the response in /get_virtual_accounts.
+    - Updated identityType input field as optional in /documents.
+
+v0.2.39
+New Features:
+    - Added support for /retry_webhook.
+Enhancements:
+    - Allowed INSTANT_SETTLEMENT a new optional input to the processing_type in /issue_sila.
+    - Added a new optional input INSTANT_SETTLEMENT in processing_type to the SearchFilters and exposed new field child_transactions array to the response in /get_transactions.
+    - Added session_identifier a new optional input to the device in /register (for sardine).
+    - Added session_identifier new optional input field in ./add register-data for add device.
+    - Added kyc_level a new optional input in /check_kyc.
+    - Added kyc_level a new optional input field in /check_instant_ach.
+
+v0.2.37
+New Features:
+    - Added support for /get_payment_methods.
+    - Added support for /open_virtual_account.
+    - Added support for /get_virtual_accounts.
+    - Added support for /get_virtual_account.
+    - Added support for /update_virtual_account.
+Enhancements:
+    - Added source_id and destination_id new optional inputs in /issue_sila.
+    - Added source_id and destination_id new optional inputs in /redeem_sila.
+    - Added source_id and destination_id new optional inputs in /transfer_sila.
+    - Added source_id and destination_id new optional inputs to the SearchFilters and added new fields source_id, destination_id, effective_date, effective_epoch,
+    sila_ledger_type, destination_sila_ledger_type, ledger_account_id and destination_ledger_account_id to the response in /get_transactions.
+
+v0.2.36
+Enhancements:
+	- Added reference in response for all API endpoint.
+	- Allowed CARD a new optional input to the processing_type in /redeem_sila.
+	- Added uuid a new optional input to the SearchFilters in /get_wallets.
+	- Added new field errorCode in response for Instant ACH.
+	- Added new input fields queued,pending_confirmation,reversed,rollback and review in statuses array to the SearchFilters in /get_transactions.
+
+v0.2.30-rc3
+Hotfix:
+    - Allowed RequestKycResponse in response for /request_kyc.
+
+v0.2.30-rc2
+Hotfix:
+    - Added new field in response ("wallet_id") for /get_wallet and /get_wallets.
+
+v0.2.30-rc
+Hotfix:
+    - Added new param to the response ("qualification_details") in /check_instant_ach.
+
+v0.2.30
+New Features:
+	- Added support for /link_card.
+	- Added support for /get_cards.
+	- Added support for /delete_card.
+	- Added support for /reverse_transaction.
+	- Added support for /get_webhooks.
+Enhancements:
+	- Added card_name a new optional input in /issue_sila.
+	- Added card_name a new optional input in /redeem_sila.
+	- Added new param to the response ("card_name") in /get_transactions.
+	- Exposed RateLimit-Limit and RateLimit-Remaining parameters in header in APIs endpoint.
+
+v0.2.28
+   - Allowed "search filter" as optional for /get_institutions.
+   - Added devices tag in response for /get_entity.
+   - Added new optional param active in /update_account (for freeze and unfreeze account).
+
+v0.2.26
+   - Add new input "default" for /register_wallet.
+   - Add new input "android_package_name" for /plaid_link_token.
+   - Add new param in response (business_uuid) for /register (for business user only).
+   - Allowed empty string to be added as input in API payload
+
+v0.2.24
+New Features:
+    -Adding support for /get_institutions.
+
+v0.2.23
+New Features:
+    -Adding support for /check_instant_ach.
+    -Adding support for blockchain_address in /get_transactions.
+
+v0.2.22
+In this release we included support for new endpoints and refactored some others.
+New Features:
+    -Adding support for /plaid_update_link_token.
+    -Adding support for plaid_token_type in /link_account endpoint
+    -Adding support for document_id and document_name in /update/identity endpoint.
+    -Adding support for uuid and dba in /get_entities endpoint.
+    -Adding support for status in /get_entity endpoint.
+    -Adding support for identity_type in /get_entities endpoint.
+    -Adding support for status and requires_certification in /get_business_types endpoint.
+    -Adding support for status in /get_business_roles endpoint.
+    -Adding support for status in /get_naics_categories endpoint.
+    -Adding support for match_score, account_owner_name and entity_name in Account object.
+    -Adding support for plaid_token_type in /link_account endpoint.
+
+
+v0.2.21
+ENHANCEMENTS
+-Implementing singleton instance for SilaApi object in the refacotred packages.
+-Register method now uses builder pattern with specific request and response objects.
+-LinkAccount method now uses builder pattern with specific request and response objects.
+-GetTransactions method now uses builder pattern with specific request and response objects.
+-RequestKyc method now uses builder pattern with specific request and response objects.
+-CheckKyc method now uses builder pattern with specific request and response objects.
+
+CHANGES
+-Register endpoint does not send empty fields anymore (unless the developer specify the field as blank string).
+-Adding /check_partner_kyc endpoint support.
+-Adding /update_account endpoint support.
+-Adding accountOwnerName and matchScore to the LinkAccountResponse object in the refactored packages.
+-Adding bankAccountName filter to SearchFilters object in the refactored packages.
+-Adding verificationUuid to the RequestKycResponse object in the refactored packages.
+-Adding all the fields to the CheckKycResponse object in the refactored packages.
+-Adding kycLevel to the CheckKycRequest object in the refactored packages.

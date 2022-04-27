@@ -21,7 +21,7 @@ public class BusinessEntityMsg {
     private String businessWebsite;
 
     public BusinessEntityMsg(String authHandle, UserHandleMessage user, BusinessEntityMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).build();
+        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
         this.entityName = message.getEntityName();
         this.birthdate = message.getBirthdate() == null ? null
                 : message.getBirthdate().format(DateTimeFormatter.ISO_LOCAL_DATE);

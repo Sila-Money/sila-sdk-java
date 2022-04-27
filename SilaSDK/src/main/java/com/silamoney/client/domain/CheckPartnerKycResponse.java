@@ -15,5 +15,6 @@ public class CheckPartnerKycResponse {
     private String entityType;
     @SerializedName("verification_status")
     private String verificationStatus;
-
+    @SerializedName("response_time_ms")
+    private String responseTimeMs;
 }

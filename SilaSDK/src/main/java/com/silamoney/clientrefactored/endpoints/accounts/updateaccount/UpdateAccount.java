@@ -25,27 +25,31 @@ public class UpdateAccount extends AbstractEndpoint {
         private UpdateAccount() {
         }
 
-        public static ApiResponse send(UpdateAccountRequest request)
-                        throws BadRequestException, InvalidAuthSignatureException, ForbiddenException {
-                Map<String, Object> body = new HashMap<>();
-                body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
-                                .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
-                body.put("account_name", request.getAccountName());
-                body.put("new_account_name", request.getNewAccountName());
-
-                String serializedBody = JsonUtils.serialize(body);
-
-                Map<String, String> headers = new HashMap<>();
-                HeadersUtils.addAuthSignature(headers, serializedBody);
-                HeadersUtils.addUserSignature(headers, serializedBody, request.getUserPrivateKey());
-                HeadersUtils.addContentType(headers, "application/json");
-
-                try {
-                        return ResponseUtils.prepareResponse(UpdateAccountResponse.class,
-                                        API_CLIENT.send(ENDPOINT, serializedBody, headers));
-                } catch (Exception e) {
-                        return null;
-                }
+    public static ApiResponse send(UpdateAccountRequest request)
+            throws BadRequestException, InvalidAuthSignatureException, ForbiddenException {
+        Map<String, Object> body = new HashMap<>();
+        body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
+                .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
+        body.put("account_name", request.getAccountName());
+        if (request.getNewAccountName() != null)
+            body.put("new_account_name", request.getNewAccountName());
+        if (request.getActive()!=null) {
+            body.put("active", request.getActive());
         }
+
+        String serializedBody = JsonUtils.serialize(body);
+
+        Map<String, String> headers = new HashMap<>();
+        HeadersUtils.addAuthSignature(headers, serializedBody);
+        HeadersUtils.addUserSignature(headers, serializedBody, request.getUserPrivateKey());
+        HeadersUtils.addContentType(headers, "application/json");
+
+        try {
+            return ResponseUtils.prepareResponse(UpdateAccountResponse.class,
+                    API_CLIENT.send(ENDPOINT, serializedBody, headers));
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }

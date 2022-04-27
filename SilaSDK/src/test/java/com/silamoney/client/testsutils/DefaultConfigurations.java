@@ -11,12 +11,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import com.silamoney.client.domain.BusinessRole;
-import com.silamoney.client.domain.BusinessType;
-import com.silamoney.client.domain.DocumentType;
-import com.silamoney.client.domain.Environments;
-import com.silamoney.client.domain.NaicsCategoryDescription;
-import com.silamoney.client.domain.SearchFilters;
+import com.silamoney.client.domain.*;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
@@ -287,7 +282,40 @@ public class DefaultConfigurations {
 
         return user3CryptoAddress;
     }
+    private static String user4CryptoAddress;
 
+    /**
+     * @return String
+     */
+    public static String getUser4CryptoAddress() {
+        if (user4CryptoAddress == null || user4CryptoAddress.isBlank()) {
+            try {
+
+                ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+                BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+                user4PrivateKey = privateKeyInDec.toString(16);
+
+                WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+                user4CryptoAddress = "0x" + aWallet.getAddress();
+            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+                    | CipherException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user4CryptoAddress;
+    }
+
+    public static String getUser4PrivateKey() {
+        return user4PrivateKey;
+    }
+
+    public static void setUser4PrivateKey(String user4PrivateKey) {
+        DefaultConfigurations.user4PrivateKey = user4PrivateKey;
+    }
+
+    private static String user4PrivateKey;
     private static String userPrivateKey;
 
     /**
@@ -408,6 +436,63 @@ public class DefaultConfigurations {
      */
     public static void setBusinessOwnerToken(String businessOwnerToken) {
         DefaultConfigurations.businessOwnerToken = businessOwnerToken;
+    }
+
+    public static List<VirtualAccount> getVirtualAccounts() {
+        return virtualAccounts;
+    }
+
+    public static void setVirtualAccounts(List<VirtualAccount> virtualAccounts) {
+        DefaultConfigurations.virtualAccounts = virtualAccounts;
+    }
+
+    private static List<VirtualAccount> virtualAccounts;
+
+    public static VirtualAccount getVirtualAccounts2() {
+        return virtualAccounts2;
+    }
+
+    public static void setVirtualAccounts2(VirtualAccount virtualAccounts2) {
+        DefaultConfigurations.virtualAccounts2 = virtualAccounts2;
+    }
+
+    private static VirtualAccount virtualAccounts2;
+
+    public static List<PaymentMethods> getPaymentMethods() {
+        return paymentMethods;
+    }
+
+    public static void setPaymentMethods(List<PaymentMethods> paymentMethods) {
+        DefaultConfigurations.paymentMethods = paymentMethods;
+    }
+
+    private static List<PaymentMethods> paymentMethods;
+
+    private static String user4Handle;
+
+    /**
+     * @return String
+     */
+    public static String getUser4Handle() {
+        user4Handle = user4Handle == null || user4Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user4Handle;
+        return user4Handle;
+    }
+    /**
+     * Default session_identifier
+     */
+    public static String sessionIdentifier = "ppppp-aaaa-dddd-99ce-c45944174e0c";
+    private static String plaidToken2;
+
+    /**
+     * @return String
+     */
+    public static String getPlaidToken2() {
+        try {
+            plaidToken2 = plaidToken2 == null || plaidToken2.isBlank() ? PlaidTokenHelper.getPlaidToken() : plaidToken2;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return plaidToken2;
     }
 
 }
