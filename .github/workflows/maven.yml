@@ -21,8 +21,6 @@ jobs:
         cache: maven
     - name: Setup Maven Action
       uses: s4u/setup-maven-action@v1.3.1
-      with:
-        java-version: 14
     - name: Build with Maven
       working-directory: ./SilaSDK
       run: mvn --settings settings.xml --file pom.xml clean test
