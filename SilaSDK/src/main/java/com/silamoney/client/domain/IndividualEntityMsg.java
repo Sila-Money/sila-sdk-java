@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class IndividualEntityMsg {
     @SerializedName("header")
-    private HeaderBase header;
+    private Header header;
     @SerializedName("first_name")
     private String firstName;
     @SerializedName("last_name")
@@ -17,7 +17,7 @@ public class IndividualEntityMsg {
     private String birthdate;
 
     public IndividualEntityMsg(String authHandle, UserHandleMessage user, IndividualEntityMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
+        this.header = new Header(user.getUserHandle(),authHandle);
         this.firstName = message.getFirstName();
         this.lastName = message.getLastName();
         this.entityName = message.getEntityName();

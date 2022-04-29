@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class PhoneMsg {
     @SerializedName("header")
-    private HeaderBase header;
+    private Header header;
     @SerializedName("phone")
     private String phone;
     @SerializedName("uuid")
@@ -13,7 +13,7 @@ public class PhoneMsg {
     private boolean smsOptIn;
 
     public PhoneMsg(String authHandle, UserHandleMessage user, PhoneMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
+        this.header = new Header(user.getUserHandle(),authHandle);
         this.phone = message.getPhone();
         this.uuid = message.getUuid();
         this.smsOptIn = message.isSmsOptIn();

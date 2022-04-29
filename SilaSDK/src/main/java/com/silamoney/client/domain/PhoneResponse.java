@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import lombok.Getter;
 
-public class PhoneResponse extends RegistrationDataResponse {
+public class PhoneResponse extends BaseResponse {
     @Getter
     @SerializedName("phone")
     private PhoneData phone;

@@ -84,4 +84,9 @@ public class Transaction {
     public String effectiveDate;
     @SerializedName("effective_epoch")
     public String effectiveEpoch;
+    /**
+     * String field used for the sec code.
+     */
+    @SerializedName("sec_code")
+    public String secCode;
 }

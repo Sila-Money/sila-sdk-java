@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class UploadDocumentMsg {
     @SerializedName("header")
-    private final HeaderBase header;
+    private final Header header;
     @SerializedName("message")
     private final String message;
     @SerializedName("name")
@@ -27,8 +27,7 @@ public class UploadDocumentMsg {
      * @param message
      */
     public UploadDocumentMsg(String authHandle, String hash, UploadDocumentMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(message.getUserHandle()).useVersion(VersionEnum.V0_2)
-                .withCrypto(CryptoEnum.ETH).withReference().build();
+        this.header = new Header(message.getUserHandle(),authHandle);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.name = message.getName();
         this.filename = message.getFilename();

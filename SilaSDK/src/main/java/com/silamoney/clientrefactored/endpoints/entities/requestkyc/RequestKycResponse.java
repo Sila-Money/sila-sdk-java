@@ -2,18 +2,13 @@ package com.silamoney.clientrefactored.endpoints.entities.requestkyc;
 
 import com.google.gson.annotations.SerializedName;
 
+import com.silamoney.clientrefactored.domain.BaseResponse;
 import lombok.Getter;
 
 @Getter
-public class RequestKycResponse {
+public class RequestKycResponse extends BaseResponse {
 
-    private boolean success;
-    private String reference;
-    private String message;
-    private String status;
     @SerializedName("verification_uuid")
     private String verificationUuid;
-    @SerializedName("response_time_ms")
-    private String responseTimeMs;
 
 }

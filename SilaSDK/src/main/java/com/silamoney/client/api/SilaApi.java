@@ -40,8 +40,13 @@ public class SilaApi {
     private static final String USER_SIGNATURE = "usersignature";
     private static final String BUSINESS_SIGNATURE = "businesssignature";
     private static final String DEFAULT_ENVIRONMENT = Environments.SilaEnvironment.SANDBOX.getUrl();
-    private static final String CARD_NAME = "card_name";
-    private static final String SEARCH_FILTERS = "search_filters";
+    private static final Character QUESTION = '?';
+    private static final String EMPTY_STRING = "";
+    private static final String PAGE = "&page=";
+    private static final String PER_PAGE = "&per_page=";
+    private static final String ORDER = "order";
+    private static final String AND = "&";
+    private static final String EQUAL = "=";
     /**
      * Constructor for SilaApi using custom environment.
      *
@@ -86,13 +91,7 @@ public class SilaApi {
     public ApiResponse checkHandle(String handle) throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(handle, this.configuration.getAuthHandle());
         String path = Endpoints.CHECK_HANDLE.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.HEADER_MSG.getValue());
     }
 
@@ -108,13 +107,7 @@ public class SilaApi {
     public ApiResponse register(User user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.ENTITY_MSG.getValue());
     }
 
@@ -130,13 +123,7 @@ public class SilaApi {
             throws IOException, InterruptedException {
         DeleteRegistrationMsg body = new DeleteRegistrationMsg(this.configuration.getAuthHandle(), message);
         String path = String.format("%s/%s", Endpoints.DELETE_REGISTRATION.getUri(), dataType.getUri());
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,message.getUserPrivateKey(), this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(BaseResponse.class, response);
     }
 
@@ -154,14 +141,7 @@ public class SilaApi {
             throws IOException, InterruptedException {
         HeaderMsg body = new HeaderMsg(userHandle, kycLevel, this.configuration.getAuthHandle());
         String path = Endpoints.REQUEST_KYC.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.REQUEST_KYC.getValue());
     }
 
@@ -177,7 +157,7 @@ public class SilaApi {
      *
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
-        return checkKYCData(userHandle, userPrivateKey, null);
+        return checkKYC(userHandle, userPrivateKey, null);
     }
 
     /**
@@ -192,20 +172,9 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse checkKYC(String userHandle, String userPrivateKey, String keyLevel) throws IOException, InterruptedException {
-        return checkKYCData(userHandle, userPrivateKey, keyLevel);
-    }
-
-    public ApiResponse checkKYCData(String userHandle, String userPrivateKey, String keyLevel) throws IOException, InterruptedException {
         HeaderMsg body = keyLevel != null ? new HeaderMsg(userHandle, keyLevel, this.configuration.getAuthHandle()) : new HeaderMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.CHECK_KYC.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.CHECK_KYC.getValue());
     }
 
@@ -301,14 +270,7 @@ public class SilaApi {
                 routingNumber, accountType, this.configuration.getAuthHandle());
         body.setPlaidTokenType(plaidTokenType);
         String path = Endpoints.LINK_ACCOUNT.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_ACCOUNT_MSG.getValue());
     }
 
@@ -325,14 +287,7 @@ public class SilaApi {
     public ApiResponse getAccounts(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.GET_ACCOUNTS.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
     }
 
@@ -349,14 +304,7 @@ public class SilaApi {
         GetAccountBalanceMsg body = new GetAccountBalanceMsg(userHandle, this.configuration.getAuthHandle(),
                 accountName);
         String path = Endpoints.GET_ACCOUNT_BALANCE.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNT_BALANCE_MSG.getValue());
     }
 
@@ -373,14 +321,7 @@ public class SilaApi {
         String path = Endpoints.ISSUE_SILA.getUri();
         AccountTransactionMsg body = new AccountTransactionMsg(this.configuration.getAuthHandle(), message,
                 Message.ValueEnum.ISSUE_MSG);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,message.getUserPrivateKey(), this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.ISSUE_MSG.getValue());
     }
 
@@ -401,7 +342,7 @@ public class SilaApi {
      */
     public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
                                     @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey) throws IOException, InterruptedException {
-        return transferSilaData(userHandle,amount,destination,destinationAddress,descriptor,businessUuid,userPrivateKey,null,null);
+        return transferSila(userHandle,amount,destination,destinationAddress,descriptor,businessUuid,userPrivateKey,null,null);
     }
 
     /**
@@ -422,23 +363,12 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
-                                    @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey,String sourceId,String destinationId) throws IOException, InterruptedException {
-        return transferSilaData(userHandle,amount,destination,destinationAddress,descriptor,businessUuid,userPrivateKey,sourceId,destinationId);
-    }
-    public ApiResponse transferSilaData(String userHandle, int amount, String destination, String destinationAddress,
                                         @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey,String sourceId,String destinationId)
             throws IOException, InterruptedException {
         TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, descriptor,
                 businessUuid, this.configuration.getAuthHandle(),sourceId,destinationId);
         String path = Endpoints.TRANSFER_SILA.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.TRANSFER_MSG.getValue());
     }
 
@@ -455,14 +385,7 @@ public class SilaApi {
         AccountTransactionMsg body = new AccountTransactionMsg(this.configuration.getAuthHandle(), message,
                 Message.ValueEnum.REDEEM_MSG);
         String path = Endpoints.REDEEM_SILA.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, message.getUserPrivateKey(), this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.REDEEM_MSG.getValue());
     }
 
@@ -475,12 +398,7 @@ public class SilaApi {
     public ApiResponse cancelTransaction(CancelTransactionMessage message) throws IOException, InterruptedException {
         CancelTransactionMsg body = new CancelTransactionMsg(this.configuration.getAuthHandle(), message);
         String path = Endpoints.CANCEL_TRANSACTION.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+        HttpResponse<?> response = getHttpResponse(path, body, message.getUserPrivateKey(), this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(BaseResponse.class, response);
     }
 
@@ -500,7 +418,19 @@ public class SilaApi {
             throws IOException, InterruptedException {
         return getTransactions(userHandle, filters);
     }
-
+    /**
+     * Gets array of transactions with detailed status information.
+     *
+     * @param filters
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     *
+     */
+    public ApiResponse getTransactions(SearchFilters filters)
+            throws IOException, InterruptedException {
+        return getTransactions(null, filters);
+    }
     /**
      * Gets array of user handle's transactions with detailed status information.
      *
@@ -515,13 +445,7 @@ public class SilaApi {
             throws IOException, InterruptedException {
         GetTransactionsMsg body = new GetTransactionsMsg(userHandle, this.configuration.getAuthHandle(), filters);
         String path = Endpoints.GET_TRANSACTIONS.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_TRANSACTIONS_MSG.getValue());
     }
 
@@ -536,11 +460,7 @@ public class SilaApi {
     public ApiResponse silaBalance(String address) throws IOException, InterruptedException {
         SilaBalanceMsg body = new SilaBalanceMsg(address);
         String path = Endpoints.GET_SILA_BALANCE.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, null,null, null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_SILA_BALANCE.getValue());
     }
 
@@ -558,14 +478,7 @@ public class SilaApi {
             throws IOException, InterruptedException {
         PlaidSameDayAuthMsg body = new PlaidSameDayAuthMsg(userHandle, accountName, this.configuration.getAuthHandle());
         String path = Endpoints.PLAID_SAMEDAY_AUTH.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_SAMEDAY_AUTH_MSG.getValue());
     }
 
@@ -597,14 +510,7 @@ public class SilaApi {
     public ApiResponse getWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         GetWalletMsg body = new GetWalletMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.GET_WALLET.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLET_MSG.getValue());
     }
 
@@ -644,14 +550,7 @@ public class SilaApi {
         RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature,
                 this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER_WALLET.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_WALLET_MSG.getValue());
     }
 
@@ -671,14 +570,7 @@ public class SilaApi {
             throws IOException, InterruptedException {
         UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle());
         String path = Endpoints.UPDATE_WALLET.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_WALLET_MSG.getValue());
     }
 
@@ -693,14 +585,7 @@ public class SilaApi {
     public ApiResponse deleteWallet(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
         DeleteWalletMsg body = new DeleteWalletMsg(userHandle, this.configuration.getAuthHandle());
         String path = Endpoints.DELETE_WALLET.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_WALLET_MSG.getValue());
     }
 
@@ -719,14 +604,7 @@ public class SilaApi {
             throws IOException, InterruptedException {
         GetWalletsMsg body = new GetWalletsMsg(userHandle, filters, this.configuration.getAuthHandle());
         String path = Endpoints.GET_WALLETS.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLETS_MSG.getValue());
     }
 
@@ -738,7 +616,7 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse getDocumentTypes() throws IOException, InterruptedException {
-        return getDocumentTypes("");
+        return getDocumentTypes(EMPTY_STRING);
     }
 
     /**
@@ -754,16 +632,11 @@ public class SilaApi {
     }
 
     private ApiResponse getDocumentTypes(String urlParams) throws IOException, InterruptedException {
-        String path = Endpoints.GET_DOCUMENT_TYPES.getUri() + urlParams;
-        HeaderBase header = new HeaderBuilder(this.configuration.getAuthHandle()).useVersion(VersionEnum.V0_2)
-                .withCrypto(CryptoEnum.ETH).withReference().build();
-        Map<String, HeaderBase> bodyMap = new HashMap<>();
+        StringBuilder path = new StringBuilder().append(Endpoints.GET_DOCUMENT_TYPES.getUri()).append(urlParams);
+        Header header=new Header(null,this.configuration.getAuthHandle());
+        Map<String, Header> bodyMap = new HashMap<>();
         bodyMap.put(HEADER_STRING, header);
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path.toString(), bodyMap, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(DocumentTypesResponse.class, response);
     }
 
@@ -780,13 +653,7 @@ public class SilaApi {
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_BUSINESS_TYPES.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, bodyMap, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_BUSINESS_TYPES.getValue());
     }
 
@@ -803,13 +670,7 @@ public class SilaApi {
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_BUSINESS_ROLES.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, bodyMap, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_BUSINESS_ROLES.getValue());
     }
 
@@ -824,13 +685,7 @@ public class SilaApi {
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_NAICS_CATEGORIES.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, bodyMap, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_NAICS_CATEGORIES_MSG.getValue());
     }
 
@@ -843,13 +698,7 @@ public class SilaApi {
     public ApiResponse registerBusiness(BusinessUser user) throws IOException, InterruptedException {
         EntityMsg body = new EntityMsg(user, this.configuration.getAuthHandle());
         String path = Endpoints.REGISTER.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_BUSINESS.getValue());
     }
 
@@ -869,26 +718,10 @@ public class SilaApi {
     public ApiResponse linkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, BusinessRole businessRole, String memberHandle, String details,
             Float ownershipStake) throws IOException, InterruptedException {
-        Header header=new Header(userHandle,this.configuration.getAuthHandle(),businessHandle);
-
-        Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put(HEADER_STRING, header);
-        bodyMap.put("role", businessRole.getName());
-        bodyMap.put("role_uuid", businessRole.getUuid());
-        bodyMap.put("member_handle", memberHandle);
-        bodyMap.put("ownership_stake", ownershipStake);
-        bodyMap.put("details", details);
+        BusinessMemberMsg body = new BusinessMemberMsg(userHandle, this.configuration.getAuthHandle(), businessHandle, businessRole.getName(), businessRole.getUuid(), memberHandle, ownershipStake, details);
 
         String path = Endpoints.LINK_BUSINESS_MEMBER.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-        headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), businessPrivateKey);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_BUSINESS_MEMBER_MSG.getValue());
     }
 
@@ -904,23 +737,10 @@ public class SilaApi {
      */
     public ApiResponse unlinkBusinessMember(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, BusinessRole businessRole) throws IOException, InterruptedException {
-        Header header=new Header(userHandle,this.configuration.getAuthHandle(),businessHandle);
-
-        Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put(HEADER_STRING, header);
-        bodyMap.put("role", businessRole.getName());
-        bodyMap.put("role_uuid", businessRole.getUuid());
+        BusinessMemberMsg body = new BusinessMemberMsg(userHandle, this.configuration.getAuthHandle(), businessHandle, businessRole.getName(), businessRole.getUuid());
 
         String path = Endpoints.UNLINK_BUSINESS_MEMBER.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-        headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), businessPrivateKey);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.UNLINK_BUSINESS_MEMBER_MSG.getValue());
     }
 
@@ -937,14 +757,7 @@ public class SilaApi {
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.GET_ENTITY.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, bodyMap, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ENTITY_MSG.getValue());
     }
 
@@ -962,23 +775,10 @@ public class SilaApi {
     public ApiResponse certifyBeneficialOwner(String userHandle, String userPrivateKey, String businessHandle,
             String businessPrivateKey, String memberHandle, String certificationToken)
             throws IOException, InterruptedException {
-        Header header=new Header(userHandle,this.configuration.getAuthHandle(),businessHandle);
-
-        Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put(HEADER_STRING, header);
-        bodyMap.put("member_handle", memberHandle);
-        bodyMap.put("certification_token", certificationToken);
+        CertifyBeneficialOwnerMsg body = new CertifyBeneficialOwnerMsg(userHandle, this.configuration.getAuthHandle(), businessHandle, memberHandle, certificationToken);
 
         String path = Endpoints.CERTIFY_BENEFICIAL_OWNER.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-        headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), businessPrivateKey);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.CERTIFY_BENEFICIAL_OWNER.getValue());
     }
 
@@ -999,38 +799,18 @@ public class SilaApi {
         bodyMap.put(HEADER_STRING, header);
 
         String path = Endpoints.CERTIFY_BUSINESS.getUri();
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-        headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, bodyMap, userPrivateKey, this.configuration.getPrivateKey(), businessPrivateKey);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.CERTIFY_BUSINESS.getValue());
     }
 
     public ApiResponse getEntities(String entityType, Integer page, Integer perPage)
             throws IOException, InterruptedException {
-        Header header = new Header(null, this.configuration.getAuthHandle());
+        GetEntitiesMsg body = new GetEntitiesMsg(this.configuration.getAuthHandle(), entityType);
 
-        Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put(HEADER_STRING, header);
-        bodyMap.put("message", Message.ValueEnum.HEADER_MSG.getValue());
-        bodyMap.put("entity_type", entityType);
-
-        String pageQueryParam = page != null ? "&page=" + page : "";
-        String perPageQueryParam = perPage != null ? "&per_page=" + perPage : "";
-
-        String path = Endpoints.GET_ENTITIES.getUri() + '?' + pageQueryParam + perPageQueryParam;
-        String sBody = Serialization.serialize(bodyMap);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        String pageQueryParam = page != null ? PAGE + page : EMPTY_STRING;
+        String perPageQueryParam = perPage != null ? PER_PAGE + perPage : EMPTY_STRING;
+        StringBuilder path = new StringBuilder().append(Endpoints.GET_ENTITIES.getUri()).append(QUESTION).append(pageQueryParam).append(perPageQueryParam);
+        HttpResponse<?> response = getHttpResponse(path.toString(), body, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ENTITIES.getValue());
     }
 
@@ -1050,9 +830,7 @@ public class SilaApi {
         String path = Endpoints.DOCUMENTS.getUri();
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
-
+        setSignature(message.getUserPrivateKey(), this.configuration.getPrivateKey(), sBody, headers);
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
                 message.getFilePath(), message.getMimeType());
 
@@ -1069,8 +847,8 @@ public class SilaApi {
      */
     public ApiResponse listDocuments(ListDocumentsMessage message) throws IOException, InterruptedException {
         ListDocumentsMsg body = new ListDocumentsMsg(this.configuration.getAuthHandle(), message);
-        String path = Endpoints.LIST_DOCUMENTS.getUri() + addQueryParameter("", "order", message.getSortBy());
-        return listDocuments(path, message.getUserPrivateKey(), body);
+        StringBuilder path = new StringBuilder().append(Endpoints.LIST_DOCUMENTS.getUri()).append(addQueryParameter(EMPTY_STRING, ORDER, message.getSortBy()));
+        return listDocuments(path.toString(), message.getUserPrivateKey(), body);
     }
 
     /**
@@ -1085,9 +863,8 @@ public class SilaApi {
     public ApiResponse listDocuments(ListDocumentsMessage message, PaginationMessage pagination)
             throws IOException, InterruptedException {
         ListDocumentsMsg body = new ListDocumentsMsg(this.configuration.getAuthHandle(), message);
-        String path = Endpoints.LIST_DOCUMENTS.getUri()
-                + addQueryParameter(pagination.getUrlParams(), "order", message.getOrder());
-        return listDocuments(path, message.getUserPrivateKey(), body);
+        StringBuilder path = new StringBuilder().append(Endpoints.LIST_DOCUMENTS.getUri()).append(addQueryParameter(pagination.getUrlParams(), ORDER, message.getOrder()));
+        return listDocuments(path.toString(), message.getUserPrivateKey(), body);
     }
 
     /**
@@ -1100,12 +877,7 @@ public class SilaApi {
     public ApiResponse getDocument(GetDocumentMessage message) throws IOException, InterruptedException {
         GetDocumentMsg body = new GetDocumentMsg(this.configuration.getAuthHandle(), message);
         String path = Endpoints.GET_DOCUMENT.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, message.getUserPrivateKey(), this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareFileResponse(response);
     }
 
@@ -1289,7 +1061,7 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse plaidLinkToken(String userHandle) throws IOException, InterruptedException {
-        return plaidLinkTokenData(userHandle, null);
+        return plaidLinkToken(userHandle, null);
     }
 
     /**
@@ -1300,27 +1072,9 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse plaidLinkToken(String userHandle, String androidPackageName) throws IOException, InterruptedException {
-        return plaidLinkTokenData(userHandle, androidPackageName);
-    }
-
-    private ApiResponse plaidLinkTokenData(String userHandle, String androidPackageName) throws IOException, InterruptedException {
         String path = Endpoints.PLAID_LINK_TOKEN.getUri();
-
-        Map<String, Object> body = new HashMap<>();
-        Header header=new Header(userHandle,this.configuration.getAuthHandle());
-
-        body.put(HEADER_STRING, header);
-        if (androidPackageName != null) {
-            body.put("android_package_name", androidPackageName);
-        }
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        PlaidLinkTokenMsg body = new PlaidLinkTokenMsg(userHandle, this.configuration.getAuthHandle(), androidPackageName);
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_LINK_TOKEN.getValue());
     }
 
@@ -1336,21 +1090,8 @@ public class SilaApi {
     public ApiResponse deleteAccount(String userHandle, String accountName, String userPrivateKey)
             throws IOException, InterruptedException {
         String path = Endpoints.DELETE_ACCOUNT.getUri();
-
-        Map<String, Object> body = new HashMap<>();
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-
-        body.put(HEADER_STRING, header);
-        body.put("account_name", accountName);
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        AccountRequestMsg body = new AccountRequestMsg(userHandle, this.configuration.getAuthHandle(), accountName);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_ACCOUNT.getValue());
     }
 
@@ -1364,23 +1105,10 @@ public class SilaApi {
      */
     public ApiResponse checkPartnerKyc(String queryAppHandle, String queryUserHandle)
             throws IOException, InterruptedException {
-        String path = "/check_partner_kyc";
-
-        Header header = new Header(null, this.configuration.getAuthHandle());
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("header", header);
-        body.put("query_app_handle", queryAppHandle);
-        body.put("query_user_handle", queryUserHandle);
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
-        return ResponseUtil.prepareResponse(response, "check_partner_kyc");
+        String path = Endpoints.CHECK_PARTNER_KYC.getUri();
+        CheckPartnerKycMsg body = new CheckPartnerKycMsg(this.configuration.getAuthHandle(), queryAppHandle, queryUserHandle);
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CHECK_PARTNER_KYC.getValue());
     }
 
     /**
@@ -1429,28 +1157,10 @@ public class SilaApi {
 
     public ApiResponse updateAccountData(String userHandle, String userPrivateKey, String accountName,
                                          String newAccountName, boolean active, String activeType) throws IOException, InterruptedException {
-        String path = "/update_account";
-
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("header", header);
-        body.put("account_name", accountName);
-        if (newAccountName != null)
-            body.put("new_account_name", newAccountName);
-        if (!TextUtils.isEmpty(activeType)) {
-            body.put("active", active);
-        }
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
-        return ResponseUtil.prepareResponse(response, "update_account");
+        String path = Endpoints.UPDATE_ACCOUNT.getUri();
+        UpdateAccountMsg body = new UpdateAccountMsg(userHandle, this.configuration.getAuthHandle(), accountName, newAccountName, active, activeType);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_ACCOUNT.getValue());
     }
 
     /**
@@ -1463,22 +1173,10 @@ public class SilaApi {
      */
     public ApiResponse plaidUpdateLinkToken(String userHandle, String accountName)
             throws IOException, InterruptedException {
-        String path = "/plaid_update_link_token";
-
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("header", header);
-        body.put("account_name", accountName);
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
-        return ResponseUtil.prepareResponse(response, "plaid_update_link_token");
+        String path = Endpoints.PLAID_UPDATE_LINK_TOKEN.getUri();
+        AccountRequestMsg body = new AccountRequestMsg(userHandle, this.configuration.getAuthHandle(), accountName);
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_UPDATE_LINK_TOKEN.getValue());
     }
 
     /**
@@ -1492,7 +1190,7 @@ public class SilaApi {
      */
     public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey)
             throws IOException, InterruptedException {
-        return checkInstantAchData(accountName,userHandle,userPrivateKey,null);
+        return checkInstantAch(accountName,userHandle,userPrivateKey,null);
     }
     /**
      * @param accountName
@@ -1503,75 +1201,34 @@ public class SilaApi {
      * @throws IOException
      * @throws InterruptedException
      */
-    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey,String kycLevel)
+    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey, String kycLevel)
             throws IOException, InterruptedException {
-        return checkInstantAchData(accountName,userHandle,userPrivateKey,kycLevel);
+        String path = Endpoints.CHECK_INSTANT_ACH.getUri();
+        CheckInstantAchMsg body = new CheckInstantAchMsg(userHandle, this.configuration.getAuthHandle(), accountName, kycLevel);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CHECK_INSTANT_ACH.getValue());
     }
 
-    public ApiResponse checkInstantAchData(String accountName, String userHandle, String userPrivateKey, String kycLevel)
-            throws IOException, InterruptedException {
-        String path = "/check_instant_ach";
 
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("header", header);
-        body.put("account_name", accountName);
-        if (kycLevel != null) {
-            body.put("kyc_level", kycLevel);
-        }
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
-        return ResponseUtil.prepareResponse(response, "check_instant_ach");
+    public ApiResponse getInstitutions() throws IOException, InterruptedException {
+        return getInstitutions(null);
     }
+
 
     /**
      * @param searchFilters
      */
-    public ApiResponse getInstitutions(InstitutionSearchFilters searchFilters) throws IOException, InterruptedException {
-        return getInstitutionsData(searchFilters);
-    }
-
-    public ApiResponse getInstitutions() throws IOException, InterruptedException {
-        return getInstitutionsData(null);
-    }
-
-    public ApiResponse getInstitutionsData(InstitutionSearchFilters searchFilters)
+    public ApiResponse getInstitutions(InstitutionSearchFilters searchFilters)
             throws IOException, InterruptedException {
-        String path = "/get_institutions";
-
-        Header header = new Header(null, this.configuration.getAuthHandle());
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("header", header);
-        body.put("message", "header_msg");
-        if (searchFilters != null)
-            body.put("search_filters", searchFilters);
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        String path = Endpoints.GET_INSTITUTIONS.getUri();
+        GetInstitutionsMsg body = new GetInstitutionsMsg(this.configuration.getAuthHandle(), searchFilters);
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(GetInstitutionsResponse.class, response);
     }
 
     private ApiResponse listDocuments(String path, String userPrivateKey, ListDocumentsMsg body)
             throws IOException, InterruptedException {
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(ListDocumentsResponse.class, response);
     }
 
@@ -1588,13 +1245,8 @@ public class SilaApi {
      */
     private ApiResponse registrationData(Endpoints endpoint, RegistrationDataEnum dataType, String userPrivateKey,
             Object body, Type responseType) throws IOException, InterruptedException {
-        String path = endpoint.getUri() + SLASH + dataType.getUri();
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        StringBuilder path = new StringBuilder().append(endpoint.getUri()).append(SLASH).append(dataType.getUri());
+        HttpResponse<?> response = getHttpResponse(path.toString(), body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(responseType, response);
     }
 
@@ -1608,8 +1260,8 @@ public class SilaApi {
      */
     private String addQueryParameter(String queryParameters, String name, String value) {
         if (value != null && !value.isEmpty() && !value.isBlank()) {
-            queryParameters += queryParameters.isEmpty() ? "?" : "&";
-            queryParameters += name + "=" + value;
+            queryParameters += queryParameters.isEmpty() ? QUESTION : AND;
+            queryParameters += name + EQUAL + value;
         }
         return queryParameters;
     }
@@ -1629,14 +1281,7 @@ public class SilaApi {
             throws IOException, InterruptedException {
         String path = Endpoints.LINK_CARD.getUri();
         LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle());
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_CARD_MSG.getValue());
     }
     /**
@@ -1653,14 +1298,7 @@ public class SilaApi {
         Map<String, Object> body = new HashMap<>();
         Header header = new Header(userHandle, this.configuration.getAuthHandle());
         body.put(HEADER_STRING, header);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_CARD_MSG.getValue());
     }
 
@@ -1675,53 +1313,26 @@ public class SilaApi {
     public ApiResponse deleteCard(String userHandle, String cardName, String userPrivateKey)
             throws IOException, InterruptedException {
         String path = Endpoints.DELETE_CARD.getUri();
-
-        Map<String, Object> body = new HashMap<>();
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-
-        body.put(HEADER_STRING, header);
-        body.put(CARD_NAME, cardName);
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        DeleteCardMsg body = new DeleteCardMsg(userHandle, this.configuration.getAuthHandle(), cardName);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.DELETE_CARD.getValue());
+    }
+    /**
+     * @param userHandle
+     */
+    public ApiResponse getWebhooks(String userHandle) throws IOException, InterruptedException {
+        return getWebhooks(userHandle,null);
     }
 
     /**
      * @param userHandle
      * @param searchFilters
      */
-    public ApiResponse getWebhooks(String userHandle,WebhookSearchFilters searchFilters) throws IOException, InterruptedException {
-        return getWebhooksData(userHandle,searchFilters);
-    }
-
-    public ApiResponse getWebhooks(String userHandle) throws IOException, InterruptedException {
-        return getWebhooksData( userHandle,null);
-    }
-
-    public ApiResponse getWebhooksData(String userHandle,WebhookSearchFilters searchFilters)
+    public ApiResponse getWebhooks(String userHandle,WebhookSearchFilters searchFilters)
             throws IOException, InterruptedException {
         String path = Endpoints.GET_WEBHOOKS.getUri();
-
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-
-        Map<String, Object> body = new HashMap<>();
-        body.put(HEADER_STRING, header);
-        if (searchFilters != null)
-            body.put(SEARCH_FILTERS, searchFilters);
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        GetWebhooksMsg body = new GetWebhooksMsg(userHandle, this.configuration.getAuthHandle(), searchFilters);
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response,Message.ValueEnum.GET_WEBHOOKS.getValue());
     }
     /**
@@ -1735,36 +1346,9 @@ public class SilaApi {
     public ApiResponse reverseTransaction(String userHandle ,String userPrivateKey, String transactionId)
             throws IOException, InterruptedException {
         String path = Endpoints.REVERSE_TRANSACTION.getUri();
-
-        Map<String, Object> body = new HashMap<>();
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-
-        body.put(HEADER_STRING, header);
-        body.put("transaction_id", transactionId);
-
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
-        return ResponseUtil.prepareResponse(response,"reverse_transaction_msg");
-    }
-    /**
-     * Gets a paginated list of "payment methods".
-     *
-     * @param userHandle
-     * @param userPrivateKey
-     * @param searchFilters
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse getPaymentMethods(String userHandle, String userPrivateKey, PaymentMethodsSearchFilters searchFilters)
-            throws IOException, InterruptedException {
-        return getPaymentMethodsData(userHandle, userPrivateKey, searchFilters);
+        ReverseTransactionMsg body = new ReverseTransactionMsg(userHandle, this.configuration.getAuthHandle(), transactionId);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response,Message.ValueEnum.REVERSE_TRANSACTION_MSG.getValue());
     }
 
     /**
@@ -1778,21 +1362,23 @@ public class SilaApi {
      */
     public ApiResponse getPaymentMethods(String userHandle, String userPrivateKey)
             throws IOException, InterruptedException {
-        return getPaymentMethodsData(userHandle, userPrivateKey, null);
+        return getPaymentMethods(userHandle, userPrivateKey, null);
     }
-
-    public ApiResponse getPaymentMethodsData(String userHandle, String userPrivateKey, PaymentMethodsSearchFilters searchFilters)
+    /**
+     * Gets a paginated list of "payment methods".
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @param searchFilters
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse getPaymentMethods(String userHandle, String userPrivateKey, PaymentMethodsSearchFilters searchFilters)
             throws IOException, InterruptedException {
         String path = Endpoints.GET_PAYMENT_METHODS.getUri();
         GetPaymentMethodsMsg body = new GetPaymentMethodsMsg(userHandle, this.configuration.getAuthHandle(), searchFilters);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_PAYMENT_METHODS.getValue());
     }
 
@@ -1806,7 +1392,7 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName)
             throws IOException, InterruptedException {
-        return openVirtualAccountData(userHandle, userPrivateKey, virtualAccountName, null, null);
+        return openVirtualAccount(userHandle, userPrivateKey, virtualAccountName, null, null);
     }
 
     /**
@@ -1818,7 +1404,7 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey)
             throws IOException, InterruptedException {
-        return openVirtualAccountData(userHandle, userPrivateKey, null, null, null);
+        return openVirtualAccount(userHandle, userPrivateKey, null, null, null);
     }
 
     /**
@@ -1832,7 +1418,7 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, Boolean achCreditEnabled, Boolean achDebitEnabled)
             throws IOException, InterruptedException {
-        return openVirtualAccountData(userHandle, userPrivateKey, null, achCreditEnabled, achDebitEnabled);
+        return openVirtualAccount(userHandle, userPrivateKey, null, achCreditEnabled, achDebitEnabled);
     }
 
     /**
@@ -1847,21 +1433,9 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled)
             throws IOException, InterruptedException {
-        return openVirtualAccountData(userHandle, userPrivateKey, virtualAccountName, achCreditEnabled, achDebitEnabled);
-    }
-
-    public ApiResponse openVirtualAccountData(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled)
-            throws IOException, InterruptedException {
         String path = Endpoints.OPEN_VIRTUAL_ACCOUNT.getUri();
         OpenVirtualAccountMsg body = new OpenVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountName, achCreditEnabled, achDebitEnabled);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.OPEN_VIRTUAL_ACCOUNT.getValue());
     }
 
@@ -1878,14 +1452,7 @@ public class SilaApi {
         Header header = new Header(userHandle, this.configuration.getAuthHandle());
         Map<String, Object> body = new HashMap<>();
         body.put(HEADER_STRING, header);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_VIRTUAL_ACCOUNTS.getValue());
     }
 
@@ -1900,18 +1467,8 @@ public class SilaApi {
     public ApiResponse getVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId)
             throws IOException, InterruptedException {
         String path = Endpoints.GET_VIRTUAL_ACCOUNT.getUri();
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-        Map<String, Object> body = new HashMap<>();
-        body.put(HEADER_STRING, header);
-        body.put("virtual_account_id", virtualAccountId);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        GetVirtualAccountMsg body = new GetVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_VIRTUAL_ACCOUNT.getValue());
     }
 
@@ -1927,7 +1484,7 @@ public class SilaApi {
      */
     public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active)
             throws IOException, InterruptedException {
-        return updateVirtualAccountData(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, null, null);
+        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, null, null);
     }
 
     /**
@@ -1944,37 +1501,17 @@ public class SilaApi {
      */
     public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled)
             throws IOException, InterruptedException {
-        return updateVirtualAccountData(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled);
-    }
-
-    public ApiResponse updateVirtualAccountData(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled)
-            throws IOException, InterruptedException {
         String path = Endpoints.UPDATE_VIRTUAL_ACCOUNT.getUri();
         UpdateVirtualAccountMsg body = new UpdateVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_VIRTUAL_ACCOUNT.getValue());
     }
 
     public ApiResponse retryWebhooks(String userHandle, String eventUuid)
             throws IOException, InterruptedException {
         String path = Endpoints.RETRY_WEBHOOK.getUri();
-        Header header = new Header(userHandle, this.configuration.getAuthHandle());
-        Map<String, Object> body = new HashMap<>();
-        body.put(HEADER_STRING, header);
-        body.put("message", "header_msg");
-        body.put("event_uuid", eventUuid);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+        ReTryWebhookMsg body = new ReTryWebhookMsg(userHandle, this.configuration.getAuthHandle(), eventUuid);
+        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.RETRY_WEBHOOK.getValue());
     }
 
@@ -1992,15 +1529,24 @@ public class SilaApi {
             throws IOException, InterruptedException {
         String path = Endpoints.CLOSE_VIRTUAL_ACCOUNT.getUri();
         CloseVirtualAccountMsg body = new CloseVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId, accountNumber);
-        String sBody = Serialization.serialize(body);
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
-        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
-
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.CLOSE_VIRTUAL_ACCOUNT.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param amount
+     * @param virtualAccountNumber
+     * @param tranCode
+     * @param entityName
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse createTestVirtualAccountAchTransaction(String userHandle, String userPrivateKey, int amount, String virtualAccountNumber, int tranCode, String entityName)throws IOException, InterruptedException {
+        return createTestVirtualAccountAchTransaction(userHandle,userPrivateKey,amount,virtualAccountNumber,null,tranCode,entityName,null,null);
     }
     /**
      * @param userHandle
@@ -2018,36 +1564,25 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse createTestVirtualAccountAchTransaction(String userHandle, String userPrivateKey, int amount, String virtualAccountNumber, Date date, int tranCode, String entityName, String ced, String achName)throws IOException, InterruptedException {
-        return createTestVirtualAccountAchTransactionData(userHandle,userPrivateKey,amount,virtualAccountNumber,date,tranCode,entityName,ced,achName);
-    }
-
-    /**
-     * @param userHandle
-     * @param userPrivateKey
-     * @param amount
-     * @param virtualAccountNumber
-     * @param tranCode
-     * @param entityName
-     *
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse createTestVirtualAccountAchTransaction(String userHandle, String userPrivateKey, int amount, String virtualAccountNumber, int tranCode, String entityName)throws IOException, InterruptedException {
-        return createTestVirtualAccountAchTransactionData(userHandle,userPrivateKey,amount,virtualAccountNumber,null,tranCode,entityName,null,null);
-    }
-
-    public ApiResponse createTestVirtualAccountAchTransactionData(String userHandle, String userPrivateKey, int amount, String virtualAccountNumber, Date date, int tranCode, String entityName, String ced, String achName)throws IOException, InterruptedException {
         String path = Endpoints.CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION.getUri();
         CreateTestVirtualAccountAchTransactionMsg body = new CreateTestVirtualAccountAchTransactionMsg(userHandle,this.configuration.getAuthHandle(), amount,virtualAccountNumber,date,tranCode,entityName,ced,achName);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION.getValue());
+    }
+    private HttpResponse<?> getHttpResponse(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
-
-        headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, this.configuration.getPrivateKey()));
-        headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userPrivateKey));
-
+        setSignature(userSignature, authSignature, sBody, headers);
+        if (businessPrivateKey != null)
+            headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
+        return response;
+    }
 
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION.getValue());
+    private void setSignature(String userSignature, String authSignature, String sBody, Map<String, String> headers) {
+        if (authSignature != null)
+            headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, authSignature));
+        if (userSignature != null)
+            headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, userSignature));
     }
 }
