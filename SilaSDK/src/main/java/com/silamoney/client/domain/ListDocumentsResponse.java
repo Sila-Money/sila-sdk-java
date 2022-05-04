@@ -6,23 +6,11 @@ import com.google.gson.annotations.SerializedName;
 
 import lombok.Getter;
 
-public class ListDocumentsResponse {
-    @Getter
-    @SerializedName("success")
-    private Boolean success;
-    @Getter
-    @SerializedName("status")
-    private String status;
-    @Getter
-    @SerializedName("reference")
-    private String reference;
+public class ListDocumentsResponse extends BaseResponse {
     @Getter
     @SerializedName("documents")
     private List<Document> documents;
     @Getter
     @SerializedName("pagination")
     private Pagination pagination;
-    @Getter
-    @SerializedName("response_time_ms")
-    private String responseTimeMs;
 }

@@ -135,21 +135,21 @@ public class ResponseUtil {
             };
             try {
                 Object accounts = (Object) Serialization.deserialize(response.body().toString(), token);
-                ArrayList<Account> list = new ArrayList<Account>();
+                ArrayList<Account> listAccounts = new ArrayList<Account>();
                 if (accounts instanceof ArrayList<?>) {
                     ArrayList<?> arrayAccounts = (ArrayList<?>) accounts;
                     if (!arrayAccounts.isEmpty()) {
-                        for (int i = 0; i < arrayAccounts.size(); i++) {
-                            Object account = arrayAccounts.get(i);
+                        for (int accountItems = 0; accountItems < arrayAccounts.size(); accountItems++) {
+                            Object account = arrayAccounts.get(accountItems);
                             if (account instanceof Account) {
-                                Account a = (Account) account;
-                                list.add(a);
+                                Account accountValue = (Account) account;
+                                listAccounts.add(accountValue);
                             }
                         }
                     }
                 }
 
-                return new ApiResponse(statusCode, response.headers().map(), list, success);
+                return new ApiResponse(statusCode, response.headers().map(), listAccounts, success);
             } catch (Exception e) {
                 BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                         BaseResponse.class);

@@ -168,4 +168,10 @@ public class Transaction {
      */
     @SerializedName("error_msg")
     public String errorMsg;
+    /**
+     * String field used for the sec code.
+     */
+    @SerializedName("sec_code")
+    public String secCode;
+
 }

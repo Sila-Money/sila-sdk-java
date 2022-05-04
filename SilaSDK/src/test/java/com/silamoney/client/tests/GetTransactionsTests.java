@@ -146,4 +146,13 @@ public class GetTransactionsTests {
 		assertEquals("SUCCESS", parsedResponse.status);
 		assertTrue(parsedResponse.transactions.size() > 0);
 	}
+	@Test
+	public void Response200WithoutUserHandle() throws Exception {
+		ApiResponse response = api.getTransactions(DefaultConfigurations.filters);
+		assertEquals(200, response.getStatusCode());
+		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
+		assertTrue(parsedResponse.success);
+		assertEquals("SUCCESS", parsedResponse.status);
+		assertTrue(parsedResponse.transactions.size() > 0);
+	}
 }

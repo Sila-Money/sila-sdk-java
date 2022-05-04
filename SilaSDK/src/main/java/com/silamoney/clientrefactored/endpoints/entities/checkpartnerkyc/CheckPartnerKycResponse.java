@@ -2,19 +2,13 @@ package com.silamoney.clientrefactored.endpoints.entities.checkpartnerkyc;
 
 import com.google.gson.annotations.SerializedName;
 
+import com.silamoney.clientrefactored.domain.BaseResponse;
 import lombok.Getter;
 
 @Getter
-public class CheckPartnerKycResponse {
-
-    private boolean success;
-    private String reference;
-    private String message;
-    private String status;
+public class CheckPartnerKycResponse extends BaseResponse {
     @SerializedName("entity_type")
     private String entityType;
     @SerializedName("verification_status")
     private String verificationStatus;
-    @SerializedName("response_time_ms")
-    private String responseTimeMs;
 }
