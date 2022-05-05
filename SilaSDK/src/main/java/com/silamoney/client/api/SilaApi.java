@@ -1079,9 +1079,9 @@ public class SilaApi {
      * @throws NoSuchAlgorithmException
      * @throws InterruptedException
      */
-    public ApiResponse uploadDocument(UploadDocumentMessage message, InputStream inputStream, String fileName)
+    public ApiResponse uploadDocument(UploadDocumentMessage message, InputStreamSource inputStreamSource, String fileName)
         throws NoSuchAlgorithmException, IOException, InterruptedException {
-        String hash = EcdsaUtil.hashFile(inputStream);
+        String hash = EcdsaUtil.hashFile(inputStreamSource.stream());
         UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
         String path = Endpoints.DOCUMENTS.getUri();
         String sBody = Serialization.serialize(body);
@@ -1090,7 +1090,7 @@ public class SilaApi {
         headers.put(USER_SIGNATURE, EcdsaUtil.sign(sBody, message.getUserPrivateKey()));
 
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
-            inputStream, message.getMimeType(), fileName);
+            inputStreamSource.stream(), message.getMimeType(), fileName);
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
