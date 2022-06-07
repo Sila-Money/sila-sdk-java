@@ -31,4 +31,5 @@ public class GetWalletResponse extends BaseResponse {
     @Getter
     @SerializedName("sila_pending_balance")
     private double silaPendingBalance;
+
 }

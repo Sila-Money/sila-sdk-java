@@ -168,4 +168,5 @@ public class GetTransactionsTests {
 		assertEquals("SUCCESS", parsedResponse.status);
 		assertTrue(parsedResponse.transactions.size() > 0);
 	}
+
 }
