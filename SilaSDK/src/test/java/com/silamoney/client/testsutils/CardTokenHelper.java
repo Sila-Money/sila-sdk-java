@@ -27,6 +27,7 @@ public class CardTokenHelper {
         var request = HttpRequest.newBuilder().uri(URI.create("https://sso.sandbox.tabapay.com:8443/v2/SSOEncrypt"));
 
         request.header("Content-Type", "application/tabapay-compact");
+        request.header("Referer", "https://sso.sandbox.tabapay.com:8443/SSOEvolveISO.html");
         return request.POST(HttpRequest.BodyPublishers.ofString( "cBm0RU8eASGfSxLYJjsG73Q	n9010111999999992	e202201	s4561"))
                 .build();
     }

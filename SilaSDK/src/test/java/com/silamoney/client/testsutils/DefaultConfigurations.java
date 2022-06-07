@@ -128,7 +128,7 @@ public class DefaultConfigurations {
     //public static String correctUuid = "ec5d1366-b56c-4442-b6c3-c919d548fcb5";
     //Sandbox
     public static String correctUuid = "9f280665-629f-45bf-a694-133c86bffd5e";
-
+    public static String correctUuidForWire = "25e77968-1ca3-4a4b-8e72-506dcac20dc7";
     /**
      * Default wrong business uuid
      */

@@ -17,5 +17,9 @@ public class Timeline {
     private String usdStatus;
     @SerializedName("token_status")
     private String tokenStatus;
-
+    /**
+     * String field used for the provider status.
+     */
+    @SerializedName("provider_status")
+    public String providerStatus;
 }
