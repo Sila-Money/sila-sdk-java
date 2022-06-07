@@ -203,7 +203,15 @@ public class Message {
         /**
          * String value for ReverseTransationMsg.
          */
-        REVERSE_TRANSACTION_MSG("reverse_transaction_msg");
+        REVERSE_TRANSACTION_MSG("reverse_transaction_msg"),
+        /**
+         * String value for ApproveWireMsg.
+         */
+        APPROVE_WIRE_MSG("approve_wire_msg"),
+        /**
+         * String value for MockWireOutFile.
+         */
+        MOCK_WIRE_OUT_FILE("mock_wire_out_file");
 
         private final String value;
 

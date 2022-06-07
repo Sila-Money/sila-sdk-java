@@ -38,4 +38,10 @@ public class TransactionStatus {
      */
     @SerializedName("token_status")
     public String tokenStatus;
+
+    /**
+     * String field used for the provider status.
+     */
+    @SerializedName("provider_status")
+    public String providerStatus;
 }

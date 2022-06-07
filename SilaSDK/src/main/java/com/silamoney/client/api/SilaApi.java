@@ -1569,6 +1569,68 @@ public class SilaApi {
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION.getValue());
     }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param transactionId
+     * @param approve
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse approveWire(String userHandle, String userPrivateKey, String transactionId, boolean approve)throws IOException, InterruptedException {
+        return approveWire(userHandle,userPrivateKey,transactionId,approve,null,null);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param transactionId
+     * @param approve
+     * @param notes
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse approveWire(String userHandle, String userPrivateKey, String transactionId, boolean approve,String notes)throws IOException, InterruptedException {
+        return approveWire(userHandle,userPrivateKey,transactionId,approve,notes,null);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param transactionId
+     * @param approve
+     * @param notes
+     * @param mockWireAccountName
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse approveWire(String userHandle, String userPrivateKey, String transactionId, boolean approve, String notes,String mockWireAccountName)throws IOException, InterruptedException {
+        String path = Endpoints.APPROVE_WIRE.getUri();
+        ApproveWireMsg body = new ApproveWireMsg(userHandle,this.configuration.getAuthHandle(), transactionId,approve,notes,mockWireAccountName);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.APPROVE_WIRE_MSG.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param transactionId
+     * @param wireStatus
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse mockWireOutFile(String userHandle, String userPrivateKey, String transactionId, String wireStatus)throws IOException, InterruptedException {
+        String path = Endpoints.MOCK_WIRE_OUT_FILE.getUri();
+        MockWireOutFileMsg body = new MockWireOutFileMsg(userHandle,this.configuration.getAuthHandle(), transactionId,wireStatus);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.MOCK_WIRE_OUT_FILE.getValue());
+    }
+
     private HttpResponse<?> getHttpResponse(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();

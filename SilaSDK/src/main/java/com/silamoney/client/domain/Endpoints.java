@@ -21,7 +21,7 @@ public enum Endpoints {
     UPDATE_VIRTUAL_ACCOUNT("/update_virtual_account"),RETRY_WEBHOOK("/retry_webhook"),
     CLOSE_VIRTUAL_ACCOUNT("/close_virtual_account"),CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION("/create_test_virtual_account_ach_transaction"),
     CHECK_INSTANT_ACH("/check_instant_ach"),GET_INSTITUTIONS("/get_institutions"),PLAID_UPDATE_LINK_TOKEN("/plaid_update_link_token"),
-    UPDATE_ACCOUNT("/update_account"),CHECK_PARTNER_KYC("/check_partner_kyc");
+    UPDATE_ACCOUNT("/update_account"),CHECK_PARTNER_KYC("/check_partner_kyc"),APPROVE_WIRE("/approve_wire"),MOCK_WIRE_OUT_FILE("/mock_wire_out_file");
 
     private String uri;
 

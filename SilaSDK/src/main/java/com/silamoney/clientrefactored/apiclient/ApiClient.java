@@ -13,7 +13,7 @@ import com.silamoney.clientrefactored.configuration.Environment;
 public class ApiClient {
 
     private static final String PRODUCT = "SilaSDK-java";
-    private static final String VERSION = "0.2.43";
+    private static final String VERSION = "0.2.44";
 
     private HttpClient httpClient;
     private String basePath;
