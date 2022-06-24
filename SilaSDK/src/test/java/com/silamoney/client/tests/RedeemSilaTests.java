@@ -167,4 +167,19 @@ public class RedeemSilaTests {
                 assertEquals("SUCCESS", parsedResponse.getStatus());
                 assertNotNull(parsedResponse.getTransactionId());
         }
+        @Test
+        public void Response200SuccessWire() throws Exception {
+                AccountTransactionMessage redeem = AccountTransactionMessage.builder()
+                        .userHandle(DefaultConfigurations.getUserHandle())
+                        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).processingType(ProcessingTypeEnum.WIRE)
+                        .businessUuid(DefaultConfigurations.correctUuid)
+                        .accountName("default").build();
+                ApiResponse response = api.redeemSila(redeem);
+
+                assertEquals(200, response.getStatusCode());
+                TransactionResponse parsedResponse = (TransactionResponse) response.getData();
+                assertTrue(parsedResponse.getSuccess());
+                assertEquals("SUCCESS", parsedResponse.getStatus());
+                assertNotNull(parsedResponse.getTransactionId());
+        }
 }
