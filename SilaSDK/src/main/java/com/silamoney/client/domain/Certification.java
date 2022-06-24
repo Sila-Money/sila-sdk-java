@@ -14,11 +14,11 @@ public class Certification {
     private String administratorUserHandle;
     private String created;
     @SerializedName("created_epoch")
-    private Long createdEpoch;
+    private String createdEpoch;
     @SerializedName("expires_after")
     private String expiresAfter; 
     @SerializedName("expires_after_epoch")
-    private Long expiresAfterEpoch;
+    private String expiresAfterEpoch;
     @SerializedName("beneficial_owner_certifications")
     private List<String> beneficialOwnerCertifications;  
 
