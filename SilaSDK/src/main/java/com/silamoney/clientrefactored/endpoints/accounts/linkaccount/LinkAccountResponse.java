@@ -2,15 +2,12 @@ package com.silamoney.clientrefactored.endpoints.accounts.linkaccount;
 
 import com.google.gson.annotations.SerializedName;
 
+import com.silamoney.clientrefactored.domain.BaseResponse;
 import lombok.Getter;
 
 @Getter
-public class LinkAccountResponse {
+public class LinkAccountResponse extends BaseResponse {
 
-    private boolean success;
-    private String message;
-    private String status;
-    private String reference;
     @SerializedName("account_name")
     private String accountName;
     @SerializedName("match_score")
@@ -19,7 +16,11 @@ public class LinkAccountResponse {
     private String accountOwnerName;
     @SerializedName("entity_name")
     private String entityName;
-    @SerializedName("response_time_ms")
-    private String responseTimeMs;
+
+    /**
+     * String field used for the account validation.
+     */
+    @SerializedName("web_debit_verified")
+    private Boolean webDebitVerified;
 }
 

@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class DeleteRegistrationMsg {
     @SerializedName("header")
-    private final HeaderBase header;
+    private final Header header;
     @SerializedName("uuid")
     private final String uuid;
 
     public DeleteRegistrationMsg(String appHandle, DeleteRegistrationMessage message) {
-        this.header = new HeaderBuilder(appHandle).withUserHandle(message.getUserHandle()).withReference().build();
+        this.header = new Header(message.getUserHandle(),appHandle);
         this.uuid = message.getUuid();
     }
 }

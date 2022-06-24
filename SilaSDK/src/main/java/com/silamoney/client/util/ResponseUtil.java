@@ -2,43 +2,8 @@ package com.silamoney.client.util;
 
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
-import com.silamoney.client.domain.Account;
-import com.silamoney.client.domain.AccountBalanceResponse;
-import com.silamoney.client.domain.BadRequestResponse;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.CheckInstantAchResponse;
-import com.silamoney.client.domain.CheckKYCResponse;
-import com.silamoney.client.domain.CheckPartnerKycResponse;
-import com.silamoney.client.domain.DeleteAccountResponse;
-import com.silamoney.client.domain.GetBusinessRolesResponse;
-import com.silamoney.client.domain.GetBusinessTypesResponse;
-import com.silamoney.client.domain.GetCardsResponse;
-import com.silamoney.client.domain.GetEntitiesResponse;
-import com.silamoney.client.domain.GetEntityResponse;
-import com.silamoney.client.domain.GetNaicsCategoriesResponse;
-import com.silamoney.client.domain.GetPaymentMethodsResponse;
-import com.silamoney.client.domain.GetSilaBalanceResponse;
-import com.silamoney.client.domain.GetTransactionsResponse;
-import com.silamoney.client.domain.GetVirtualAccountResponse;
-import com.silamoney.client.domain.GetVirtualAccountsResponse;
-import com.silamoney.client.domain.GetWalletResponse;
-import com.silamoney.client.domain.GetWalletsResponse;
-import com.silamoney.client.domain.GetWebhooksResponse;
-import com.silamoney.client.domain.LinkAccountResponse;
-import com.silamoney.client.domain.LinkBusinessMemberResponse;
-import com.silamoney.client.domain.LinkBusinessOperationResponse;
-import com.silamoney.client.domain.LinkCardResponse;
-import com.silamoney.client.domain.PlaidLinkTokenResponse;
-import com.silamoney.client.domain.PlaidSameDayAuthResponse;
-import com.silamoney.client.domain.PlaidUpdateLinkTokenResponse;
-import com.silamoney.client.domain.RegisterBusinessResponse;
-import com.silamoney.client.domain.RegisterWalletResponse;
-import com.silamoney.client.domain.RequestKycResponse;
-import com.silamoney.client.domain.TransactionResponse;
-import com.silamoney.client.domain.TransferSilaResponse;
-import com.silamoney.client.domain.UpdateAccountResponse;
-import com.silamoney.client.domain.UpdateWalletResponse;
-import com.silamoney.client.domain.VirtualAccountResponse;
+import com.silamoney.client.domain.*;
+
 import java.lang.reflect.Type;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
@@ -397,9 +362,13 @@ public class ResponseUtil {
                         .deserialize(bodyString, VirtualAccountResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), virtualAccountResponse, success);
+                case "mock_wire_out_file":
+                    MockWireOutFileResponse mockWireOutFileResponse = (MockWireOutFileResponse) Serialization
+                            .deserialize(bodyString, MockWireOutFileResponse.class);
+		            return new ApiResponse(statusCode, response.headers().map(), mockWireOutFileResponse, success);
+
                 default:
-                    BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString,
-                        BaseResponse.class);
+            		BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString, BaseResponse.class);
 
                     if (success && (!"SUCCESS".equals(baseResponse.getStatus()) && baseResponse.getStatus() != null)) {
                         success = false;

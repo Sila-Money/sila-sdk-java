@@ -4,19 +4,14 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 import com.silamoney.clientrefactored.domain.Account;
+import com.silamoney.clientrefactored.domain.BaseResponse;
 import com.silamoney.clientrefactored.domain.Change;
 
 import lombok.Getter;
 
 @Getter
-public class UpdateAccountResponse {
+public class UpdateAccountResponse extends BaseResponse {
 
-    private boolean success;
-    private String message;
-    private String status;
     private Account account;
     private List<Change> changes;
-    private String reference;
-    @SerializedName("response_time_ms")
-    private String responseTimeMs;
 }

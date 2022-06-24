@@ -1,3 +1,20 @@
+v0.2.44
+Enhancements:
+    - Added sila_available_balance and sila_pending_balance to the response in /get_wallet.
+    - Allowed WIRE a new optional input to the processing_type and added mockWireAccountName a new optional input in /redeem_sila.
+    - Allowed WIRE a new optional input in processing_type to the SearchFilters in /get_transactions.
+    - Added IMAD, OMAD, provider_tx_id and provider_status fields to the response in /get_transactions.
+    - Added a new field provider_status in the timeline object to the response in /get_transactions.
+New Features:
+    - Added support for /approve_wire.
+    - Added support for /mock_wire_out_file.
+
+v0.2.43
+Enhancements:
+    - Allowed userHandle as an optional input and added sec_code string field to the response in /get_transactions.
+    - Added new field web_debit_verified in the response for /link_account, /get_accounts and /update_account.
+    - Internal code improvements.
+
 v0.2.41-rc
 Hotfix:
     - Added new fields submitted, submitted_epoch and error_msg to the response in /get_transactions.

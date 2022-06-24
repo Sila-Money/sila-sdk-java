@@ -168,4 +168,30 @@ public class Transaction {
      */
     @SerializedName("error_msg")
     public String errorMsg;
+    /**
+     * String field used for the sec code.
+     */
+    @SerializedName("sec_code")
+    public String secCode;
+    /**
+     * String field used for the IMAD.
+     */
+    @SerializedName("IMAD")
+    public String IMAD;
+    /**
+     * String field used for the OMAD.
+     */
+    @SerializedName("OMAD")
+    public String OMAD;
+    /**
+     * String field used for the  /**
+     *      * String field used for the provider transaction id.
+     */
+    @SerializedName("provider_tx_id")
+    public String providerTxId;
+    /**
+     * String field used for the provider status.
+     */
+    @SerializedName("provider_status")
+    public String providerStatus;
 }

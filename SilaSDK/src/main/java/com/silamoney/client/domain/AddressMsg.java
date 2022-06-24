@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class AddressMsg {
     @SerializedName("header")
-    private HeaderBase header;
+    private Header header;
     @SerializedName("address_alias")
     private String addressAlias;
     @SerializedName("street_address_1")
@@ -23,7 +23,7 @@ public class AddressMsg {
     private String uuid;
 
     public AddressMsg(String authHandle, UserHandleMessage user, AddressMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
+        this.header = new Header(user.getUserHandle(),authHandle);
         this.addressAlias = message.getAddressAlias();
         this.streetAddress1 = message.getStreetAddress1();
         this.streetAddress2 = message.getStreetAddress2();
