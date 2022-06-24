@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ListDocumentsMsg {
     @SerializedName("header")
-    private HeaderBase header;
+    private Header header;
     @SerializedName("message")
     private String message;
     @SerializedName("start_date")
@@ -22,8 +22,7 @@ public class ListDocumentsMsg {
     private String sortBy;
 
     public ListDocumentsMsg(String authHandle, ListDocumentsMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(message.getUserHandle()).useVersion(VersionEnum.V0_2)
-                .withCrypto(CryptoEnum.ETH).withReference().build();
+        this.header = new Header(message.getUserHandle(),authHandle);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.startDate = message.getStartDate() != null
                 ? message.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE)

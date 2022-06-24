@@ -12,20 +12,20 @@ import lombok.Setter;
 public class BaseResponse {
 
     @Getter
-    private String reference;
+    public String reference;
 
     @Getter
-    private String message;
+    public String message;
 
     @Getter
-    private String status;
+    public String status;
 
     @Getter
     @Setter
-    private Boolean success;
+    public Boolean success;
 
     @Getter
     @SerializedName("response_time_ms")
-    private String responseTimeMs;
+    public String responseTimeMs;
 
 }

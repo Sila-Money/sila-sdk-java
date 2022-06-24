@@ -56,4 +56,10 @@ public class Account {
 
     @SerializedName("entity_name")
     public String entityName;
+
+    /**
+     * String field used for the account validation.
+     */
+    @SerializedName("web_debit_verified")
+    private Boolean webDebitVerified;
 }

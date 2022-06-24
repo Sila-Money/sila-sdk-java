@@ -60,6 +60,11 @@ public class LinkAccountTests {
 		response = api.linkAccount(DefaultConfigurations.getUserHandle(),
 				DefaultConfigurations.getUserPrivateKey(), "defaultupdate", "123456789012", "123456780", "CHECKING");
 		assertEquals(200, response.getStatusCode());
+
+		 response = api.linkAccount(DefaultConfigurations.getUser2Handle(),
+				DefaultConfigurations.getUser2PrivateKey(), "default", "123456789012", "123456780", "CHECKING");
+
+		assertEquals(200, response.getStatusCode());
 	}
 
 	@Test

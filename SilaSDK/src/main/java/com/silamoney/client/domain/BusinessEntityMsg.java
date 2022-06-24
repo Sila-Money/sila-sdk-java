@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class BusinessEntityMsg {
     @SerializedName("header")
-    private HeaderBase header;
+    private Header header;
     @SerializedName("entity_name")
     private String entityName;
     @SerializedName("birthdate")
@@ -21,7 +21,7 @@ public class BusinessEntityMsg {
     private String businessWebsite;
 
     public BusinessEntityMsg(String authHandle, UserHandleMessage user, BusinessEntityMessage message) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
+        this.header = new Header(user.getUserHandle(),authHandle);
         this.entityName = message.getEntityName();
         this.birthdate = message.getBirthdate() == null ? null
                 : message.getBirthdate().format(DateTimeFormatter.ISO_LOCAL_DATE);

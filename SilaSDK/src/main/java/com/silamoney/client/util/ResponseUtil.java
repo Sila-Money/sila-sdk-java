@@ -397,9 +397,13 @@ public class ResponseUtil {
                         .deserialize(bodyString, VirtualAccountResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), virtualAccountResponse, success);
+		case "mock_wire_out_file":
+		    MockWireOutFileResponse mockWireOutFileResponse = (MockWireOutFileResponse) Serialization
+		            .deserialize(response.body().toString(), MockWireOutFileResponse.class);
+
+		    return new ApiResponse(statusCode, response.headers().map(), mockWireOutFileResponse, success);
                 default:
-                    BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString,
-                        BaseResponse.class);
+            		BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString, BaseResponse.class);
 
                     if (success && (!"SUCCESS".equals(baseResponse.getStatus()) && baseResponse.getStatus() != null)) {
                         success = false;

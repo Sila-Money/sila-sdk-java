@@ -1,4 +1,4 @@
 package com.silamoney.client.domain;
 
-public class DeviceResponse extends RegistrationDataResponse {
+public class DeviceResponse extends BaseResponse {
 }

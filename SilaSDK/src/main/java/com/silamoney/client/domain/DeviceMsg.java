@@ -4,12 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class DeviceMsg {
     @SerializedName("header")
-    private HeaderBase header;
+    private Header header;
     @SerializedName("device_fingerprint")
     private String deviceFingerPrint;
 
+    @SerializedName("session_identifier")
+    private String sessionIdentifier;
+
     public DeviceMsg(String authHandle, UserHandleMessage user, Device device) {
-        this.header = new HeaderBuilder(authHandle).withUserHandle(user.getUserHandle()).withReference().build();
+        this.header = new Header(user.getUserHandle(), authHandle);
         this.deviceFingerPrint = device.getDeviceFingerPrint();
+        this.sessionIdentifier = device.getSessionIdentifier();
     }
 }

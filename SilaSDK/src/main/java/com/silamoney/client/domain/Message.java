@@ -183,7 +183,35 @@ public class Message {
         /**
          * String value for CreateTestVirtualAccountAchTransaction.
          */
-        CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION("create_test_virtual_account_ach_transaction");
+        CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION("create_test_virtual_account_ach_transaction"),
+        /**
+         * String value for checkPartnerKyc.
+         */
+        CHECK_PARTNER_KYC("check_partner_kyc"),
+        /**
+         * String value for UpdateAccount.
+         */
+        UPDATE_ACCOUNT("update_account"),
+        /**
+         * String value for PlaidUpdateLinkToken.
+         */
+        PLAID_UPDATE_LINK_TOKEN("plaid_update_link_token"),
+        /**
+         * String value for CheckInstantAch.
+         */
+        CHECK_INSTANT_ACH("check_instant_ach"),
+        /**
+         * String value for ReverseTransationMsg.
+         */
+        REVERSE_TRANSACTION_MSG("reverse_transaction_msg"),
+        /**
+         * String value for ApproveWireMsg.
+         */
+        APPROVE_WIRE_MSG("approve_wire_msg"),
+        /**
+         * String value for MockWireOutFile.
+         */
+        MOCK_WIRE_OUT_FILE("mock_wire_out_file");
 
         private final String value;
 

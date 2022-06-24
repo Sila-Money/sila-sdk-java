@@ -42,7 +42,8 @@ public class GetTransactions extends AbstractEndpoint {
 
                 Map<String, String> headers = new HashMap<>();
                 HeadersUtils.addAuthSignature(headers, serializedBody);
-                HeadersUtils.addUserSignature(headers, serializedBody, request.getUserPrivateKey());
+                if (request.getUserPrivateKey() != null)
+                        HeadersUtils.addUserSignature(headers, serializedBody, request.getUserPrivateKey());
                 HeadersUtils.addContentType(headers, "application/json");
 
                 try {
