@@ -57,6 +57,7 @@ public class RegisterBusinessTests {
 					.businessWebsite("https://www.website.com")
 					.doingBusinessAs("doing business as")
 					.naicsCode(DefaultConfigurations.getDefaultNaicCategoryDescription().getCode())
+					.registrationState("DC")
 					.build()
 				)
 				.identity(Identity.builder()

@@ -1,12 +1,16 @@
 package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
+import com.silamoney.client.security.EcdsaUtil;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public class UploadDocumentMsg {
     @SerializedName("header")
-    private final Header header;
+    private  Header header;
     @SerializedName("message")
-    private final String message;
+    private  String message;
     @SerializedName("name")
     private final String name;
     @SerializedName("filename")
@@ -35,5 +39,20 @@ public class UploadDocumentMsg {
         this.mimeType = message.getMimeType();
         this.documentType = message.getDocumentType();
         this.description = message.getDescription();
+    }
+
+    public UploadDocumentMsg(UploadDocument message) {
+        this.name = message.getName();
+        this.filename = message.getFilename();
+        this.mimeType = message.getMimeType();
+        this.documentType = message.getDocumentType();
+        this.description = message.getDescription();
+        try {
+            hash = EcdsaUtil.hashFile(message.getFilePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

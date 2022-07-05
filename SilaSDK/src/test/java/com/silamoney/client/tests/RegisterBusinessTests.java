@@ -58,7 +58,7 @@ public class RegisterBusinessTests {
 				null, "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
 				DefaultConfigurations.getBusinessCryptoAddress(), "entity name", businessType,
 				"https://www.website.com", "doing business as", naicsCategory, true);
-
+		user.setRegistrationState("DC");
 		ApiResponse response = api.registerBusiness(user);
 
 		assertEquals(200, response.getStatusCode());

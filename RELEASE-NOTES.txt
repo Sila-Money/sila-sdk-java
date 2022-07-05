@@ -1,3 +1,14 @@
+v0.2.48
+Enhancements:
+    - Added registrationState a new optional input to the BusinessUser in /register.
+    - Added registrationState a new optional input to the BusinessEntityMessage and added registrationState a new field to the response in /update/entity.
+    - Added registrationState a new field in the Entity to the response in /get_entity.
+    - Added transactionIdempotencyId a new optional input field in /issue_sila.
+    - Added transactionIdempotencyId a new optional input field in /redeem_sila.
+    - Added transactionIdempotencyId a new optional input field in /transfer_sila.
+New Features:
+    - Added support for upload multiple document in /documents.
+
 v0.2.44
 Enhancements:
     - Added sila_available_balance and sila_pending_balance to the response in /get_wallet.

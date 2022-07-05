@@ -494,5 +494,5 @@ public class DefaultConfigurations {
         }
         return plaidToken2;
     }
-
+    public static String transactionIdempotencyUuid = "e1adcdf4-c6bd-463b-9ac7-932474ade222";
 }
