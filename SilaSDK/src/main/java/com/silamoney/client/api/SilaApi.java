@@ -889,7 +889,7 @@ public class SilaApi {
     public ApiResponse uploadDocuments(UploadDocumentsMessage uploadDocumentsMessage)
             throws NoSuchAlgorithmException, IOException, InterruptedException {
         HashMap<String, UploadDocumentMsg> message = new HashMap<>();
-        if(uploadDocumentsMessage.getUploadDocumentList()!=null&&uploadDocumentsMessage.getUploadDocumentList().size()>0){
+        if(uploadDocumentsMessage.getUploadDocumentList()!=null && uploadDocumentsMessage.getUploadDocumentList().size()>0){
             for (int value = 0; value < uploadDocumentsMessage.getUploadDocumentList().size(); value++) {
                 String key = "file_" + (value + 1);
                 UploadDocument uploadDocument = uploadDocumentsMessage.getUploadDocumentList().get(value);

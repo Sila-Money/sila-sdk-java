@@ -159,8 +159,6 @@ public class TransferSilaTests {
 	}
 	@Test
 	public void Response200Success_2() throws Exception {
-		// TRANSACTIONS4
-
 		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, DefaultConfigurations.getUser2Handle(), null,
 				"test descriptor", DefaultConfigurations.correctUuid,
 				DefaultConfigurations.getUserPrivateKey(),DefaultConfigurations.transactionIdempotencyUuid);
