@@ -69,6 +69,8 @@ public class Entity {
     private String uuid;
     @SerializedName(value = "dba")
     private String dba;
+    @SerializedName(value = "registration_state")
+    private String registrationState;
 
     /**
      * Constructor for Entity object.
@@ -94,5 +96,6 @@ public class Entity {
         this.businessWebsite = user.getBusinessWebsite();
         this.doingBusinessAs = user.getDoingBusinessAs();
         this.naicsCode = user.getNaicsCategory().getCode();
+        this.registrationState=user.getRegistrationState();
     }
 }

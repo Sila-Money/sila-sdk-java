@@ -10,8 +10,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
 import java.util.Map;
 
+import com.silamoney.client.domain.UploadDocument;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -25,7 +27,7 @@ public class ApiClient {
     private String basePath;
 
     private static final String PRODUCT = "SilaSDK-java";
-    private static final String VERSION = "0.2.44";
+    private static final String VERSION = "0.2.48";
 
     /**
      * Gets the api base path.
@@ -97,6 +99,40 @@ public class ApiClient {
         builder.addTextBody("data", body, ContentType.TEXT_PLAIN);
         File f = new File(filePath);
         builder.addBinaryBody("file", new FileInputStream(f), ContentType.create(contentType), f.getName());
+        HttpEntity multipart = builder.build();
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        multipart.writeTo(outStream);
+        request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
+        outStream.close();
+        request.header("Content-Type", multipart.getContentType().getValue());
+        return httpClient.send(request.build(), BodyHandlers.ofString());
+    }
+
+    /**
+     * @param path
+     * @param headers
+     * @param body
+     * @param uploadDocumentList
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    @SuppressWarnings("all")
+    public HttpResponse callApi(String path, Map<String, String> headers, String body, ArrayList<UploadDocument> uploadDocumentList) throws FileNotFoundException, IOException, InterruptedException {
+        headers.put("User-Agent", PRODUCT + '/' + VERSION);
+        var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
+        headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addTextBody("data", body, ContentType.TEXT_PLAIN);
+        if (uploadDocumentList != null && uploadDocumentList.size() > 0) {
+            for (int value = 0; value < uploadDocumentList.size(); value++) {
+                UploadDocument uploadDocument = uploadDocumentList.get(value);
+                File file = new File(uploadDocument.getFilePath());
+                builder.addBinaryBody("file_" + (value + 1), new FileInputStream(file), ContentType.create(uploadDocument.getMimeType()), file.getName());
+            }
+        }
+
         HttpEntity multipart = builder.build();
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         multipart.writeTo(outStream);

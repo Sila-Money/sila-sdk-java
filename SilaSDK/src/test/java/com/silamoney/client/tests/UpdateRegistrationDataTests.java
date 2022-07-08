@@ -181,6 +181,35 @@ public class UpdateRegistrationDataTests {
                 assertThat(parsedResponse.getEntity().getDoingBusinessAs(), notNullValue());
                 assertThat(parsedResponse.getEntity().getBusinessWebsite(), notNullValue());
         }
+        @Test
+        public void Response200BusinessEntity_2() throws Exception {
+                UserHandleMessage user = UserHandleMessage.builder()
+                        .userHandle(DefaultConfigurations.getBusinessHandle())
+                        .userPrivateKey(DefaultConfigurations.getBusinessPrivateKey()).build();
+                BusinessEntityMessage message = BusinessEntityMessage.builder().registrationState("IA").build();
+                ApiResponse response = api.updateEntity(user, message);
+                assertEquals(200, response.getStatusCode());
+                BusinessEntityResponse parsedResponse = (BusinessEntityResponse) response.getData();
+                assertTrue(parsedResponse.getSuccess());
+                assertEquals("SUCCESS", parsedResponse.getStatus());
+                assertThat(parsedResponse.getMessage(),
+                        stringContainsInOrder(Arrays.asList("Successfully updated entity")));
+                assertThat(parsedResponse.getUserHandle(), stringContainsInOrder(
+                        Arrays.asList(DefaultConfigurations.getBusinessHandle().toLowerCase())));
+                assertEquals("business", parsedResponse.getEntityType());
+                assertThat(parsedResponse.getEntity(), notNullValue());
+                assertThat(parsedResponse.getEntity().getCreatedEpoch(), notNullValue());
+                assertThat(parsedResponse.getEntity().getEntityName(), notNullValue());
+                assertThat(parsedResponse.getEntity().getBirthdate(), notNullValue());
+                assertThat(parsedResponse.getEntity().getBusinessType(), notNullValue());
+                assertThat(parsedResponse.getEntity().getNaicsCode(), notNullValue());
+                assertThat(parsedResponse.getEntity().getNaicsCategory(), notNullValue());
+                assertThat(parsedResponse.getEntity().getNaicsSubcategory(), notNullValue());
+                assertThat(parsedResponse.getEntity().getBusinessUuid(), notNullValue());
+                assertThat(parsedResponse.getEntity().getDoingBusinessAs(), notNullValue());
+                assertThat(parsedResponse.getEntity().getBusinessWebsite(), notNullValue());
+                assertThat(parsedResponse.getEntity().getRegistrationState(), notNullValue());
+        }
 
         @Test
         public void Response400() throws Exception {

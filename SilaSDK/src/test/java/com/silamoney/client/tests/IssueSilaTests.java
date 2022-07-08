@@ -42,7 +42,7 @@ public class IssueSilaTests {
         AccountTransactionMessage issue = AccountTransactionMessage.builder()
                 .userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(1000).accountName("default")
-                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).build();
+                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuid).transactionIdempotencyId(DefaultConfigurations.transactionIdempotencyUuid).build();
         ApiResponse response = api.issueSila(issue);
         assertEquals(200, response.getStatusCode());
         assertTrue(((TransactionResponse) response.getData()).getSuccess());

@@ -19,6 +19,8 @@ public class BusinessEntityMsg {
     private String doingBusinessAs;
     @SerializedName("business_website")
     private String businessWebsite;
+    @SerializedName("registration_state")
+    private String registrationState;
 
     public BusinessEntityMsg(String authHandle, UserHandleMessage user, BusinessEntityMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
@@ -29,5 +31,6 @@ public class BusinessEntityMsg {
         this.naicsCode = message.getNaicsCode();
         this.doingBusinessAs = message.getDoingBusinessAs();
         this.businessWebsite = message.getBusinessWebsite();
+        this.registrationState=message.getRegistrationState();
     }
 }

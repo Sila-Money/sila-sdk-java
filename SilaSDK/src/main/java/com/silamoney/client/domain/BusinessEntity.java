@@ -26,4 +26,7 @@ public class BusinessEntity extends EntityBase {
     @Getter
     @SerializedName("business_website")
     private String businessWebsite;
+    @Getter
+    @SerializedName("registration_state")
+    private String registrationState;
 }
