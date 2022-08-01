@@ -1,3 +1,7 @@
+v0.2.48-rc
+Hotfix:
+    - Updated the update_virtual_account endpoint's unit test case.
+
 v0.2.48
 Enhancements:
     - Added registrationState a new optional input to the BusinessUser in /register.
