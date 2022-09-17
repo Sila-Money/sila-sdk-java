@@ -18,13 +18,6 @@ public class UpdateVirtualAccountTests {
     @Test
     public void Register200UpdateVirtualAccount() throws Exception {
         VirtualAccount virtualAccount=DefaultConfigurations.getVirtualAccounts().get(0);
-        ApiResponse response = api.updateVirtualAccount(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), virtualAccount.getVirtualAccountId(), virtualAccount.getVirtualAccountName(), true);
-        assertEquals(200, response.getStatusCode());
-        VirtualAccountResponse parsedResponse = (VirtualAccountResponse) response.getData();
-
-        assertNotNull(parsedResponse.getStatus());
-        assertNotNull(parsedResponse.getMessage());
 
         //Suspend
         ApiResponse response1 = api.updateVirtualAccount(DefaultConfigurations.getUserHandle(),

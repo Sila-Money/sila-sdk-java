@@ -2,6 +2,7 @@ package com.silamoney.client.domain;
 
 import io.reactivex.annotations.Nullable;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Class used in the registerBusiness method.
@@ -49,6 +50,12 @@ public class BusinessUser {
     private final String deviceFingerprint;
     @Getter
     private final String sessionIdentifier;
+    /**
+     * String field used for the registration_state.
+     */
+    @Getter
+    @Setter
+    private String registrationState;
 
     public BusinessUser(String handle, String addressAlias, String address, @Nullable String address2, String city,
             String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,

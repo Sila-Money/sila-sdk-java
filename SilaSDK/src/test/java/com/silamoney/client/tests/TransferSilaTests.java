@@ -157,5 +157,29 @@ public class TransferSilaTests {
 		assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).destinationLedgerAccountId);
 
 	}
+	@Test
+	public void Response200Success_2() throws Exception {
+		ApiResponse response = api.transferSila(DefaultConfigurations.getUserHandle(), 100, DefaultConfigurations.getUser2Handle(), null,
+				"test descriptor", DefaultConfigurations.correctUuid,
+				DefaultConfigurations.getUserPrivateKey(),DefaultConfigurations.transactionIdempotencyUuid);
 
+		assertEquals(200, response.getStatusCode());
+		assertEquals("test descriptor", ((TransferSilaResponse) response.getData()).getDescriptor());
+		assertEquals("SUCCESS", ((TransferSilaResponse) response.getData()).getStatus());
+		assertNotNull(((TransferSilaResponse) response.getData()).getTransactionId());
+
+		String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
+		SearchFilters filters = new SearchFilters();
+		filters.setTransactionId(transactionId);
+		response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+				DefaultConfigurations.getUserPrivateKey());
+		while (!((GetTransactionsResponse) response.getData()).transactions.get(0).status.equals("success")) {
+			TimeUnit.SECONDS.sleep(20);
+			response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
+					DefaultConfigurations.getUserPrivateKey());
+		}
+
+		assertEquals("success",((GetTransactionsResponse) response.getData()).transactions.get(0).status);
+		assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).destinationLedgerAccountId);
+	}
 }

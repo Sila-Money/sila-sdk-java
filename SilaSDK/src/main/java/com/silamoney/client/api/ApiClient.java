@@ -1,5 +1,6 @@
 package com.silamoney.client.api;
 
+import com.silamoney.client.domain.UploadDocument;
 import com.silamoney.client.util.DefaultLogger;
 import com.silamoney.client.util.Logger;
 import com.silamoney.client.util.ResponseUtil;
@@ -9,6 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
@@ -152,6 +154,36 @@ public class ApiClient {
         }
     }
 
+    public HttpResponse callApi(String path, Map<String, String> headers, String body, ArrayList<UploadDocument> uploadDocumentList) throws FileNotFoundException, IOException, InterruptedException {
+        String fullPath = basePath + path;
+        logRequest(fullPath, headers, body);
+        try {
+            headers.put("User-Agent", PRODUCT + '/' + VERSION);
+            var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
+            headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody("data", body, ContentType.TEXT_PLAIN);
+            if (uploadDocumentList != null && uploadDocumentList.size() > 0) {
+                for (int value = 0; value < uploadDocumentList.size(); value++) {
+                    UploadDocument uploadDocument = uploadDocumentList.get(value);
+                    File file = new File(uploadDocument.getFilePath());
+                    builder.addBinaryBody("file_" + (value + 1), new FileInputStream(file),
+                        ContentType.create(uploadDocument.getMimeType()), file.getName());
+                }
+            }
+
+            HttpEntity multipart = builder.build();
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            multipart.writeTo(outStream);
+            request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
+            outStream.close();
+            request.header("Content-Type", multipart.getContentType().getValue());
+            return httpClient.send(request.build(), BodyHandlers.ofString());
+        }catch (Exception ex) {
+            logger.log(Level.SEVERE, Map.of("message", "Error calling api", "error", ex, "http_request_uri", fullPath, "body", body));
+            throw new RuntimeException(ex);
+        }
+    }
 
     private HttpRequest prepareRequest(String path, Map<String, String> headers, String body) {
         String fullPath = basePath + path;

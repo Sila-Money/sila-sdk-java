@@ -19,4 +19,6 @@ public class BusinessEntityMessage {
     private String doingBusinessAs;
     @Getter
     private String businessWebsite;
+    @Getter
+    private String registrationState;
 }

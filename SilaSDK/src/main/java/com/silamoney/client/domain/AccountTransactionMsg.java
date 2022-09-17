@@ -31,6 +31,9 @@ public class AccountTransactionMsg {
     @SerializedName("mock_wire_account_name")
     private String mockWireAccountName;
 
+    @SerializedName("transaction_idempotency_id")
+    private String transactionIdempotencyId;
+
     /**
      * Constructor for IssueMsg object.
      *
@@ -48,5 +51,6 @@ public class AccountTransactionMsg {
         this.sourceId = message.getSourceId();
         this.destinationId = message.getDestinationId();
         this.mockWireAccountName = message.getMockWireAccountName() == null ? null : message.getMockWireAccountName();
+        this.transactionIdempotencyId=message.getTransactionIdempotencyId();
     }
 }
