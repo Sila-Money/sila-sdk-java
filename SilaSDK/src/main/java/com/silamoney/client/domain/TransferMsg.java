@@ -36,6 +36,9 @@ public class TransferMsg {
     @SerializedName("destination_id")
     private String destinationId;
 
+    @SerializedName("transaction_idempotency_id")
+    private String transactionIdempotencyId;
+
 
     /**
      ** Constructor for TransferMsg object.
@@ -48,6 +51,7 @@ public class TransferMsg {
      * @param appHandle
      * @param sourceId
      * @param destinationId
+     * @param transactionIdempotencyId
      */
     public TransferMsg(String userHandle,
             String destination,
@@ -55,7 +59,7 @@ public class TransferMsg {
             String destinationAddress,
             String descriptor, 
             String businessUuid, 
-            String appHandle,String sourceId,String destinationId) {
+            String appHandle,String sourceId,String destinationId,String transactionIdempotencyId) {
         this.amount = amount;
         this.destination = destination;
         this.destinationAddress = destinationAddress;
@@ -64,6 +68,7 @@ public class TransferMsg {
         this.descriptor = descriptor;
         this.businessUuid = businessUuid;
         this.sourceId = sourceId;
-        this.destinationId = destinationId;;
+        this.destinationId = destinationId;
+        this.transactionIdempotencyId=transactionIdempotencyId;
     }
 }

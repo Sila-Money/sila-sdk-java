@@ -6,17 +6,14 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
-import com.silamoney.client.domain.BadRequestResponse;
-import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.DocumentType;
-import com.silamoney.client.domain.DocumentsResponse;
-import com.silamoney.client.domain.UploadDocumentMessage;
+import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
@@ -76,5 +73,30 @@ public class DocumentsTests {
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertFalse(parsedResponse.getSuccess());
         assertEquals("FAILURE", parsedResponse.getStatus());
+    }
+    @Test
+    public void Response200SuccessForMultiple() throws Exception {
+        File file1 = new File(DocumentsTests.class.getClassLoader().getResource("images/logo-geko.png").getFile());
+        File file2 = new File(DocumentsTests.class.getClassLoader().getResource("images/tricolor.png").getFile());
+        DocumentType dt = DefaultConfigurations.getDocumentTypes().get(0);
+
+        ArrayList<UploadDocument> uploadDocumentList = new ArrayList<>();
+        uploadDocumentList.add(UploadDocument.builder().filePath(file1.getAbsolutePath())
+                .filename("logo-geko").mimeType("image/png").documentType(dt.getName())
+                .build());
+        uploadDocumentList.add(UploadDocument.builder().filePath(file2.getAbsolutePath())
+                .filename("tricolor").mimeType("image/png").documentType(dt.getName())
+                .build());
+
+        UploadDocumentsMessage message = UploadDocumentsMessage.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).uploadDocumentList(uploadDocumentList).build();
+        ApiResponse response = api.uploadDocuments(message);
+        assertEquals(200, response.getStatusCode());
+        UploadDocumentsResponse parsedResponse = (UploadDocumentsResponse) response.getData();
+        assertTrue(parsedResponse.getSuccess());
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertThat("documents - message", parsedResponse.getMessage(),
+                stringContainsInOrder(Arrays.asList("File uploaded successfully")));
     }
 }

@@ -28,5 +28,6 @@ public class Entity {
     private String doingBusinessAs;
     @SerializedName("business_website")
     private String businessWebsite;
-
+    @SerializedName("registration_state")
+    private String registrationState;
 }

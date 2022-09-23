@@ -15,11 +15,9 @@ import java.util.UUID;
 import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.*;
 import com.silamoney.client.security.EcdsaUtil;
-import com.silamoney.client.util.EpochUtils;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
 import com.silamoney.client.domain.WebhookSearchFilters;
-import org.apache.http.util.TextUtils;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -342,9 +340,29 @@ public class SilaApi {
      */
     public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
                                     @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey) throws IOException, InterruptedException {
-        return transferSila(userHandle,amount,destination,destinationAddress,descriptor,businessUuid,userPrivateKey,null,null);
+        return transferSila(userHandle,amount,destination,destinationAddress,descriptor,businessUuid,userPrivateKey,null,null,null);
     }
 
+    /**
+     * Starts a transfer of the requested amount of SILA to the requested
+     * destination handle.
+     *
+     * @param userHandle
+     * @param amount
+     * @param destination
+     * @param destinationAddress
+     * @param descriptor
+     * @param businessUuid
+     * @param userPrivateKey
+     * @param transactionIdempotencyId
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
+                                    @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey,String transactionIdempotencyId) throws IOException, InterruptedException {
+        return transferSila(userHandle, amount, destination, destinationAddress, descriptor, businessUuid, userPrivateKey, null, null,transactionIdempotencyId);
+    }
     /**
      * Starts a transfer of the requested amount of SILA to the requested
      * destination handle.
@@ -365,10 +383,33 @@ public class SilaApi {
     public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
                                         @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey,String sourceId,String destinationId)
             throws IOException, InterruptedException {
+        return transferSila(userHandle, amount, destination, destinationAddress, descriptor, businessUuid, userPrivateKey, sourceId, destinationId,null);
+    }
+    /**
+     * Starts a transfer of the requested amount of SILA to the requested
+     * destination handle.
+     *
+     * @param userHandle
+     * @param amount
+     * @param destination
+     * @param destinationAddress
+     * @param descriptor
+     * @param businessUuid
+     * @param userPrivateKey
+     * @param sourceId
+     * @param destinationId
+     * @param transactionIdempotencyId
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse transferSila(String userHandle, int amount, String destination, String destinationAddress,
+                                    @Nullable String descriptor, @Nullable String businessUuid, String userPrivateKey, String sourceId, String destinationId,String transactionIdempotencyId)
+            throws IOException, InterruptedException {
         TransferMsg body = new TransferMsg(userHandle, destination, amount, destinationAddress, descriptor,
-                businessUuid, this.configuration.getAuthHandle(),sourceId,destinationId);
+                businessUuid, this.configuration.getAuthHandle(), sourceId, destinationId, transactionIdempotencyId);
         String path = Endpoints.TRANSFER_SILA.getUri();
-        HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.TRANSFER_MSG.getValue());
     }
 
@@ -835,6 +876,35 @@ public class SilaApi {
                 message.getFilePath(), message.getMimeType());
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
+    }
+    /**
+     * Upload supporting documentation for KYC
+     *
+     * @param uploadDocumentsMessage
+     * @return
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InterruptedException
+     */
+    public ApiResponse uploadDocuments(UploadDocumentsMessage uploadDocumentsMessage)
+            throws NoSuchAlgorithmException, IOException, InterruptedException {
+        HashMap<String, UploadDocumentMsg> message = new HashMap<>();
+        if(uploadDocumentsMessage.getUploadDocumentList()!=null && uploadDocumentsMessage.getUploadDocumentList().size()>0){
+            for (int value = 0; value < uploadDocumentsMessage.getUploadDocumentList().size(); value++) {
+                String key = "file_" + (value + 1);
+                UploadDocument uploadDocument = uploadDocumentsMessage.getUploadDocumentList().get(value);
+                UploadDocumentMsg msg = new UploadDocumentMsg(uploadDocument);
+                message.put(key, msg);
+            }
+        }
+        UploadDocumentListMsg body = new UploadDocumentListMsg(this.configuration.getAuthHandle(), uploadDocumentsMessage.getUserHandle(), message);
+        String path = Endpoints.DOCUMENTS.getUri();
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        setSignature(uploadDocumentsMessage.getUserPrivateKey(), this.configuration.getPrivateKey(), sBody, headers);
+        HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody, uploadDocumentsMessage.getUploadDocumentList());
+
+        return ResponseUtil.prepareResponse(UploadDocumentsResponse.class, response);
     }
 
     /**
