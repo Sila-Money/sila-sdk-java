@@ -1,3 +1,11 @@
+v0.2.49
+Enhancements:
+    - Added provider field to the response in /link_account.
+    - Added provider field to the response in /get_account_balance.
+    - Added provider_name field to the response in /get_accounts.
+New Features:
+    - Added support for MX integration in /link_account.
+
 v0.2.48-rc
 Hotfix:
     - Updated the update_virtual_account endpoint's unit test case.

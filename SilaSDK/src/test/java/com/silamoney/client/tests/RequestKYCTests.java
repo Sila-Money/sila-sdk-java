@@ -3,6 +3,7 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
@@ -85,7 +86,7 @@ public class RequestKYCTests {
 	public void response200WithSardine() throws Exception {
 		ApiResponse response = api.requestKYC(DefaultConfigurations.getUser4Handle(), "INSTANT-ACHV2",
 				DefaultConfigurations.getUser4PrivateKey());
-
+		TimeUnit.SECONDS.sleep(20);
 		assertEquals(200, response.getStatusCode());
 		RequestKycResponse parsedResponse= (RequestKycResponse) response.getData();
 		assertEquals("SUCCESS", parsedResponse.getStatus());

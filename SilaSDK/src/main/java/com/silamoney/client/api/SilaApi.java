@@ -260,12 +260,49 @@ public class SilaApi {
         return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber,
                 accountType, null);
     }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param accountName
+     * @param accountId
+     * @param providerToken
+     * @param provider
+     * @param providerTokenType
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkAccountMX(String userHandle, String userPrivateKey, String accountName,
+                                     String accountId, String providerToken, String provider, String providerTokenType) throws IOException, InterruptedException {
+        return linkAccount(userHandle, userPrivateKey, accountName, null, accountId, null, null, null, null, providerToken, provider, providerTokenType);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param providerToken
+     * @param provider
+     * @param providerTokenType
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkAccountMX(String userHandle, String userPrivateKey,
+                                     String providerToken, String provider, String providerTokenType) throws IOException, InterruptedException {
+        return linkAccount(userHandle, userPrivateKey, null, null, null, null, null, null, null, providerToken, provider, providerTokenType);
+    }
 
     private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
             String accountId, String accountNumber, String routingNumber, String accountType, String plaidTokenType)
-            throws IOException, InterruptedException {
-        LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId, accountNumber,
-                routingNumber, accountType, this.configuration.getAuthHandle());
+                    throws IOException, InterruptedException {
+            return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, accountNumber,
+                    routingNumber, accountType, plaidTokenType, null, null, null);
+        }
+
+        private ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
+                String accountId, String accountNumber, String routingNumber, String accountType, String plaidTokenType, String providerToken, String provider, String providerTokenType) throws IOException, InterruptedException {
+            LinkAccountMsg body = new LinkAccountMsg(userHandle, accountName, publicToken, accountId, accountNumber,
+                    routingNumber, accountType, this.configuration.getAuthHandle(), providerToken, provider, providerTokenType);
         body.setPlaidTokenType(plaidTokenType);
         String path = Endpoints.LINK_ACCOUNT.getUri();
         HttpResponse<?> response = getHttpResponse(path, body,userPrivateKey, this.configuration.getPrivateKey(), null);

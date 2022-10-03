@@ -495,4 +495,18 @@ public class DefaultConfigurations {
         return plaidToken2;
     }
     public static String transactionIdempotencyUuid = "e1adcdf4-c6bd-463b-9ac7-932474ade222";
+
+    private static String providerToken;
+
+    /**
+     * @return String
+     */
+    public static String getProviderToken() {
+        try {
+            providerToken = providerToken == null || providerToken.isBlank() ? MXTokenHelper.getProviderToken() : providerToken;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return providerToken;
+    }
 }

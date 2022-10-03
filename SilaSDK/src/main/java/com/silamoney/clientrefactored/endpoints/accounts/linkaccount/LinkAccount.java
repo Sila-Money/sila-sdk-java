@@ -37,6 +37,9 @@ public class LinkAccount extends AbstractEndpoint {
                 body.put("routing_number", request.getRoutingNumber());
                 body.put("account_type", request.getAccountType());
                 body.put("plaid_token_type", request.getPlaidTokenType());
+                body.put("provider_token", request.getProviderToken());
+                body.put("provider", request.getProvider());
+                body.put("provider_token_type", request.getProviderTokenType());
 
                 String serializedBody = JsonUtils.serialize(body);
 
