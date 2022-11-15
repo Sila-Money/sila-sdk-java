@@ -73,11 +73,10 @@ public class ResponseUtil {
     public static ApiResponse prepareResponse(HttpResponse<?> response, String msg) {
         Object body = response.body();
         String bodyString = body != null ? body.toString() : "";
+        int statusCode = response.statusCode();
         logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(),
             "headers", normHeaderMap(response.headers()),
-            "body", bodyString));
-
-        int statusCode = response.statusCode();
+            "body", bodyString, "status_code", statusCode));
 
         boolean success = true;
         if (statusCode != 200) {
