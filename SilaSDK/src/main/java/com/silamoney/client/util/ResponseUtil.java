@@ -32,10 +32,9 @@ public class ResponseUtil {
     public static ApiResponse prepareResponse(Type messageClass, HttpResponse<?> response) {
         Object body = response.body();
         String bodyString = body != null ? body.toString() : "";
-        logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(), "headers",
-            normHeaderMap(response.headers()),
-            "body", bodyString));
         int statusCode = response.statusCode();
+        logger.get().log(Level.INFO, Map.of("http_response_uri",response.request().uri(), "headers",
+            normHeaderMap(response.headers()), "body", bodyString, "status_code", statusCode));
         if (statusCode == 400) {
             return new ApiResponse(statusCode, response.headers().map(),
                 Serialization.deserialize(bodyString, BadRequestResponse.class), false);
