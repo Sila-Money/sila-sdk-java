@@ -80,7 +80,7 @@ public class UpdateRegistrationDataTests {
                 UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
                 IdentityMessage message = IdentityMessage.builder().uuid(DefaultConfigurations.getIdentityUuid())
-                                .identityAlias("SSN").identityValue("123452383").build();
+                                .identityAlias("SSN").identityValue("975865809").build();
                 ApiResponse response = api.updateIdentity(user, message);
                 assertEquals(200, response.getStatusCode());
                 IdentityResponse parsedResponse = (IdentityResponse) response.getData();

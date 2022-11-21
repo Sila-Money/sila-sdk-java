@@ -34,5 +34,10 @@ public class Account {
      */
     @SerializedName("web_debit_verified")
     private Boolean webDebitVerified;
-    
+
+    /**
+     * String field used for the MX integration.
+     */
+    @SerializedName("provider_name")
+    private Boolean providerName;
 }
