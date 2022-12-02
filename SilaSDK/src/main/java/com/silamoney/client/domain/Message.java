@@ -211,7 +211,15 @@ public class Message {
         /**
          * String value for MockWireOutFile.
          */
-        MOCK_WIRE_OUT_FILE("mock_wire_out_file");
+        MOCK_WIRE_OUT_FILE("mock_wire_out_file"),
+        /**
+         * String value for GetWalletStatementData.
+         */
+        GET_WALLET_STATEMENT_DATA_MSG("get_wallet_statement_data_msg"),
+        /**
+         * String value for GetStatementsData.
+         */
+        GET_STATEMENTS_DATA_MSG("get_statements_data_msg");
 
         private final String value;
 

@@ -509,4 +509,16 @@ public class DefaultConfigurations {
         }
         return providerToken;
     }
+
+
+    public static String getWalletId() {
+        return walletId;
+    }
+
+    public static void setWalletId(String walletId) {
+        DefaultConfigurations.walletId = walletId;
+    }
+
+    private static String walletId;
+
 }

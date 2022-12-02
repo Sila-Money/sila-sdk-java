@@ -18,6 +18,7 @@ import com.silamoney.client.security.EcdsaUtil;
 import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
 import com.silamoney.client.domain.WebhookSearchFilters;
+import org.jetbrains.annotations.NotNull;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -1736,6 +1737,52 @@ public class SilaApi {
         MockWireOutFileMsg body = new MockWireOutFileMsg(userHandle,this.configuration.getAuthHandle(), transactionId,wireStatus);
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.MOCK_WIRE_OUT_FILE.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param walletId
+     * @param searchFilters
+     */
+    @NotNull
+    public ApiResponse getWalletStatementData(String userHandle, String userPrivateKey, String walletId, StatementSearchFilters searchFilters) throws IOException, InterruptedException {
+        String path = Endpoints.GET_WALLET_STATEMENT_DATA.getUri();
+        GetWalletStatementDataMsg body = new GetWalletStatementDataMsg(userHandle, this.configuration.getAuthHandle(), walletId, searchFilters);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLET_STATEMENT_DATA_MSG.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param walletId
+     */
+    public ApiResponse getWalletStatementData(String userHandle, String userPrivateKey, String walletId)
+            throws IOException, InterruptedException {
+        return getWalletStatementData(userHandle, userPrivateKey, walletId, null);
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param searchFilters
+     */
+    public ApiResponse getStatementsData(String userHandle, String userPrivateKey, StatementSearchFilters searchFilters)
+            throws IOException, InterruptedException {
+        String path = Endpoints.GET_STATEMENTS_DATA.getUri();
+        GetWalletStatementDataMsg body = new GetWalletStatementDataMsg(userHandle, this.configuration.getAuthHandle(), null, searchFilters);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_STATEMENTS_DATA_MSG.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     */
+    public ApiResponse getStatementsData(String userHandle, String userPrivateKey)
+            throws IOException, InterruptedException {
+        return getWalletStatementData(userHandle, userPrivateKey, null);
     }
 
     private HttpResponse<?> getHttpResponse(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {

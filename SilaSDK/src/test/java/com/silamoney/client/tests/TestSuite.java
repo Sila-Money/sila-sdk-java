@@ -64,6 +64,8 @@ import org.junit.runners.Suite.SuiteClasses;
     RegisterWalletTests.class,
     GetWalletTests.class,
     GetWalletsTests.class,
+    GetWalletStatementDataTests.class,
+    GetStatementsDataTests.class,
     UpdateWalletTests.class,
     DeleteWalletTests.class,
     DeleteCardTests.class,
