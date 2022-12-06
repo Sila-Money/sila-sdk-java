@@ -336,6 +336,11 @@ public class ResponseUtil {
                     .deserialize(response.body().toString(), MockWireOutFileResponse.class);
 
             return new ApiResponse(statusCode, response.headers().map(), mockWireOutFileResponse, success);
+        case "get_statements_data_msg":
+        case "get_wallet_statement_data_msg":
+             GetStatementsResponse getStatementsResponse = (GetStatementsResponse) Serialization
+                     .deserialize(response.body().toString(), GetStatementsResponse.class);
+             return new ApiResponse(statusCode, response.headers().map(), getStatementsResponse, success);
         default:
             BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                     BaseResponse.class);

@@ -30,6 +30,8 @@ public class DefaultConfigurations {
     // public static String appHandle = "digital_geko_e2e_new.silamoney.eth";
     // public static String privateKey = "38663bf6b11acd93ed1a3724b13e17a17bc3c5753a1135cbdebc5f4f4abbc00b";
 
+    public static String walletWithStatements = "19d37e51-63b9-4faa-bf28-eac228caeb3b";
+
     private static String userHandle;
     @Getter
     @Setter
@@ -509,4 +511,16 @@ public class DefaultConfigurations {
         }
         return providerToken;
     }
+
+
+    public static String getWalletId() {
+        return walletId;
+    }
+
+    public static void setWalletId(String walletId) {
+        DefaultConfigurations.walletId = walletId;
+    }
+
+    private static String walletId;
+
 }
