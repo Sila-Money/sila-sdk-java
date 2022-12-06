@@ -7,10 +7,8 @@ import java.net.http.HttpResponse;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.*;
@@ -1760,7 +1758,18 @@ public class SilaApi {
      */
     public ApiResponse getWalletStatementData(String userHandle, String userPrivateKey, String walletId)
             throws IOException, InterruptedException {
-        return getWalletStatementData(userHandle, userPrivateKey, walletId, null);
+        StatementSearchFilters searchFilters = new StatementSearchFilters();
+
+        searchFilters.setPage(1);
+        searchFilters.setPerPage(20);
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        String defaultMonth = new SimpleDateFormat("MM-yyyy").format(cal.getTime());
+        searchFilters.setStartMonth(defaultMonth);
+        searchFilters.setEndMonth(defaultMonth);
+
+        return getWalletStatementData(userHandle, userPrivateKey, walletId, searchFilters);
     }
 
     /**
@@ -1782,7 +1791,16 @@ public class SilaApi {
      */
     public ApiResponse getStatementsData(String userHandle, String userPrivateKey)
             throws IOException, InterruptedException {
-        return getWalletStatementData(userHandle, userPrivateKey, null);
+        StatementSearchFilters searchFilters = new StatementSearchFilters();
+        searchFilters.setPage(1);
+        searchFilters.setPerPage(20);
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        String defaultMonth = new SimpleDateFormat("MM-yyyy").format(cal.getTime());
+        searchFilters.setMonth(defaultMonth);
+
+        return getStatementsData(userHandle, userPrivateKey, searchFilters);
     }
 
     private HttpResponse<?> getHttpResponse(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
