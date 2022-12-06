@@ -78,6 +78,18 @@ public class GetStatementsDataTests {
     }
 
     @Test
+    public void NoSearchFiltersResponse200() throws Exception {
+        ApiResponse response = api.getStatementsData(
+                DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey());
+        assertEquals(200, response.getStatusCode());
+        GetStatementsResponse parsedResponse = (GetStatementsResponse) response.getData();
+
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertEquals(true, parsedResponse.getSuccess());
+    }
+
+        @Test
     public void Response400WithoutPageFilter() throws Exception {
         StatementSearchFilters searchFilters = new StatementSearchFilters();
         searchFilters.setPerPage(20);
