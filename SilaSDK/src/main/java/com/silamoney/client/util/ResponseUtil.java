@@ -341,6 +341,10 @@ public class ResponseUtil {
              GetStatementsResponse getStatementsResponse = (GetStatementsResponse) Serialization
                      .deserialize(response.body().toString(), GetStatementsResponse.class);
              return new ApiResponse(statusCode, response.headers().map(), getStatementsResponse, success);
+        case "get_statement_transactions_msg":
+            GetStatementTransactionsResponse getStatementTransactionsResponse = (GetStatementTransactionsResponse) Serialization
+                    .deserialize(response.body().toString(), GetStatementTransactionsResponse.class);
+            return new ApiResponse(statusCode, response.headers().map(), getStatementTransactionsResponse, success);
         default:
             BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                     BaseResponse.class);

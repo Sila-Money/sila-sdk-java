@@ -1,3 +1,7 @@
+v0.2.50-rc
+Hotfix:
+    - Added support for /get_statement_transactions.
+
 v0.2.50
 New Features:
     - Added support for /get_wallet_statement_data.
