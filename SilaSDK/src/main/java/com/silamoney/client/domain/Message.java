@@ -219,7 +219,11 @@ public class Message {
         /**
          * String value for GetStatementsData.
          */
-        GET_STATEMENTS_DATA_MSG("get_statements_data_msg");
+        GET_STATEMENTS_DATA_MSG("get_statements_data_msg"),
+        /**
+         * String value for GetStatementTransactions.
+         */
+        GET_STATEMENT_TRANSACTIONS_MSG("get_statement_transactions_msg");
 
         private final String value;
 

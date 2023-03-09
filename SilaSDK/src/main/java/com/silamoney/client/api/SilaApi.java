@@ -1803,6 +1803,34 @@ public class SilaApi {
         return getStatementsData(userHandle, userPrivateKey, searchFilters);
     }
 
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param walletId
+     * @param month
+     * @param page
+     * @param perPage
+     */
+    public ApiResponse getStatementTransactions(String userHandle, String userPrivateKey, String walletId, String month, Integer page, Integer perPage)
+            throws IOException, InterruptedException {
+        String path = Endpoints.GET_STATEMENT_TRANSACTIONS.getUri();
+        GetStatementTransactionsMsg body = new GetStatementTransactionsMsg(userHandle, this.configuration.getAuthHandle(), walletId, month,page,perPage);
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_STATEMENT_TRANSACTIONS_MSG.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param walletId
+     */
+    public ApiResponse getStatementTransactions(String userHandle, String userPrivateKey, String walletId)
+            throws IOException, InterruptedException {
+        Calendar cal = Calendar.getInstance();
+        String defaultMonth = new SimpleDateFormat("MM-yyyy").format(cal.getTime());
+        return getStatementTransactions(userHandle, userPrivateKey, walletId,defaultMonth,-1,-1);
+    }
+
     private HttpResponse<?> getHttpResponse(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();

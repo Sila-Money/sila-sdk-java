@@ -22,7 +22,7 @@ public enum Endpoints {
     CLOSE_VIRTUAL_ACCOUNT("/close_virtual_account"),CREATE_TEST_VIRTUAL_ACCOUNT_ACH_TRANSACTION("/create_test_virtual_account_ach_transaction"),
     CHECK_INSTANT_ACH("/check_instant_ach"),GET_INSTITUTIONS("/get_institutions"),PLAID_UPDATE_LINK_TOKEN("/plaid_update_link_token"),
     UPDATE_ACCOUNT("/update_account"),CHECK_PARTNER_KYC("/check_partner_kyc"),APPROVE_WIRE("/approve_wire"),MOCK_WIRE_OUT_FILE("/mock_wire_out_file"),
-    GET_WALLET_STATEMENT_DATA("/get_wallet_statement_data"), GET_STATEMENTS_DATA("/get_statements_data");
+    GET_WALLET_STATEMENT_DATA("/get_wallet_statement_data"), GET_STATEMENTS_DATA("/get_statements_data"), GET_STATEMENT_TRANSACTIONS("/get_statement_transactions");
 
     private String uri;
 
