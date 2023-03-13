@@ -1,3 +1,8 @@
+v0.2.50-rc2
+Hotfix:
+    - Added docStrings for /get_statement_transactions.
+    - Updated version of gson and jackson to resolved CVEs.
+
 v0.2.50-rc
 Hotfix:
     - Added support for /get_statement_transactions.

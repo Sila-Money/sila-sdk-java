@@ -1804,6 +1804,8 @@ public class SilaApi {
     }
 
     /**
+     * Gets a paginated list of "get_statement_transactions" endpoint.
+     *
      * @param userHandle
      * @param userPrivateKey
      * @param walletId
@@ -1820,6 +1822,8 @@ public class SilaApi {
     }
 
     /**
+     * Gets a list of "get_statement_transactions" endpoint only based on userHandle, userPrivateKey and walletId.
+     *
      * @param userHandle
      * @param userPrivateKey
      * @param walletId
