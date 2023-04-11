@@ -1,3 +1,9 @@
+v0.2.50-rc3
+Hotfix:
+    - Added descriptor field to the response in /get_statements_data.
+    - Added descriptor field to the response in /get_wallet_statement_data.
+    - Added descriptor field to the response in /get_statement_transactions.
+
 v0.2.50-rc2
 Hotfix:
     - Added docStrings for /get_statement_transactions.
