@@ -71,6 +71,7 @@ public class GetWalletStatementDataTests {
         assertNotNull(transaction.getAmount());
         assertNotNull(transaction.getCategory());
         assertNotNull(transaction.getRunningBalance());
+        assertNotNull(transaction.getDescriptor());
     }
 
     @Test

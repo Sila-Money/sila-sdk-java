@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.50-rc2</version>
+    <version>0.2.50-rc3</version>
     <packaging>jar</packaging>
 
     <name>Silamoney SDK</name>
