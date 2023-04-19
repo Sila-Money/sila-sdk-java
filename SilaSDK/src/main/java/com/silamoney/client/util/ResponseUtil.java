@@ -1,6 +1,7 @@
 package com.silamoney.client.util;
 
 import com.google.gson.reflect.TypeToken;
+import com.silamoney.client.api.ApiError;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.*;
 
@@ -363,10 +364,10 @@ public class ResponseUtil {
                 case "mock_wire_out_file":
                     MockWireOutFileResponse mockWireOutFileResponse = (MockWireOutFileResponse) Serialization
                             .deserialize(bodyString, MockWireOutFileResponse.class);
-		            return new ApiResponse(statusCode, response.headers().map(), mockWireOutFileResponse, success);
+                    return new ApiResponse(statusCode, response.headers().map(), mockWireOutFileResponse, success);
 
                 default:
-            		BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString, BaseResponse.class);
+                    BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(bodyString, BaseResponse.class);
 
                     if (success && (!"SUCCESS".equals(baseResponse.getStatus()) && baseResponse.getStatus() != null)) {
                         success = false;
@@ -381,7 +382,7 @@ public class ResponseUtil {
                 "statusCode", response.statusCode(),
                 "responseBody", bodyString,
                 "responseMessage", msg));
-            throw new RuntimeException(ex);
+            throw new ApiError(response.statusCode(), ex.getMessage(), bodyString);
         }
     }
 
