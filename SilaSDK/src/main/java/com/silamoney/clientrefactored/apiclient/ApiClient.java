@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
 import java.util.Map;
 
 import com.silamoney.clientrefactored.configuration.Environment;
@@ -17,6 +18,19 @@ public class ApiClient {
 
     private HttpClient httpClient;
     private String basePath;
+    /**
+     * Request timeout.
+     */
+    private int timeout;
+
+    /**
+     * Sets the request timeout.
+     *
+     * @param timeout
+     */
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
 
     public ApiClient(Environment environment) {
         httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
@@ -35,8 +49,14 @@ public class ApiClient {
         headers.put("User-Agent", PRODUCT + '/' + VERSION);
 
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
-
+        addTimeout(request);
         return request.POST(HttpRequest.BodyPublishers.ofString(body)).build();
     }
-
+    /**
+     * Add request timeout in API request.
+     */
+    private void addTimeout(HttpRequest.Builder request) {
+        if (timeout > 0)
+            request.timeout(Duration.ofSeconds(timeout));
+    }
 }

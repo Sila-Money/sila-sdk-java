@@ -1,3 +1,7 @@
+v0.2.50-rc4
+Hotfix:
+    - Added request timeout as optional input field in SilaApi for all API endpoint.
+
 v0.2.50-rc3
 Hotfix:
     - Added descriptor field to the response in /get_statements_data.
