@@ -10,6 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -60,6 +61,20 @@ public class ApiClient {
     }
 
     /**
+     * Request timeout.
+     *
+     */
+    private int timeout;
+    /**
+     * Sets the request timeout.
+     *
+     * @param timeout
+     */
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    /**
      * Makes the call to the sila API.
      *
      * @param path
@@ -105,6 +120,7 @@ public class ApiClient {
         request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
         outStream.close();
         request.header("Content-Type", multipart.getContentType().getValue());
+        addTimeout(request);
         return httpClient.send(request.build(), BodyHandlers.ofString());
     }
 
@@ -139,6 +155,7 @@ public class ApiClient {
         request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
         outStream.close();
         request.header("Content-Type", multipart.getContentType().getValue());
+        addTimeout(request);
         return httpClient.send(request.build(), BodyHandlers.ofString());
     }
 
@@ -146,7 +163,16 @@ public class ApiClient {
         var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
 
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
-
+        addTimeout(request);
         return request.POST(HttpRequest.BodyPublishers.ofString(body)).build();
+    }
+
+    /**
+     *
+     *Add request timeout in API request.
+     */
+    private void addTimeout(HttpRequest.Builder request) {
+        if(timeout>0)
+            request.timeout(Duration.ofSeconds(timeout));
     }
 }

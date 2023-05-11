@@ -65,7 +65,29 @@ public class SilaApi {
     public SilaApi(Environments.SilaEnvironment environment, String appHandle, String privateKey) {
         this.configuration = new Configuration(environment.getUrl(), privateKey, appHandle);
     }
+    /**
+     * Constructor for SilaApi using custom environment.
+     *
+     * @param environment
+     * @param appHandle
+     * @param privateKey
+     * @param timeout
+     */
+    public SilaApi(String environment, String appHandle, String privateKey,int timeout) {
+        this.configuration = new Configuration(environment, privateKey, appHandle,timeout);
+    }
 
+    /**
+     * Constructor for SilaApi using specified environment.
+     *
+     * @param environment
+     * @param appHandle
+     * @param privateKey
+     * @param timeout
+     */
+    public SilaApi(Environments.SilaEnvironment environment, String appHandle, String privateKey,int timeout) {
+        this.configuration = new Configuration(environment.getUrl(), privateKey, appHandle,timeout);
+    }
     /**
      * Constructor for SilaApi using sandbox environment.
      *
