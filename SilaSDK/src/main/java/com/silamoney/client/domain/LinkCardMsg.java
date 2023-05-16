@@ -36,11 +36,12 @@ public class LinkCardMsg {
      * @param appHandle
      */
     public LinkCardMsg(String userHandle, String token, String cardName,
-                         String accountPostalCode, String appHandle) {
+                         String accountPostalCode, String appHandle,String reference) {
         this.token = token;
         this.cardName = cardName;
         this.accountPostalCode = accountPostalCode;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
     }
 }

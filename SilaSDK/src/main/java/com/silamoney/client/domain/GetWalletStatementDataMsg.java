@@ -13,8 +13,9 @@ public class GetWalletStatementDataMsg {
     @SerializedName("wallet_id")
     private final String walletId;
 
-    public GetWalletStatementDataMsg(String userHandle, String authHandle, String walletId, StatementSearchFilters searchFilters) {
+    public GetWalletStatementDataMsg(String userHandle, String authHandle, String walletId, StatementSearchFilters searchFilters,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.searchFilters = searchFilters;
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.walletId = walletId;

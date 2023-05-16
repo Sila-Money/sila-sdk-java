@@ -10,4 +10,5 @@ public class MockWireOutFileRequest {
     private String userPrivateKey;
     private String transactionId;
     private String wireStatus;
+    private String reference;
 }

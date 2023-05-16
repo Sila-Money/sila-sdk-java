@@ -10,5 +10,6 @@ public class RequestKycRequest {
     private String userHandle;
     private String userPrivateKey;
     private String kycLevel;
+    private String reference;
     
 }

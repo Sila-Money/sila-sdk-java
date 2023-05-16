@@ -19,5 +19,6 @@ public class LinkAccountRequest {
     private String providerToken;
     private String provider;
     private String providerTokenType;
+    private String reference;
     
 }

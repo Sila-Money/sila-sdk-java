@@ -14,5 +14,6 @@ public class RegisterWalletRequest {
     private String walletVerificationSignature;
     private Wallet wallet;
     private boolean defaultWallet;
+    private String reference;
     
 }

@@ -19,7 +19,7 @@ public class DeleteCardTests {
     public void Response200() throws IOException, InterruptedException {
 
         ApiResponse response = api.deleteCard(DefaultConfigurations.getUserHandle(), "visa",
-                DefaultConfigurations.getUserPrivateKey());
+                DefaultConfigurations.getUserPrivateKey(),"evolve");
         assertEquals(200, response.getStatusCode());
     }
 

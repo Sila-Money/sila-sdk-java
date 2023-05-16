@@ -25,8 +25,9 @@ public class CreateTestVirtualAccountAchTransactionMsg {
     private final String achName;
 
 
-    public CreateTestVirtualAccountAchTransactionMsg(String userHandle, String authHandle, int amount, String virtualAccountNumber, Date date, int tranCode, String entityName, String ced, String achName) {
+    public CreateTestVirtualAccountAchTransactionMsg(String userHandle, String authHandle, int amount, String virtualAccountNumber, Date date, int tranCode, String entityName, String ced, String achName,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.amount = amount;
         this.virtualAccountNumber = virtualAccountNumber;
         this.tranCode = tranCode;

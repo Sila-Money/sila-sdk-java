@@ -10,5 +10,6 @@ import lombok.Data;
 public class GetInstitutionsRequest {
     
     private InstitutionSearchFilters searchFilters;
+    private String reference;
     
 }

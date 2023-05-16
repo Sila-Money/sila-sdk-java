@@ -22,8 +22,9 @@ public class BusinessMemberMsg {
     @SerializedName("details")
     private String details;
 
-    public BusinessMemberMsg(String userHandle, String authHandle, String businessHandle, String name, String uuid, String memberHandle, Float ownershipStake, String details) {
+    public BusinessMemberMsg(String userHandle, String authHandle, String businessHandle, String name, String uuid, String memberHandle, Float ownershipStake, String details,String reference) {
         this.header = new Header(userHandle, authHandle, businessHandle);
+        this.header.setReference(reference);
         this.role = name;
         this.roleUuid = uuid;
         this.memberHandle = memberHandle;
@@ -31,8 +32,9 @@ public class BusinessMemberMsg {
         this.details = details;
     }
 
-    public BusinessMemberMsg(String userHandle, String authHandle, String businessHandle, String name, String uuid) {
+    public BusinessMemberMsg(String userHandle, String authHandle, String businessHandle, String name, String uuid,String reference) {
         this.header = new Header(userHandle, authHandle, businessHandle);
+        this.header.setReference(reference);
         this.role = name;
         this.roleUuid = uuid;
     }

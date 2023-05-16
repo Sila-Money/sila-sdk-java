@@ -24,6 +24,7 @@ public class BusinessEntityMsg {
 
     public BusinessEntityMsg(String authHandle, UserHandleMessage user, BusinessEntityMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
+        this.header.setReference(user.getReference());
         this.entityName = message.getEntityName();
         this.birthdate = message.getBirthdate() == null ? null
                 : message.getBirthdate().format(DateTimeFormatter.ISO_LOCAL_DATE);

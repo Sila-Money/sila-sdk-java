@@ -8,8 +8,9 @@ public class GetVirtualAccountMsg {
 
     @SerializedName("virtual_account_id")
     private final String virtualAccountId;
-    public GetVirtualAccountMsg(String userHandle, String authHandle, String virtualAccountId) {
+    public GetVirtualAccountMsg(String userHandle, String authHandle, String virtualAccountId,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.virtualAccountId = virtualAccountId;
     }
 }

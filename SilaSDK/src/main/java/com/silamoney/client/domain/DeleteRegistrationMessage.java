@@ -11,4 +11,6 @@ public class DeleteRegistrationMessage {
     private String userPrivateKey;
     @Getter
     private String uuid;
+    @Getter
+    private String reference;
 }

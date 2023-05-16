@@ -29,4 +29,7 @@ public class AccountTransactionMessage {
     private String mockWireAccountName;
     @Getter
     private String transactionIdempotencyId;
+
+    @Getter
+    private String reference;
 }

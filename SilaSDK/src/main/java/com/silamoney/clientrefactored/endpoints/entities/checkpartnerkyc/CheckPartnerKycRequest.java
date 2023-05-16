@@ -9,5 +9,6 @@ public class CheckPartnerKycRequest {
     
     private String queryAppHandle;
     private String queryUserHandle;
+    private String reference;
     
 }

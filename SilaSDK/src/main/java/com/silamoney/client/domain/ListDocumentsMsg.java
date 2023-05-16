@@ -23,6 +23,7 @@ public class ListDocumentsMsg {
 
     public ListDocumentsMsg(String authHandle, ListDocumentsMessage message) {
         this.header = new Header(message.getUserHandle(),authHandle);
+        this.header.setReference(message.getReference());
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.startDate = message.getStartDate() != null
                 ? message.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE)

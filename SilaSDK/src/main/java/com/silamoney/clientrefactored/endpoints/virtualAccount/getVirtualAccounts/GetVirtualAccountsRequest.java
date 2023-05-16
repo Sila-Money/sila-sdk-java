@@ -8,4 +8,5 @@ import lombok.Data;
 public class GetVirtualAccountsRequest {
     private String userHandle;
     private String userPrivateKey;
+    private String reference;
 }

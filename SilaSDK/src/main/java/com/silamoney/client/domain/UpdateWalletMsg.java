@@ -19,9 +19,10 @@ public class UpdateWalletMsg {
     private final Header header;
 
     public UpdateWalletMsg(String userHandle, String nickname, boolean status,
-            String appHandle) {
+            String appHandle,String reference) {
         this.nickname = nickname;
         this.status = status;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
     }
 }

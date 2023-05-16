@@ -28,7 +28,11 @@ public class SilaApi {
         if (timeout > 0)
             this.apiClient.setTimeout(timeout);
     }
-
+    private SilaApi(Environment environment, String authHandle, String privateKey) {
+        this.authHandle = authHandle;
+        this.privateKey = privateKey;
+        this.apiClient = new ApiClient(environment);
+    }
     public static void init(Environment environment, String authHandle, String privateKey) {
         if (instance != null)
             logger.log(Level.WARNING, "SilaApi already initialized.");

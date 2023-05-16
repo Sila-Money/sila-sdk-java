@@ -11,4 +11,6 @@ public class GetDocumentMessage {
     private String userPrivateKey;
     @Getter
     private String documentId;
+    @Getter
+    private String reference;
 }

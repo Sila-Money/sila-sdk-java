@@ -14,6 +14,7 @@ public class IdentityMsg {
 
     public IdentityMsg(String authHandle, UserHandleMessage user, IdentityMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
+        this.header.setReference(user.getReference());
         this.identityAlias = message.getIdentityAlias();
         this.identityValue = message.getIdentityValue();
         this.uuid = message.getUuid();

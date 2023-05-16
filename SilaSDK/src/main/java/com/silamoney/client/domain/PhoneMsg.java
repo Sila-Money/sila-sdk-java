@@ -14,6 +14,7 @@ public class PhoneMsg {
 
     public PhoneMsg(String authHandle, UserHandleMessage user, PhoneMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
+        this.header.setReference(user.getReference());
         this.phone = message.getPhone();
         this.uuid = message.getUuid();
         this.smsOptIn = message.isSmsOptIn();

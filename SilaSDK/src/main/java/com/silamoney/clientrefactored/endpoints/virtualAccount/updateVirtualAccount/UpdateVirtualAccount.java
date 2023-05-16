@@ -26,7 +26,7 @@ public class UpdateVirtualAccount extends AbstractEndpoint {
             throws BadRequestException, InvalidAuthSignatureException, ForbiddenException {
         Map<String, Object> body = new HashMap<>();
         body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
-                .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
+                .created(EpochUtils.getEpochTime()).reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid()).build());
         body.put("virtual_account_id", request.getVirtualAccountId());
         body.put("virtual_account_name", request.getVirtualAccountName());
         body.put("active", request.getActive());

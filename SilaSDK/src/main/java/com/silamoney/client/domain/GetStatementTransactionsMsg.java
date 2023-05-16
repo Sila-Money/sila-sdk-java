@@ -34,9 +34,11 @@ public class GetStatementTransactionsMsg {
      * @param month
      * @param page
      * @param perPage
+     * @param reference
      */
-    public GetStatementTransactionsMsg(String userHandle, String authHandle, String walletId, String month, Integer page, Integer perPage) {
+    public GetStatementTransactionsMsg(String userHandle, String authHandle, String walletId, String month, Integer page, Integer perPage,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.walletId = walletId;
         this.month = month;

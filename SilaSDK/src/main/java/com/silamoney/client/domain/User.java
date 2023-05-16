@@ -2,6 +2,7 @@ package com.silamoney.client.domain;
 
 import io.reactivex.annotations.Nullable;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
@@ -45,6 +46,9 @@ public class User {
     private final String deviceFingerprint;
     @Getter
     private final String sessionIdentifier;
+    @Getter
+    @Setter
+    private String reference;
 
     /**
      * Constructor for user object.

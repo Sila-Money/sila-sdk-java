@@ -12,5 +12,6 @@ public class LinkCardRequest {
     private String token;
     private String cardName;
     private String accountPostalCode;
+    private String reference;
 
 }

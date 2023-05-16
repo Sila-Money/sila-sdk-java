@@ -32,7 +32,7 @@ public class GetInstitutions extends AbstractEndpoint {
         public static ApiResponse sendData(GetInstitutionsRequest request) {
                 Map<String, Object> body = new HashMap<>();
                 body.put("header", Header.builder().appHandle(APP_HANDLE)
-                        .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
+                        .created(EpochUtils.getEpochTime()).reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid()).build());
                 body.put("message", "header_msg");
                 if (request != null)
                         body.put("search_filters", request.getSearchFilters());
