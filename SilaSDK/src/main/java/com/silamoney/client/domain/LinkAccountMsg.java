@@ -62,9 +62,10 @@ public class LinkAccountMsg {
      * @param providerToken
      * @param provider
      * @param providerTokenType
+     * @param reference
      */
     public LinkAccountMsg(String userHandle, String accountName, String publicToken, String accountId,
-            String accountNumber, String routingNumber, String accountType, String appHandle,String providerToken,String provider,String providerTokenType) {
+            String accountNumber, String routingNumber, String accountType, String appHandle,String providerToken,String provider,String providerTokenType,String reference) {
         this.publicToken = publicToken;
         this.accountName = accountName;
         this.selectedAccountId = accountId;
@@ -72,6 +73,7 @@ public class LinkAccountMsg {
         this.routingNumber = routingNumber;
         this.accountType = accountType;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.LINK_ACCOUNT_MSG.getValue();
         this.providerToken=providerToken;
         this.provider=provider;

@@ -41,6 +41,7 @@ public class EntityMsg {
      */
     public EntityMsg(User user, String appHandle) {
         this.header = new Header(user.getHandle(), appHandle);
+        this.header.setReference(user.getReference());
         this.message = Message.ValueEnum.ENTITY_MSG.getValue();
         this.address = new Address(user);
         this.identity = new Identity(user);
@@ -63,6 +64,7 @@ public class EntityMsg {
      */
     public EntityMsg(BusinessUser user, String appHandle) {
         this.header = new Header(user.getHandle(), appHandle);
+        this.header.setReference(user.getReference());
         this.message = Message.ValueEnum.ENTITY_MSG.getValue();
         this.address = new Address(user);
         this.identity = new Identity(user);
@@ -85,6 +87,7 @@ public class EntityMsg {
      */
     public EntityMsg(User user, Device device, String appHandle) {
         this.header = new Header(user.getHandle(), appHandle);
+        this.header.setReference(user.getReference());
         this.message = Message.ValueEnum.ENTITY_MSG.getValue();
         this.address = new Address(user);
         this.identity = new Identity(user);
@@ -102,6 +105,7 @@ public class EntityMsg {
      */
     public EntityMsg(BusinessUser user, Device device, String appHandle) {
         this.header = new Header(user.getHandle(), appHandle);
+        this.header.setReference(user.getReference());
         this.message = Message.ValueEnum.ENTITY_MSG.getValue();
         this.address = new Address(user);
         this.identity = new Identity(user);

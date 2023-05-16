@@ -1,3 +1,8 @@
+v0.2.50-rc5
+Hotfix:
+    - Allowed reference as an optional input field for all API endpoint.
+    - Added provider a new input field in /delete_card.
+
 v0.2.50-rc4
 Hotfix:
     - Added request timeout as optional input field in SilaApi for all API endpoint.

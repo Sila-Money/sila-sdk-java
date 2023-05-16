@@ -11,4 +11,6 @@ public class CancelTransactionMessage {
     private String userPrivateKey;
     @Getter
     private String transactionId;
+    @Getter
+    private String reference;
 }

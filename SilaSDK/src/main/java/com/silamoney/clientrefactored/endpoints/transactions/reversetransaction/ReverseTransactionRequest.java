@@ -12,5 +12,6 @@ public class ReverseTransactionRequest {
     private String userHandle;
     private String userPrivateKey;
     private String transactionId;
+    private String reference;
     
 }

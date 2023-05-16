@@ -10,6 +10,7 @@ public class CancelTransactionMsg {
 
     public CancelTransactionMsg(String authHandle, CancelTransactionMessage message) {
         this.header = new Header(message.getUserHandle(),authHandle);
+        this.header.setReference(message.getReference());
         this.transactionId = message.getTransactionId();
     }
 }

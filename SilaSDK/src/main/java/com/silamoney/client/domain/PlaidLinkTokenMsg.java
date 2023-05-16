@@ -9,8 +9,9 @@ public class PlaidLinkTokenMsg {
     @SerializedName("android_package_name")
     private String androidPackageName;
 
-    public PlaidLinkTokenMsg(String userHandle, String authHandle, String androidPackageName) {
+    public PlaidLinkTokenMsg(String userHandle, String authHandle, String androidPackageName,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         if (androidPackageName != null)
             this.androidPackageName = androidPackageName;
     }

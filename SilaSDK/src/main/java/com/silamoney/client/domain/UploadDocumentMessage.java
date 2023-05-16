@@ -23,4 +23,6 @@ public class UploadDocumentMessage {
     private String description;
     @Getter
     private String filePath;
+    @Getter
+    private String reference;
 }

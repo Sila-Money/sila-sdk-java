@@ -20,9 +20,11 @@ public class GetAccountsMsg {
      *
      * @param userHandle
      * @param appHandle
+     * @param reference
      */
-    public GetAccountsMsg(String userHandle, String appHandle) {
+    public GetAccountsMsg(String userHandle, String appHandle,String reference){
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.GET_ACCOUNTS_MSG.getValue();
     }
 }

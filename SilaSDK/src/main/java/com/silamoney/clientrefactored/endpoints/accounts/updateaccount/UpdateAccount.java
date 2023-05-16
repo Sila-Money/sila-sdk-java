@@ -29,7 +29,7 @@ public class UpdateAccount extends AbstractEndpoint {
             throws BadRequestException, InvalidAuthSignatureException, ForbiddenException {
         Map<String, Object> body = new HashMap<>();
         body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
-                .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
+                .created(EpochUtils.getEpochTime()).reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid()).build());
         body.put("account_name", request.getAccountName());
         if (request.getNewAccountName() != null)
             body.put("new_account_name", request.getNewAccountName());

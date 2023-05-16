@@ -18,8 +18,9 @@ public class UpdateVirtualAccountMsg {
     @SerializedName("ach_debit_enabled")
     private final Boolean achDebitEnabled;
 
-    public UpdateVirtualAccountMsg(String userHandle, String appHandle, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled) {
+    public UpdateVirtualAccountMsg(String userHandle, String appHandle, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled,String reference) {
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.virtualAccountId = virtualAccountId;
         this.virtualAccountName = virtualAccountName;
         this.active = active;

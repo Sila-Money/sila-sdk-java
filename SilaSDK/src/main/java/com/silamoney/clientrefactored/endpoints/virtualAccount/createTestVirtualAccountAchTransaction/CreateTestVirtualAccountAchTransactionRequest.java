@@ -19,4 +19,5 @@ public class CreateTestVirtualAccountAchTransactionRequest {
     private String entityName;
     private String ced;
     private String achName;
+    private String reference;
 }

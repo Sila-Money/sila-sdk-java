@@ -17,8 +17,9 @@ public class PlaidSameDayAuthMsg {
 
     public PlaidSameDayAuthMsg(String userHandle,
             String accountName,
-            String appHandle) {
+            String appHandle,String reference) {
         this.accountName = accountName;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
     }
 }

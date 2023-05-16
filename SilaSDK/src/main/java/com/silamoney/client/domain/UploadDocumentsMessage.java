@@ -14,5 +14,7 @@ public class UploadDocumentsMessage {
         private String userPrivateKey;
         @Getter
         private ArrayList<UploadDocument> uploadDocumentList;
+        @Getter
+        private String reference;
     }
 

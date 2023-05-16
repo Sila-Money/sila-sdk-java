@@ -10,6 +10,7 @@ public class DeleteRegistrationMsg {
 
     public DeleteRegistrationMsg(String appHandle, DeleteRegistrationMessage message) {
         this.header = new Header(message.getUserHandle(),appHandle);
+        this.header.setReference(message.getReference());
         this.uuid = message.getUuid();
     }
 }

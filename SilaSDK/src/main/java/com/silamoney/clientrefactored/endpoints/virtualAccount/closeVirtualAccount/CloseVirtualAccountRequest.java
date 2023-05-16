@@ -11,4 +11,5 @@ public class CloseVirtualAccountRequest {
     private String userPrivateKey;
     private String virtualAccountId;
     private String accountNumber;
+    private String reference;
 }

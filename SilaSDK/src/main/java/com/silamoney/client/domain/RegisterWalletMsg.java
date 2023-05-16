@@ -19,9 +19,10 @@ public class RegisterWalletMsg {
     private final Header header;
 
     public RegisterWalletMsg(String userHandle, Wallet wallet, String wallet_verification_signature,
-            String appHandle) {
+            String appHandle,String reference) {
         this.wallet_verification_signature = wallet_verification_signature;
         this.wallet = wallet;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
     }
 }

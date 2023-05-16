@@ -18,6 +18,7 @@ public class IndividualEntityMsg {
 
     public IndividualEntityMsg(String authHandle, UserHandleMessage user, IndividualEntityMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
+        this.header.setReference(user.getReference());
         this.firstName = message.getFirstName();
         this.lastName = message.getLastName();
         this.entityName = message.getEntityName();

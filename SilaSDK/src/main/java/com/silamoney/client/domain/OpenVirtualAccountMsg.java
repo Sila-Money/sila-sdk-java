@@ -20,9 +20,10 @@ public class OpenVirtualAccountMsg {
     @SerializedName("ach_debit_enabled")
     private final Boolean achDebitEnabled;
 
-    public OpenVirtualAccountMsg(String userHandle, String appHandle, String virtualAccountName, Boolean ahcCreditEnabled, Boolean achDebitEnabled) {
+    public OpenVirtualAccountMsg(String userHandle, String appHandle, String virtualAccountName, Boolean ahcCreditEnabled, Boolean achDebitEnabled,String reference) {
         this.virtualAccountName = virtualAccountName;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.achCreditEnabled = ahcCreditEnabled;
         this.achDebitEnabled = achDebitEnabled;
     }

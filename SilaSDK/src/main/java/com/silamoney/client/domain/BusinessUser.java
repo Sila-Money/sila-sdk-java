@@ -57,6 +57,13 @@ public class BusinessUser {
     @Setter
     private String registrationState;
 
+    /**
+     * String field used for the reference.
+     */
+    @Getter
+    @Setter
+    private String reference;
+
     public BusinessUser(String handle, String addressAlias, String address, @Nullable String address2, String city,
             String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,
             String entityName, BusinessType businessType, String businessWebsite, String doingBusinessAs,

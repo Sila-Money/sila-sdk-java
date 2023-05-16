@@ -44,6 +44,7 @@ public class AccountTransactionMsg {
         this.cardName = message.getCardName();
         this.amount = message.getAmount();
         this.header = new Header(message.getUserHandle(), authHandle);
+        this.header.setReference(message.getReference());
         this.message = messageType.getValue();
         this.descriptor = message.getDescriptor();
         this.businessUuid = message.getBusinessUuid();

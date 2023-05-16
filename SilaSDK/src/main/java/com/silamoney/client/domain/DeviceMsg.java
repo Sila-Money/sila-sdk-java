@@ -13,6 +13,7 @@ public class DeviceMsg {
 
     public DeviceMsg(String authHandle, UserHandleMessage user, Device device) {
         this.header = new Header(user.getUserHandle(), authHandle);
+        this.header.setReference(user.getReference());
         this.deviceFingerPrint = device.getDeviceFingerPrint();
         this.sessionIdentifier = device.getSessionIdentifier();
     }

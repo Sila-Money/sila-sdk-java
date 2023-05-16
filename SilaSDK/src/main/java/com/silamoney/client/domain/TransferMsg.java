@@ -52,6 +52,8 @@ public class TransferMsg {
      * @param sourceId
      * @param destinationId
      * @param transactionIdempotencyId
+     * @param reference
+     *
      */
     public TransferMsg(String userHandle,
             String destination,
@@ -59,11 +61,12 @@ public class TransferMsg {
             String destinationAddress,
             String descriptor, 
             String businessUuid, 
-            String appHandle,String sourceId,String destinationId,String transactionIdempotencyId) {
+            String appHandle,String sourceId,String destinationId,String transactionIdempotencyId,String reference) {
         this.amount = amount;
         this.destination = destination;
         this.destinationAddress = destinationAddress;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.TRANSFER_MSG.getValue();
         this.descriptor = descriptor;
         this.businessUuid = businessUuid;

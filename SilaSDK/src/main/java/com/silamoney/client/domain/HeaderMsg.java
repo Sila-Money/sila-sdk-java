@@ -25,9 +25,10 @@ public class HeaderMsg {
      * @param userHandle
      * @param appHandle
      */
-    public HeaderMsg(String userHandle, String kycLevel, String appHandle) {
+    public HeaderMsg(String userHandle, String kycLevel, String appHandle,String reference) {
         this.kycLevel = kycLevel;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
     }
 
@@ -37,9 +38,10 @@ public class HeaderMsg {
      * @param userHandle
      * @param appHandle
      */
-    public HeaderMsg(String userHandle, String appHandle) {
+    public HeaderMsg(String userHandle, String appHandle,String reference) {
         this.kycLevel = null;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
     }
 }

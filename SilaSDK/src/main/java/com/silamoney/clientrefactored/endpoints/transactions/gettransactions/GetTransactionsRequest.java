@@ -12,5 +12,6 @@ public class GetTransactionsRequest {
     private String userHandle;
     private String userPrivateKey;
     private SearchFilters searchFilters;
+    private String reference;
     
 }

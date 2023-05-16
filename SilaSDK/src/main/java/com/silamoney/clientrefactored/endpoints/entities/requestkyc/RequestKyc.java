@@ -32,7 +32,7 @@ public class RequestKyc extends AbstractEndpoint {
                     .appHandle(APP_HANDLE)
                     .userHandle(request.getUserHandle())
                     .created(EpochUtils.getEpochTime())
-                    .reference(UuidUtils.generateRandomUuid())
+                    .reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid())
                     .build()
                 );
                 body.put("message", "header_msg");
