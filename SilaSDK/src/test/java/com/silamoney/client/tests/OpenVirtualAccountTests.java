@@ -7,6 +7,7 @@ import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OpenVirtualAccountTests {
     SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
@@ -39,6 +40,17 @@ public class OpenVirtualAccountTests {
         assertEquals("virtual_account_default", parsedResponse.getVirtualAccount().getVirtualAccountName());
         assertEquals(true,parsedResponse.getVirtualAccount().isAchCreditEnabled());
         assertEquals(true,parsedResponse.getVirtualAccount().isAchDebitEnabled());
+    }
+
+    @Test
+    public void Response200withStatementsEnabled() throws Exception {
+        ApiResponse response = api.openVirtualAccount(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey(),"virtual_account_new",true);
+        assertEquals(200, response.getStatusCode());
+        VirtualAccountResponse parsedResponse = (VirtualAccountResponse) response.getData();
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertEquals("virtual_account_new", parsedResponse.getVirtualAccount().getVirtualAccountName());
+        assertTrue(parsedResponse.getVirtualAccount().isStatementsEnabled());
     }
 
 }

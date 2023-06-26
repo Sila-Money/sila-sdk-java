@@ -1,11 +1,10 @@
 package com.silamoney.client.tests;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.UpdateWalletResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
@@ -13,6 +12,8 @@ import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * UpdateWalletTests
@@ -53,5 +54,16 @@ public class UpdateWalletTests {
 		ApiResponse response = api.updateWallet(DefaultConfigurations.getUserHandle(), "wallet_test", false,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(403, response.getStatusCode());
+	}
+	@Test
+	public void Response200WithStatementsEnabled() throws Exception {
+
+		ApiResponse response = api.updateWallet(DefaultConfigurations.getUserHandle(), "wallet_test_UPD", false,
+				DefaultConfigurations.getUserPrivateKey(), true);
+		assertEquals(200, response.getStatusCode());
+		UpdateWalletResponse parsedResponse = (UpdateWalletResponse) response.getData();
+		assertNotNull(parsedResponse.getWallet());
+		assertTrue(parsedResponse.getWallet().isStatementsEnabled());
+
 	}
 }

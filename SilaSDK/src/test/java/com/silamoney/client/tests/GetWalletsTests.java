@@ -1,8 +1,5 @@
 package com.silamoney.client.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
@@ -16,6 +13,8 @@ import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * GetWalletsTests
@@ -90,4 +89,20 @@ public class GetWalletsTests {
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(200, response.getStatusCode());
 	}
+
+	@Test
+	public void Response200WithStatementsEnabled() throws Exception {
+		ApiResponse response = api.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,
+				DefaultConfigurations.getUserPrivateKey());
+
+		assertEquals(200, response.getStatusCode());
+		assertNotNull(((GetWalletsResponse)response.getData()).page);
+		assertNotNull(((GetWalletsResponse)response.getData()).returnedCount);
+		assertNotNull(((GetWalletsResponse)response.getData()).totalCount);
+		assertNotNull(((GetWalletsResponse)response.getData()).totalPageCount);
+		assertNotNull(((GetWalletsResponse)response.getData()).getWallets());
+		assertNotNull(((GetWalletsResponse)response.getData()).getWallets().get(0));
+		assertFalse(((GetWalletsResponse)response.getData()).getWallets().get(0).isStatementsEnabled());
+	}
+
 }

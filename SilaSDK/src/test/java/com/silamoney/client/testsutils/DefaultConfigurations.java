@@ -522,5 +522,7 @@ public class DefaultConfigurations {
     }
 
     private static String walletId;
-
+    @Getter
+    @Setter
+    private static String statementId;
 }

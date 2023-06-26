@@ -18,5 +18,9 @@ public class Wallet {
     private transient String privateKey;
     @SerializedName("default")
     private boolean defaultWallet;
-
+    /**
+     * boolean field used for the statements enabled.
+     */
+    @SerializedName("statements_enabled")
+    private boolean statementsEnabled;
 }

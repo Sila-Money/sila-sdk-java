@@ -1,8 +1,5 @@
 package com.silamoney.client.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
@@ -15,6 +12,8 @@ import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * GetWalletTests
@@ -40,6 +39,7 @@ public class GetWalletTests {
 		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getBlockChainAddress());
 		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getBlockChainNetwork());
 		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getWalletId());
+		assertTrue(((GetWalletResponse)response.getData()).getWallet().isStatementsEnabled());
 		DefaultConfigurations.setWalletId(((GetWalletResponse)response.getData()).getWallet().getWalletId());
 	}
 

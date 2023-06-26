@@ -25,4 +25,9 @@ public class VirtualAccount {
     private boolean achCreditEnabled;
     @SerializedName("ach_debit_enabled")
     private boolean achDebitEnabled;
+    /**
+     * boolean field used for the statements enabled.
+     */
+    @SerializedName("statements_enabled")
+    private boolean statementsEnabled;
 }
