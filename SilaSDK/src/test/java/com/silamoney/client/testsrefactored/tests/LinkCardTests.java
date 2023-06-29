@@ -37,6 +37,7 @@ public class LinkCardTests {
             .userHandle(DefaultConfigurations.getUserHandle())
             .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
             .accountPostalCode("12345")
+			.provider("evolve")
             .build();
 
         ApiResponse response = LinkCard.send(request);

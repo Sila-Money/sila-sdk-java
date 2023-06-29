@@ -1968,7 +1968,24 @@ public class SilaApi {
                                 String accountPostalCode)
             throws IOException, InterruptedException {
         return linkCard(userHandle, userPrivateKey, token, cardName,
-                accountPostalCode, null);
+                accountPostalCode, null,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param cardName
+     * @param token
+     * @param accountPostalCode
+     * @param provider
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
+                                String accountPostalCode,String provider)
+            throws IOException, InterruptedException {
+        return linkCard(userHandle, userPrivateKey, token, cardName,
+                accountPostalCode, null,provider);
     }
 
     /**
@@ -1978,15 +1995,16 @@ public class SilaApi {
      * @param token
      * @param accountPostalCode
      * @param reference
+     * @param provider
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
      */
     public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
-                                String accountPostalCode, String reference)
+                                String accountPostalCode, String reference,String provider)
             throws IOException, InterruptedException {
         String path = Endpoints.LINK_CARD.getUri();
-        LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle(), reference);
+        LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle(), reference,provider);
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_CARD_MSG.getValue());
     }
