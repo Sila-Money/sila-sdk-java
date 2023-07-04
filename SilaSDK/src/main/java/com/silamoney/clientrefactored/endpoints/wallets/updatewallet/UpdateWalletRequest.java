@@ -12,5 +12,6 @@ public class UpdateWalletRequest {
     private String nickname;
     private boolean defaultWallet;
     private String reference;
+    private boolean statementsEnabled;
     
 }

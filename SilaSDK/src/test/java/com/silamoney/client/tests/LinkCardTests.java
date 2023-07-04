@@ -20,7 +20,7 @@ public class LinkCardTests {
     @Test
     public void Response200Success() throws Exception {
         ApiResponse response = api.linkCard(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), CardTokenHelper.getToken(), "visa", "12345");
+                DefaultConfigurations.getUserPrivateKey(), CardTokenHelper.getToken(), "visa", "12345","evolve");
 
         assertEquals(200, response.getStatusCode());
         LinkCardResponse parsedResponse = (LinkCardResponse) response.getData();

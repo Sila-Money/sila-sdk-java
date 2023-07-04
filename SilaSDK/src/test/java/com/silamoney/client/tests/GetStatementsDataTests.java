@@ -32,7 +32,7 @@ public class GetStatementsDataTests {
         int expectedStatementSize = 10;
         searchFilters.setPage(1);
         searchFilters.setPerPage(expectedStatementSize);
-        searchFilters.setMonth("10-2022");
+        searchFilters.setMonth("06-2023");
 
         ApiResponse response = api.getStatementsData(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey(), searchFilters);
         assertEquals(200, response.getStatusCode());

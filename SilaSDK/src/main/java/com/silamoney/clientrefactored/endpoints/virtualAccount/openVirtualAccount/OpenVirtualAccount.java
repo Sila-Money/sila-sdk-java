@@ -35,6 +35,7 @@ public class OpenVirtualAccount extends AbstractEndpoint {
                 body.put("virtual_account_name", request.getVirtualAccountName());
                 body.put("ach_credit_enabled", request.getAchCreditEnabled());
                 body.put("ach_debit_enabled", request.getAchDebitEnabled());
+                body.put("statements_enabled", request.getStatementsEnabled());
                 String serializedBody = JsonUtils.serialize(body);
                 Map<String, String> headers = new HashMap<>();
                 HeadersUtils.addAuthSignature(headers, serializedBody);

@@ -15,5 +15,6 @@ public class UpdateVirtualAccountRequest {
     private Boolean achCreditEnabled;
     private Boolean achDebitEnabled;
     private String reference;
+    private Boolean statementstEnabled;
     
 }

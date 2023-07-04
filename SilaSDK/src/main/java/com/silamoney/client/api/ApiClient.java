@@ -28,7 +28,7 @@ public class ApiClient {
     private String basePath;
 
     private static final String PRODUCT = "SilaSDK-java";
-    private static final String VERSION = "0.2.50";
+    private static final String VERSION = "0.2.51";
 
     /**
      * Gets the api base path.
@@ -174,5 +174,70 @@ public class ApiClient {
     private void addTimeout(HttpRequest.Builder request) {
         if(timeout>0)
             request.timeout(Duration.ofSeconds(timeout));
+    }
+    /**
+     * Makes the call to the sila PUT API.
+     *
+     * @param path
+     * @param headers
+     * @param body
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    @SuppressWarnings("all")
+    public HttpResponse callApiPut(String path, Map<String, String> headers, String body)
+            throws IOException, InterruptedException {
+        headers.put("User-Agent", PRODUCT + '/' + VERSION);
+        HttpRequest finalRequest = prepareRequestPut(path, headers, body);
+
+        return httpClient.send(finalRequest, BodyHandlers.ofString());
+    }
+    /**
+     * Makes the final call to the sila PUT API.
+     *
+     * @param path
+     * @param headers
+     * @param body
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private HttpRequest prepareRequestPut(String path, Map<String, String> headers, String body) {
+        var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
+
+        headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
+
+        return request.PUT(HttpRequest.BodyPublishers.ofString(body)).build();
+    }
+
+    /**
+     * Makes the call to the sila GET API.
+     *
+     * @param path
+     * @param headers
+     * @param body
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    @SuppressWarnings("all")
+    public HttpResponse callApiGet(String path, Map<String, String> headers, String body)
+            throws IOException, InterruptedException {
+        headers.put("User-Agent", PRODUCT + '/' + VERSION);
+        HttpRequest finalRequest = prepareRequestGet(path, headers, body);
+
+        return httpClient.send(finalRequest, BodyHandlers.ofString());
+    }
+
+    /**
+     * Makes the final call to the sila GET API.
+     *
+     */
+    private HttpRequest prepareRequestGet(String path, Map<String, String> headers, String body) {
+        var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
+
+        headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
+        return request.method("GET", HttpRequest.BodyPublishers.ofString(body)).build();
     }
 }

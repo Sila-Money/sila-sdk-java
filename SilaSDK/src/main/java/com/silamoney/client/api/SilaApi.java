@@ -866,10 +866,7 @@ public class SilaApi {
      */
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey)
             throws IOException, InterruptedException {
-        UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle(), null);
-        String path = Endpoints.UPDATE_WALLET.getUri();
-        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_WALLET_MSG.getValue());
+        return updateWallet(userHandle,nickname,status,userPrivateKey,null,null);
     }
 
     /**
@@ -886,7 +883,40 @@ public class SilaApi {
      */
     public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey, String reference)
             throws IOException, InterruptedException {
-        UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle(), reference);
+        return updateWallet(userHandle,nickname,status,userPrivateKey,reference,null);
+    }
+    /**
+     * Updates nickname and/or default status of a wallet.
+     *
+     * @param userHandle
+     * @param nickname
+     * @param status
+     * @param userPrivateKey
+     * @param statementsEnabled
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey, Boolean statementsEnabled)
+            throws IOException, InterruptedException {
+        return updateWallet(userHandle,nickname,status,userPrivateKey,null,statementsEnabled);
+    }
+    /**
+     * Updates statements_enabled of a wallet.
+     *
+     * @param userHandle
+     * @param nickname
+     * @param status
+     * @param userPrivateKey
+     * @param reference
+     * @param statementsEnabled
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateWallet(String userHandle, String nickname, boolean status, String userPrivateKey, String reference,Boolean statementsEnabled)
+            throws IOException, InterruptedException {
+        UpdateWalletMsg body = new UpdateWalletMsg(userHandle, nickname, status, this.configuration.getAuthHandle(),reference,statementsEnabled);
         String path = Endpoints.UPDATE_WALLET.getUri();
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_WALLET_MSG.getValue());
@@ -1938,7 +1968,24 @@ public class SilaApi {
                                 String accountPostalCode)
             throws IOException, InterruptedException {
         return linkCard(userHandle, userPrivateKey, token, cardName,
-                accountPostalCode, null);
+                accountPostalCode, null,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param cardName
+     * @param token
+     * @param accountPostalCode
+     * @param provider
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
+                                String accountPostalCode,String provider)
+            throws IOException, InterruptedException {
+        return linkCard(userHandle, userPrivateKey, token, cardName,
+                accountPostalCode, null,provider);
     }
 
     /**
@@ -1948,15 +1995,16 @@ public class SilaApi {
      * @param token
      * @param accountPostalCode
      * @param reference
+     * @param provider
      * @return {@link ApiResponse}
      * @throws IOException
      * @throws InterruptedException
      */
     public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
-                                String accountPostalCode, String reference)
+                                String accountPostalCode, String reference,String provider)
             throws IOException, InterruptedException {
         String path = Endpoints.LINK_CARD.getUri();
-        LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle(), reference);
+        LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle(), reference,provider);
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_CARD_MSG.getValue());
     }
@@ -2191,7 +2239,7 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey)
             throws IOException, InterruptedException {
-        return openVirtualAccount(userHandle, userPrivateKey, null, null, null, null);
+        return openVirtualAccount(userHandle, userPrivateKey, null, null, null, null,null);
     }
 
     /**
@@ -2235,9 +2283,21 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled)
             throws IOException, InterruptedException {
-        return openVirtualAccount(userHandle, userPrivateKey, virtualAccountName, achCreditEnabled, achDebitEnabled, null);
+        return openVirtualAccount(userHandle, userPrivateKey, virtualAccountName, achCreditEnabled, achDebitEnabled, null,null);
     }
-
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountName
+     * @param statementsEnabled
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName, Boolean statementsEnabled)
+            throws IOException, InterruptedException {
+        return openVirtualAccount(userHandle, userPrivateKey, virtualAccountName, null, null,null, statementsEnabled);
+    }
     /**
      * @param userHandle
      * @param userPrivateKey
@@ -2251,8 +2311,39 @@ public class SilaApi {
      */
     public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled, String reference)
             throws IOException, InterruptedException {
+        return openVirtualAccount(userHandle, userPrivateKey, virtualAccountName, achCreditEnabled, achDebitEnabled, reference,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountName
+     * @param achCreditEnabled
+     * @param achDebitEnabled
+     * @param statementsEnabled
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled, Boolean statementsEnabled)
+            throws IOException, InterruptedException {
+        return openVirtualAccount(userHandle, userPrivateKey, virtualAccountName, achCreditEnabled, achDebitEnabled, null,statementsEnabled);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountName
+     * @param achCreditEnabled
+     * @param achDebitEnabled
+     * @param reference
+     * @param statementsEnabled
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse openVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountName, Boolean achCreditEnabled, Boolean achDebitEnabled, String reference,Boolean statementsEnabled)
+            throws IOException, InterruptedException {
         String path = Endpoints.OPEN_VIRTUAL_ACCOUNT.getUri();
-        OpenVirtualAccountMsg body = new OpenVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountName, achCreditEnabled, achDebitEnabled, reference);
+        OpenVirtualAccountMsg body = new OpenVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountName, achCreditEnabled, achDebitEnabled, reference,statementsEnabled);
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.OPEN_VIRTUAL_ACCOUNT.getValue());
     }
@@ -2330,7 +2421,22 @@ public class SilaApi {
      */
     public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active)
             throws IOException, InterruptedException {
-        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, null, null, null);
+        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, null, null, null,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountId
+     * @param virtualAccountName
+     * @param active
+     * @param statementsEnabled
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean statementsEnabled)
+            throws IOException, InterruptedException {
+        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, null, null,null,statementsEnabled);
     }
 
     /**
@@ -2363,7 +2469,23 @@ public class SilaApi {
      */
     public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled)
             throws IOException, InterruptedException {
-        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled, null);
+        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled, null,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountId
+     * @param virtualAccountName
+     * @param active
+     * @param achCreditEnabled
+     * @param achDebitEnabled
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled,Boolean statementEnabled)
+            throws IOException, InterruptedException {
+        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled, null,statementEnabled);
     }
 
     /**
@@ -2381,8 +2503,26 @@ public class SilaApi {
      */
     public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled, String reference)
             throws IOException, InterruptedException {
+        return updateVirtualAccount(userHandle, userPrivateKey, virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled, reference,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param virtualAccountId
+     * @param virtualAccountName
+     * @param active
+     * @param achCreditEnabled
+     * @param achDebitEnabled
+     * @param reference
+     * @param statementsEnabled
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse updateVirtualAccount(String userHandle, String userPrivateKey, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled, String reference,Boolean statementsEnabled)
+            throws IOException, InterruptedException {
         String path = Endpoints.UPDATE_VIRTUAL_ACCOUNT.getUri();
-        UpdateVirtualAccountMsg body = new UpdateVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled, reference);
+        UpdateVirtualAccountMsg body = new UpdateVirtualAccountMsg(userHandle, this.configuration.getAuthHandle(), virtualAccountId, virtualAccountName, active, achCreditEnabled, achDebitEnabled, reference,statementsEnabled);
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_VIRTUAL_ACCOUNT.getValue());
     }
@@ -2758,6 +2898,7 @@ public class SilaApi {
         String defaultMonth = new SimpleDateFormat("MM-yyyy").format(cal.getTime());
         return getStatementTransactions(userHandle, userPrivateKey, walletId, defaultMonth, -1, -1);
     }
+
     /**
      * Gets a list of "get_statement_transactions" endpoint only based on userHandle, userPrivateKey and walletId.
      *
@@ -2772,6 +2913,49 @@ public class SilaApi {
         String defaultMonth = new SimpleDateFormat("MM-yyyy").format(cal.getTime());
         return getStatementTransactions(userHandle, userPrivateKey, walletId, defaultMonth, -1, -1,reference);
     }
+
+    /**
+     * Gets a value of "resendStatements" endpoint with statementId and email.
+     *
+     * @param userHandle
+     * @param userPrivateKey
+     * @param statementId
+     * @param email
+     */
+    public ApiResponse resendStatements(String userHandle, String userPrivateKey, String statementId, String email)
+            throws IOException, InterruptedException {
+        StringBuilder path = new StringBuilder().append(Endpoints.STATEMENTS.getUri()).append(SLASH).append(statementId);
+        ResendStatementMsg body = new ResendStatementMsg(userHandle, this.configuration.getAuthHandle(), statementId, email);
+        HttpResponse<?> response = getHttpResponsePut(path.toString(), body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.RESEND_STATEMENTS_MSG.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param searchFilters
+     */
+    public ApiResponse statements(String userHandle, String userPrivateKey, StatementsSearchFilters searchFilters)
+            throws IOException, InterruptedException {
+        String path = Endpoints.STATEMENTS.getUri();
+        StatementsMsg body = new StatementsMsg(userHandle, this.configuration.getAuthHandle(), searchFilters);
+        HttpResponse<?> response = getHttpResponseGet(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.STATEMENTS_MSG.getValue());
+    }
+
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     */
+    public ApiResponse statements(String userHandle, String userPrivateKey)
+            throws IOException, InterruptedException {
+        StatementsSearchFilters searchFilters = new StatementsSearchFilters();
+        searchFilters.setPage(1);
+        searchFilters.setPerPage(20);
+        return statements(userHandle, userPrivateKey, searchFilters);
+    }
+
+
     private HttpResponse<?> getHttpResponse(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
         String sBody = Serialization.serialize(body);
         Map<String, String> headers = new HashMap<>();
@@ -2781,7 +2965,43 @@ public class SilaApi {
         HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody);
         return response;
     }
+    /**
+     * Return response of PUT API call.
+     *
+     * @param path
+     * @param body
+     * @param userSignature
+     * @param authSignature
+     * @param businessPrivateKey
+     */
+    private HttpResponse<?> getHttpResponsePut(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        setSignature(userSignature, authSignature, sBody, headers);
+        if (businessPrivateKey != null)
+            headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
+        HttpResponse<?> response = this.configuration.getApiClient().callApiPut(path, headers, sBody);
+        return response;
+    }
 
+    /**
+     * Return response of GET API call.
+     *
+     * @param path
+     * @param body
+     * @param userSignature
+     * @param authSignature
+     * @param businessPrivateKey
+     */
+    private HttpResponse<?> getHttpResponseGet(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
+        String sBody = Serialization.serialize(body);
+        Map<String, String> headers = new HashMap<>();
+        setSignature(userSignature, authSignature, sBody, headers);
+        if (businessPrivateKey != null)
+            headers.put(BUSINESS_SIGNATURE, EcdsaUtil.sign(sBody, businessPrivateKey));
+        HttpResponse<?> response = this.configuration.getApiClient().callApiGet(path, headers, sBody);
+        return response;
+    }
     private void setSignature(String userSignature, String authSignature, String sBody, Map<String, String> headers) {
         if (authSignature != null)
             headers.put(AUTH_SIGNATURE, EcdsaUtil.sign(sBody, authSignature));

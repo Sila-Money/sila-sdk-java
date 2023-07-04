@@ -54,5 +54,25 @@ public class UpdateWalletTests {
         assertEquals("wallet_test_UPD", parsedResponse.getWallet().getNickname());
         assertTrue(parsedResponse.getChanges().size() > 0);
     }
-    
+    @Test
+    public void Response200WithStatementsEnabled() throws Exception {
+
+        UpdateWalletRequest request = UpdateWalletRequest.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
+                .defaultWallet(false)
+                .nickname("wallet_test_UPD")
+                .statementsEnabled(true)
+                .build();
+
+        ApiResponse response = UpdateWallet.send(request);
+        UpdateWalletResponse parsedResponse = (UpdateWalletResponse) response.getData();
+
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getStatus());
+        assertTrue(parsedResponse.isSuccess());
+        assertEquals("wallet_test_UPD", parsedResponse.getWallet().getNickname());
+        assertTrue(parsedResponse.getWallet().isStatementsEnabled());
+        assertTrue(parsedResponse.getChanges().size() > 0);
+    }
 }

@@ -26,6 +26,12 @@ public class LinkCardMsg {
     @SerializedName("account_postal_code")
     private String accountPostalCode;
 
+    /*
+    String field used for provider
+    */
+    @SerializedName("provider")
+    private final String provider;
+
     /**
      * Constructor for LinkAccountMsg object.
      *
@@ -36,12 +42,13 @@ public class LinkCardMsg {
      * @param appHandle
      */
     public LinkCardMsg(String userHandle, String token, String cardName,
-                         String accountPostalCode, String appHandle,String reference) {
+                         String accountPostalCode, String appHandle,String reference,String provider) {
         this.token = token;
         this.cardName = cardName;
         this.accountPostalCode = accountPostalCode;
         this.header = new Header(userHandle, appHandle);
         this.header.setReference(reference);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
+        this.provider=provider;
     }
 }

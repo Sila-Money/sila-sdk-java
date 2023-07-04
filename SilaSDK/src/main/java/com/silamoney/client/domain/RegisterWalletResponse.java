@@ -9,5 +9,10 @@ public class RegisterWalletResponse extends BaseResponse {
     
     @SerializedName(value = "wallet_nickname")
     private String walletNickname;
+    /**
+     * boolean field used for the statements enabled.
+     */
+    @SerializedName("statements_enabled")
+    public boolean statementsEnabled;
 
 }
