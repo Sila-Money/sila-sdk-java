@@ -55,6 +55,7 @@ public class UpdateWalletTests {
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(403, response.getStatusCode());
 	}
+
 	@Test
 	public void Response200WithStatementsEnabled() throws Exception {
 

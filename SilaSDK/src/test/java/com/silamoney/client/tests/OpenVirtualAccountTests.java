@@ -42,6 +42,7 @@ public class OpenVirtualAccountTests {
         assertEquals(true,parsedResponse.getVirtualAccount().isAchDebitEnabled());
     }
 
+
     @Test
     public void Response200withStatementsEnabled() throws Exception {
         ApiResponse response = api.openVirtualAccount(DefaultConfigurations.getUserHandle(),

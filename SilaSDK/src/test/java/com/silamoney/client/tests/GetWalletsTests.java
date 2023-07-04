@@ -90,6 +90,7 @@ public class GetWalletsTests {
 		assertEquals(200, response.getStatusCode());
 	}
 
+
 	@Test
 	public void Response200WithStatementsEnabled() throws Exception {
 		ApiResponse response = api.getWallets(DefaultConfigurations.getUserHandle(), DefaultConfigurations.filters,

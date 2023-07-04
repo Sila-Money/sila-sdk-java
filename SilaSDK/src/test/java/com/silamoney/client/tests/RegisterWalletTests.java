@@ -70,6 +70,7 @@ public class RegisterWalletTests {
 
         assertEquals(400, response.getStatusCode());
     }
+
     @Test
     public void Response200WithStatementsEnabled() throws Exception {
         Wallet wallet = api.generateWallet();
