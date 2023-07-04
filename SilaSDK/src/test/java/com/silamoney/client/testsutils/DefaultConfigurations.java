@@ -25,13 +25,12 @@ import lombok.Setter;
 public class DefaultConfigurations {
 
     public static String host = Environments.SilaEnvironment.SANDBOX.getUrl();
-    public static String appHandle = "digital_geko_e2e.silamoney.eth";
-    public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
-    // public static String appHandle = "digital_geko_e2e_new.silamoney.eth";
-    // public static String privateKey = "38663bf6b11acd93ed1a3724b13e17a17bc3c5753a1135cbdebc5f4f4abbc00b";
-
-    public static String walletWithStatements = "19d37e51-63b9-4faa-bf28-eac228caeb3b";
-
+//    public static String appHandle = "digital_geko_e2e.silamoney.eth";
+//    public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
+//    public static String walletWithStatements = "19d37e51-63b9-4faa-bf28-eac228caeb3b";
+     public static String appHandle = "arc_sandbox_test_app01";
+     public static String privateKey = "9c17e7b767b8f4a63863caf1619ef3e9967a34b287ce58542f3eb19b5a72f076";
+    public static String walletWithStatements = "1220126f-aae1-417c-baee-e664fedb71da";
     private static String userHandle;
     @Getter
     @Setter
