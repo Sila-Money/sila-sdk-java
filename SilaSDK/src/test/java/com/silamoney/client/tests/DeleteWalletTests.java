@@ -59,3 +59,4 @@ public class DeleteWalletTests {
         assertEquals(403, response.getStatusCode());
     }
 }
+
