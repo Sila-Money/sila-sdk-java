@@ -23,7 +23,6 @@ import org.junit.runners.Suite.SuiteClasses;
     AddRegistrationDataTests.class,
     UpdateRegistrationDataTests.class,
     LinkBusinessMemberTests.class,
-    UnlinkBusinessMemberTests.class,
     RequestKYCTests.class,
     CheckKYCTests.class,
     CheckPartnerKycTests.class,
@@ -37,8 +36,8 @@ import org.junit.runners.Suite.SuiteClasses;
     LinkAccountTests.class,
     CheckInstantAchTests.class,
     PlaidUpdateLinkTokenTests.class,
+    UnlinkBusinessMemberTests.class,
     UpdateAccountTests.class,
-    DeleteAccountTests.class,
     GetAccountsTests.class,
     LinkCardTests.class,
     GetCardsTests.class,
@@ -49,7 +48,6 @@ import org.junit.runners.Suite.SuiteClasses;
     GetPaymentMethodsTests.class,
     GetAccountBalanceTests.class,
     CancelTransactionTests.class,
-    CloseVirtualAccountTests.class,
     CreateTestVirtualAccountAchTransactionTests.class,
     IssueSilaTests.class,
     TransferSilaTests.class,
@@ -72,6 +70,9 @@ import org.junit.runners.Suite.SuiteClasses;
     UpdateWalletTests.class,
     DeleteWalletTests.class,
     DeleteCardTests.class,
-    SilaBalanceTests.class
+    CloseVirtualAccountTests.class,
+    SilaBalanceTests.class,
+    TearDownTests.class,
+    DeleteAccountTests.class,
 })
 public class TestSuite {}

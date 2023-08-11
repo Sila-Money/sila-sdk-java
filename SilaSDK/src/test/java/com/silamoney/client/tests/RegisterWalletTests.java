@@ -37,7 +37,7 @@ public class RegisterWalletTests {
         ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
                 wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
         assertEquals(200, response.getStatusCode());
-        DefaultConfigurations.setNewWallet(wallet);
+        DefaultConfigurations.setWallet1(wallet);
     }
     @Test
     public void Response200WithDefault() throws Exception {
@@ -81,6 +81,7 @@ public class RegisterWalletTests {
         assertEquals(200, response.getStatusCode());
         RegisterWalletResponse registerWalletResponse= (RegisterWalletResponse) response.getData();
         assertTrue(registerWalletResponse.isStatementsEnabled());
+        DefaultConfigurations.setWallet2(wallet);
 
     }
 }
