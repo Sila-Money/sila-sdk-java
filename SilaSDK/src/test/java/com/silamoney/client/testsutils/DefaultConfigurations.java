@@ -56,7 +56,12 @@ public class DefaultConfigurations {
     @Getter
     @Setter
     private static com.silamoney.clientrefactored.domain.Wallet newWalletRefactored;
-
+    @Getter
+    @Setter
+    private static com.silamoney.client.domain.Wallet wallet1;
+    @Getter
+    @Setter
+    private static com.silamoney.client.domain.Wallet wallet2;
     /**
      * @return String
      */

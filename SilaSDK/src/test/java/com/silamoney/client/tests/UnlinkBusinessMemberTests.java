@@ -19,19 +19,33 @@ public class UnlinkBusinessMemberTests {
 
         SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                         DefaultConfigurations.privateKey);
-
         @Test
         public void Response200() throws Exception {
-                ApiResponse response = api.unlinkBusinessMember(DefaultConfigurations.getUser2Handle().toLowerCase(),
-                                DefaultConfigurations.getUser2PrivateKey(), DefaultConfigurations.getBusinessHandle(),
-                                DefaultConfigurations.getBusinessPrivateKey(),
-                                DefaultConfigurations.getBusinessRole("administrator"));
+                ApiResponse  response = api.unlinkBusinessMember(DefaultConfigurations.getUserHandle().toLowerCase(),
+                        DefaultConfigurations.getUserPrivateKey(), DefaultConfigurations.getBusinessHandle(),
+                        DefaultConfigurations.getBusinessPrivateKey(),
+                        DefaultConfigurations.getBusinessRole("administrator"));
 
                 assertEquals(200, response.getStatusCode());
                 assertTrue(((LinkBusinessOperationResponse) response.getData()).isSuccess());
                 assertNotNull(((LinkBusinessOperationResponse) response.getData()).getMessage());
                 assertEquals(DefaultConfigurations.getBusinessRole("administrator").getName(),
-                                ((LinkBusinessOperationResponse) response.getData()).getRole());
+                        ((LinkBusinessOperationResponse) response.getData()).getRole());
+
+        }
+        @Test
+        public void Response200BeneficialOwner() throws Exception {
+                ApiResponse response = api.unlinkBusinessMember(DefaultConfigurations.getUser2Handle().toLowerCase(),
+                        DefaultConfigurations.getUser2PrivateKey(), DefaultConfigurations.getBusinessHandle(),
+                        DefaultConfigurations.getBusinessPrivateKey(),
+                        DefaultConfigurations.getBusinessRole("beneficial_owner"));
+
+                assertEquals(200, response.getStatusCode());
+                assertTrue(((LinkBusinessOperationResponse) response.getData()).isSuccess());
+                assertNotNull(((LinkBusinessOperationResponse) response.getData()).getMessage());
+                assertEquals(DefaultConfigurations.getBusinessRole("beneficial_owner").getName(),
+                        ((LinkBusinessOperationResponse) response.getData()).getRole());
         }
 
 }
+
