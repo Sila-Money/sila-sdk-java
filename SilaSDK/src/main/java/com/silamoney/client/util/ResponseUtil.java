@@ -44,7 +44,20 @@ public class ResponseUtil {
         }
         return new ApiResponse(statusCode, response.headers().map(), response.body().toString(), statusCode == 200);
     }
+    public static ApiResponse prepareRefundResponse(Type messageClass, HttpResponse<?> response) {
+        int statusCode = response.statusCode();
+        if (statusCode == 400) {
+            return new ApiResponse(statusCode, response.headers().map(),
+                    Serialization.deserialize(response.body().toString(), BadRequestResponse.class), false);
+        } else if (statusCode == 200||statusCode==202) {
+            return new ApiResponse(statusCode, response.headers().map(),
+                    Serialization.deserialize(response.body().toString(), messageClass), true);
+        }else{
+            return new ApiResponse(statusCode, response.headers().map(),
+                    Serialization.deserialize(response.body().toString(), BaseResponse.class), false);
+        }
 
+    }
     /**
      * Creates an ApiResponse based on the sent HttpResponse.
      *
@@ -349,7 +362,14 @@ public class ResponseUtil {
             StatementsResponse statementsResponse = (StatementsResponse) Serialization
                     .deserialize(response.body().toString(), StatementsResponse.class);
             return new ApiResponse(statusCode, response.headers().map(), statementsResponse, success);
-
+        case "refund_debit_card_msg":
+            RefundDebitCardResponse refundDebitCardResponse = (RefundDebitCardResponse) Serialization
+                    .deserialize(response.body().toString(), RefundDebitCardResponse.class);
+            return new ApiResponse(statusCode, response.headers().map(), refundDebitCardResponse, success);
+        case "create_cko_testing_token_msg":
+            CreateCkoTestingTokenResponse createCkoTestingTokenResponse = (CreateCkoTestingTokenResponse) Serialization
+                    .deserialize(response.body().toString(), CreateCkoTestingTokenResponse.class);
+            return new ApiResponse(statusCode, response.headers().map(), createCkoTestingTokenResponse, success);
         default:
             BaseResponse baseResponse = (BaseResponse) Serialization.deserialize(response.body().toString(),
                     BaseResponse.class);

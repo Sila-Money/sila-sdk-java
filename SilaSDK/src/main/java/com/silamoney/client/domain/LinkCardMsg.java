@@ -32,6 +32,12 @@ public class LinkCardMsg {
     @SerializedName("provider")
     private final String provider;
 
+    /*
+    Boolean field used for skip_verification
+    */
+    @SerializedName("skip_verification")
+    private final Boolean skipVerification;
+
     /**
      * Constructor for LinkAccountMsg object.
      *
@@ -42,7 +48,7 @@ public class LinkCardMsg {
      * @param appHandle
      */
     public LinkCardMsg(String userHandle, String token, String cardName,
-                         String accountPostalCode, String appHandle,String reference,String provider) {
+                         String accountPostalCode, String appHandle,String reference,String provider,Boolean skipVerification) {
         this.token = token;
         this.cardName = cardName;
         this.accountPostalCode = accountPostalCode;
@@ -50,5 +56,6 @@ public class LinkCardMsg {
         this.header.setReference(reference);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.provider=provider;
+        this.skipVerification=skipVerification;
     }
 }

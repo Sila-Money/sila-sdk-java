@@ -39,6 +39,11 @@ public class RequestKYCTests {
 				DefaultConfigurations.getUser2PrivateKey());
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+
+		response = api.requestKYC(DefaultConfigurations.getUser5Handle(), null,
+				DefaultConfigurations.getUser5PrivateKey());
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
 
 	@Test

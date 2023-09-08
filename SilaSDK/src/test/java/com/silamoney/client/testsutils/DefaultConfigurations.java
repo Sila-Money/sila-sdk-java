@@ -31,6 +31,7 @@ public class DefaultConfigurations {
      public static String appHandle = "arc_sandbox_test_app01";
      public static String privateKey = "9c17e7b767b8f4a63863caf1619ef3e9967a34b287ce58542f3eb19b5a72f076";
     public static String walletWithStatements = "1220126f-aae1-417c-baee-e664fedb71da";
+    public static String ckoPublicKey="pk_sbox_i2uzy5w5nsllogfsc4xdscorcii";
     private static String userHandle;
     @Getter
     @Setter
@@ -312,7 +313,35 @@ public class DefaultConfigurations {
 
         return user4CryptoAddress;
     }
+    private static String user5CryptoAddress;
 
+    /**
+     * @return String
+     */
+    public static String getUser5CryptoAddress() {
+        if (user4CryptoAddress == null || user4CryptoAddress.isBlank()) {
+            try {
+
+                ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+                BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+                user5PrivateKey = privateKeyInDec.toString(16);
+
+                WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+                user5CryptoAddress = "0x" + aWallet.getAddress();
+            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+                     | CipherException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user5CryptoAddress;
+    }
+    public static String getUser5PrivateKey() {
+        return user5PrivateKey;
+    }
+
+    private static String user5PrivateKey;
     public static String getUser4PrivateKey() {
         return user4PrivateKey;
     }
@@ -529,4 +558,28 @@ public class DefaultConfigurations {
     @Getter
     @Setter
     private static String statementId;
+
+    @Getter
+    @Setter
+    private static String ckoToken;
+
+    private static String cardName;
+
+    /**
+     * @return String
+     */
+    public static String getCardName() {
+        cardName = cardName == null || cardName.isBlank() ? "visa" + new Random().nextInt(8) : cardName;
+        return cardName;
+    }
+
+    private static String user5Handle;
+
+    /**
+     * @return String
+     */
+    public static String getUser5Handle() {
+        user5Handle = user5Handle == null || user5Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user5Handle;
+        return user5Handle;
+    }
 }

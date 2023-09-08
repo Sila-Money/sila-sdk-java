@@ -30,6 +30,7 @@ public class LinkCard extends AbstractEndpoint {
         body.put("card_name", request.getCardName());
         body.put("account_postal_code", request.getAccountPostalCode());
         body.put("provider", request.getProvider());
+        body.put("skip_verification",request.getSkipVerification());
 
         String serializedBody = JsonUtils.serialize(body);
 

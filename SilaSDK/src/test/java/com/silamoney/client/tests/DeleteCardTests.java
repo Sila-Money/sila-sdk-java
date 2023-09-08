@@ -21,6 +21,9 @@ public class DeleteCardTests {
         ApiResponse response = api.deleteCard(DefaultConfigurations.getUserHandle(), "visa",
                 DefaultConfigurations.getUserPrivateKey(),"evolve");
         assertEquals(200, response.getStatusCode());
+        response = api.deleteCard(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getCardName(),
+                DefaultConfigurations.getUser5PrivateKey(), "cko");
+        assertEquals(200, response.getStatusCode());
     }
 
 }

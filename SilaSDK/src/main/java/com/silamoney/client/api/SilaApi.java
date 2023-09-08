@@ -1968,7 +1968,24 @@ public class SilaApi {
                                 String accountPostalCode)
             throws IOException, InterruptedException {
         return linkCard(userHandle, userPrivateKey, token, cardName,
-                accountPostalCode, null,null);
+                accountPostalCode, null,null,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param cardName
+     * @param token
+     * @param accountPostalCode
+     * @param skipVerification
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
+                                String accountPostalCode,Boolean skipVerification)
+            throws IOException, InterruptedException {
+        return linkCard(userHandle, userPrivateKey, token, cardName,
+                accountPostalCode, null,null,skipVerification);
     }
     /**
      * @param userHandle
@@ -1987,7 +2004,23 @@ public class SilaApi {
         return linkCard(userHandle, userPrivateKey, token, cardName,
                 accountPostalCode, null,provider);
     }
-
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param cardName
+     * @param token
+     * @param accountPostalCode
+     * @param provider
+     * @param skipVerification
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
+                                String accountPostalCode,String provider,Boolean skipVerification) throws IOException, InterruptedException {
+        return linkCard(userHandle, userPrivateKey, token, cardName,
+                accountPostalCode, null,provider,skipVerification);
+    }
     /**
      * @param userHandle
      * @param userPrivateKey
@@ -2001,13 +2034,32 @@ public class SilaApi {
      * @throws InterruptedException
      */
     public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
-                                String accountPostalCode, String reference,String provider)
+                                String accountPostalCode, String reference,String provider) throws IOException, InterruptedException {
+        return linkCard(userHandle, userPrivateKey, token, cardName,
+                accountPostalCode, reference,provider,null);
+    }
+    /**
+     * @param userHandle
+     * @param userPrivateKey
+     * @param cardName
+     * @param token
+     * @param accountPostalCode
+     * @param reference
+     * @param provider
+     * @param skipVerification
+     * @return {@link ApiResponse}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse linkCard(String userHandle, String userPrivateKey, String token, String cardName,
+                                String accountPostalCode, String reference,String provider,Boolean skipVerification)
             throws IOException, InterruptedException {
         String path = Endpoints.LINK_CARD.getUri();
-        LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle(), reference,provider);
+        LinkCardMsg body = new LinkCardMsg(userHandle, token, cardName, accountPostalCode, this.configuration.getAuthHandle(), reference,provider,skipVerification);
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.LINK_CARD_MSG.getValue());
     }
+
 
     /**
      * Gets card names linked to user handle.
@@ -2955,6 +3007,37 @@ public class SilaApi {
         return statements(userHandle, userPrivateKey, searchFilters);
     }
 
+    /**
+     *
+     * requested handle.
+     *
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse createCkoTestingToken(CreateCkoTestingTokenMessage message) throws IOException, InterruptedException {
+        String path = Endpoints.CREATE_CKO_TESTING_TOKEN.getUri();
+        CreateCkoTestingTokenMsg body = new CreateCkoTestingTokenMsg(this.configuration.getAuthHandle(), message);
+        HttpResponse<?> response = getHttpResponse(path, body,message.getUserPrivateKey(), this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CREATE_CKO_TESTING_TOKEN_MSG.getValue());
+    }
+
+    /**
+     *
+     * requested handle.
+     *
+     * @param message
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse refundDebitCard(RefundDebitCardMessage message) throws IOException, InterruptedException {
+        String path = Endpoints.REFUND_DEBIT_CARD.getUri();
+        RefundDebitCardMsg body = new RefundDebitCardMsg(this.configuration.getAuthHandle(), message);
+        HttpResponse<?> response = getHttpResponse(path, body,message.getUserPrivateKey(), this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareRefundResponse(RefundDebitCardResponse.class,response);
+    }
 
     private HttpResponse<?> getHttpResponse(String path, Object body, String userSignature, String authSignature, String businessPrivateKey) throws IOException, InterruptedException {
         String sBody = Serialization.serialize(body);
