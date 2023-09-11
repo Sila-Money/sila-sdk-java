@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>0.2.51</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>Silamoney SDK</name>
@@ -19,12 +19,6 @@
     </licenses>
 
     <developers>
-        <developer>
-            <name>Aditi Pancholi</name>
-            <email>aditi@arcgate.com</email>
-            <organization>ArcGate</organization>
-            <organizationUrl>https://www.arcgate.com/</organizationUrl>
-        </developer>
         <developer>
             <name>Anuj Kalal</name>
             <email>akalal@arcgate.com</email>

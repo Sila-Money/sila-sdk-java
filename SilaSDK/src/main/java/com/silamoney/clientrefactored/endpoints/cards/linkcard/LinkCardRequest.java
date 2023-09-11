@@ -14,4 +14,5 @@ public class LinkCardRequest {
     private String accountPostalCode;
     private String reference;
     private String provider;
+    private Boolean skipVerification;
 }

@@ -127,4 +127,17 @@ public class RegisterTests {
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
+
+	@Test
+	public void Response200WithCKO() throws Exception {
+		// HANDLE2
+		LocalDate birthdate = new LocalDate(1989, 01, 31);
+		User user = new User(DefaultConfigurations.getUser5Handle(), "Example", "User", "123 Main Street", null,
+				"New City", "OR", "97204-1234", "503-123-4567", "example"+new Random().nextInt()+"@silamoney.com", "975865809",
+				DefaultConfigurations.getUser5CryptoAddress(), birthdate.toDate(), "US", "asdfghjkl",DefaultConfigurations.sessionIdentifier);
+
+		ApiResponse response = api.register(user);
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 }

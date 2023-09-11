@@ -105,5 +105,24 @@ public class CheckKYCTests {
 
 
     }
+    @Test
+    public void Response200withCko() throws Exception {
+
+        ApiResponse response = api.checkKYC(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
+
+        CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
+
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getEntityType());
+        assertNotNull(parsedResponse.getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationId());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getVerificationStatus());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getKycLevel());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getReasons());
+        assertNotNull(parsedResponse.getVerificationHistory().get(0).getTags());
+
+
+    }
 
 }
