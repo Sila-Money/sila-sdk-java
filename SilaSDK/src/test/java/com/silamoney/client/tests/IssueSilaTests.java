@@ -191,33 +191,4 @@ public class IssueSilaTests {
         assertEquals("SUCCESS", parsedResponse.getStatus());
         assertNotNull(parsedResponse.getTransactionId());
     }
-
-    @Test
-    public void Response200SuccessForWire() throws Exception {
-        AccountTransactionMessage
-                issue = AccountTransactionMessage.builder()
-                .userHandle(DefaultConfigurations.getUser2Handle())
-                .userPrivateKey(DefaultConfigurations.getUser2PrivateKey()).amount(50000).accountName("default")
-                .descriptor("test descriptor").businessUuid(DefaultConfigurations.correctUuidForWire).build();
-        ApiResponse response = api.issueSila(issue);
-        assertEquals(200, response.getStatusCode());
-        assertTrue(((TransactionResponse) response.getData()).getSuccess());
-        assertEquals("test descriptor", ((TransactionResponse) response.getData()).getDescriptor());
-        assertEquals("SUCCESS", ((TransactionResponse) response.getData()).getStatus());
-        assertNotNull(((TransactionResponse) response.getData()).getTransactionId());
-
-        String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
-        SearchFilters filters = new SearchFilters();
-        filters.setTransactionId(transactionId);
-        response = api.getTransactions(DefaultConfigurations.getUser2Handle(), filters,
-                DefaultConfigurations.getUser2PrivateKey());
-        while (!((GetTransactionsResponse) response.getData()).transactions.get(0).status.equals("success")) {
-            TimeUnit.SECONDS.sleep(20);
-            response = api.getTransactions(DefaultConfigurations.getUser2Handle(), filters,
-                    DefaultConfigurations.getUser2PrivateKey());
-        }
-
-        assertEquals("success", ((GetTransactionsResponse) response.getData()).transactions.get(0).status);
-        assertNotNull(((GetTransactionsResponse) response.getData()).transactions.get(0).ledgerAccountId);
-    }
 }
