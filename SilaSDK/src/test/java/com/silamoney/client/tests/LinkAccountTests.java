@@ -55,6 +55,7 @@ public class LinkAccountTests {
 
 		response = api.linkAccount(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey(),
 				"defaultunlink", "123456789013", "123456780", "CHECKING");
+
 		assertEquals(200, response.getStatusCode());
 
 		response = api.linkAccount(DefaultConfigurations.getUserHandle(),
