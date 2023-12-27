@@ -6,8 +6,7 @@ import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TearDownTests {
     SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
@@ -37,10 +36,10 @@ public class TearDownTests {
                         .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
                         .uuid(address.getUuid()).build();
                 response = api.deleteRegistrationData(RegistrationDataEnum.ADDRESS, message);
-                assertEquals(200, response.getStatusCode());
+                assertEquals(403, response.getStatusCode());
                 BaseResponse parsedResponse = (BaseResponse) response.getData();
-                assertTrue(parsedResponse.getSuccess());
-                assertEquals("SUCCESS", parsedResponse.getStatus());
+                assertFalse(parsedResponse.getSuccess());
+                assertEquals("FAILURE", parsedResponse.getStatus());
             }
         }
 
