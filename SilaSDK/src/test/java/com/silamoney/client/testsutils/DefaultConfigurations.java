@@ -569,7 +569,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getCardName() {
-        cardName = cardName == null || cardName.isBlank() ? "visa" + new Random().nextInt(8) : cardName;
+        cardName = cardName == null || cardName.isBlank() ? "cko" + new Random().nextInt(8) : cardName;
         return cardName;
     }
 
