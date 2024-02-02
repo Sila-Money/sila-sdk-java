@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import com.silamoney.client.domain.*;
 
-import org.web3j.crypto.CipherException;
+import org.web3j.crypto.exception.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
@@ -569,7 +569,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getCardName() {
-        cardName = cardName == null || cardName.isBlank() ? "visa" + new Random().nextInt(8) : cardName;
+        cardName = cardName == null || cardName.isBlank() ? "cko" + new Random().nextInt(8) : cardName;
         return cardName;
     }
 

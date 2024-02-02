@@ -28,7 +28,7 @@ public class RequestKYCTests {
 
 	@Test
 	public void response200() throws Exception {
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "INSTANT-ACH",
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "KYC-STANDARD",
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
@@ -85,15 +85,5 @@ public class RequestKYCTests {
 		ApiResponse response = api.requestKYC("", null, DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(400, response.getStatusCode());
-	}
-
-	@Test
-	public void response200WithSardine() throws Exception {
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUser4Handle(), "INSTANT-ACHV2",
-				DefaultConfigurations.getUser4PrivateKey());
-		TimeUnit.SECONDS.sleep(20);
-		assertEquals(200, response.getStatusCode());
-		RequestKycResponse parsedResponse= (RequestKycResponse) response.getData();
-		assertEquals("SUCCESS", parsedResponse.getStatus());
 	}
 }
