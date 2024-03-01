@@ -1,3 +1,6 @@
+v1.0.3
+    - Upgraded various packages for security.
+
 v1.0.2
     - Added notices.txt
 

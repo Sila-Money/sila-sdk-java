@@ -17,7 +17,7 @@ import com.silamoney.client.util.ResponseUtil;
 import com.silamoney.client.util.Serialization;
 import com.silamoney.client.domain.WebhookSearchFilters;
 import org.jetbrains.annotations.NotNull;
-import org.web3j.crypto.exception.CipherException;
+import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.WalletFile;
