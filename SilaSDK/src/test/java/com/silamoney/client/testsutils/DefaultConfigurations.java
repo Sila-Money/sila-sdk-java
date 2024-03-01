@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import com.silamoney.client.domain.*;
 
-import org.web3j.crypto.CipherException;
+import org.web3j.crypto.exception.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;

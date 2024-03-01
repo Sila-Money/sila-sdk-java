@@ -7,7 +7,7 @@ import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.web3j.crypto.*;
-import org.web3j.crypto.CipherException;
+import org.web3j.crypto.exception.CipherException;
 import org.web3j.crypto.Wallet;
 
 import java.math.BigInteger;
