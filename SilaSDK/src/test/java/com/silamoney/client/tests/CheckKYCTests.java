@@ -89,7 +89,7 @@ public class CheckKYCTests {
 
     @Test
     public void Response200withCko() throws Exception {
-
+//TODO: BROKEN TEST
         ApiResponse response = api.checkKYC(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
 
         CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();

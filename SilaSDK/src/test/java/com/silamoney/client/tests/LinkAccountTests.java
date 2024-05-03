@@ -101,6 +101,7 @@ public class LinkAccountTests {
 
 	@Test
 	public void Response200SuccessWithSardine() throws Exception {
+		//TODO: BROKEN TEST
 		// BANKACCOUNT1
 		ApiResponse response = api.linkAccount(DefaultConfigurations.getUser4Handle(),
 				DefaultConfigurations.getUser4PrivateKey(), "defaultptsardine",DefaultConfigurations.getPlaidToken2());
