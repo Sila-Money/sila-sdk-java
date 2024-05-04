@@ -142,7 +142,6 @@ public class AddRegistrationDataTests {
 
         @Test
         public void Response200DeviceWithSessionIdentifier() throws Exception {
-                //TODO: BROKEN TEST
                 UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUser2Handle())
                         .userPrivateKey(DefaultConfigurations.getUser2PrivateKey()).build();
                 Device device = new Device("12345678909876",DefaultConfigurations.sessionIdentifier);

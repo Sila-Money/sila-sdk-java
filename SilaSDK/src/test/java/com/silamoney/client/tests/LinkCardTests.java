@@ -28,7 +28,6 @@ public class LinkCardTests {
     }
     @Test
     public void Response200SuccessWithCKO() throws Exception {
-        //TODO: BROKEN TEST
         ApiResponse response = api.linkCard(DefaultConfigurations.getUser5Handle(),
                 DefaultConfigurations.getUser5PrivateKey(), DefaultConfigurations.getCkoToken(), DefaultConfigurations.getCardName(), null,"cko");
 

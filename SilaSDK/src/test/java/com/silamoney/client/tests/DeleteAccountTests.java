@@ -18,7 +18,6 @@ public class DeleteAccountTests {
 
     @Test
     public void Response200() throws IOException, InterruptedException {
-//TODO: BROKEN TEST
         ApiResponse response = api.deleteAccount(DefaultConfigurations.getUserHandle(), "defaultunlink",
                 DefaultConfigurations.getUserPrivateKey());
 
