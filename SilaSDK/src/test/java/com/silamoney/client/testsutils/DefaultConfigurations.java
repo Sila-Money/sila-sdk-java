@@ -515,7 +515,8 @@ public class DefaultConfigurations {
     /**
      * Default session_identifier
      */
-    public static String sessionIdentifier = "ppppp-aaaa-dddd-99ce-c45944174e0c";
+    public static String sessionIdentifier = String.valueOf(UUID.randomUUID());
+    public static String user4SessionIdentifier = String.valueOf(UUID.randomUUID());
     private static String plaidToken2;
 
     /**
