@@ -28,7 +28,6 @@ public class RequestKYCTests {
 
 	@Test
 	public void response200() throws Exception {
-		//TODO: BROKEN TEST
 		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "KYC-STANDARD",
 				DefaultConfigurations.getUserPrivateKey());
 
