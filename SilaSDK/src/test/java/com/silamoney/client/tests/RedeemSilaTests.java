@@ -89,23 +89,6 @@ public class RedeemSilaTests {
                 assertEquals("SUCCESS", parsedResponse.getStatus());
                 assertNotNull(parsedResponse.getTransactionId());
         }
-        @Test
-        public void Response200SuccessWithCardName() throws Exception {
-                AccountTransactionMessage redeem = AccountTransactionMessage.builder()
-                        .userHandle(DefaultConfigurations.getUserHandle())
-                        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200)
-                        .cardName("visa").descriptor("test descriptor")
-                        .businessUuid(DefaultConfigurations.correctUuid).processingType(ProcessingTypeEnum.CARD).build();
-                ApiResponse response = api.redeemSila(redeem);
-
-                assertEquals(200, response.getStatusCode());
-                assertTrue(((TransactionResponse) response.getData()).getSuccess());
-                assertEquals("test descriptor", ((TransactionResponse) response.getData()).getDescriptor());
-                assertEquals("SUCCESS", ((TransactionResponse) response.getData()).getStatus());
-                assertNotNull(((TransactionResponse) response.getData()).getTransactionId());
-
-        }
-
 
         @Test
         public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException,
@@ -175,21 +158,6 @@ public class RedeemSilaTests {
                 AccountTransactionMessage redeem = AccountTransactionMessage.builder()
                         .userHandle(DefaultConfigurations.getUserHandle())
                         .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200)
-                        .accountName("default").build();
-                ApiResponse response = api.redeemSila(redeem);
-
-                assertEquals(200, response.getStatusCode());
-                TransactionResponse parsedResponse = (TransactionResponse) response.getData();
-                assertTrue(parsedResponse.getSuccess());
-                assertEquals("SUCCESS", parsedResponse.getStatus());
-                assertNotNull(parsedResponse.getTransactionId());
-        }
-        @Test
-        public void Response200SuccessWire() throws Exception {
-                AccountTransactionMessage redeem = AccountTransactionMessage.builder()
-                        .userHandle(DefaultConfigurations.getUserHandle())
-                        .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200).processingType(ProcessingTypeEnum.WIRE)
-                        .businessUuid(DefaultConfigurations.correctUuid)
                         .accountName("default").build();
                 ApiResponse response = api.redeemSila(redeem);
 

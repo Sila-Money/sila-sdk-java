@@ -223,7 +223,20 @@ public class Message {
         /**
          * String value for GetStatementTransactions.
          */
-        GET_STATEMENT_TRANSACTIONS_MSG("get_statement_transactions_msg");
+        GET_STATEMENT_TRANSACTIONS_MSG("get_statement_transactions_msg"),
+        /**
+         * String value for resendStatements.
+         */
+        RESEND_STATEMENTS_MSG("resend_statements_msg"),
+        /**
+         * String value for statements.
+         */
+        STATEMENTS_MSG("statements_msg"),
+        /**
+         * String value for create cko testing token.
+         */
+        CREATE_CKO_TESTING_TOKEN_MSG("create_cko_testing_token_msg");
+
 
         private final String value;
 

@@ -3,6 +3,7 @@ package com.silamoney.client.domain;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Class for Registering Wallet Endpoint
@@ -38,6 +39,14 @@ public class Wallet {
     @Getter
     public String walletId;
 
+    /**
+     * boolean field used for the statements enabled.
+     */
+    @Getter
+    @Setter
+    @SerializedName("statements_enabled")
+    public boolean statementsEnabled;
+
     public Wallet(String blockChainAddress, String blockChainNetwork, String nickname) {
         this.blockChainAddress = blockChainAddress;
         this.blockChainNetwork = blockChainNetwork;
@@ -50,6 +59,7 @@ public class Wallet {
         this.privateKey = privateKey;
         this.nickname = nickname;
     }
+
     public Wallet(String blockChainAddress, String privateKey, String blockChainNetwork, String nickname,boolean defaultWallet) {
         this.blockChainAddress = blockChainAddress;
         this.blockChainNetwork = blockChainNetwork;

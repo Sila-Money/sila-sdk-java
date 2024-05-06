@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import com.silamoney.client.domain.*;
 
-import org.web3j.crypto.CipherException;
+import org.web3j.crypto.exception.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
@@ -25,13 +25,13 @@ import lombok.Setter;
 public class DefaultConfigurations {
 
     public static String host = Environments.SilaEnvironment.SANDBOX.getUrl();
-    public static String appHandle = "digital_geko_e2e.silamoney.eth";
-    public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
-    // public static String appHandle = "digital_geko_e2e_new.silamoney.eth";
-    // public static String privateKey = "38663bf6b11acd93ed1a3724b13e17a17bc3c5753a1135cbdebc5f4f4abbc00b";
-
-    public static String walletWithStatements = "19d37e51-63b9-4faa-bf28-eac228caeb3b";
-
+//    public static String appHandle = "digital_geko_e2e.silamoney.eth";
+//    public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
+//    public static String walletWithStatements = "19d37e51-63b9-4faa-bf28-eac228caeb3b";
+     public static String appHandle = "arc_sandbox_test_app01";
+     public static String privateKey = "9c17e7b767b8f4a63863caf1619ef3e9967a34b287ce58542f3eb19b5a72f076";
+    public static String walletWithStatements = "1220126f-aae1-417c-baee-e664fedb71da";
+    public static String ckoPublicKey="pk_sbox_i2uzy5w5nsllogfsc4xdscorcii";
     private static String userHandle;
     @Getter
     @Setter
@@ -57,7 +57,12 @@ public class DefaultConfigurations {
     @Getter
     @Setter
     private static com.silamoney.clientrefactored.domain.Wallet newWalletRefactored;
-
+    @Getter
+    @Setter
+    private static com.silamoney.client.domain.Wallet wallet1;
+    @Getter
+    @Setter
+    private static com.silamoney.client.domain.Wallet wallet2;
     /**
      * @return String
      */
@@ -308,7 +313,35 @@ public class DefaultConfigurations {
 
         return user4CryptoAddress;
     }
+    private static String user5CryptoAddress;
 
+    /**
+     * @return String
+     */
+    public static String getUser5CryptoAddress() {
+        if (user4CryptoAddress == null || user4CryptoAddress.isBlank()) {
+            try {
+
+                ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+                BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+                user5PrivateKey = privateKeyInDec.toString(16);
+
+                WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+                user5CryptoAddress = "0x" + aWallet.getAddress();
+            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+                     | CipherException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return user5CryptoAddress;
+    }
+    public static String getUser5PrivateKey() {
+        return user5PrivateKey;
+    }
+
+    private static String user5PrivateKey;
     public static String getUser4PrivateKey() {
         return user4PrivateKey;
     }
@@ -482,7 +515,8 @@ public class DefaultConfigurations {
     /**
      * Default session_identifier
      */
-    public static String sessionIdentifier = "ppppp-aaaa-dddd-99ce-c45944174e0c";
+    public static String sessionIdentifier = String.valueOf(UUID.randomUUID());
+    public static String user4SessionIdentifier = String.valueOf(UUID.randomUUID());
     private static String plaidToken2;
 
     /**
@@ -522,5 +556,31 @@ public class DefaultConfigurations {
     }
 
     private static String walletId;
+    @Getter
+    @Setter
+    private static String statementId;
 
+    @Getter
+    @Setter
+    private static String ckoToken;
+
+    private static String cardName;
+
+    /**
+     * @return String
+     */
+    public static String getCardName() {
+        cardName = cardName == null || cardName.isBlank() ? "cko" + new Random().nextInt(8) : cardName;
+        return cardName;
+    }
+
+    private static String user5Handle;
+
+    /**
+     * @return String
+     */
+    public static String getUser5Handle() {
+        user5Handle = user5Handle == null || user5Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user5Handle;
+        return user5Handle;
+    }
 }

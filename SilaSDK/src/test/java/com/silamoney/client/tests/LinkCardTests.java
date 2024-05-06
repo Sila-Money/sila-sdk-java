@@ -20,7 +20,16 @@ public class LinkCardTests {
     @Test
     public void Response200Success() throws Exception {
         ApiResponse response = api.linkCard(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), CardTokenHelper.getToken(), "visa", "12345");
+                DefaultConfigurations.getUserPrivateKey(), CardTokenHelper.getToken(), "cko", "12345","evolve");
+
+        assertEquals(200, response.getStatusCode());
+        LinkCardResponse parsedResponse = (LinkCardResponse) response.getData();
+        assertEquals("SUCCESS", parsedResponse.getStatus());
+    }
+    @Test
+    public void Response200SuccessWithCKO() throws Exception {
+        ApiResponse response = api.linkCard(DefaultConfigurations.getUser5Handle(),
+                DefaultConfigurations.getUser5PrivateKey(), DefaultConfigurations.getCkoToken(), DefaultConfigurations.getCardName(), null,"cko");
 
         assertEquals(200, response.getStatusCode());
         LinkCardResponse parsedResponse = (LinkCardResponse) response.getData();

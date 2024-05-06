@@ -7,6 +7,7 @@ import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.web3j.crypto.*;
+import org.web3j.crypto.exception.CipherException;
 import org.web3j.crypto.Wallet;
 
 import java.math.BigInteger;
@@ -32,7 +33,7 @@ public class GetStatementsDataTests {
         int expectedStatementSize = 10;
         searchFilters.setPage(1);
         searchFilters.setPerPage(expectedStatementSize);
-        searchFilters.setMonth("10-2022");
+        searchFilters.setMonth("06-2023");
 
         ApiResponse response = api.getStatementsData(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey(), searchFilters);
         assertEquals(200, response.getStatusCode());

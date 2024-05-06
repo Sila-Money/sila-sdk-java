@@ -1,11 +1,13 @@
 package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.RegisterWalletResponse;
 import com.silamoney.client.domain.Wallet;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
@@ -35,7 +37,7 @@ public class RegisterWalletTests {
         ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
                 wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
         assertEquals(200, response.getStatusCode());
-        DefaultConfigurations.setNewWallet(wallet);
+        DefaultConfigurations.setWallet1(wallet);
     }
     @Test
     public void Response200WithDefault() throws Exception {
@@ -67,5 +69,19 @@ public class RegisterWalletTests {
                 wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
 
         assertEquals(400, response.getStatusCode());
+    }
+
+    @Test
+    public void Response200WithStatementsEnabled() throws Exception {
+        Wallet wallet = api.generateWallet();
+        String wallet_verification_signature = EcdsaUtil.sign(wallet.getBlockChainAddress(), wallet.getPrivateKey());
+        wallet.setStatementsEnabled(true);
+        ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
+                wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
+        assertEquals(200, response.getStatusCode());
+        RegisterWalletResponse registerWalletResponse= (RegisterWalletResponse) response.getData();
+        assertTrue(registerWalletResponse.isStatementsEnabled());
+        DefaultConfigurations.setWallet2(wallet);
+
     }
 }

@@ -25,8 +25,8 @@ public class GetWalletStatementDataTests {
         StatementSearchFilters searchFilters = new StatementSearchFilters();
         searchFilters.setPage(1);
         searchFilters.setPerPage(20);
-        searchFilters.setStartMonth("10-2022");
-        searchFilters.setEndMonth("10-2022");
+        searchFilters.setStartMonth("06-2023");
+        searchFilters.setEndMonth("06-2023");
 
         ApiResponse response = api.getWalletStatementData(
                 DefaultConfigurations.getUserHandle(),
