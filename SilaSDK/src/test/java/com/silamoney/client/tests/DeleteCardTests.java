@@ -17,7 +17,6 @@ public class DeleteCardTests {
 
     @Test
     public void Response200() throws IOException, InterruptedException {
-
         ApiResponse response = api.deleteCard(DefaultConfigurations.getUserHandle(), "cko",
                 DefaultConfigurations.getUserPrivateKey(),"evolve");
         assertEquals(200, response.getStatusCode());
