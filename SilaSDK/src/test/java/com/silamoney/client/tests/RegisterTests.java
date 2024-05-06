@@ -36,7 +36,7 @@ public class RegisterTests {
 	@Test
 	public void Response200() throws Exception {
 		// HANDLE2
-		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		LocalDate birthdate = new LocalDate(1950, 01, 31);
 		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate(), "US", "asdfghjkl");
@@ -56,7 +56,7 @@ public class RegisterTests {
 	public void Response3USER1FAIL() throws Exception {
 		// HANDLE3
 		// USER1
-		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		LocalDate birthdate = new LocalDate(1950, 01, 31);
 		String userHandleInternal = "javaSDK-" + new Random().nextInt();
 		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
 		WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
@@ -104,7 +104,7 @@ public class RegisterTests {
 	@Test
 	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		LocalDate birthdate = new LocalDate(1950, 01, 31);
 		User user = new User("invalidsignature.silamoney.eth", "Example", "User", "123 Main Street", null, "New City",
 				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				"0x1234567890abcdef1234567890abcdef12345678", birthdate.toDate(), true);
@@ -121,7 +121,7 @@ public class RegisterTests {
 		LocalDate birthdate = new LocalDate(1989, 01, 31);
 		User user = new User(DefaultConfigurations.getUser4Handle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
-				DefaultConfigurations.getUser4CryptoAddress(), birthdate.toDate(), "US", "asdfghjkl",DefaultConfigurations.sessionIdentifier);
+				DefaultConfigurations.getUser4CryptoAddress(), birthdate.toDate(), "US", "asdfghjkl",DefaultConfigurations.user4SessionIdentifier);
 
 		ApiResponse response = api.register(user);
 		assertEquals(200, response.getStatusCode());
@@ -134,7 +134,7 @@ public class RegisterTests {
 		LocalDate birthdate = new LocalDate(1989, 01, 31);
 		User user = new User(DefaultConfigurations.getUser5Handle(), "Example", "User", "123 Main Street", null,
 				"New City", "OR", "97204-1234", "503-123-4567", "example"+new Random().nextInt()+"@silamoney.com", "975865809",
-				DefaultConfigurations.getUser5CryptoAddress(), birthdate.toDate(), "US", "asdfghjkl",DefaultConfigurations.sessionIdentifier);
+				DefaultConfigurations.getUser5CryptoAddress(), birthdate.toDate(), "US");
 
 		ApiResponse response = api.register(user);
 		assertEquals(200, response.getStatusCode());
