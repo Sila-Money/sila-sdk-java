@@ -55,6 +55,7 @@ public class LinkAccountTests {
 
 		response = api.linkAccount(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey(),
 				"defaultunlink", "123456789013", "123456780", "CHECKING");
+
 		assertEquals(200, response.getStatusCode());
 
 		response = api.linkAccount(DefaultConfigurations.getUserHandle(),
@@ -110,5 +111,16 @@ public class LinkAccountTests {
 		assertThat(parsedResponse.getMessage(),
 				containsString("successfully linked with status \"instantly_verified\""));
 		assertEquals("defaultptsardine", parsedResponse.getAccountName());
+	}
+	@Test
+	public void Response200SuccessWithMX() throws Exception {
+		ApiResponse response = api.linkAccountMX(DefaultConfigurations.getUserHandle(),
+				DefaultConfigurations.getUserPrivateKey(),DefaultConfigurations.getProviderToken(),"mx","processor");
+
+		assertEquals(200, response.getStatusCode());
+		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
+		assertEquals("SUCCESS", parsedResponse.getStatus());
+		assertThat(parsedResponse.getProvider(),
+				containsString("MX"));
 	}
 }

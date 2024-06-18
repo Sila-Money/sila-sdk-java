@@ -21,5 +21,6 @@ public class RegisterRequest {
     private CryptoEntry cryptoEntry;
     private Entity entity;
     private Device device;
+    private String reference;
 
 }

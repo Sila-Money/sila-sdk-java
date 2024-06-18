@@ -211,7 +211,32 @@ public class Message {
         /**
          * String value for MockWireOutFile.
          */
-        MOCK_WIRE_OUT_FILE("mock_wire_out_file");
+        MOCK_WIRE_OUT_FILE("mock_wire_out_file"),
+        /**
+         * String value for GetWalletStatementData.
+         */
+        GET_WALLET_STATEMENT_DATA_MSG("get_wallet_statement_data_msg"),
+        /**
+         * String value for GetStatementsData.
+         */
+        GET_STATEMENTS_DATA_MSG("get_statements_data_msg"),
+        /**
+         * String value for GetStatementTransactions.
+         */
+        GET_STATEMENT_TRANSACTIONS_MSG("get_statement_transactions_msg"),
+        /**
+         * String value for resendStatements.
+         */
+        RESEND_STATEMENTS_MSG("resend_statements_msg"),
+        /**
+         * String value for statements.
+         */
+        STATEMENTS_MSG("statements_msg"),
+        /**
+         * String value for create cko testing token.
+         */
+        CREATE_CKO_TESTING_TOKEN_MSG("create_cko_testing_token_msg");
+
 
         private final String value;
 

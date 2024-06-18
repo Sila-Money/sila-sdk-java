@@ -21,5 +21,10 @@ public class AccountBalanceResponse extends BaseResponse {
     @Getter
     @SerializedName("account_name")
     private String accountName;
-    
+    /**
+     * String field used for the MX integration.
+     */
+    @Getter
+    @SerializedName("provider")
+    private String provider;
 }

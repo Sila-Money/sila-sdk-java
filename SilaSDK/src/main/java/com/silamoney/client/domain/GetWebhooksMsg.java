@@ -9,8 +9,9 @@ public class GetWebhooksMsg {
     @SerializedName("search_filters")
     private final WebhookSearchFilters searchFilters;
 
-    public GetWebhooksMsg(String userHandle, String authHandle, WebhookSearchFilters searchFilters) {
+    public GetWebhooksMsg(String userHandle, String authHandle, WebhookSearchFilters searchFilters,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.searchFilters = searchFilters;
     }
 }

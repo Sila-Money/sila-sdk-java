@@ -86,10 +86,10 @@ public class CheckKYCTests {
         assertNotNull(parsedResponse.getMembers());
 
     }
-    @Test
-    public void Response200withSardine() throws Exception {
 
-        ApiResponse response = api.checkKYC(DefaultConfigurations.getUser4Handle(), DefaultConfigurations.getUser4PrivateKey(),"INSTANT-ACHV2");
+    @Test
+    public void Response200withCko() throws Exception {
+        ApiResponse response = api.checkKYC(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
 
         CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
 

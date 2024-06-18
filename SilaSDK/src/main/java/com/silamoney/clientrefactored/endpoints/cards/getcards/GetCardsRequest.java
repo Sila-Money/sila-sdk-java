@@ -9,5 +9,6 @@ public class GetCardsRequest {
     
     private String userHandle;
     private String userPrivateKey;
+    private String reference;
     
 }

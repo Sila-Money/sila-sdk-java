@@ -32,6 +32,7 @@ public class UploadDocumentMsg {
      */
     public UploadDocumentMsg(String authHandle, String hash, UploadDocumentMessage message) {
         this.header = new Header(message.getUserHandle(),authHandle);
+        this.header.setReference(message.getReference());
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.name = message.getName();
         this.filename = message.getFilename();

@@ -9,8 +9,9 @@ public class GetEntitiesMsg {
     private final String entityType;
     @SerializedName("message")
     private final String message;
-    public GetEntitiesMsg(String authHandle, String entityType) {
+    public GetEntitiesMsg(String authHandle, String entityType,String reference) {
         this.header=new Header(null,authHandle);
+        this.header.setReference(reference);
         this.entityType=entityType;
         this.message=Message.ValueEnum.HEADER_MSG.getValue();
     }

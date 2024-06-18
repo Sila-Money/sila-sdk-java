@@ -25,5 +25,10 @@ public class LinkAccountResponse extends BaseResponse {
      */
     @SerializedName("web_debit_verified")
     private Boolean webDebitVerified;
+    /**
+     * String field used for the MX integration.
+     */
+    @SerializedName("provider")
+    private String provider;
 
 }

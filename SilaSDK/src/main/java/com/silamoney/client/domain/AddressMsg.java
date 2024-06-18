@@ -24,6 +24,7 @@ public class AddressMsg {
 
     public AddressMsg(String authHandle, UserHandleMessage user, AddressMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
+        this.header.setReference(user.getReference());
         this.addressAlias = message.getAddressAlias();
         this.streetAddress1 = message.getStreetAddress1();
         this.streetAddress2 = message.getStreetAddress2();

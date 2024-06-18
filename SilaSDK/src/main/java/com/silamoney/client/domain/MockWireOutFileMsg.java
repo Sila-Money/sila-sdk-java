@@ -11,8 +11,9 @@ public class MockWireOutFileMsg {
     @SerializedName("wire_status")
     private final String wireStatus;
 
-    public MockWireOutFileMsg(String userHandle, String authHandle, String transactionId,String wireStatus) {
+    public MockWireOutFileMsg(String userHandle, String authHandle, String transactionId,String wireStatus,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.transactionId = transactionId;
         this.wireStatus = wireStatus;
     }

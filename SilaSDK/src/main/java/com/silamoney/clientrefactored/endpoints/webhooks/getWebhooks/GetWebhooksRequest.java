@@ -9,4 +9,5 @@ import lombok.Data;
 public class GetWebhooksRequest {
     private String userHandle;
     private WebhookSearchFilters searchFilters;
+    private String reference;
 }

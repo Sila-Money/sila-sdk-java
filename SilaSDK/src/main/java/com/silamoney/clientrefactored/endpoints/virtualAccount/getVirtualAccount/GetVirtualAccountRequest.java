@@ -10,5 +10,6 @@ public class GetVirtualAccountRequest {
     private String userHandle;
     private String userPrivateKey;
     private String virtualAccountId;
+    private String reference;
     
 }

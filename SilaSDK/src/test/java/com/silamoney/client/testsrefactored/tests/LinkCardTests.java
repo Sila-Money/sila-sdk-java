@@ -32,11 +32,12 @@ public class LinkCardTests {
 	public void Response200() throws Exception {
 
 		LinkCardRequest request = LinkCardRequest.builder()
-            .cardName("visa")
+            .cardName("cko")
             .token(CardTokenHelper.getToken())
             .userHandle(DefaultConfigurations.getUserHandle())
             .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
             .accountPostalCode("12345")
+			.provider("evolve")
             .build();
 
         ApiResponse response = LinkCard.send(request);

@@ -12,4 +12,5 @@ public class ApproveWireRequest {
     private Boolean approve;
     private String notes;
     private String mockWireAccountName;
+    private String reference;
 }

@@ -27,10 +27,28 @@ public class Configuration {
         this.privateKey = privateKey;
         this.authHandle = authHandle;
 
-        this.timeout = 10000;
+        this.apiClient = new ApiClient();
+        this.apiClient.setBasePath(basePath);
+    }
+
+    /**
+     * Constructor for client configuration.
+     *
+     * @param basePath
+     * @param privateKey
+     * @param authHandle
+     * @param timeout
+     */
+    public Configuration(String basePath, String privateKey, String authHandle,int timeout) {
+        this.basePath = basePath;
+        this.privateKey = privateKey;
+        this.authHandle = authHandle;
+
+        this.timeout =timeout;
 
         this.apiClient = new ApiClient();
         this.apiClient.setBasePath(basePath);
+        this.apiClient.setTimeout(timeout);
     }
 
     /**

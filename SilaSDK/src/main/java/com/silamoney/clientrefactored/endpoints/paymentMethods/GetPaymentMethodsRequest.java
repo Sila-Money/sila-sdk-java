@@ -11,5 +11,6 @@ public class GetPaymentMethodsRequest {
     private String userHandle;
     private String userPrivateKey;
     private PaymentMethodsSearchFilters searchFilters;
+    private String reference;
     
 }

@@ -12,8 +12,9 @@ public class CertifyBeneficialOwnerMsg {
     @SerializedName("certification_token")
     private final String certificationToken;
 
-    public CertifyBeneficialOwnerMsg(String userHandle, String authHandle, String businessHandle, String memberHandle, String certificationToken) {
+    public CertifyBeneficialOwnerMsg(String userHandle, String authHandle, String businessHandle, String memberHandle, String certificationToken,String reference) {
         this.header = new Header(userHandle, authHandle, businessHandle);
+        this.header.setReference(reference);
         this.memberHandle = memberHandle;
         this.certificationToken = certificationToken;
     }

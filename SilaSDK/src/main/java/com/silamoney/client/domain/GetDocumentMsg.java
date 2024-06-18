@@ -10,6 +10,7 @@ public class GetDocumentMsg {
 
     public GetDocumentMsg(String authHandle, GetDocumentMessage message) {
         this.header = new Header(message.getUserHandle(),authHandle);
+        this.header.setReference(message.getReference());
         this.documentId = message.getDocumentId();
     }
 }

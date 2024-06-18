@@ -15,8 +15,9 @@ public class GetAccountBalanceMsg {
      * @param userHandle
      * @param appHandle
      */
-    public GetAccountBalanceMsg(String userHandle, String appHandle, String accountName) {
+    public GetAccountBalanceMsg(String userHandle, String appHandle, String accountName,String reference) {
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.accountName = accountName;
     }
 }

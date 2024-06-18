@@ -25,10 +25,12 @@ public class LinkCard extends AbstractEndpoint {
             throws BadRequestException, InvalidAuthSignatureException, ForbiddenException {
         Map<String, Object> body = new HashMap<>();
         body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
-                .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
+                .created(EpochUtils.getEpochTime()).reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid()).build());
         body.put("token", request.getToken());
         body.put("card_name", request.getCardName());
         body.put("account_postal_code", request.getAccountPostalCode());
+        body.put("provider", request.getProvider());
+        body.put("skip_verification",request.getSkipVerification());
 
         String serializedBody = JsonUtils.serialize(body);
 

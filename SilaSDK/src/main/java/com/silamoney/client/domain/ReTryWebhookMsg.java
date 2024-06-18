@@ -10,8 +10,9 @@ public class ReTryWebhookMsg {
     @SerializedName("eventUuid")
     private final String eventUuid;
 
-    public ReTryWebhookMsg(String userHandle, String appHandle, String eventUuid) {
+    public ReTryWebhookMsg(String userHandle, String appHandle, String eventUuid,String reference) {
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.HEADER_MSG.getValue();
         this.eventUuid = eventUuid;
     }

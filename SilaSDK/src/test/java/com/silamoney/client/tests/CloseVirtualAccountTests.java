@@ -2,6 +2,7 @@ package com.silamoney.client.tests;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.domain.VirtualAccount;
 import com.silamoney.client.domain.VirtualAccountResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.junit.Test;
@@ -31,4 +32,16 @@ public class CloseVirtualAccountTests {
         assertEquals("SUCCESS", parsedResponse.getStatus());
     }
 
+    @Test
+    public void Response200Remaining() throws Exception {
+        if (!DefaultConfigurations.getVirtualAccounts().isEmpty()) {
+            for (VirtualAccount virtualAccount : DefaultConfigurations.getVirtualAccounts()) {
+                ApiResponse response = api.closeVirtualAccount(DefaultConfigurations.getUserHandle(),
+                        DefaultConfigurations.getUserPrivateKey(), virtualAccount.getVirtualAccountId(), virtualAccount.getAccountNumber());
+                assertEquals(200, response.getStatusCode());
+                VirtualAccountResponse parsedResponse = (VirtualAccountResponse) response.getData();
+                assertEquals("SUCCESS", parsedResponse.getStatus());
+            }
+        }
+    }
 }

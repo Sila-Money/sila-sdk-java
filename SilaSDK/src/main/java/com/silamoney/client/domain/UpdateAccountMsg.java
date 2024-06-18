@@ -13,8 +13,9 @@ public class UpdateAccountMsg {
     @SerializedName("active")
     private Boolean active;
 
-    public UpdateAccountMsg(String userHandle, String authHandle, String accountName, String newAccountName, Boolean active, String activeType) {
+    public UpdateAccountMsg(String userHandle, String authHandle, String accountName, String newAccountName, Boolean active, String activeType,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.accountName = accountName;
         this.newAccountName = newAccountName;
         if (!TextUtils.isEmpty(activeType)) {

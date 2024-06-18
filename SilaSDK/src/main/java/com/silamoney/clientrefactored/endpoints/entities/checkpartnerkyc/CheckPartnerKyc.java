@@ -31,7 +31,7 @@ public class CheckPartnerKyc extends AbstractEndpoint {
                 body.put("header", Header.builder()
                     .appHandle(APP_HANDLE)
                     .created(EpochUtils.getEpochTime())
-                    .reference(UuidUtils.generateRandomUuid())
+                    .reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid())
                     .build()
                 );
                 body.put("query_app_handle", request.getQueryAppHandle());

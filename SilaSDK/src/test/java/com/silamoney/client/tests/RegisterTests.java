@@ -36,13 +36,12 @@ public class RegisterTests {
 	@Test
 	public void Response200() throws Exception {
 		// HANDLE2
-		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		LocalDate birthdate = new LocalDate(1950, 01, 31);
 		User user = new User(DefaultConfigurations.getUserHandle(), "Example", "User", "123 Main Street", null,
-				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate(), "US", "asdfghjkl");
-
 		User user2 = new User(DefaultConfigurations.getUser2Handle(), "Example", "User", "123 Main Street", null,
-				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				DefaultConfigurations.getUser2CryptoAddress(), birthdate.toDate());
 
 		ApiResponse response = api.register(user);
@@ -57,13 +56,13 @@ public class RegisterTests {
 	public void Response3USER1FAIL() throws Exception {
 		// HANDLE3
 		// USER1
-		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		LocalDate birthdate = new LocalDate(1950, 01, 31);
 		String userHandleInternal = "javaSDK-" + new Random().nextInt();
 		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
 		WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		String userCryptoAddressInternal = "0x" + aWallet.getAddress();
 		User user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City", "OR",
-				"97204-1234", "503-123-4567", "example@silamoney.com", "123452383", userCryptoAddressInternal,
+				"97204-1234", "503-123-4567", "example@silamoney.com", "975865809", userCryptoAddressInternal,
 				birthdate.toDate(), true);
 		ApiResponse response = api.register(user);
 
@@ -73,7 +72,7 @@ public class RegisterTests {
 		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		userCryptoAddressInternal = "0x" + aWallet.getAddress();
 		user = new User(userHandleInternal, "Example", "User", "123 Main Street", null, "New City", "OR", "97204-1234",
-				"503-123-4567", "example@silamoney.com", "123452383", userCryptoAddressInternal, birthdate.toDate(),
+				"503-123-4567", "example@silamoney.com", "975865809", userCryptoAddressInternal, birthdate.toDate(),
 				true);
 		response = api.register(user);
 
@@ -83,7 +82,7 @@ public class RegisterTests {
 		aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		userCryptoAddressInternal = "0x" + aWallet.getAddress();
 		user = new User(userHandleInternal, "Fail", "User", "123 Main Street", null, "New City", "OR", "97204-1234",
-				"503-123-4567", "example@silamoney.com", "123452383", userCryptoAddressInternal, birthdate.toDate(),
+				"503-123-4567", "example@silamoney.com", "975865809", userCryptoAddressInternal, birthdate.toDate(),
 				true);
 		response = api.register(user);
 		assertEquals(200, response.getStatusCode());
@@ -95,7 +94,7 @@ public class RegisterTests {
 		// HANDLE4
 		LocalDate birthdate = new LocalDate(1900, 01, 31);
 		User user = new User(DefaultConfigurations.getUserHandle(), "Fail", "User", "123 Main Street", null, "New City",
-				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
+				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				DefaultConfigurations.getUserCryptoAddress(), birthdate.toDate(), true);
 
 		ApiResponse response = api.register(user);
@@ -105,9 +104,9 @@ public class RegisterTests {
 	@Test
 	public void Response401() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		LocalDate birthdate = new LocalDate(1900, 01, 31);
+		LocalDate birthdate = new LocalDate(1950, 01, 31);
 		User user = new User("invalidsignature.silamoney.eth", "Example", "User", "123 Main Street", null, "New City",
-				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
+				"OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				"0x1234567890abcdef1234567890abcdef12345678", birthdate.toDate(), true);
 
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
@@ -121,8 +120,21 @@ public class RegisterTests {
 		// HANDLE2
 		LocalDate birthdate = new LocalDate(1989, 01, 31);
 		User user = new User(DefaultConfigurations.getUser4Handle(), "Example", "User", "123 Main Street", null,
-				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "123452383",
-				DefaultConfigurations.getUser4CryptoAddress(), birthdate.toDate(), "US", "asdfghjkl",DefaultConfigurations.sessionIdentifier);
+				"New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
+				DefaultConfigurations.getUser4CryptoAddress(), birthdate.toDate(), "US", "asdfghjkl",DefaultConfigurations.user4SessionIdentifier);
+
+		ApiResponse response = api.register(user);
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
+
+	@Test
+	public void Response200WithCKO() throws Exception {
+		// HANDLE2
+		LocalDate birthdate = new LocalDate(1989, 01, 31);
+		User user = new User(DefaultConfigurations.getUser5Handle(), "Example", "User", "123 Main Street", null,
+				"New City", "OR", "97204-1234", "503-123-4567", "example"+new Random().nextInt()+"@silamoney.com", "975865809",
+				DefaultConfigurations.getUser5CryptoAddress(), birthdate.toDate(), "US");
 
 		ApiResponse response = api.register(user);
 		assertEquals(200, response.getStatusCode());

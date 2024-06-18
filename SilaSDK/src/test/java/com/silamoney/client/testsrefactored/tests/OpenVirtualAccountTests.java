@@ -23,7 +23,7 @@ public class OpenVirtualAccountTests {
 
 	@Test
 	public void Register200() throws Exception {
-		OpenVirtualAccountRequest request= OpenVirtualAccountRequest.builder().userHandle(DefaultConfigurations.getUserHandle()).userPrivateKey(DefaultConfigurations.getUserPrivateKey()).virtualAccountName("virtual_account").build();
+		OpenVirtualAccountRequest request= OpenVirtualAccountRequest.builder().userHandle(DefaultConfigurations.getUserHandle()).userPrivateKey(DefaultConfigurations.getUserPrivateKey()).virtualAccountName("virtual_account").statementsEnabled(true).build();
 				
 		ApiResponse response = OpenVirtualAccount.send(request);
 		VirtualAccountResponse parsedResponse = (VirtualAccountResponse) response.getData();

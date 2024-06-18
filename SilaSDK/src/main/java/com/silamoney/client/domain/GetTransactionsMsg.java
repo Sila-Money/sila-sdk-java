@@ -24,12 +24,14 @@ public class GetTransactionsMsg {
      * @param userHandle
      * @param appHandle
      * @param searchFilters
+     * @param reference
      */
     public GetTransactionsMsg(String userHandle, String appHandle,
-            SearchFilters searchFilters) {
+            SearchFilters searchFilters,String reference) {
         this.searchFilters = searchFilters;
         this.message = Message.ValueEnum.GET_TRANSACTIONS_MSG.getValue();
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
     }
 
 }
