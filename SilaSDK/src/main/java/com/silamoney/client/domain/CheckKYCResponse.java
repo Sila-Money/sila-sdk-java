@@ -17,7 +17,7 @@ public class CheckKYCResponse extends BaseResponse {
     @SerializedName(value = "certification_status")
     private String certificationStatus;
     @SerializedName(value = "certification_history")
-    private List<Certification> certificationHistory;
+    private List<String> certificationHistory;
     private List<Member> members;
 
     /**
@@ -93,14 +93,14 @@ public class CheckKYCResponse extends BaseResponse {
     /**
      * @return the certificationHistory
      */
-    public List<Certification> getCertificationHistory() {
+    public List<String> getCertificationHistory() {
         return certificationHistory;
     }
 
     /**
      * @param certificationHistory the certificationHistory to set
      */
-    public void setCertificationHistory(List<Certification> certificationHistory) {
+    public void setCertificationHistory(List<String> certificationHistory) {
         this.certificationHistory = certificationHistory;
     }
 
