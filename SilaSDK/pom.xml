@@ -29,9 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.20</maven.compiler.source>
         <maven.compiler.target>1.20</maven.compiler.target>
-        <properties>
-            <runSuite>**/TestSuite.class</runSuite>
-        </properties>
+        <runSuite>**/TestSuite.class</runSuite>
     </properties>
     <dependencies>
         <dependency>
