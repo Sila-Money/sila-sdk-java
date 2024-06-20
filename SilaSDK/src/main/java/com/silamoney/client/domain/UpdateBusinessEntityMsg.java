@@ -2,6 +2,7 @@ package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.Map;
 
 public class UpdateBusinessEntityMsg {
@@ -28,7 +29,7 @@ public class UpdateBusinessEntityMsg {
     private final String entityName;
 
     @SerializedName("birthdate")
-    private final String birthdate;
+    private final Date birthdate;
 
     @SerializedName("uuid")
     private final String uuid;
@@ -50,7 +51,7 @@ public class UpdateBusinessEntityMsg {
      * @param uuid
      * @param header
      */
-    public UpdateBusinessEntityMsg(String firstName, String lastName, String entityName, String birthdate, String businessType, String naicsCode, String doingBusinessAs, String businessWebsite, String uuid, Map<String, String> header) {
+    public UpdateBusinessEntityMsg(String firstName, String lastName, String entityName, Date birthdate, String businessType, String naicsCode, String doingBusinessAs, String businessWebsite, String uuid, Map<String, String> header) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.entityName = entityName;
