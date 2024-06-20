@@ -12,24 +12,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-        cache: maven
-    - name: Setup Maven Action
-      uses: s4u/setup-maven-action@v1.3.1
-      with:
-        java-version: 17
-    - name: Build with Maven
-      working-directory: ./SilaSDK
-      run: mvn --settings settings.xml --file pom.xml clean test
-      env:
-        MAVEN_S3_KEY: ${{ secrets.MAVEN_S3_KEY  }}
-        MAVEN_S3_SECRET: ${{ secrets.MAVEN_S3_SECRET  }}
-        MAVEN_S3_REGION: 'us-west-2'     
-        AWS_REGION: us-west-2
-        AWS_KEY: ${{ secrets.CI_S3_KEY  }}
-        AWS_SECRET: ${{ secrets.CI_S3_SECRET }}
+      - uses: actions/checkout@v3
+      - name: Set up JDK 20
+        uses: actions/setup-java@v3
+        with:
+          java-version: '20'
+          distribution: 'adopt'
+          cache: maven
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.3.1
+        with:
+          java-version: 20
+      - name: Build with Maven
+        working-directory: ./SilaSDK
+        run: mvn --settings settings.xml --file pom.xml clean test
+        env:
+          MAVEN_S3_KEY: ${{ secrets.MAVEN_S3_KEY  }}
+          MAVEN_S3_SECRET: ${{ secrets.MAVEN_S3_SECRET  }}
+          MAVEN_S3_REGION: 'us-west-2'
+          AWS_REGION: us-west-2
+          AWS_KEY: ${{ secrets.CI_S3_KEY  }}
+          AWS_SECRET: ${{ secrets.CI_S3_SECRET }}
