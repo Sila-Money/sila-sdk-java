@@ -44,19 +44,7 @@ public class SilaApi {
     private static final String ORDER = "order";
     private static final String AND = "&";
     private static final String EQUAL = "=";
-    
-	
     /**
-     * Constructor for SilaApi using a configuration.
-     *
-     * @param configuration
-     */
-    public SilaApi(Configuration configuration) {
-      this.configuration = configuration;
-    }
-	
-	
-	/**
      * Constructor for SilaApi using custom environment.
      *
      * @param environment
@@ -108,6 +96,15 @@ public class SilaApi {
      */
     public SilaApi(String appHandle, String privateKey) {
         this.configuration = new Configuration(DEFAULT_ENVIRONMENT, privateKey, appHandle);
+    }
+
+    /**
+     * Constructor for SilaApi using a configuration.
+     *
+     * @param configuration
+     */
+    public SilaApi(Configuration configuration) {
+        this.configuration = configuration;
     }
 
     /**
@@ -1365,6 +1362,7 @@ public class SilaApi {
      * Upload supporting documentation for KYC
      *
      * @param message
+     * @param inputStream
      * @return
      * @throws IOException
      * @throws NoSuchAlgorithmException
