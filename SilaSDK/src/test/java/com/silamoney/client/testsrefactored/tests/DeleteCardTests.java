@@ -32,7 +32,8 @@ public class DeleteCardTests {
         DeleteCardRequest request = DeleteCardRequest.builder()
                 .userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
-                .cardName("visa")
+                .cardName("cko")
+                .provider("evolve")
                 .build();
 
         ApiResponse response = DeleteCard.send(request);

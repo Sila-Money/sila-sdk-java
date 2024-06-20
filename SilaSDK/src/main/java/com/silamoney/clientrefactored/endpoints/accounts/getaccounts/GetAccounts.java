@@ -27,7 +27,7 @@ public class GetAccounts extends AbstractEndpoint {
         public static ApiResponse send(GetAccountsRequest request) throws BadRequestException, NotFoundException {
                 Map<String, Object> body = new HashMap<>();
                 body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
-                                .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
+                                .created(EpochUtils.getEpochTime()).reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid()).build());
                 body.put("message", "get_accounts_msg");
 
                 String serializedBody = JsonUtils.serialize(body);

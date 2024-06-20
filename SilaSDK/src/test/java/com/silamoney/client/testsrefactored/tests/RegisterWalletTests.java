@@ -1,6 +1,7 @@
 package com.silamoney.client.testsrefactored.tests;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.security.EcdsaUtil;
@@ -53,5 +54,27 @@ public class RegisterWalletTests {
 
         DefaultConfigurations.setNewWalletRefactored(wallet);
     }
-    
+    @Test
+    public void Response200WithStatementsEnabled() throws Exception {
+
+        Wallet wallet = WalletUtils.generateWallet();
+        wallet.setStatementsEnabled(true);
+        String walletVerificationSignature = EcdsaUtil.sign(wallet.getBlockChainAddress(), wallet.getPrivateKey());
+
+        RegisterWalletRequest request = RegisterWalletRequest.builder()
+                .userHandle(DefaultConfigurations.getUserHandle())
+                .userPrivateKey(DefaultConfigurations.getUserPrivateKey())
+                .wallet(wallet)
+                .walletVerificationSignature(walletVerificationSignature)
+                .build();
+
+        ApiResponse response = RegisterWallet.send(request);
+        RegisterWalletResponse parsedResponse = (RegisterWalletResponse) response.getData();
+
+        assertNotNull(parsedResponse.getMessage());
+        assertNotNull(parsedResponse.getReference());
+        assertNotNull(parsedResponse.getStatus());
+        assertNotNull(parsedResponse.getWalletNickname());
+        assertTrue(parsedResponse.isStatementsEnabled());
+    }
 }

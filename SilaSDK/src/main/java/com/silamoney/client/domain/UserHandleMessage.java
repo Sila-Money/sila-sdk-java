@@ -9,4 +9,6 @@ public class UserHandleMessage {
     private String userHandle;
     @Getter
     private String userPrivateKey;
+    @Getter
+    private String reference;
 }

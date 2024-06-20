@@ -8,4 +8,5 @@ import lombok.Data;
 public class RetryWebhookRequest {
     private String userHandle;
     private String eventUuid;
+    private String reference;
 }

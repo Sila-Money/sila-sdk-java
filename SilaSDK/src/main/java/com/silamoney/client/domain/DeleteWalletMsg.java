@@ -13,7 +13,8 @@ public class DeleteWalletMsg {
     private final Header header;
 
     public DeleteWalletMsg(String userHandle,
-            String appHandle) {
+            String appHandle,String reference) {
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
     }
 }

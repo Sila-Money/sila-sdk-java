@@ -14,5 +14,6 @@ public class UpdateAccountRequest {
     private String accountName;
     private String newAccountName;
     private Boolean active;
+    private String reference;
 
 }

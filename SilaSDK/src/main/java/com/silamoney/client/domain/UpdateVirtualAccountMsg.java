@@ -18,12 +18,17 @@ public class UpdateVirtualAccountMsg {
     @SerializedName("ach_debit_enabled")
     private final Boolean achDebitEnabled;
 
-    public UpdateVirtualAccountMsg(String userHandle, String appHandle, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled) {
+    @SerializedName("statements_enabled")
+    private final Boolean statementsEnabled;
+
+    public UpdateVirtualAccountMsg(String userHandle, String appHandle, String virtualAccountId, String virtualAccountName, Boolean active, Boolean achCreditEnabled, Boolean achDebitEnabled,String reference,Boolean statementsEnabled) {
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.virtualAccountId = virtualAccountId;
         this.virtualAccountName = virtualAccountName;
         this.active = active;
         this.achCreditEnabled = achCreditEnabled;
         this.achDebitEnabled = achDebitEnabled;
+        this.statementsEnabled=statementsEnabled;
     }
 }

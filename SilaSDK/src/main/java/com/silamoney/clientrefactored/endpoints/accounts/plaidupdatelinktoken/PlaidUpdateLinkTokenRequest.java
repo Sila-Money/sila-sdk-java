@@ -9,5 +9,6 @@ public class PlaidUpdateLinkTokenRequest {
     
     private String userHandle;
     private String accountName;
+    private String reference;
     
 }

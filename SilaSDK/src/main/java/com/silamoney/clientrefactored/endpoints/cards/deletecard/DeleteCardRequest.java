@@ -10,5 +10,7 @@ public class DeleteCardRequest {
     private String userHandle;
     private String userPrivateKey;
     private String cardName;
+    private String provider;
+    private String reference;
     
 }

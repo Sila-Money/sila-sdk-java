@@ -12,6 +12,7 @@ public class EmailMsg {
 
     public EmailMsg(String authHandle, UserHandleMessage user, EmailMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
+        this.header.setReference(user.getReference());
         this.email = message.getEmail();
         this.uuid = message.getUuid();
     }

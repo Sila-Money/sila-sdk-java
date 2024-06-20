@@ -12,4 +12,6 @@ public class OpenVirtualAccountRequest {
     private String virtualAccountName;
     private Boolean achCreditEnabled;
     private Boolean achDebitEnabled;
+    private String reference;
+    private Boolean statementsEnabled;
 }

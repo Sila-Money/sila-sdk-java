@@ -9,8 +9,9 @@ public class ReverseTransactionMsg {
     @SerializedName("transaction_id")
     private final String transactionId;
 
-    public ReverseTransactionMsg(String userHandle, String authHandle, String transactionId) {
+    public ReverseTransactionMsg(String userHandle, String authHandle, String transactionId,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.transactionId = transactionId;
 
     }

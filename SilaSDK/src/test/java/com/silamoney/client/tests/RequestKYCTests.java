@@ -3,6 +3,7 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
@@ -27,7 +28,7 @@ public class RequestKYCTests {
 
 	@Test
 	public void response200() throws Exception {
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "INSTANT-ACH",
+		ApiResponse response = api.requestKYC(DefaultConfigurations.getUserHandle(), "KYC-STANDARD",
 				DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(200, response.getStatusCode());
@@ -36,6 +37,11 @@ public class RequestKYCTests {
 
 		response = api.requestKYC(DefaultConfigurations.getUser2Handle(), null,
 				DefaultConfigurations.getUser2PrivateKey());
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+
+		response = api.requestKYC(DefaultConfigurations.getUser5Handle(), null,
+				DefaultConfigurations.getUser5PrivateKey());
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
@@ -79,15 +85,5 @@ public class RequestKYCTests {
 		ApiResponse response = api.requestKYC("", null, DefaultConfigurations.getUserPrivateKey());
 
 		assertEquals(400, response.getStatusCode());
-	}
-
-	@Test
-	public void response200WithSardine() throws Exception {
-		ApiResponse response = api.requestKYC(DefaultConfigurations.getUser4Handle(), "INSTANT-ACHV2",
-				DefaultConfigurations.getUser4PrivateKey());
-
-		assertEquals(200, response.getStatusCode());
-		RequestKycResponse parsedResponse= (RequestKycResponse) response.getData();
-		assertEquals("SUCCESS", parsedResponse.getStatus());
 	}
 }

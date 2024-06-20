@@ -24,4 +24,6 @@ public class ListDocumentsMessage {
     private LocalDate endDate;
     @Getter
     private String order;
+    @Getter
+    private String reference;
 }

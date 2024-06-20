@@ -15,8 +15,9 @@ public class ApproveWireMsg {
     @SerializedName("mock_wire_account_name")
     private String mockWireAccountName;
 
-    public ApproveWireMsg(String userHandle, String authHandle, String transactionId, boolean approve, String notes,String mockWireAccountName) {
+    public ApproveWireMsg(String userHandle, String authHandle, String transactionId, boolean approve, String notes,String mockWireAccountName,String reference) {
         this.header = new Header(userHandle, authHandle);
+        this.header.setReference(reference);
         this.transactionId = transactionId;
         this.approve = approve;
         this.notes = notes;

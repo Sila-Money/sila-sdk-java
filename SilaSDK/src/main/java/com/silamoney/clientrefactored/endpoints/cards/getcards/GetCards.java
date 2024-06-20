@@ -23,7 +23,7 @@ public class GetCards extends AbstractEndpoint {
         public static ApiResponse send(GetCardsRequest request) throws BadRequestException, NotFoundException {
                 Map<String, Object> body = new HashMap<>();
                 body.put("header", Header.builder().appHandle(APP_HANDLE).userHandle(request.getUserHandle())
-                                .created(EpochUtils.getEpochTime()).reference(UuidUtils.generateRandomUuid()).build());
+                                .created(EpochUtils.getEpochTime()).reference(request.getReference()!=null?request.getReference():UuidUtils.generateRandomUuid()).build());
                 String serializedBody = JsonUtils.serialize(body);
 
                 Map<String, String> headers = new HashMap<>();

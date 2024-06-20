@@ -21,20 +21,32 @@ public class SilaApi {
 
     private static SilaApi instance;
 
+    private SilaApi(Environment environment, String authHandle, String privateKey, int timeout) {
+        this.authHandle = authHandle;
+        this.privateKey = privateKey;
+        this.apiClient = new ApiClient(environment);
+        if (timeout > 0)
+            this.apiClient.setTimeout(timeout);
+    }
     private SilaApi(Environment environment, String authHandle, String privateKey) {
         this.authHandle = authHandle;
         this.privateKey = privateKey;
         this.apiClient = new ApiClient(environment);
     }
-
     public static void init(Environment environment, String authHandle, String privateKey) {
         if (instance != null)
             logger.log(Level.WARNING, "SilaApi already initialized.");
         else {
-            instance = new SilaApi(environment, authHandle, privateKey);
+            instance = new SilaApi(environment, authHandle, privateKey,0);
         }
     }
-
+    public static void init(Environment environment, String authHandle, String privateKey, int timeout) {
+        if (instance != null)
+            logger.log(Level.WARNING, "SilaApi already initialized.");
+        else {
+            instance = new SilaApi(environment, authHandle, privateKey, timeout);
+        }
+    }
     public static void dispose() {
         instance = null;
     }

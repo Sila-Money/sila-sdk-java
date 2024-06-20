@@ -7,9 +7,12 @@ import static org.junit.Assert.assertTrue;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.LinkBusinessMemberResponse;
+import com.silamoney.client.domain.LinkBusinessOperationResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -58,6 +61,20 @@ public class LinkBusinessMemberTests {
                 assertEquals(DefaultConfigurations.getBusinessRole("administrator").getName(),
                                 ((LinkBusinessMemberResponse) response.getData()).getRole());
                 assertEquals("test details", ((LinkBusinessMemberResponse) response.getData()).getDetails());
+
+                TimeUnit.SECONDS.sleep(40);
+
+                response = api.unlinkBusinessMember(DefaultConfigurations.getUser2Handle().toLowerCase(),
+                        DefaultConfigurations.getUser2PrivateKey(), DefaultConfigurations.getBusinessHandle(),
+                        DefaultConfigurations.getBusinessPrivateKey(),
+                        DefaultConfigurations.getBusinessRole("administrator"));
+
+                assertEquals(200, response.getStatusCode());
+                assertTrue(((LinkBusinessOperationResponse) response.getData()).isSuccess());
+                assertNotNull(((LinkBusinessOperationResponse) response.getData()).getMessage());
+                assertEquals(DefaultConfigurations.getBusinessRole("administrator").getName(),
+                        ((LinkBusinessOperationResponse) response.getData()).getRole());
+
         }
 
         @Test
@@ -76,3 +93,4 @@ public class LinkBusinessMemberTests {
         }
 
 }
+

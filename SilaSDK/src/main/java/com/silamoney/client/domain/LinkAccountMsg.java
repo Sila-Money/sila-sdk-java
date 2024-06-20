@@ -39,6 +39,15 @@ public class LinkAccountMsg {
     @SerializedName("plaid_token_type")
     private String plaidTokenType;
 
+    @SerializedName("provider_token")
+    private String providerToken;
+
+    @SerializedName("provider")
+    private String provider;
+
+    @SerializedName("provider_token_type")
+    private String providerTokenType;
+
     /**
      * Constructor for LinkAccountMsg object.
      *
@@ -50,9 +59,13 @@ public class LinkAccountMsg {
      * @param routingNumber
      * @param accountType
      * @param appHandle
+     * @param providerToken
+     * @param provider
+     * @param providerTokenType
+     * @param reference
      */
     public LinkAccountMsg(String userHandle, String accountName, String publicToken, String accountId,
-            String accountNumber, String routingNumber, String accountType, String appHandle) {
+            String accountNumber, String routingNumber, String accountType, String appHandle,String providerToken,String provider,String providerTokenType,String reference) {
         this.publicToken = publicToken;
         this.accountName = accountName;
         this.selectedAccountId = accountId;
@@ -60,6 +73,10 @@ public class LinkAccountMsg {
         this.routingNumber = routingNumber;
         this.accountType = accountType;
         this.header = new Header(userHandle, appHandle);
+        this.header.setReference(reference);
         this.message = Message.ValueEnum.LINK_ACCOUNT_MSG.getValue();
+        this.providerToken=providerToken;
+        this.provider=provider;
+        this.providerTokenType=providerTokenType;
     }
 }

@@ -33,7 +33,7 @@ public class Header {
     }
 
     @SerializedName("reference")
-    private final String reference;
+    private String reference;
 
     @SerializedName("created")
     private final Integer created;
@@ -52,6 +52,14 @@ public class Header {
 
     @SerializedName("business_handle")
     private String businessHandle;
+
+    /*
+     * Set user reference
+     */
+    public void setReference(String reference) {
+        if(reference!=null)
+            this.reference = reference;
+    }
 
     /**
      * Constructor for header object.
