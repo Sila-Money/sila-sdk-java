@@ -90,7 +90,7 @@ public class ApiClient {
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
-	
+
     /**
      * Makes the call to the sila API.
      *
@@ -103,9 +103,9 @@ public class ApiClient {
      */
     @SuppressWarnings("all")
     public HttpResponse callApi(String path, Map<String, String> headers, String body)
-        throws IOException, InterruptedException {
+            throws IOException, InterruptedException {
         try {
-		 headers.put("User-Agent", PRODUCT + '/' + VERSION);
+            headers.put("User-Agent", PRODUCT + '/' + VERSION);
             logRequest(path, headers, body);
             HttpRequest finalRequest = prepareRequest(path, headers, body);
             return httpClient.send(finalRequest, BodyHandlers.ofString());
@@ -128,7 +128,7 @@ public class ApiClient {
      */
     @SuppressWarnings("all")
     public HttpResponse callApi(String path, Map<String, String> headers, String body, String filePath,
-        String contentType) throws FileNotFoundException, IOException, InterruptedException {
+                                String contentType) throws FileNotFoundException, IOException, InterruptedException {
         final File file = new File(filePath);
         return callApi(path, headers, body, new FileInputStream(file), contentType, file.getName());
     }
@@ -146,7 +146,7 @@ public class ApiClient {
      */
     @SuppressWarnings("all")
     public HttpResponse callApi(String path, Map<String, String> headers, String body, InputStream binaryStream,
-        String contentType, String name) throws FileNotFoundException, IOException, InterruptedException {
+                                String contentType, String name) throws FileNotFoundException, IOException, InterruptedException {
         String fullPath = basePath + path;
         logRequest(fullPath, headers, body);
         try {
@@ -162,7 +162,7 @@ public class ApiClient {
             request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
             outStream.close();
             request.header("Content-Type", multipart.getContentType().getValue());
-			addTimeout(request);
+            addTimeout(request);
             return httpClient.send(request.build(), BodyHandlers.ofString());
         } catch (Exception ex) {
             logger.log(Level.SEVERE, Map.of("message", "Error calling api", "error", ex, "http_request_uri", fullPath, "body", body));
@@ -184,7 +184,7 @@ public class ApiClient {
                     UploadDocument uploadDocument = uploadDocumentList.get(value);
                     File file = new File(uploadDocument.getFilePath());
                     builder.addBinaryBody("file_" + (value + 1), new FileInputStream(file),
-                        ContentType.create(uploadDocument.getMimeType()), file.getName());
+                            ContentType.create(uploadDocument.getMimeType()), file.getName());
                 }
             }
 
@@ -194,7 +194,7 @@ public class ApiClient {
             request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
             outStream.close();
             request.header("Content-Type", multipart.getContentType().getValue());
-			addTimeout(request);
+            addTimeout(request);
             return httpClient.send(request.build(), BodyHandlers.ofString());
         }catch (Exception ex) {
             logger.log(Level.SEVERE, Map.of("message", "Error calling api", "error", ex, "http_request_uri", fullPath, "body", body));
@@ -207,7 +207,7 @@ public class ApiClient {
         logRequest(fullPath, headers, body);
         var request = HttpRequest.newBuilder().uri(URI.create(fullPath));
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
-		addTimeout(request);
+        addTimeout(request);
         return request.POST(HttpRequest.BodyPublishers.ofString(body)).build();
     }
 
@@ -233,7 +233,7 @@ public class ApiClient {
     public HttpResponse callApiPut(String path, Map<String, String> headers, String body)
             throws IOException, InterruptedException {
         headers.put("User-Agent", PRODUCT + '/' + VERSION);
-		String fullPath = basePath + path;
+        String fullPath = basePath + path;
         logRequest(fullPath, headers, body);
         HttpRequest finalRequest = prepareRequestPut(path, headers, body);
 
@@ -270,7 +270,7 @@ public class ApiClient {
     @SuppressWarnings("all")
     public HttpResponse callApiGet(String path, Map<String, String> headers, String body)
             throws IOException, InterruptedException {
-		String fullPath = basePath + path;
+        String fullPath = basePath + path;
         logRequest(fullPath, headers, body);
         headers.put("User-Agent", PRODUCT + '/' + VERSION);
         HttpRequest finalRequest = prepareRequestGet(path, headers, body);
@@ -287,12 +287,12 @@ public class ApiClient {
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
         return request.method("GET", HttpRequest.BodyPublishers.ofString(body)).build();
     }
-	
-	
-	private void logRequest(String path, Map<String, String> headers, String body) {
+
+
+    private void logRequest(String path, Map<String, String> headers, String body) {
         Map<String, Object> normHeaders = ResponseUtil.normHeaderMap(headers != null ? headers : Collections.emptyMap());
         logger.log(Level.INFO, Map.of("body", body != null ? body : "",
-            "http_request_uri", path,
-            "headers", normHeaders));
+                "http_request_uri", path,
+                "headers", normHeaders));
     }
 }

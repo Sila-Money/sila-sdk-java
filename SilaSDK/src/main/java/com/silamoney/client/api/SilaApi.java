@@ -44,19 +44,7 @@ public class SilaApi {
     private static final String ORDER = "order";
     private static final String AND = "&";
     private static final String EQUAL = "=";
-    
-	
     /**
-     * Constructor for SilaApi using a configuration.
-     *
-     * @param configuration
-     */
-    public SilaApi(Configuration configuration) {
-      this.configuration = configuration;
-    }
-	
-	
-	/**
      * Constructor for SilaApi using custom environment.
      *
      * @param environment
@@ -108,6 +96,15 @@ public class SilaApi {
      */
     public SilaApi(String appHandle, String privateKey) {
         this.configuration = new Configuration(DEFAULT_ENVIRONMENT, privateKey, appHandle);
+    }
+
+    /**
+     * Constructor for SilaApi using a configuration.
+     *
+     * @param configuration
+     */
+    public SilaApi(Configuration configuration) {
+        this.configuration = configuration;
     }
 
     /**
@@ -1365,6 +1362,7 @@ public class SilaApi {
      * Upload supporting documentation for KYC
      *
      * @param message
+     * @param inputStream
      * @return
      * @throws IOException
      * @throws NoSuchAlgorithmException
@@ -1383,6 +1381,29 @@ public class SilaApi {
 
         return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
     }
+
+  /**
+   * Upload supporting documentation for KYC
+   *
+   * @param message
+   * @return
+   * @throws IOException
+   * @throws NoSuchAlgorithmException
+   * @throws InterruptedException
+   */
+  public ApiResponse uploadDocument(UploadDocumentMessage message, InputStreamSource inputStreamSource, String fileName)
+      throws NoSuchAlgorithmException, IOException, InterruptedException {
+    String hash = EcdsaUtil.hashFile(inputStreamSource.stream());
+    UploadDocumentMsg body = new UploadDocumentMsg(this.configuration.getAuthHandle(), hash, message);
+    String path = Endpoints.DOCUMENTS.getUri();
+    String sBody = Serialization.serialize(body);
+    Map<String, String> headers = new HashMap<>();
+    setSignature(message.getUserPrivateKey(), this.configuration.getPrivateKey(), sBody, headers);
+    HttpResponse<?> response = this.configuration.getApiClient().callApi(path, headers, sBody,
+        inputStreamSource.stream(), message.getMimeType(), fileName);
+
+    return ResponseUtil.prepareResponse(DocumentsResponse.class, response);
+  }
 
     /**
      * Upload supporting documentation for KYC

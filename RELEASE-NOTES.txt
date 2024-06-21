@@ -1,3 +1,85 @@
+v1.0.4
+    - Upgraded Bouncycastle, fixed broken tests
+
+v1.0.3
+    - Upgraded various packages for security.
+
+v1.0.2
+    - Added notices.txt
+
+v1.0.1
+New Features:
+    - Added support for /create_cko_testing_token.
+    - Added support for /refund_debit_card.
+Enhancements:
+    - Allowed skipVerification a new optional input field in /link_card.
+
+v0.2.51
+New Features:
+    - Added support for /statements.
+    - Added support for /statements/<statement_id>.
+Enhancements:
+    - Allowed statementsEnabled a new optional input in Wallet and added statements_enabled field to the response in /register_wallet.
+    - Allowed statementsEnabled a new optional input and added statements_enabled field to the response in /update_wallet.
+    - Added statements_enabled field to the response in /get_wallet.
+    - Added statements_enabled field to the response in /get_wallets.
+    - Allowed statementsEnabled a new optional input and added statements_enabled field to the response in /open_virtual_account.
+    - Allowed statementsEnabled a new optional input and added statements_enabled field to the response in /update_virtual_account.
+    - Added statements_enabled field to the response in /close_virtual_account.
+    - Added provider a new optional input field in /link_card.
+
+v0.2.50-rc5
+Hotfix:
+    - Allowed reference as an optional input field for all API endpoint.
+    - Added provider a new input field in /delete_card.
+
+v0.2.50-rc4
+Hotfix:
+    - Added request timeout as optional input field in SilaApi for all API endpoint.
+
+v0.2.50-rc3
+Hotfix:
+    - Added descriptor field to the response in /get_statements_data.
+    - Added descriptor field to the response in /get_wallet_statement_data.
+    - Added descriptor field to the response in /get_statement_transactions.
+
+v0.2.50-rc2
+Hotfix:
+    - Added docStrings for /get_statement_transactions.
+    - Updated version of gson and jackson to resolved CVEs.
+
+v0.2.50-rc
+Hotfix:
+    - Added support for /get_statement_transactions.
+
+v0.2.50
+New Features:
+    - Added support for /get_wallet_statement_data.
+    - Added support for /get_statements_data.
+
+v0.2.49
+Enhancements:
+    - Added provider field to the response in /link_account.
+    - Added provider field to the response in /get_account_balance.
+    - Added provider_name field to the response in /get_accounts.
+New Features:
+    - Added support for MX integration in /link_account.
+
+v0.2.48-rc
+Hotfix:
+    - Updated the update_virtual_account endpoint's unit test case.
+
+v0.2.48
+Enhancements:
+    - Added registrationState a new optional input to the BusinessUser in /register.
+    - Added registrationState a new optional input to the BusinessEntityMessage and added registrationState a new field to the response in /update/entity.
+    - Added registrationState a new field in the Entity to the response in /get_entity.
+    - Added transactionIdempotencyId a new optional input field in /issue_sila.
+    - Added transactionIdempotencyId a new optional input field in /redeem_sila.
+    - Added transactionIdempotencyId a new optional input field in /transfer_sila.
+New Features:
+    - Added support for upload multiple document in /documents.
+
 v0.2.44
 Enhancements:
     - Added sila_available_balance and sila_pending_balance to the response in /get_wallet.
