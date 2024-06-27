@@ -845,9 +845,9 @@ public class SilaApi {
         return registerWalletData(userHandle, wallet, walletVerificationSignature, userPrivateKey, reference);
     }
 
-    private ApiResponse registerWalletData(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey, String refeernce) throws IOException, InterruptedException {
+    private ApiResponse registerWalletData(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey, String reference) throws IOException, InterruptedException {
         RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature,
-                this.configuration.getAuthHandle(), refeernce);
+                this.configuration.getAuthHandle(), reference);
         String path = Endpoints.REGISTER_WALLET.getUri();
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_WALLET_MSG.getValue());

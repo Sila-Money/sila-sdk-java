@@ -103,7 +103,7 @@ public class GetWalletsTests {
 		assertNotNull(((GetWalletsResponse)response.getData()).totalPageCount);
 		assertNotNull(((GetWalletsResponse)response.getData()).getWallets());
 		assertNotNull(((GetWalletsResponse)response.getData()).getWallets().get(0));
-		assertFalse(((GetWalletsResponse)response.getData()).getWallets().get(0).isStatementsEnabled());
+		assertTrue(((GetWalletsResponse)response.getData()).getWallets().get(0).isStatementsEnabled());
 	}
 
 }

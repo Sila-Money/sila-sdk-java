@@ -15,4 +15,6 @@ public class RegisterWalletResponse extends BaseResponse {
     @SerializedName("statements_enabled")
     public boolean statementsEnabled;
 
+    @SerializedName("wallet_id")
+    private String walletId;
 }
