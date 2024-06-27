@@ -1,3 +1,6 @@
+v1.0.5
+    - Added walletId to register wallet
+
 v1.0.4
     - Upgraded Bouncycastle, fixed broken tests
 
