@@ -16,8 +16,10 @@ public class CheckKYCResponse extends BaseResponse {
     private List<String> validKycLevels;
     @SerializedName(value = "certification_status")
     private String certificationStatus;
+    // The official Sila SDK has this as a list of Strings, but that is wrong.
+    // If we rebase in any SDK updates we need to maintain this as a list of Certification objects.
     @SerializedName(value = "certification_history")
-    private List<String> certificationHistory;
+    private List<Certification> certificationHistory;
     private List<Member> members;
 
     /**
@@ -93,14 +95,14 @@ public class CheckKYCResponse extends BaseResponse {
     /**
      * @return the certificationHistory
      */
-    public List<String> getCertificationHistory() {
+    public List<Certification> getCertificationHistory() {
         return certificationHistory;
     }
 
     /**
      * @param certificationHistory the certificationHistory to set
      */
-    public void setCertificationHistory(List<String> certificationHistory) {
+    public void setCertificationHistory(List<Certification> certificationHistory) {
         this.certificationHistory = certificationHistory;
     }
 
