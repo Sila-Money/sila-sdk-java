@@ -105,6 +105,13 @@ public class ResponseUtil {
             success = false;
         }
         try {
+            if (statusCode >= 500) {
+                logger.get().log(Level.SEVERE, Map.of("message", statusMessage(statusCode),
+                        "statusCode", response.statusCode(),
+                        "responseBody", bodyString,
+                        "responseMessage", msg));
+                throw new ApiError(response.statusCode(), statusMessage(statusCode), bodyString);
+            }
             if (statusCode == 400) {
                 BadRequestResponse badRequestResponse = (BadRequestResponse) Serialization
                         .deserialize(bodyString, BadRequestResponse.class);
@@ -426,6 +433,14 @@ public class ResponseUtil {
                     "responseMessage", msg));
             throw new ApiError(response.statusCode(), ex.getMessage(), bodyString);
         }
+    }
+
+    private static String statusMessage(int statusCode) {
+        Map<Integer, String> statusMessages = Map.of(500, "Internal server error",
+                502, "Bad Gateway",
+                503, "Service Unavailable",
+                504, "Gateway Timeout");
+        return statusMessages.getOrDefault(statusCode, "Unknown error");
     }
 
 
