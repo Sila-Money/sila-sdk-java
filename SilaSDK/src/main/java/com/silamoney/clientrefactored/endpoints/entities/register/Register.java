@@ -39,7 +39,6 @@ public class Register extends AbstractEndpoint {
                 body.put("crypto_entry", request.getCryptoEntry());
                 body.put("entity", request.getEntity());
                 body.put("identity", request.getIdentity());
-                body.put("device", request.getDevice());
                 body.put("message", "entity_msg");
                 String serializedBody = JsonUtils.serialize(body);
 

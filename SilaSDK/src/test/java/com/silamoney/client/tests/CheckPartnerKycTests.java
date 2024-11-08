@@ -22,10 +22,6 @@ public class CheckPartnerKycTests {
 
 		CheckPartnerKycResponse parsedResponse = (CheckPartnerKycResponse) response.getData();
 
-		// assertNotNull(response.getStatus());
 		assertNotNull(parsedResponse.getMessage());
-		// assertNotNull(response.getReference());
-		// assertNotNull(response.getEntityType());
-		// assertNotNull(response.getVerificationStatus());
 	}
 }

@@ -1,8 +1,7 @@
 package com.silamoney.clientrefactored.configuration;
 
 public enum Environment {
-    SANDBOX("https://sandbox.silamoney.com/0.2"), PRODUCTION("https://api.silamoney.com/0.2"),
-    STAGING("https://stageapi.silamoney.com/0.2");
+    SANDBOX("https://sandbox.silamoney.com/0.2"), PRODUCTION("https://api.silamoney.com/0.2");
 
     private final String url;
 

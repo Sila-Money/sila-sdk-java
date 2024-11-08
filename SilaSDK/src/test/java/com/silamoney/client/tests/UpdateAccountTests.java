@@ -18,10 +18,10 @@ public class UpdateAccountTests {
     public void Register200UpdateAccount() throws Exception {
 
         ApiResponse response = api.updateAccount(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), "defaultupdate", "defaultupdated");
+                DefaultConfigurations.getUserPrivateKey(), "defaultpt", "defaultupdated");
 
         UpdateAccountResponse parsedResponse = (UpdateAccountResponse) response.getData();
-
+        assertEquals(200, response.getStatusCode());
         assertNotNull(parsedResponse.getStatus());
         assertNotNull(parsedResponse.getMessage());
         assertNotNull(parsedResponse.getAccount().getAccountListStatus());
@@ -56,7 +56,7 @@ public class UpdateAccountTests {
 
         //UnFreeze
         ApiResponse response2 = api.updateAccount(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), "defaultupdated", "defaultNew",true);
+                DefaultConfigurations.getUserPrivateKey(), "defaultupdated", "default",true);
 
         UpdateAccountResponse parsedResponse2 = (UpdateAccountResponse) response2.getData();
 

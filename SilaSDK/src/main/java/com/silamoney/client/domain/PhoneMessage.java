@@ -9,6 +9,11 @@ public class PhoneMessage {
     private String phone;
     @Getter
     private String uuid;
+    /**
+     * smsOptIn will be removed in the next version of this SDK.
+     * Please remove all usages of this variable from your system.
+     */
     @Getter
+    @Deprecated(forRemoval = true)
     private boolean smsOptIn;
 }

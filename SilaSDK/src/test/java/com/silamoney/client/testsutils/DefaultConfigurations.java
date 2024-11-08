@@ -25,9 +25,6 @@ import lombok.Setter;
 public class DefaultConfigurations {
 
     public static String host = Environments.SilaEnvironment.SANDBOX.getUrl();
-//    public static String appHandle = "digital_geko_e2e.silamoney.eth";
-//    public static String privateKey = "e60a5c57130f4e82782cbdb498943f31fe8f92ab96daac2cc13cbbbf9c0b4d9e";
-//    public static String walletWithStatements = "19d37e51-63b9-4faa-bf28-eac228caeb3b";
      public static String appHandle = "arc_sandbox_test_app01";
      public static String privateKey = "9c17e7b767b8f4a63863caf1619ef3e9967a34b287ce58542f3eb19b5a72f076";
     public static String walletWithStatements = "1220126f-aae1-417c-baee-e664fedb71da";
@@ -131,11 +128,8 @@ public class DefaultConfigurations {
     /**
      * Default correct business uuid
      */
-    //Staging
-    //public static String correctUuid = "ec5d1366-b56c-4442-b6c3-c919d548fcb5";
     //Sandbox
     public static String correctUuid = "9f280665-629f-45bf-a694-133c86bffd5e";
-    public static String correctUuidForWire = "25e77968-1ca3-4a4b-8e72-506dcac20dc7";
     /**
      * Default wrong business uuid
      */
@@ -202,9 +196,7 @@ public class DefaultConfigurations {
                 private static final long serialVersionUID = -5522339729487411576L;
                 {
                     add(SearchFilters.StatusesEnum.PENDING);
-                    // add(SearchFilters.StatusesEnum.SUCCESSFUL);
                     add(SearchFilters.StatusesEnum.FAILED);
-                    // add(SearchFilters.StatusesEnum.COMPLETE);
                 }
             }).setPage(1).setPerPage(20).setTransactionTypes(new ArrayList<>() {
                 private static final long serialVersionUID = -5630390615963025868L;
@@ -289,50 +281,24 @@ public class DefaultConfigurations {
 
         return user3CryptoAddress;
     }
-    private static String user4CryptoAddress;
 
-    /**
-     * @return String
-     */
-    public static String getUser4CryptoAddress() {
-        if (user4CryptoAddress == null || user4CryptoAddress.isBlank()) {
-            try {
-
-                ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-                BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
-
-                user4PrivateKey = privateKeyInDec.toString(16);
-
-                WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
-                user4CryptoAddress = "0x" + aWallet.getAddress();
-            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
-                    | CipherException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return user4CryptoAddress;
-    }
     private static String user5CryptoAddress;
 
     /**
      * @return String
      */
     public static String getUser5CryptoAddress() {
-        if (user4CryptoAddress == null || user4CryptoAddress.isBlank()) {
-            try {
+        try {
+            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+            BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
 
-                ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-                BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+            user5PrivateKey = privateKeyInDec.toString(16);
 
-                user5PrivateKey = privateKeyInDec.toString(16);
-
-                WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
-                user5CryptoAddress = "0x" + aWallet.getAddress();
-            } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
-                     | CipherException e) {
-                e.printStackTrace();
-            }
+            WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+            user5CryptoAddress = "0x" + aWallet.getAddress();
+        } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+                 | CipherException e) {
+            e.printStackTrace();
         }
 
         return user5CryptoAddress;
@@ -342,15 +308,7 @@ public class DefaultConfigurations {
     }
 
     private static String user5PrivateKey;
-    public static String getUser4PrivateKey() {
-        return user4PrivateKey;
-    }
 
-    public static void setUser4PrivateKey(String user4PrivateKey) {
-        DefaultConfigurations.user4PrivateKey = user4PrivateKey;
-    }
-
-    private static String user4PrivateKey;
     private static String userPrivateKey;
 
     /**
@@ -432,8 +390,6 @@ public class DefaultConfigurations {
 
                 WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
                 blockchain_address = "0x" + aWallet.getAddress();
-                // System.out.println("wallet_verification_signature >>> " +
-                // wallet_verification_signature);
             } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
                     | CipherException e) {
                 e.printStackTrace();
@@ -503,20 +459,6 @@ public class DefaultConfigurations {
 
     private static List<PaymentMethods> paymentMethods;
 
-    private static String user4Handle;
-
-    /**
-     * @return String
-     */
-    public static String getUser4Handle() {
-        user4Handle = user4Handle == null || user4Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user4Handle;
-        return user4Handle;
-    }
-    /**
-     * Default session_identifier
-     */
-    public static String sessionIdentifier = String.valueOf(UUID.randomUUID());
-    public static String user4SessionIdentifier = String.valueOf(UUID.randomUUID());
     private static String plaidToken2;
 
     /**
