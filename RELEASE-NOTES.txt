@@ -1,4 +1,6 @@
 v1.1.0
+Enhancements:
+    - Fixed certification_history type
 Deprecations:
     - Added deprecation warning to smsOptIn - for removal next release
     - Removed Devices
