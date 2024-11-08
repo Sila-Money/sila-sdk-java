@@ -28,9 +28,6 @@ public class AccountTransactionMsg {
     private String sourceId;
     @SerializedName("destination_id")
     private String destinationId;
-    @SerializedName("mock_wire_account_name")
-    private String mockWireAccountName;
-
     @SerializedName("transaction_idempotency_id")
     private String transactionIdempotencyId;
 
@@ -51,7 +48,6 @@ public class AccountTransactionMsg {
         this.processingType = message.getProcessingType() == null ? null : message.getProcessingType().getValue();
         this.sourceId = message.getSourceId();
         this.destinationId = message.getDestinationId();
-        this.mockWireAccountName = message.getMockWireAccountName() == null ? null : message.getMockWireAccountName();
         this.transactionIdempotencyId=message.getTransactionIdempotencyId();
     }
 }

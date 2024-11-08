@@ -3,7 +3,6 @@ package com.silamoney.client.util;
 import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
@@ -307,17 +306,6 @@ public class ResponseUtil {
             registerBusinessResponse.setSuccess(success);
 
             return new ApiResponse(statusCode, response.headers().map(), registerBusinessResponse, success);
-        case "check_instant_ach":
-             CheckInstantAchResponse checkInstantAchResponse = (CheckInstantAchResponse) Serialization.deserialize(response.body().toString(),
-                     CheckInstantAchResponse.class);
-
-             if (success && (!"SUCCESS".equals(checkInstantAchResponse.getStatus()) && checkInstantAchResponse.getStatus() != null)) {
-                 success = false;
-             }
-
-             checkInstantAchResponse.setSuccess(success);
-
-             return new ApiResponse(statusCode, response.headers().map(), checkInstantAchResponse, success);
         case "get_payment_methods":
              GetPaymentMethodsResponse getPaymentMethodsResponse = (GetPaymentMethodsResponse) Serialization
                      .deserialize(response.body().toString(), GetPaymentMethodsResponse.class);
@@ -344,11 +332,6 @@ public class ResponseUtil {
                     .deserialize(response.body().toString(), VirtualAccountResponse.class);
 
             return new ApiResponse(statusCode, response.headers().map(), virtualAccountResponse, success);
-        case "mock_wire_out_file":
-            MockWireOutFileResponse mockWireOutFileResponse = (MockWireOutFileResponse) Serialization
-                    .deserialize(response.body().toString(), MockWireOutFileResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), mockWireOutFileResponse, success);
         case "get_statements_data_msg":
         case "get_wallet_statement_data_msg":
              GetStatementsResponse getStatementsResponse = (GetStatementsResponse) Serialization

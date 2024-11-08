@@ -22,7 +22,6 @@ public class CreateCkoTestingTokenTests {
                 .cardNumber("4659105569051157")
                 .expiryMonth(12)
                 .expiryYear(2027)
-                //.cvv(956)
                 .ckoPublicKey(DefaultConfigurations.ckoPublicKey).build();
         ApiResponse response = api.createCkoTestingToken(message);
         assertEquals(200, response.getStatusCode());

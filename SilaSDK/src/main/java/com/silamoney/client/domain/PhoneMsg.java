@@ -9,7 +9,12 @@ public class PhoneMsg {
     private String phone;
     @SerializedName("uuid")
     private String uuid;
+    /**
+     * smsOptIn will be removed in the next version of this SDK.
+     * Please remove all usages of this variable from your system.
+     */
     @SerializedName("sms_opt_in")
+    @Deprecated(forRemoval = true)
     private boolean smsOptIn;
 
     public PhoneMsg(String authHandle, UserHandleMessage user, PhoneMessage message) {

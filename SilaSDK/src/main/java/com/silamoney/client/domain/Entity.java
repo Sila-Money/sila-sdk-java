@@ -92,7 +92,6 @@ public class Entity {
         this.entityName = user.getEntityName();
         this.type = "business";
         this.businessType = user.getBusinessType().getName();
-        // this.businessTypeUuid = user.getBusinessType().getUuid();
         this.businessWebsite = user.getBusinessWebsite();
         this.doingBusinessAs = user.getDoingBusinessAs();
         this.naicsCode = user.getNaicsCategory().getCode();

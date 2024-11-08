@@ -1,10 +1,10 @@
 package com.silamoney.client.tests;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 
@@ -155,18 +155,4 @@ public class GetTransactionsTests {
 		assertEquals("SUCCESS", parsedResponse.status);
 		assertTrue(parsedResponse.transactions.size() > 0);
 	}
-	@Test
-	public void Response200WithWire() throws Exception {
-		SearchFilters filters = new SearchFilters();
-		filters.setProcessingType(ProcessingTypeEnum.WIRE);
-		filters.showTimelines();
-		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
-				DefaultConfigurations.getUserPrivateKey());
-		assertEquals(200, response.getStatusCode());
-		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();
-		assertTrue(parsedResponse.success);
-		assertEquals("SUCCESS", parsedResponse.status);
-		assertTrue(parsedResponse.transactions.size() > 0);
-	}
-
 }

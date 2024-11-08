@@ -8,7 +8,6 @@ import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
-import junit.framework.Assert;
 import org.junit.Test;
 
 /**
@@ -27,7 +26,7 @@ public class RegisterBusinessTests {
 		BusinessUser user = new BusinessUser(DefaultConfigurations.getBusinessHandle(), "Office", "123 Main Street",
 				null, "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				DefaultConfigurations.getBusinessCryptoAddress(), "en", businessType,
-				"https://www.website.com", "doing business as", naicsCategory, true, "asdfghjkl");
+				"https://www.website.com", "doing business as", naicsCategory);
 
 		ApiResponse response = api.registerBusiness(user);
 
@@ -43,7 +42,7 @@ public class RegisterBusinessTests {
 				DefaultConfigurations.getBusinessCryptoAddress(), 
 				"L1mcysCdEHXWJdeQnj7xMJIhjYMPWq2qS7sa7U8D2GfZyR0ID5gYrYmEF8qZgInNFa1zSsD2dyKbPlzGgiMeMWpnOc1SHxdyjDFL84R8MMUApQ1WRiUoIGIqyaF3BoPVTOn8v14al51P4g6JckAxZFtLI9Udte5S6JGiYVBuFe2MUad8SyjSHB6QIrNziV7vsxewkE1n2"
 				, businessType,
-				"https://www.website.com", "doing business as", naicsCategory, true);
+				"https://www.website.com", "doing business as", naicsCategory);
 
 		ApiResponse response = api.registerBusiness(user);
 
@@ -57,7 +56,7 @@ public class RegisterBusinessTests {
 		BusinessUser user = new BusinessUser(DefaultConfigurations.getBusinessHandle(), "Office", "123 Main Street",
 				null, "New City", "OR", "97204-1234", "503-123-4567", "example@silamoney.com", "975865809",
 				DefaultConfigurations.getBusinessCryptoAddress(), "entity name", businessType,
-				"https://www.website.com", "doing business as", naicsCategory, true);
+				"https://www.website.com", "doing business as", naicsCategory);
 		user.setRegistrationState("DC");
 		ApiResponse response = api.registerBusiness(user);
 

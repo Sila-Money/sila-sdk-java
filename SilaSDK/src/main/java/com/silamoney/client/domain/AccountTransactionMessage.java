@@ -26,8 +26,6 @@ public class AccountTransactionMessage {
     @Getter
     private String destinationId;
     @Getter
-    private String mockWireAccountName;
-    @Getter
     private String transactionIdempotencyId;
 
     @Getter
