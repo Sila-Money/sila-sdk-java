@@ -399,20 +399,6 @@ public class DefaultConfigurations {
         return blockchain_address;
     }
 
-    private static String plaidToken;
-
-    /**
-     * @return String
-     */
-    public static String getPlaidToken() {
-        try {
-            plaidToken = plaidToken == null || plaidToken.isBlank() ? PlaidTokenHelper.getPlaidToken() : plaidToken;
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return plaidToken;
-    }
-
     private static String businessOwnerToken;
 
     /**
@@ -459,19 +445,6 @@ public class DefaultConfigurations {
 
     private static List<PaymentMethods> paymentMethods;
 
-    private static String plaidToken2;
-
-    /**
-     * @return String
-     */
-    public static String getPlaidToken2() {
-        try {
-            plaidToken2 = plaidToken2 == null || plaidToken2.isBlank() ? PlaidTokenHelper.getPlaidToken() : plaidToken2;
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return plaidToken2;
-    }
     public static String transactionIdempotencyUuid = "e1adcdf4-c6bd-463b-9ac7-932474ade222";
 
     private static String providerToken;

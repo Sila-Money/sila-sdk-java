@@ -1,3 +1,6 @@
+v1.1.1
+    - Removed calls to Plaid from tests
+
 v1.1.0
 Enhancements:
     - Fixed certification_history type
