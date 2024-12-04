@@ -3,6 +3,7 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
@@ -18,6 +19,7 @@ public class DeleteAccountTests {
 
     @Test
     public void Response200() throws IOException, InterruptedException {
+        TimeUnit.SECONDS.sleep(120);
         ApiResponse response = api.deleteAccount(DefaultConfigurations.getUserHandle(), "default",
                 DefaultConfigurations.getUserPrivateKey());
 
