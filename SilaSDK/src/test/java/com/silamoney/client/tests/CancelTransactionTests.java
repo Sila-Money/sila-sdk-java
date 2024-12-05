@@ -26,7 +26,7 @@ public class CancelTransactionTests {
                                 .accountName("default").build();
                 ApiResponse response = api.issueSila(redeem);
                 assertEquals(200, response.getStatusCode());
-                TimeUnit.SECONDS.sleep(5);
+                TimeUnit.SECONDS.sleep(10);
                 String transactionId = ((TransactionResponse) response.getData()).getTransactionId();
                 CancelTransactionMessage message = CancelTransactionMessage.builder()
                                 .userHandle(DefaultConfigurations.getUserHandle())

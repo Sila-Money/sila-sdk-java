@@ -91,12 +91,6 @@ public class ResponseUtil {
 
             return new ApiResponse(statusCode, response.headers().map(), accountBalanceResponse,
                     accountBalanceResponse.getSuccess());
-        case "plaid_sameday_auth_msg":
-            PlaidSameDayAuthResponse plaidSameDayAuthResponse = (PlaidSameDayAuthResponse) Serialization
-                    .deserialize(response.body().toString(), PlaidSameDayAuthResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), plaidSameDayAuthResponse,
-                    plaidSameDayAuthResponse.getSuccess());
         case "get_wallets_msg":
             GetWalletsResponse getWalletsResponse = (GetWalletsResponse) Serialization
                     .deserialize(response.body().toString(), GetWalletsResponse.class);
@@ -253,12 +247,6 @@ public class ResponseUtil {
             transferSilaResponse.setSuccess(success);
 
             return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
-        case "plaid_link_token":
-            PlaidLinkTokenResponse plaidLinkTokenResponse = (PlaidLinkTokenResponse) Serialization
-                    .deserialize(response.body().toString(), PlaidLinkTokenResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), plaidLinkTokenResponse,
-                    plaidLinkTokenResponse.isSuccess());
         case "register_wallet_msg":
             RegisterWalletResponse registerWalletResponse = (RegisterWalletResponse) Serialization
                     .deserialize(response.body().toString(), RegisterWalletResponse.class);
@@ -283,12 +271,6 @@ public class ResponseUtil {
 
             return new ApiResponse(statusCode, response.headers().map(), updateAccountResponse,
                     updateAccountResponse.isSuccess());
-        case "plaid_update_link_token":
-            PlaidUpdateLinkTokenResponse plaidUpdateLinkTokenResponse = (PlaidUpdateLinkTokenResponse) Serialization
-                    .deserialize(response.body().toString(), PlaidUpdateLinkTokenResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), plaidUpdateLinkTokenResponse,
-                    plaidUpdateLinkTokenResponse.isSuccess());
         case "get_webhooks":
                 GetWebhooksResponse getWebhooksResponse = (GetWebhooksResponse) Serialization
                         .deserialize(response.body().toString(), GetWebhooksResponse.class);

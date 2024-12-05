@@ -53,10 +53,6 @@ public class Message {
          */
         TRANSFER_MSG("transfer_msg"),
         /**
-         * String value for PlaidSameDayAuthMsg.
-         */
-        PLAID_SAMEDAY_AUTH_MSG("plaid_sameday_auth_msg"),
-        /**
          * String value for GetWalletMsg.
          */
         GET_WALLET_MSG("get_wallet_msg"),
@@ -120,10 +116,6 @@ public class Message {
          * String value for GetEntities.
          */
         GET_ENTITIES("get_entities"),
-        /**
-         * String value for PlaidLinkToken.
-         */
-        PLAID_LINK_TOKEN("plaid_link_token"),
         /**
          * String value for DeleteAccount.
          */
@@ -192,10 +184,6 @@ public class Message {
          * String value for UpdateAccount.
          */
         UPDATE_ACCOUNT("update_account"),
-        /**
-         * String value for PlaidUpdateLinkToken.
-         */
-        PLAID_UPDATE_LINK_TOKEN("plaid_update_link_token"),
         /**
          * String value for ReverseTransationMsg.
          */

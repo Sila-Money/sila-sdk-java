@@ -14,7 +14,7 @@ import com.silamoney.clientrefactored.configuration.Environment;
 public class ApiClient {
 
     private static final String PRODUCT = "SilaSDK-java";
-    private static final String VERSION = "1.1.0";
+    private static final String VERSION = "1.1.1";
 
     private HttpClient httpClient;
     private String basePath;
