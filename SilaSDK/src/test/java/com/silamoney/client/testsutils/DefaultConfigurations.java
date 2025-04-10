@@ -50,6 +50,9 @@ public class DefaultConfigurations {
     private static String addressUuid;
     @Getter
     @Setter
+    private static String verificationUuid;
+    @Getter
+    @Setter
     private static com.silamoney.client.domain.Wallet newWallet;
     @Getter
     @Setter
@@ -60,6 +63,7 @@ public class DefaultConfigurations {
     @Getter
     @Setter
     private static com.silamoney.client.domain.Wallet wallet2;
+
     /**
      * @return String
      */

@@ -25,11 +25,12 @@ public class DocumentsTests {
     public void Response200Success() throws Exception {
         File f = new File(DocumentsTests.class.getClassLoader().getResource("images/logo-geko.png").getFile());
         DocumentType dt = DefaultConfigurations.getDocumentTypes().get(0);
+        String v = DefaultConfigurations.getVerificationUuid();
         UploadDocumentMessage message = UploadDocumentMessage.builder()
                 .userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).filePath(f.getAbsolutePath())
                 .filename("logo-geko").mimeType("image/png").documentType(dt.getName())
-                .identityType(dt.getIdentityType()).build();
+                .identityType(dt.getIdentityType()).verificationUuid(v).build();
         ApiResponse response = api.uploadDocument(message);
         assertEquals(200, response.getStatusCode());
         DocumentsResponse parsedResponse = (DocumentsResponse) response.getData();
