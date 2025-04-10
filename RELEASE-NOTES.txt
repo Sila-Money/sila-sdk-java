@@ -1,3 +1,7 @@
+v1.1.2
+    - Added verification_uuid to doc upload request
+    - Added verification_uuid_by_entity and accounts to request_kyc response
+
 v1.1.1
     - Removed calls to Plaid from tests
 
