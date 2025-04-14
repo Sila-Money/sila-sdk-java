@@ -50,9 +50,23 @@ public class User {
     @Getter
     @Setter
     private String reference;
+    @Getter
+    @Setter
+    private String docType;
+    @Getter
+    @Setter
+    private String docId;
+    @Getter
+    @Setter
+    private String docState;
+    @Getter
+    @Setter
+    private String docCountry;
 
     /**
      * Constructor for user object.
+     * docType, docId, and docState or docCountry are only needed for users who
+     * will be linked as business members.
      *
      * @param handle
      * @param firstName
@@ -145,6 +159,30 @@ public class User {
         this.cryptoAddress = cryptoAddress;
         this.birthdate = birthdate;
         this.country = country;
+        this.smsOptIn = false;
+    }
+    public User(String handle, String firstName, String lastName, String address, @Nullable String address2,
+                String city, String state, String zipCode, String phone, String email, String identityNumber,
+                String cryptoAddress, Date birthdate, @Nullable String country, @Nullable String docType,
+                @Nullable String docId, @Nullable String docState, @Nullable String docCountry) {
+        this.handle = handle;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.address2 = address2;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phone = phone;
+        this.email = email;
+        this.identityNumber = identityNumber;
+        this.cryptoAddress = cryptoAddress;
+        this.birthdate = birthdate;
+        this.country = country != null ? country : "US";
+        this.docType = docType;
+        this.docId = docId;
+        this.docState = docState;
+        this.docCountry = docCountry;
         this.smsOptIn = false;
     }
 }

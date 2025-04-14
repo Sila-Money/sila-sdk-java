@@ -104,4 +104,18 @@ public class RegisterTests {
 		assertEquals(200, response.getStatusCode());
 		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
 	}
+
+	@Test
+	public void Response200WithIdDocument() throws Exception {
+		LocalDate birthdate = new LocalDate(1950, 01, 31);
+		User user = new User(DefaultConfigurations.getUser6Handle(), "Example", "User",
+				"123 Main Street", null,"New City", "OR", "97204-1234",
+				"503-123-4567", "example@silamoney.com", "975865809",
+				DefaultConfigurations.getUser6CryptoAddress(), birthdate.toDate(), "US",
+				"id_drivers_license", "123456789", "OR", null);
+
+		ApiResponse response = api.register(user);
+		assertEquals(200, response.getStatusCode());
+		assertEquals("SUCCESS", ((BaseResponse) response.getData()).getStatus());
+	}
 }

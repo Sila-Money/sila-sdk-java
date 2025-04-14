@@ -489,7 +489,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getCardName() {
-        cardName = cardName == null || cardName.isBlank() ? "cko" + new Random().nextInt(8) : cardName;
+        cardName = cardName == null || cardName.isBlank() ? "cko" + new Random().nextInt(80000) : cardName;
         return cardName;
     }
 
@@ -501,5 +501,35 @@ public class DefaultConfigurations {
     public static String getUser5Handle() {
         user5Handle = user5Handle == null || user5Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user5Handle;
         return user5Handle;
+    }
+    private static String user6Handle;
+
+    /**
+     * @return String
+     */
+    public static String getUser6Handle() {
+        user6Handle = user6Handle == null || user6Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user6Handle;
+        return user6Handle;
+    }
+    private static String user6PrivateKey;
+    private static String user6CryptoAddress;
+    public static String getUser6CryptoAddress() {
+        try {
+            ECKeyPair ecKeyPair = Keys.createEcKeyPair();
+            BigInteger privateKeyInDec = ecKeyPair.getPrivateKey();
+
+            user6PrivateKey = privateKeyInDec.toString(16);
+
+            WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
+            user6CryptoAddress = "0x" + aWallet.getAddress();
+        } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException
+                 | CipherException e) {
+            e.printStackTrace();
+        }
+
+        return user6CryptoAddress;
+    }
+    public static String getUser6PrivateKey() {
+        return user6PrivateKey;
     }
 }
