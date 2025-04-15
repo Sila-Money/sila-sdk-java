@@ -30,6 +30,9 @@ public class EntityMsg {
     @SerializedName("entity")
     private final Entity entity;
 
+    @SerializedName("id_document")
+    private final IDDocument idDocument;
+
     /**
      * Constructor for the EntityMsg object.
      *
@@ -45,6 +48,9 @@ public class EntityMsg {
         this.contact = new Contact(user);
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
+
+        IDDocument tempIdDocument = new IDDocument(user);
+        this.idDocument = tempIdDocument.isEmpty() ? null : tempIdDocument;
     }
 
     /**
@@ -62,5 +68,6 @@ public class EntityMsg {
         this.contact = new Contact(user);
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
+        this.idDocument = null;
     }
 }
