@@ -10,14 +10,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: SonarCloudPrepare@1
+- task: SonarCloudPrepare@3
   inputs:
     SonarCloud: 'SonarCloud'
     organization: 'silamoney'
     scannerMode: 'Other'
   displayName: 'Prepare Sonar analysis'
 
-- task: Maven@3
+- task: Maven@4
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     mavenOptions: '-Xmx3072m'
@@ -29,7 +29,7 @@ steps:
     options: '-B -DskipTests clean'
   displayName: 'Maven package'
 
-- task: Maven@3
+- task: Maven@4
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     goals: 'test'
@@ -46,7 +46,7 @@ steps:
     sonarQubeRunAnalysis: false
   displayName: 'Maven test'
 
-- task: Maven@3
+- task: Maven@4
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     goals: 'sonar:sonar'
@@ -59,6 +59,6 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
 
-- task: SonarCloudPublish@1
+- task: SonarCloudPublish@3
   inputs:
     pollingTimeoutSec: '300'
