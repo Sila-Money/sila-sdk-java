@@ -39,6 +39,7 @@ public class GetWalletTests {
 		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getBlockChainAddress());
 		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getBlockChainNetwork());
 		assertNotNull(((GetWalletResponse)response.getData()).getWallet().getWalletId());
+		assertNull(((GetWalletResponse)response.getData()).getWallet().getRemoteAccountDetails());
 		assertTrue(((GetWalletResponse)response.getData()).getWallet().isStatementsEnabled());
 		DefaultConfigurations.setWalletId(((GetWalletResponse)response.getData()).getWallet().getWalletId());
 	}

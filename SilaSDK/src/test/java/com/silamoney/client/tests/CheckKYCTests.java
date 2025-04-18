@@ -89,6 +89,9 @@ public class CheckKYCTests {
 
     @Test
     public void Response200withCko() throws Exception {
+
+        Thread.sleep(1000);
+
         ApiResponse response = api.checkKYC(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
 
         CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();

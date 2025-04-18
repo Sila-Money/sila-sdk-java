@@ -20,6 +20,7 @@ public class CancelTransactionTests {
 
         @Test
         public void Response200Success() throws Exception {
+                Thread.sleep(1000);
                 AccountTransactionMessage redeem = AccountTransactionMessage.builder()
                                 .userHandle(DefaultConfigurations.getUserHandle())
                                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).amount(200)
