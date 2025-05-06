@@ -25,4 +25,8 @@ public class UploadDocumentMessage {
     private String filePath;
     @Getter
     private String reference;
+    @Getter
+    private String verificationUuid;
+    @Getter
+    private boolean isFront;
 }
