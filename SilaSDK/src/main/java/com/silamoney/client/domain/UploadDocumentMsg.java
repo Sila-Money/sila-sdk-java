@@ -23,6 +23,10 @@ public class UploadDocumentMsg {
     private final String documentType;
     @SerializedName("description")
     private final String description;
+    @SerializedName("verification_uuid")
+    private final String verificationUuid;
+    @SerializedName("is_front")
+    private final boolean isFront;
 
     /**
      * 
@@ -40,6 +44,8 @@ public class UploadDocumentMsg {
         this.mimeType = message.getMimeType();
         this.documentType = message.getDocumentType();
         this.description = message.getDescription();
+        this.verificationUuid = message.getVerificationUuid();
+        this.isFront = message.isFront();
     }
 
     public UploadDocumentMsg(UploadDocument message) {
@@ -48,6 +54,8 @@ public class UploadDocumentMsg {
         this.mimeType = message.getMimeType();
         this.documentType = message.getDocumentType();
         this.description = message.getDescription();
+        this.verificationUuid = message.getVerificationUuid();
+        this.isFront = message.isFront();
         try {
             hash = EcdsaUtil.hashFile(message.getFilePath());
         } catch (IOException e) {
