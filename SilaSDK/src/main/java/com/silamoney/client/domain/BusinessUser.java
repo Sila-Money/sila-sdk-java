@@ -55,6 +55,7 @@ public class BusinessUser {
     @Getter
     private Date registrationDate;
     @Getter
+    @Setter
     private String registrationState;
 
     /**
