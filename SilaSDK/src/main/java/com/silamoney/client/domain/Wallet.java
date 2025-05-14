@@ -39,6 +39,14 @@ public class Wallet {
     @Getter
     public String walletId;
 
+    @SerializedName("payment_instrument_id")
+    @Getter
+    public String paymentInstrumentId;
+
+    @SerializedName("wallet_address")
+    @Getter
+    public String walletAddress;
+
     /**
      * boolean field used for the statements enabled.
      */
@@ -66,5 +74,14 @@ public class Wallet {
         this.privateKey = privateKey;
         this.nickname = nickname;
         this.defaultWallet=defaultWallet;
+    }
+
+    public Wallet(String blockChainAddress, String privateKey, String blockChainNetwork, String nickname, boolean defaultWallet, boolean frozen) {
+        this.blockChainAddress = blockChainAddress;
+        this.blockChainNetwork = blockChainNetwork;
+        this.privateKey = privateKey;
+        this.nickname = nickname;
+        this.defaultWallet = defaultWallet;
+        this.frozen = frozen;
     }
 }
