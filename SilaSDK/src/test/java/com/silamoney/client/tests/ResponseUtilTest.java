@@ -3,6 +3,7 @@ package com.silamoney.client.tests;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.domain.GetWalletResponse;
 import com.silamoney.client.domain.Message;
+import com.silamoney.client.domain.Wallet;
 import com.silamoney.client.util.ResponseUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -88,21 +89,20 @@ public class ResponseUtilTest {
                         "    \"default\": true,\n" +
                         "    \"wallet_address\": null,\n" +
                         "    \"network\": null,\n" +
-                        "    \"statements_enabled\": true\n" +
-                        "  },\n" +
+                        "    \"statements_enabled\": true,\n" +
+                        "       \"remote_account_details\": {\n" +
+                        "           \"account_number\": \"12321311\",\n" +
+                        "           \"routing_number\": \"12321312\",\n" +
+                        "           \"wire_account_number\": \"12321313\",\n" +
+                        "           \"wire_routing_number\": \"12321314\"\n" +
+                        "   },\n" +
                         "  \"is_whitelisted\": true,\n" +
                         "  \"sila_balance\": 5000,\n" +
                         "  \"sila_available_balance\": 5000,\n" +
                         "  \"sila_pending_balance\": 0,\n" +
                         "  \"status\": \"SUCCESS\",\n" +
                         "  \"response_time_ms\": \"49\",\n" +
-                        "  \"sila_reference_id\": \"req_jei3jf7\",\n" +
-                        "  \"remote_account_details\": {\n" +
-                        "    \"account_number\": \"12321311\",\n" +
-                        "    \"routing_number\": \"12321312\",\n" +
-                        "    \"wire_account_number\": \"12321313\",\n" +
-                        "    \"wire_routing_number\": \"12321314\"\n" +
-                        "\n" +
+                        "  \"sila_reference_id\": \"req_jei3jf7\"\n" +
                         "  }\n" +
                         "}";
             }
@@ -124,10 +124,11 @@ public class ResponseUtilTest {
         };
         ApiResponse apiResponse = ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_WALLET_MSG.getValue());
         GetWalletResponse walletResponse = (GetWalletResponse) apiResponse.getData();
-        Assert.assertEquals("wallet_uuid", walletResponse.getWallet().getWalletId());
-        Assert.assertEquals("12321311", walletResponse.getRemoteAccountDetails().getAccountNumber());
-        Assert.assertEquals("12321312", walletResponse.getRemoteAccountDetails().getRoutingNumber());
-        Assert.assertEquals("12321313", walletResponse.getRemoteAccountDetails().getWireAccountNumber());
-        Assert.assertEquals("12321314", walletResponse.getRemoteAccountDetails().getWireRoutingNumber());
+        Wallet wallet = walletResponse.getWallet();
+        Assert.assertEquals("wallet_uuid", wallet.getWalletId());
+        Assert.assertEquals("12321311", wallet.getRemoteAccountDetails().getAccountNumber());
+        Assert.assertEquals("12321312", wallet.getRemoteAccountDetails().getRoutingNumber());
+        Assert.assertEquals("12321313", wallet.getRemoteAccountDetails().getWireAccountNumber());
+        Assert.assertEquals("12321314", wallet.getRemoteAccountDetails().getWireRoutingNumber());
     }
 }

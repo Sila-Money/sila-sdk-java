@@ -36,8 +36,4 @@ public class GetWalletResponse extends BaseResponse {
     @Getter
     @SerializedName("sila_reference_id")
     private String silaReferenceId;
-
-    @Getter
-    @SerializedName("remote_account_details")
-    private RemoteAccountDetails remoteAccountDetails;
 }
