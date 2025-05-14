@@ -73,8 +73,6 @@ public class Entity {
     private String registrationState;
     @SerializedName(value = "registration_date")
     private String registrationDate;
-    @SerializedName(value = "id_document")
-    private IdentityDocument idDocument;
 
     /**
      * Constructor for Entity object.
@@ -90,9 +88,6 @@ public class Entity {
         this.lastName = user.getLastName();
         this.entityName = this.firstName + " " + this.lastName;
         this.relationship = RelationshipEnum.USER.getValue();
-        if (user.getIdDocument() != null) {
-            this.idDocument = user.getIdDocument();
-        }
     }
 
     public Entity(BusinessUser user) {
