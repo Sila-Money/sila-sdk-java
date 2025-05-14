@@ -33,6 +33,9 @@ public class EntityMsg {
     @SerializedName("device")
     private final Device device;
 
+    @SerializedName("id_document")
+    private final IdentityDocument idDocument;
+
     /**
      * Constructor for the EntityMsg object.
      *
@@ -52,6 +55,11 @@ public class EntityMsg {
             this.device = new Device(user.getDeviceFingerprint(), user.getSessionIdentifier());
         } else {
             this.device = null;            
+        }
+        if (user.getIdDocument() != null) {
+            this.idDocument = user.getIdDocument();
+        } else {
+            this.idDocument = null;
         }
         
     }
@@ -76,6 +84,7 @@ public class EntityMsg {
         } else {
             this.device = null;
         }
+        this.idDocument = null;
     }
 
     /**
@@ -95,6 +104,7 @@ public class EntityMsg {
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
         this.device = device;
+        this.idDocument = null;
     }
 
     /**
@@ -113,5 +123,6 @@ public class EntityMsg {
         this.cryptoEntry = new CryptoEntry(user);
         this.entity = new Entity(user);
         this.device = device;
+        this.idDocument = null;
     }
 }
