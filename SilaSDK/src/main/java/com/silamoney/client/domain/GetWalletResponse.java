@@ -9,6 +9,7 @@ public class GetWalletResponse extends BaseResponse {
 
     @Getter
     private Wallet wallet;
+
     @SerializedName("is_whitelisted")
     @Getter
     private boolean isWhitelisted;
@@ -32,4 +33,7 @@ public class GetWalletResponse extends BaseResponse {
     @SerializedName("sila_pending_balance")
     private double silaPendingBalance;
 
+    @Getter
+    @SerializedName("sila_reference_id")
+    private String silaReferenceId;
 }
