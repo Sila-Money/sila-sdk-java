@@ -33,7 +33,4 @@ public class GetWalletResponse extends BaseResponse {
     @SerializedName("sila_pending_balance")
     private double silaPendingBalance;
 
-    @Getter
-    @SerializedName("sila_reference_id")
-    private String silaReferenceId;
 }
