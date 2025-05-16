@@ -28,4 +28,9 @@ public class BaseResponse {
     @SerializedName("response_time_ms")
     public String responseTimeMs;
 
+    @Getter
+    @SerializedName("sila_reference_id")
+    private String silaReferenceId;
+
+
 }
