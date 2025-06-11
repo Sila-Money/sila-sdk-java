@@ -251,6 +251,11 @@ public class ResponseUtil {
                             CheckKYCResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), checkKYCResponse, success);
+                case "get_verifications":
+                    GetVerificationsResponse getVerificationsResponse = (GetVerificationsResponse) Serialization
+                            .deserialize(bodyString, GetVerificationsResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), getVerificationsResponse, success);
                 case "request_kyc":
                     RequestKycResponse requestKycResponse = (RequestKycResponse) Serialization.deserialize(
                             bodyString,

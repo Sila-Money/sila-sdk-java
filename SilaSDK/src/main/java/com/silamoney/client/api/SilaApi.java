@@ -251,6 +251,17 @@ public class SilaApi {
     }
 
     /**
+     *
+     *
+     */
+    public ApiResponse getVerifications(String userHandle, String userPrivateKey) throws IOException, InterruptedException {
+        GetVerificationsMsg body = new GetVerificationsMsg(userHandle, this.configuration.getAuthHandle(), null);
+        String path = Endpoints.GET_VERIFICATIONS.getUri();
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_VERIFICATIONS_MSG.getValue());
+    }
+
+    /**
      * Uses a provided Plaid public token to link a bank account to a verified
      * entity. It selectes the first account return with the plaid token.
      *
@@ -1362,7 +1373,6 @@ public class SilaApi {
      * Upload supporting documentation for KYC
      *
      * @param message
-     * @param inputStream
      * @return
      * @throws IOException
      * @throws NoSuchAlgorithmException
@@ -1386,6 +1396,8 @@ public class SilaApi {
    * Upload supporting documentation for KYC
    *
    * @param message
+   * @param inputStreamSource
+   * @param fileName
    * @return
    * @throws IOException
    * @throws NoSuchAlgorithmException
