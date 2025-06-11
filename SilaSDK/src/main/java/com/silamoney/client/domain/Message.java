@@ -99,7 +99,11 @@ public class Message {
         /**
          * String value for check kyc.
          */
-        CHECK_KYC("check_kyc"), 
+        CHECK_KYC("check_kyc"),
+        /**
+         * String value for get verifications.
+         */
+        GET_VERIFICATIONS_MSG("get_verifications"),
         /**
          * String value for UnlinkBusinessMember.
          */
