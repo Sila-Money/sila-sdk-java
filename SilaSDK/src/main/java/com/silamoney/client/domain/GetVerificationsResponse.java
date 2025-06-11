@@ -7,11 +7,7 @@ import java.util.List;
 
 @Getter
 public class GetVerificationsResponse extends BaseResponse {
-
-    @SerializedName(value = "verifications")
-    private List<PriorityVerification> verifications;
-  }
-
-
+  @SerializedName(value = "verifications")
+  private List<PriorityVerification> verifications;
 
 }
