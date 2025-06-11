@@ -261,6 +261,19 @@ public class SilaApi {
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_VERIFICATIONS_MSG.getValue());
     }
 
+    public ApiResponse resumeVerification(
+        String userHandle,
+        String userPrivateKey,
+        String verificationUuid,
+        String updateType,
+        List<String> docUuids)
+    throws IOException, InterruptedException {
+        ResumeVerificationMsg body = new ResumeVerificationMsg(userHandle, this.configuration.getAuthHandle(), null, verificationUuid, updateType, docUuids);
+        String path = Endpoints.RESUME_VERIFICATION.getUri();
+        HttpResponse<?> response = getHttpResponsePut(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.RESUME_VERIFICATION_MSG.getValue());
+    }
+
     /**
      * Uses a provided Plaid public token to link a bank account to a verified
      * entity. It selectes the first account return with the plaid token.

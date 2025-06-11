@@ -256,6 +256,11 @@ public class ResponseUtil {
                             .deserialize(bodyString, GetVerificationsResponse.class);
 
                     return new ApiResponse(statusCode, response.headers().map(), getVerificationsResponse, success);
+                case "resume_verification":
+                    ResumeVerificationResponse resumeVerificationResponse = (ResumeVerificationResponse) Serialization
+                            .deserialize(bodyString, ResumeVerificationResponse.class);
+
+                    return new ApiResponse(statusCode, response.headers().map(), resumeVerificationResponse, success);
                 case "request_kyc":
                     RequestKycResponse requestKycResponse = (RequestKycResponse) Serialization.deserialize(
                             bodyString,

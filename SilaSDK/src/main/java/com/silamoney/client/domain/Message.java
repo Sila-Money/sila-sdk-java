@@ -105,6 +105,10 @@ public class Message {
          */
         GET_VERIFICATIONS_MSG("get_verifications"),
         /**
+         * String value for ResumeVerification.
+         */
+        RESUME_VERIFICATION_MSG("resume_verification"),
+        /**
          * String value for UnlinkBusinessMember.
          */
         UNLINK_BUSINESS_MEMBER_MSG("unlink_business_member"), 
