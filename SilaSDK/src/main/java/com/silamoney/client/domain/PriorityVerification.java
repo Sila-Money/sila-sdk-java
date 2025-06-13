@@ -2,6 +2,8 @@ package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
+
 public class PriorityVerification {
   @SerializedName(value = "verification_uuid")
   private String verificationUuid;
@@ -12,7 +14,7 @@ public class PriorityVerification {
   private String verificationStatus;
 
   @SerializedName(value = "requested_at")
-  private int requestedAt;
+  private Instant requestedAt;
 
   /**
    * @return the verificationUuid
@@ -59,14 +61,14 @@ public class PriorityVerification {
   /**
    * @return the requestedAt
    */
-  public int getRequestedAt() {
+  public Instant getRequestedAt() {
     return requestedAt;
   }
 
   /**
    * @param requestedAt the requestedAt to set
    */
-  public void setRequestedAt(int requestedAt) {
+  public void setRequestedAt(Instant requestedAt) {
     this.requestedAt = requestedAt;
   }
 }
