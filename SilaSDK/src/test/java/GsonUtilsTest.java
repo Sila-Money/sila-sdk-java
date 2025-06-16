@@ -3,6 +3,8 @@ import com.silamoney.client.util.Serialization;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.Instant;
+
 public class GsonUtilsTest {
 
     @Test
@@ -19,5 +21,6 @@ public class GsonUtilsTest {
                 GetVerificationsResponse.class);
         GetVerificationsResponse response = (GetVerificationsResponse) resp;
         Assert.assertEquals("12321312312", response.getVerifications().get(0).getVerificationUuid());
+        Assert.assertEquals(Instant.parse("2023-10-01T12:00:00Z"), response.getVerifications().get(0).getRequestedAt());
     }
 }
