@@ -1,5 +1,4 @@
 import com.silamoney.client.domain.GetVerificationsResponse;
-import com.silamoney.client.util.GsonUtils;
 import com.silamoney.client.util.Serialization;
 import org.junit.Assert;
 import org.junit.Test;
