@@ -1,9 +1,9 @@
 package com.silamoney.client.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.time.Instant;
 
 /**
  * Util used to serialize or deserialize objects.
@@ -16,7 +16,9 @@ public class Serialization {
         
     }
 
-    private static final Gson Serializer = new Gson();
+    private static final Gson Serializer = new GsonBuilder()
+            .registerTypeAdapter(Instant.class, new InstantDeserializer())
+            .create();
     /**
      * Converts the object into a json string.
      *
@@ -48,4 +50,12 @@ public class Serialization {
     public static Object deserialize(String str, TypeToken<?> token) {
         return Serializer.fromJson(str, token.getType());
     }
+
+    public static class InstantDeserializer implements JsonDeserializer<Instant> {
+        @Override
+        public Instant deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return Instant.parse(json.getAsString());
+        }
+    }
+
 }
