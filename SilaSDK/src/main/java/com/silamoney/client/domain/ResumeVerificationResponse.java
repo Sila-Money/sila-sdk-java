@@ -10,5 +10,4 @@ public class ResumeVerificationResponse extends BaseResponse {
   @SerializedName(value = "verification_uuid")
   private String verificationUuid;
 
-  private String message;
 }
