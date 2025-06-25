@@ -21,4 +21,6 @@ public class BusinessEntityMessage {
     private String businessWebsite;
     @Getter
     private String registrationState;
+    @Getter
+    private LocalDate registrationDate;
 }

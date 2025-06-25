@@ -21,6 +21,8 @@ public class BusinessEntityMsg {
     private String businessWebsite;
     @SerializedName("registration_state")
     private String registrationState;
+    @SerializedName("registration_date")
+    private String registrationDate;
 
     public BusinessEntityMsg(String authHandle, UserHandleMessage user, BusinessEntityMessage message) {
         this.header = new Header(user.getUserHandle(),authHandle);
@@ -33,5 +35,7 @@ public class BusinessEntityMsg {
         this.doingBusinessAs = message.getDoingBusinessAs();
         this.businessWebsite = message.getBusinessWebsite();
         this.registrationState=message.getRegistrationState();
+        this.registrationDate = message.getRegistrationDate() == null ? null
+                : message.getRegistrationDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }
