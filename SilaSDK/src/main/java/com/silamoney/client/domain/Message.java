@@ -243,7 +243,11 @@ public class Message {
         /**
          * String value for create cko testing token.
          */
-        CREATE_CKO_TESTING_TOKEN_MSG("create_cko_testing_token_msg");
+        CREATE_CKO_TESTING_TOKEN_MSG("create_cko_testing_token_msg"),
+        /**
+         * String value for UpdateIdDocumentMsg.
+         */
+        UPDATE_ID_DOCUMENT_MSG("update_id_document_msg");
 
 
         private final String value;
