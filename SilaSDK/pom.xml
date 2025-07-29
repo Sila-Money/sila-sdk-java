@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.icon.sila</groupId>
     <artifactId>icon-sila-sdk</artifactId>
-    <version>1.61-SNAPSHOT</version>
+    <version>1.62-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Icon Sila SDK</name>
