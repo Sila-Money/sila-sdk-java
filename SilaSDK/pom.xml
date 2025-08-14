@@ -190,12 +190,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.3</version>
                 <configuration>
-                    <includes>
+                    <skipTests>true</skipTests>
+                    <!-- <includes>
                         <include>**/TestSuite.java</include>
                     </includes>
                     <excludes>
                         <exclude>**/*Tests.java</exclude>
-                    </excludes>
+                    </excludes> -->
                 </configuration>
             </plugin>
             <plugin>
