@@ -127,7 +127,7 @@ public class GetStatementsDataTests {
         searchFilters.setPerPage(20);
         searchFilters.setMonth("11-2022");
 
-        String newUserHandle = "javaSDK-" + new Random().nextInt();
+        String newUserHandle = "javaSDK-UserNew-" + new Random().nextInt();
         LocalDate birthdate = new LocalDate(2001, 6, 22);
         String userPrivateKey = "";
 

@@ -68,7 +68,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getUserHandle() {
-        userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-" + new Random().nextInt() : userHandle;
+        userHandle = userHandle == null || userHandle.isBlank() ? "javaSDK-User1-" + new Random().nextInt() : userHandle;
         return userHandle;
     }
 
@@ -78,7 +78,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getUser2Handle() {
-        user2Handle = user2Handle == null || user2Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user2Handle;
+        user2Handle = user2Handle == null || user2Handle.isBlank() ? "javaSDK-User2-" + new Random().nextInt() : user2Handle;
         return user2Handle;
     }
 
@@ -88,7 +88,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getUser3Handle() {
-        user3Handle = user3Handle == null || user3Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user3Handle;
+        user3Handle = user3Handle == null || user3Handle.isBlank() ? "javaSDK-User3-" + new Random().nextInt() : user3Handle;
         return user3Handle;
     }
 
@@ -98,7 +98,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getBusinessHandle() {
-        businessHandle = businessHandle == null || businessHandle.isBlank() ? "javaSDK-" + new Random().nextInt()
+        businessHandle = businessHandle == null || businessHandle.isBlank() ? "javaSDK-User4-" + new Random().nextInt()
                 : businessHandle;
         return businessHandle;
     }
@@ -499,7 +499,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getUser5Handle() {
-        user5Handle = user5Handle == null || user5Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user5Handle;
+        user5Handle = user5Handle == null || user5Handle.isBlank() ? "javaSDK-User5-" + new Random().nextInt() : user5Handle;
         return user5Handle;
     }
     private static String user6Handle;
@@ -508,7 +508,7 @@ public class DefaultConfigurations {
      * @return String
      */
     public static String getUser6Handle() {
-        user6Handle = user6Handle == null || user6Handle.isBlank() ? "javaSDK-" + new Random().nextInt() : user6Handle;
+        user6Handle = user6Handle == null || user6Handle.isBlank() ? "javaSDK-User6-" + new Random().nextInt() : user6Handle;
         return user6Handle;
     }
     private static String user6PrivateKey;
