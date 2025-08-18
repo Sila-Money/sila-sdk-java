@@ -1,3 +1,6 @@
+v1.1.4
+    -Adding support for account_number filter in /get_accounts.
+
 v1.1.3
     - Added remote_wallet_details to get_wallets response
 
