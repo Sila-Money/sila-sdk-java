@@ -10,12 +10,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: SonarCloudPrepare@3
+- task: SonarQubePrepare@7
   inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'silamoney'
+    SonarQube: 'Sila SonarQube'
     scannerMode: 'Other'
-  displayName: 'Prepare Sonar analysis'
+  displayName: 'Prepare SonarQube analysis'
 
 - task: Maven@4
   inputs:
@@ -59,6 +58,7 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
 
-- task: SonarCloudPublish@3
+- task: SonarQubePublish@7
+  displayName: 'Publish Quality Gate'
   inputs:
     pollingTimeoutSec: '300'
