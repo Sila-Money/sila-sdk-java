@@ -18,7 +18,7 @@ steps:
     scannerMode: 'Other'
 
 - task: Maven@4
-  displayName: 'Maven package'
+  displayName: 'Maven Package'
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     mavenOptions: '-Xmx3072m'
@@ -30,7 +30,7 @@ steps:
     options: '-B -DskipTests clean'
 
 - task: Maven@4
-  displayName: 'Maven test'
+  displayName: 'Maven Test'
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     goals: 'test'
