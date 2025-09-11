@@ -72,7 +72,9 @@ public class BusinessUser {
      */
     @Getter
     @Setter
-    private Date registrationDate;
+    private String registrationDate;
+
+    private transient Date registrationDateSource;
 
     public BusinessUser(String handle, String addressAlias, String address, @Nullable String address2, String city,
             String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,
@@ -173,7 +175,7 @@ public class BusinessUser {
                         String state, String zipCode, String phone, String email, String identityValue, String cryptoAddress,
                         String entityName, BusinessType businessType, String businessWebsite, String doingBusinessAs,
                         NaicsCategoryDescription naicsCategory, @Nullable String country, String registrationState,
-                        Date registrationDate) {
+                        Date registrationDateSource) {
         this.handle = handle;
         this.addressAlias = addressAlias;
         this.address = address;
@@ -193,6 +195,9 @@ public class BusinessUser {
         this.country = country != null ? country : "US";
         this.smsOptIn = false;
         this.registrationState = registrationState;
-        this.registrationDate = registrationDate;
+        this.registrationDateSource = registrationDateSource;
+        this.registrationDate = registrationDateSource == null
+        ? null
+        : new java.text.SimpleDateFormat("yyyy-MM-dd").format(registrationDateSource);
     }
 }

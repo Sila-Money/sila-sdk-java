@@ -54,7 +54,7 @@ public class RegisterTests {
 	@Test
 	public void Response3USER1FAIL() throws Exception {
 		LocalDate birthdate = new LocalDate(1950, 01, 31);
-		String userHandleInternal = "javaSDK-" + new Random().nextInt();
+		String userHandleInternal = "javaSDK-UserInternal-" + new Random().nextInt();
 		ECKeyPair ecKeyPair = Keys.createEcKeyPair();
 		WalletFile aWallet = Wallet.createLight(UUID.randomUUID().toString(), ecKeyPair);
 		String userCryptoAddressInternal = "0x" + aWallet.getAddress();
