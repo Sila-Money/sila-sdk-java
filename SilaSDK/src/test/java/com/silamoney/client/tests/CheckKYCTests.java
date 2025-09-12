@@ -96,6 +96,13 @@ public class CheckKYCTests {
 
         CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
 
+        while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending")) {
+            TimeUnit.SECONDS.sleep(5);
+            response = api.checkKYC(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
+
+            parsedResponse = (CheckKYCResponse) response.getData();
+        }
+
         assertEquals("SUCCESS", parsedResponse.getStatus());
         assertNotNull(parsedResponse.getEntityType());
         assertNotNull(parsedResponse.getVerificationStatus());

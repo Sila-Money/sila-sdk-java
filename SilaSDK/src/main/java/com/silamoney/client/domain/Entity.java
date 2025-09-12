@@ -75,7 +75,7 @@ public class Entity {
     @SerializedName(value = "registration_state")
     private String registrationState;
     @SerializedName(value = "registration_date")
-    private Date registrationDate;
+    private String registrationDate;
 
     /**
      * Constructor for Entity object.

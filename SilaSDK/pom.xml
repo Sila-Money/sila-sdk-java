@@ -37,7 +37,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <sonar.projectKey>sila-sdk-java</sonar.projectKey>
+        <sonar.projectKey>Sila-Money_sila-sdk-java</sonar.projectKey>
         <sonar.projectName>sila-sdk-java</sonar.projectName>
         <sonar.coverage.jacoco.xmlReportPaths>**/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.junit.reportPaths>**/surefire-reports</sonar.junit.reportPaths>
