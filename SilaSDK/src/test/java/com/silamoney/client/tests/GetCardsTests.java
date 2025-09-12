@@ -16,7 +16,7 @@ public class GetCardsTests {
 
         @Test
         public void Response200() throws Exception {
-                ApiResponse response = api.getCards(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
+                ApiResponse response = api.getCards(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
                 assertEquals(200, response.getStatusCode());
                 GetCardsResponse parsedResponse = (GetCardsResponse) response.getData();
                 assertEquals("SUCCESS", parsedResponse.getStatus());

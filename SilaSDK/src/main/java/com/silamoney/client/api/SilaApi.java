@@ -242,27 +242,6 @@ public class SilaApi {
     }
 
     /**
-     * Uses a provided Plaid public token to link a bank account to a verified
-     * entity. It selectes the first account return with the plaid token.
-     *
-     * @param userHandle
-     * @param userPrivateKey
-     * @param accountName
-     * @param publicToken
-     * @return {@link ApiResponse}
-     * @throws IOException
-     * @throws InterruptedException
-     *
-     * @deprecated This method is deprecated. Please refer to the documentation for
-     *             the new implementation.
-     */
-    @Deprecated(forRemoval = true)
-    public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken)
-            throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, null, null, null, null, null);
-    }
-
-    /**
      *
      * @param userHandle
      * @param userPrivateKey
@@ -280,51 +259,6 @@ public class SilaApi {
                 plaidTokenType);
     }
 
-    /**
-     * Uses a provided Plaid public token to link a bank account to a verified
-     * entity. It uses the provided account id to select the account to link.
-     *
-     * @param userHandle
-     * @param userPrivateKey
-     * @param accountName
-     * @param publicToken
-     * @param accountId
-     * @return {@link ApiResponse}
-     * @throws IOException
-     * @throws InterruptedException
-     *
-     * @deprecated This method is deprecated. Please refer to the documentation for
-     *             the new implementation.
-     */
-    @Deprecated(forRemoval = true)
-    public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String publicToken,
-            String accountId) throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, publicToken, accountId, null, null, null, null);
-    }
-
-    /**
-     * Direct account linking. This is a restricted use case. Please contact Sila
-     * for approval
-     *
-     * @param userHandle
-     * @param userPrivateKey
-     * @param accountName
-     * @param accountNumber
-     * @param routingNumber
-     * @param accountType
-     * @return {@link ApiResponse}
-     * @throws IOException
-     * @throws InterruptedException
-     *
-     * @deprecated This method is deprecated. Please refer to the documentation for
-     *             the new implementation.
-     */
-    @Deprecated(forRemoval = true)
-    public ApiResponse linkAccount(String userHandle, String userPrivateKey, String accountName, String accountNumber,
-            String routingNumber, String accountType) throws IOException, InterruptedException {
-        return linkAccount(userHandle, userPrivateKey, accountName, null, null, accountNumber, routingNumber,
-                accountType, null);
-    }
     /**
      * @param userHandle
      * @param userPrivateKey
@@ -616,7 +550,6 @@ public class SilaApi {
      * @throws InterruptedException
      * @deprecated You don't need to provide the user private key anymore.
      */
-    @Deprecated(forRemoval = true)
     public ApiResponse getTransactions(String userHandle, SearchFilters filters, String userPrivateKey)
             throws IOException, InterruptedException {
         return getTransactions(userHandle, filters);
@@ -693,40 +626,6 @@ public class SilaApi {
         String path = Endpoints.GET_SILA_BALANCE.getUri();
         HttpResponse<?> response = getHttpResponse(path, body, null, null, null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_SILA_BALANCE.getValue());
-    }
-
-    /**
-     * Request a public_token for plaid's same day microdeposit auth.
-     *
-     * @param userHandle
-     * @param accountName
-     * @param userPrivateKey
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse plaidSameDayAuth(String userHandle, @Nullable String accountName, String userPrivateKey)
-            throws IOException, InterruptedException {
-        return plaidSameDayAuth(userHandle, accountName, userPrivateKey, null);
-    }
-
-    /**
-     * Request a public_token for plaid's same day microdeposit auth.
-     *
-     * @param userHandle
-     * @param accountName
-     * @param userPrivateKey
-     * @param reference
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse plaidSameDayAuth(String userHandle, @Nullable String accountName, String userPrivateKey, String reference)
-            throws IOException, InterruptedException {
-        PlaidSameDayAuthMsg body = new PlaidSameDayAuthMsg(userHandle, accountName, this.configuration.getAuthHandle(), reference);
-        String path = Endpoints.PLAID_SAMEDAY_AUTH.getUri();
-        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_SAMEDAY_AUTH_MSG.getValue());
     }
 
     /**
@@ -845,9 +744,9 @@ public class SilaApi {
         return registerWalletData(userHandle, wallet, walletVerificationSignature, userPrivateKey, reference);
     }
 
-    private ApiResponse registerWalletData(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey, String refeernce) throws IOException, InterruptedException {
+    private ApiResponse registerWalletData(String userHandle, Wallet wallet, String walletVerificationSignature, String userPrivateKey, String reference) throws IOException, InterruptedException {
         RegisterWalletMsg body = new RegisterWalletMsg(userHandle, wallet, walletVerificationSignature,
-                this.configuration.getAuthHandle(), refeernce);
+                this.configuration.getAuthHandle(), reference);
         String path = Endpoints.REGISTER_WALLET.getUri();
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.REGISTER_WALLET_MSG.getValue());
@@ -1508,21 +1407,6 @@ public class SilaApi {
     }
 
     /**
-     * Add a new device to a registered entity.
-     *
-     * @param user
-     * @param device
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse addDevice(UserHandleMessage user, Device device) throws IOException, InterruptedException {
-        DeviceMsg body = new DeviceMsg(this.configuration.getAuthHandle(), user, device);
-        return registrationData(Endpoints.ADD_REGISTRATION_DATA, RegistrationDataEnum.DEVICE, user.getUserPrivateKey(),
-                body, DeviceResponse.class);
-    }
-
-    /**
      * Update an existing email of a registered entity.
      *
      * @param user
@@ -1616,42 +1500,6 @@ public class SilaApi {
         BusinessEntityMsg body = new BusinessEntityMsg(this.configuration.getAuthHandle(), user, message);
         return registrationData(Endpoints.UPDATE_REGISTRATION_DATA, RegistrationDataEnum.ENTITY,
                 user.getUserPrivateKey(), body, BusinessEntityResponse.class);
-    }
-
-    /**
-     * @param userHandle
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse plaidLinkToken(String userHandle) throws IOException, InterruptedException {
-        return plaidLinkToken(userHandle, null);
-    }
-
-    /**
-     * @param userHandle
-     * @param androidPackageName
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse plaidLinkToken(String userHandle, String androidPackageName) throws IOException, InterruptedException {
-        return plaidLinkToken(userHandle, androidPackageName, null);
-    }
-
-    /**
-     * @param userHandle
-     * @param androidPackageName
-     * @param reference
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse plaidLinkToken(String userHandle, String androidPackageName, String reference) throws IOException, InterruptedException {
-        String path = Endpoints.PLAID_LINK_TOKEN.getUri();
-        PlaidLinkTokenMsg body = new PlaidLinkTokenMsg(userHandle, this.configuration.getAuthHandle(), androidPackageName, reference);
-        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_LINK_TOKEN.getValue());
     }
 
     /**
@@ -1808,79 +1656,6 @@ public class SilaApi {
         HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
         return ResponseUtil.prepareResponse(response, Message.ValueEnum.UPDATE_ACCOUNT.getValue());
     }
-
-    /**
-     * @param userHandle
-     * @param accountName
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse plaidUpdateLinkToken(String userHandle, String accountName)
-            throws IOException, InterruptedException {
-        return plaidUpdateLinkToken(userHandle, accountName, null);
-    }
-
-    /**
-     * @param userHandle
-     * @param accountName
-     * @param reference
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse plaidUpdateLinkToken(String userHandle, String accountName, String reference)
-            throws IOException, InterruptedException {
-        String path = Endpoints.PLAID_UPDATE_LINK_TOKEN.getUri();
-        AccountRequestMsg body = new AccountRequestMsg(userHandle, this.configuration.getAuthHandle(), accountName, reference);
-        HttpResponse<?> response = getHttpResponse(path, body, null, this.configuration.getPrivateKey(), null);
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.PLAID_UPDATE_LINK_TOKEN.getValue());
-    }
-
-    /**
-     * @param accountName
-     * @param userHandle
-     * @param userPrivateKey
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey)
-            throws IOException, InterruptedException {
-        return checkInstantAch(accountName, userHandle, userPrivateKey, null);
-    }
-
-    /**
-     * @param accountName
-     * @param userHandle
-     * @param userPrivateKey
-     * @param kycLevel
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey, String kycLevel)
-            throws IOException, InterruptedException {
-        return checkInstantAch(accountName, userHandle, userPrivateKey, kycLevel, null);
-    }
-
-    /**
-     * @param accountName
-     * @param userHandle
-     * @param userPrivateKey
-     * @param kycLevel
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public ApiResponse checkInstantAch(String accountName, String userHandle, String userPrivateKey, String kycLevel, String reference)
-            throws IOException, InterruptedException {
-        String path = Endpoints.CHECK_INSTANT_ACH.getUri();
-        CheckInstantAchMsg body = new CheckInstantAchMsg(userHandle, this.configuration.getAuthHandle(), accountName, kycLevel, reference);
-        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
-        return ResponseUtil.prepareResponse(response, Message.ValueEnum.CHECK_INSTANT_ACH.getValue());
-    }
-
 
     public ApiResponse getInstitutions() throws IOException, InterruptedException {
         return getInstitutions(null, null);

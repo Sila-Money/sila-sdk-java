@@ -5,19 +5,20 @@
 
 trigger:
 - master
+pr: none
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: SonarCloudPrepare@1
+- task: SonarQubePrepare@7
+  displayName: 'Prepare SonarQube analysis'
   inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'silamoney'
+    SonarQube: 'Sila SonarQube'
     scannerMode: 'Other'
-  displayName: 'Prepare Sonar analysis'
 
-- task: Maven@3
+- task: Maven@4
+  displayName: 'Maven Package'
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     mavenOptions: '-Xmx3072m'
@@ -27,9 +28,9 @@ steps:
     publishJUnitResults: false
     goals: 'package'
     options: '-B -DskipTests clean'
-  displayName: 'Maven package'
 
-- task: Maven@3
+- task: Maven@4
+  displayName: 'Maven Test'
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     goals: 'test'
@@ -44,9 +45,9 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-  displayName: 'Maven test'
 
-- task: Maven@3
+- task: Maven@4
+  displayName: 'Maven SonarQube Test'
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     goals: 'sonar:sonar'
@@ -59,6 +60,7 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
 
-- task: SonarCloudPublish@1
+- task: SonarQubePublish@7
+  displayName: 'Publish Quality Gate'
   inputs:
     pollingTimeoutSec: '300'

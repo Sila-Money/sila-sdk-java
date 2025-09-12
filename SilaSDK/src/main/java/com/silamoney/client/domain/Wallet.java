@@ -39,6 +39,10 @@ public class Wallet {
     @Getter
     public String walletId;
 
+    @SerializedName("remote_account_details")
+    @Getter
+    public RemoteAccountDetails remoteAccountDetails;
+
     /**
      * boolean field used for the statements enabled.
      */

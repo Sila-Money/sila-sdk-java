@@ -3,7 +3,6 @@ package com.silamoney.client.util;
 import java.lang.reflect.Type;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 import com.silamoney.client.api.ApiResponse;
@@ -92,12 +91,6 @@ public class ResponseUtil {
 
             return new ApiResponse(statusCode, response.headers().map(), accountBalanceResponse,
                     accountBalanceResponse.getSuccess());
-        case "plaid_sameday_auth_msg":
-            PlaidSameDayAuthResponse plaidSameDayAuthResponse = (PlaidSameDayAuthResponse) Serialization
-                    .deserialize(response.body().toString(), PlaidSameDayAuthResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), plaidSameDayAuthResponse,
-                    plaidSameDayAuthResponse.getSuccess());
         case "get_wallets_msg":
             GetWalletsResponse getWalletsResponse = (GetWalletsResponse) Serialization
                     .deserialize(response.body().toString(), GetWalletsResponse.class);
@@ -254,12 +247,6 @@ public class ResponseUtil {
             transferSilaResponse.setSuccess(success);
 
             return new ApiResponse(statusCode, response.headers().map(), transferSilaResponse, success);
-        case "plaid_link_token":
-            PlaidLinkTokenResponse plaidLinkTokenResponse = (PlaidLinkTokenResponse) Serialization
-                    .deserialize(response.body().toString(), PlaidLinkTokenResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), plaidLinkTokenResponse,
-                    plaidLinkTokenResponse.isSuccess());
         case "register_wallet_msg":
             RegisterWalletResponse registerWalletResponse = (RegisterWalletResponse) Serialization
                     .deserialize(response.body().toString(), RegisterWalletResponse.class);
@@ -284,12 +271,6 @@ public class ResponseUtil {
 
             return new ApiResponse(statusCode, response.headers().map(), updateAccountResponse,
                     updateAccountResponse.isSuccess());
-        case "plaid_update_link_token":
-            PlaidUpdateLinkTokenResponse plaidUpdateLinkTokenResponse = (PlaidUpdateLinkTokenResponse) Serialization
-                    .deserialize(response.body().toString(), PlaidUpdateLinkTokenResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), plaidUpdateLinkTokenResponse,
-                    plaidUpdateLinkTokenResponse.isSuccess());
         case "get_webhooks":
                 GetWebhooksResponse getWebhooksResponse = (GetWebhooksResponse) Serialization
                         .deserialize(response.body().toString(), GetWebhooksResponse.class);
@@ -307,17 +288,6 @@ public class ResponseUtil {
             registerBusinessResponse.setSuccess(success);
 
             return new ApiResponse(statusCode, response.headers().map(), registerBusinessResponse, success);
-        case "check_instant_ach":
-             CheckInstantAchResponse checkInstantAchResponse = (CheckInstantAchResponse) Serialization.deserialize(response.body().toString(),
-                     CheckInstantAchResponse.class);
-
-             if (success && (!"SUCCESS".equals(checkInstantAchResponse.getStatus()) && checkInstantAchResponse.getStatus() != null)) {
-                 success = false;
-             }
-
-             checkInstantAchResponse.setSuccess(success);
-
-             return new ApiResponse(statusCode, response.headers().map(), checkInstantAchResponse, success);
         case "get_payment_methods":
              GetPaymentMethodsResponse getPaymentMethodsResponse = (GetPaymentMethodsResponse) Serialization
                      .deserialize(response.body().toString(), GetPaymentMethodsResponse.class);
@@ -344,11 +314,6 @@ public class ResponseUtil {
                     .deserialize(response.body().toString(), VirtualAccountResponse.class);
 
             return new ApiResponse(statusCode, response.headers().map(), virtualAccountResponse, success);
-        case "mock_wire_out_file":
-            MockWireOutFileResponse mockWireOutFileResponse = (MockWireOutFileResponse) Serialization
-                    .deserialize(response.body().toString(), MockWireOutFileResponse.class);
-
-            return new ApiResponse(statusCode, response.headers().map(), mockWireOutFileResponse, success);
         case "get_statements_data_msg":
         case "get_wallet_statement_data_msg":
              GetStatementsResponse getStatementsResponse = (GetStatementsResponse) Serialization

@@ -1,15 +1,14 @@
 package com.silamoney.client.tests;
 
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static org.hamcrest.Matchers.*;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
@@ -26,11 +25,12 @@ public class DocumentsTests {
     public void Response200Success() throws Exception {
         File f = new File(DocumentsTests.class.getClassLoader().getResource("images/logo-geko.png").getFile());
         DocumentType dt = DefaultConfigurations.getDocumentTypes().get(0);
+        String v = DefaultConfigurations.getVerificationUuid();
         UploadDocumentMessage message = UploadDocumentMessage.builder()
                 .userHandle(DefaultConfigurations.getUserHandle())
                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).filePath(f.getAbsolutePath())
                 .filename("logo-geko").mimeType("image/png").documentType(dt.getName())
-                .identityType(dt.getIdentityType()).build();
+                .identityType(dt.getIdentityType()).verificationUuid(v).build();
         ApiResponse response = api.uploadDocument(message);
         assertEquals(200, response.getStatusCode());
         DocumentsResponse parsedResponse = (DocumentsResponse) response.getData();

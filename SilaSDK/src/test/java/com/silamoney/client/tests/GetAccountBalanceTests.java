@@ -20,7 +20,7 @@ public class GetAccountBalanceTests {
     public void Response200Success() throws Exception {
         // BANKACCOUNT5
         final ApiResponse response = api.getAccountBalance(DefaultConfigurations.getUserHandle(),
-                DefaultConfigurations.getUserPrivateKey(), "defaultpt");
+                DefaultConfigurations.getUserPrivateKey(), "default");
 
         assertEquals(200, response.getStatusCode());
         AccountBalanceResponse parsedResponse = (AccountBalanceResponse)response.getData();
