@@ -2,6 +2,7 @@ package com.silamoney.client.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
@@ -79,9 +80,21 @@ public class RegisterWalletTests {
         ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
                 wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
         assertEquals(200, response.getStatusCode());
-        RegisterWalletResponse registerWalletResponse= (RegisterWalletResponse) response.getData();
+        RegisterWalletResponse registerWalletResponse = (RegisterWalletResponse) response.getData();
         assertTrue(registerWalletResponse.isStatementsEnabled());
         DefaultConfigurations.setWallet2(wallet);
 
+    }
+
+    @Test
+    public void Response200WithWalletId() throws Exception {
+        Wallet wallet = api.generateWallet();
+        String wallet_verification_signature = EcdsaUtil.sign(wallet.getBlockChainAddress(), wallet.getPrivateKey());
+        wallet.setStatementsEnabled(true);
+        ApiResponse response = api.registerWallet(DefaultConfigurations.getUserHandle(), wallet,
+                wallet_verification_signature, DefaultConfigurations.getUserPrivateKey());
+        assertEquals(200, response.getStatusCode());
+        RegisterWalletResponse registerWalletResponse= (RegisterWalletResponse) response.getData();
+        assertNotNull(registerWalletResponse.getWalletId());
     }
 }

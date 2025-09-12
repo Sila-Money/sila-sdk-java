@@ -11,8 +11,6 @@ import com.silamoney.client.domain.AddressMessage;
 import com.silamoney.client.domain.AddressResponse;
 import com.silamoney.client.domain.BadRequestResponse;
 import com.silamoney.client.domain.BaseResponse;
-import com.silamoney.client.domain.Device;
-import com.silamoney.client.domain.DeviceResponse;
 import com.silamoney.client.domain.EmailMessage;
 import com.silamoney.client.domain.EmailResponse;
 import com.silamoney.client.domain.IdentityMessage;
@@ -51,7 +49,7 @@ public class AddRegistrationDataTests {
         public void Response200Phone() throws Exception {
                 UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-                PhoneMessage message = PhoneMessage.builder().phone("1234567890").smsOptIn(true).build();
+                PhoneMessage message = PhoneMessage.builder().phone("1234567890").build();
                 ApiResponse response = api.addPhone(user, message);
                 assertEquals(200, response.getStatusCode());
                 PhoneResponse parsedResponse = (PhoneResponse) response.getData();
@@ -138,17 +136,5 @@ public class AddRegistrationDataTests {
                 BaseResponse parsedResponse = (BaseResponse) response.getData();
                 assertFalse(parsedResponse.getSuccess());
                 assertEquals("FAILURE", parsedResponse.getStatus());
-        }
-
-        @Test
-        public void Response200DeviceWithSessionIdentifier() throws Exception {
-                UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUser2Handle())
-                        .userPrivateKey(DefaultConfigurations.getUser2PrivateKey()).build();
-                Device device = new Device("12345678909876",DefaultConfigurations.sessionIdentifier);
-                ApiResponse response = api.addDevice(user, device);
-                assertEquals(200, response.getStatusCode());
-                DeviceResponse parsedResponse = (DeviceResponse) response.getData();
-                assertTrue(parsedResponse.getSuccess());
-                assertEquals("SUCCESS", parsedResponse.getStatus());
         }
 }

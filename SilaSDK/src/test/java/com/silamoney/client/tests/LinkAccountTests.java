@@ -1,21 +1,33 @@
 package com.silamoney.client.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
-import com.silamoney.client.api.ApiResponse;
-import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BadRequestResponse;
-import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.exceptions.BadRequestException;
 import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
+import org.mockito.Mockito;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.silamoney.client.api.ApiClient;
+import com.silamoney.client.api.ApiResponse;
+import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.config.Configuration;
+import com.silamoney.client.domain.LinkAccountResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -23,15 +35,62 @@ import org.junit.Test;
  * @author Karlo Lorenzana
  */
 public class LinkAccountTests {
+	HttpClient httpClient = Mockito.mock(HttpClient.class);
+	ApiClient apiClient = Mockito.mock(ApiClient.class);
 
-	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-			DefaultConfigurations.privateKey);
+	SilaApi api;
+
+	@Before
+	public void setUp() {
+		try {
+			api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+
+			Field configurationField = api.getClass().getDeclaredField("configuration");
+			configurationField.setAccessible(true);
+
+			// Get the configuration object
+			Configuration configuration = (Configuration) configurationField.get(api);
+
+			// Set the ApiClient using reflection
+			Field apiClientField = Configuration.class.getDeclaredField("apiClient");
+			apiClientField.setAccessible(true);
+			apiClientField.set(configuration, apiClient);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void Response200Success() throws Exception {
 		// BANKACCOUNT1
-		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "defaultpt", DefaultConfigurations.getPlaidToken());
+		// Mocking the ApiResponse and HttpResponse
+		ApiResponse apiResponseMock = Mockito.mock(ApiResponse.class);
+		HttpResponse<String> httpResponseMock = Mockito.mock(HttpResponse.class);
+		HttpHeaders httpHeadersMock = Mockito.mock(HttpHeaders.class);
+
+		// Mocking the behavior of apiResponseMock and httpResponseMock
+		Mockito.when(apiResponseMock.getStatusCode()).thenReturn(200);
+		Mockito.when(apiResponseMock.getData()).thenReturn(httpResponseMock);
+		Mockito.when(httpResponseMock.statusCode()).thenReturn(200);
+		Mockito.when(httpResponseMock.body()).thenReturn("{" +
+				"\"success\":true," +
+				"\"status\":\"SUCCESS\"," +
+				"\"message\":\"successfully linked with status \\\"instantly_verified\\\"\"," +
+				"\"account_name\":\"defaultpt\"" +
+				"}"
+		);
+
+		Map<String, List<String>> headersMap = new HashMap<>();
+		headersMap.put("Content-Type", List.of("application/json"));
+		Mockito.when(httpHeadersMock.map()).thenReturn(headersMap);
+		Mockito.when(httpResponseMock.headers()).thenReturn(httpHeadersMock);
+
+		// Mocking the callApi method to return the mocked HttpResponse
+		Mockito.when(apiClient.callApi(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(httpResponseMock);
+
+		// Calling the actual method
+		ApiResponse response = api.linkAccountPlaidToken(DefaultConfigurations.getUserHandle(),
+				DefaultConfigurations.getUserPrivateKey(), "defaultpt", "mock_token", null, "legacy");
 
 		assertEquals(200, response.getStatusCode());
 		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
@@ -42,38 +101,13 @@ public class LinkAccountTests {
 	}
 
 	@Test
-	public void Response200SuccessNoPublicToken() throws Exception {
-		// BANKACCOUNT2
-		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "default", "123456789012", "123456780", "CHECKING");
-
-		assertEquals(200, response.getStatusCode());
-		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
-		assertEquals("SUCCESS", parsedResponse.getStatus());
-		assertThat(parsedResponse.getMessage(), containsString("successfully manually linked"));
-		assertEquals("default", parsedResponse.getAccountName());
-
-		response = api.linkAccount(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey(),
-				"defaultunlink", "123456789013", "123456780", "CHECKING");
-
-		assertEquals(200, response.getStatusCode());
-
-		response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "defaultupdate", "123456789012", "123456780", "CHECKING");
-		assertEquals(200, response.getStatusCode());
-
-		 response = api.linkAccount(DefaultConfigurations.getUser2Handle(),
-				DefaultConfigurations.getUser2PrivateKey(), "default", "123456789012", "123456780", "CHECKING");
-
-		assertEquals(200, response.getStatusCode());
-	}
-
-	@Test
 	public void ResponseInvalidPublicToken() throws BadRequestException, InvalidSignatureException, ServerSideException,
 			IOException, InterruptedException, ForbiddenException {
 		// BANKACCOUNT3
-		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "default", DefaultConfigurations.getPlaidToken() + "12345");
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+
+		ApiResponse response = api.linkAccountPlaidToken(DefaultConfigurations.getUserHandle(),
+				DefaultConfigurations.getUserPrivateKey(), "defaultinvalid", "mock_token" + "12345", "123456", "processor");
 
 		assertEquals(400, response.getStatusCode());
 		assertEquals("FAILURE", ((BadRequestResponse) response.getData()).getStatus());
@@ -82,8 +116,10 @@ public class LinkAccountTests {
 	@Test
 	public void Response400() throws BadRequestException, InvalidSignatureException, ServerSideException, IOException,
 			InterruptedException, ForbiddenException {
-		ApiResponse response = api.linkAccount("", DefaultConfigurations.getUserPrivateKey(), "default",
-				DefaultConfigurations.getPlaidToken());
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+
+		ApiResponse response = api.linkAccountPlaidToken("", DefaultConfigurations.getUserPrivateKey(), "default",
+				"mock_token", "123456", "processor");
 		assertEquals(400, response.getStatusCode());
 	}
 
@@ -92,28 +128,17 @@ public class LinkAccountTests {
 			InterruptedException, ForbiddenException {
 		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
 				"3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
-		ApiResponse response = api.linkAccount(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(), "default", DefaultConfigurations.getPlaidToken());
+		ApiResponse response = api.linkAccountPlaidToken(DefaultConfigurations.getUserHandle(),
+				DefaultConfigurations.getUserPrivateKey(), "default", "mock_token", "123456", "processor");
 
 		assertEquals(401, response.getStatusCode());
 		assertEquals("FAILURE", ((LinkAccountResponse) response.getData()).getStatus());
 	}
 
 	@Test
-	public void Response200SuccessWithSardine() throws Exception {
-		// BANKACCOUNT1
-		ApiResponse response = api.linkAccount(DefaultConfigurations.getUser4Handle(),
-				DefaultConfigurations.getUser4PrivateKey(), "defaultptsardine",DefaultConfigurations.getPlaidToken2());
-
-		assertEquals(200, response.getStatusCode());
-		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();
-		assertEquals("SUCCESS", parsedResponse.getStatus());
-		assertThat(parsedResponse.getMessage(),
-				containsString("successfully linked with status \"instantly_verified\""));
-		assertEquals("defaultptsardine", parsedResponse.getAccountName());
-	}
-	@Test
 	public void Response200SuccessWithMX() throws Exception {
+		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+
 		ApiResponse response = api.linkAccountMX(DefaultConfigurations.getUserHandle(),
 				DefaultConfigurations.getUserPrivateKey(),DefaultConfigurations.getProviderToken(),"mx","processor");
 

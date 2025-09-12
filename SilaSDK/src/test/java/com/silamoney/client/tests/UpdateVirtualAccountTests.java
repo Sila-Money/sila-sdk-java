@@ -54,8 +54,6 @@ public class UpdateVirtualAccountTests {
 
         assertNotNull(parsedResponse.getStatus());
         assertNotNull(parsedResponse.getMessage());
-        System.out.println(parsedResponse.getVirtualAccount().isAchCreditEnabled()); // true/false
-        System.out.println(parsedResponse.getVirtualAccount().isAchDebitEnabled());  // true/false
     }
 
 

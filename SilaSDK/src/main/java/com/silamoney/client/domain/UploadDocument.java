@@ -16,5 +16,7 @@ public class UploadDocument {
     private String description;
     @Getter
     private String filePath;
+    @Getter
+    private String verificationUuid;
 
 }

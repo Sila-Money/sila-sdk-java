@@ -33,7 +33,9 @@ public class RequestKYCTests {
 
 		assertEquals(200, response.getStatusCode());
 		RequestKycResponse parsedResponse= (RequestKycResponse) response.getData();
+
 		assertEquals("SUCCESS", parsedResponse.getStatus());
+		DefaultConfigurations.setVerificationUuid(parsedResponse.getVerificationUuid());
 
 		response = api.requestKYC(DefaultConfigurations.getUser2Handle(), null,
 				DefaultConfigurations.getUser2PrivateKey());

@@ -2,6 +2,7 @@ package com.silamoney.client.domain;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,6 +16,7 @@ import lombok.Getter;
 @Getter
 public class Entity {
 
+    @Deprecated
     private enum RelationshipEnum {
         ORGANIZATION("organization"), DEVELOPER("developer"), USER("user"), VENDOR("vendor");
 
@@ -35,6 +37,7 @@ public class Entity {
     private String entityName;
     @SerializedName("last_name")
     private String lastName;
+    @Deprecated
     @SerializedName("relationship")
     private String relationship;
     @SerializedName("first_name")
@@ -71,6 +74,8 @@ public class Entity {
     private String dba;
     @SerializedName(value = "registration_state")
     private String registrationState;
+    @SerializedName(value = "registration_date")
+    private String registrationDate;
 
     /**
      * Constructor for Entity object.
@@ -85,17 +90,17 @@ public class Entity {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.entityName = this.firstName + " " + this.lastName;
-        this.relationship = RelationshipEnum.USER.getValue();
+        this.type = "individual";
     }
 
     public Entity(BusinessUser user) {
         this.entityName = user.getEntityName();
         this.type = "business";
         this.businessType = user.getBusinessType().getName();
-        // this.businessTypeUuid = user.getBusinessType().getUuid();
         this.businessWebsite = user.getBusinessWebsite();
         this.doingBusinessAs = user.getDoingBusinessAs();
         this.naicsCode = user.getNaicsCategory().getCode();
-        this.registrationState=user.getRegistrationState();
+        this.registrationState = user.getRegistrationState();
+        this.registrationDate = user.getRegistrationDate();
     }
 }

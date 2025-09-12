@@ -53,10 +53,6 @@ public class Message {
          */
         TRANSFER_MSG("transfer_msg"),
         /**
-         * String value for PlaidSameDayAuthMsg.
-         */
-        PLAID_SAMEDAY_AUTH_MSG("plaid_sameday_auth_msg"),
-        /**
          * String value for GetWalletMsg.
          */
         GET_WALLET_MSG("get_wallet_msg"),
@@ -120,10 +116,6 @@ public class Message {
          * String value for GetEntities.
          */
         GET_ENTITIES("get_entities"),
-        /**
-         * String value for PlaidLinkToken.
-         */
-        PLAID_LINK_TOKEN("plaid_link_token"),
         /**
          * String value for DeleteAccount.
          */
@@ -193,25 +185,9 @@ public class Message {
          */
         UPDATE_ACCOUNT("update_account"),
         /**
-         * String value for PlaidUpdateLinkToken.
-         */
-        PLAID_UPDATE_LINK_TOKEN("plaid_update_link_token"),
-        /**
-         * String value for CheckInstantAch.
-         */
-        CHECK_INSTANT_ACH("check_instant_ach"),
-        /**
          * String value for ReverseTransationMsg.
          */
         REVERSE_TRANSACTION_MSG("reverse_transaction_msg"),
-        /**
-         * String value for ApproveWireMsg.
-         */
-        APPROVE_WIRE_MSG("approve_wire_msg"),
-        /**
-         * String value for MockWireOutFile.
-         */
-        MOCK_WIRE_OUT_FILE("mock_wire_out_file"),
         /**
          * String value for GetWalletStatementData.
          */
