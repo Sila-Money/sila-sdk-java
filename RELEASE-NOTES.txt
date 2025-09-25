@@ -1,4 +1,4 @@
-v1.1.4
+v1.2.0
     -Adding support for account_number filter in /get_accounts.
 
 v1.1.3
