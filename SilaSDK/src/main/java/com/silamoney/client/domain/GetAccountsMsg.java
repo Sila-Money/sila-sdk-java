@@ -29,7 +29,6 @@ public class GetAccountsMsg {
      * @param reference
      */
 
-    /** Constructor without filters. */
     public GetAccountsMsg(String userHandle, String appHandle, String reference) {
         this(userHandle, appHandle, reference, null);
     }
