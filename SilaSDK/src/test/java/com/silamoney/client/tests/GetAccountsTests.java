@@ -36,6 +36,7 @@ public class GetAccountsTests {
             ApiResponse response = api.getAccounts(
                 DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey(),
+                null,
                 accountNumber
             );
 
