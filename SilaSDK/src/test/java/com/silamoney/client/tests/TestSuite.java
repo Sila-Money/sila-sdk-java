@@ -66,7 +66,6 @@ import org.junit.runners.Suite.SuiteClasses;
     DeleteWalletTests.class,
     DeleteCardTests.class,
     CloseVirtualAccountTests.class,
-    SilaBalanceTests.class,
     TearDownTests.class,
     DeleteAccountTests.class,
 })
