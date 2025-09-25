@@ -33,8 +33,16 @@ public class GetAccountsMsg {
         this(userHandle, appHandle, reference, null);
     }
 
-    /** Constructor with account number filter (optional). */
-    public GetAccountsMsg(String userHandle, String appHandle, String reference, String accountNumberFilter) {
+    /**
+     * Constructor for GetAccountsMsg object with account number filter.
+     *
+     * @param userHandle
+     * @param appHandle
+     * @param reference
+     * @param accountNumberFilter
+     */
+
+        public GetAccountsMsg(String userHandle, String appHandle, String reference, String accountNumberFilter) {
         this.header = new Header(userHandle, appHandle);
         this.header.setReference(reference);
         this.message = Message.ValueEnum.GET_ACCOUNTS_MSG.getValue();
