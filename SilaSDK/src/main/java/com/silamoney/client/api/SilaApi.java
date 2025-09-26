@@ -346,6 +346,28 @@ public class SilaApi {
     }
 
     /**
+     * Gets basic bank account names linked to user handle and filtered by account number.
+     *     
+     * @param userHandle
+     * @param userPrivateKey
+     * @param reference
+     * @param accountNumber
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public ApiResponse getAccounts(String userHandle,
+                                   String userPrivateKey,
+                                   String reference,
+                                   String accountNumber) throws IOException, InterruptedException {
+
+        GetAccountsMsg body = new GetAccountsMsg(userHandle, this.configuration.getAuthHandle(), reference, accountNumber);
+        String path = Endpoints.GET_ACCOUNTS.getUri();
+        HttpResponse<?> response = getHttpResponse(path, body, userPrivateKey, this.configuration.getPrivateKey(), null);
+        return ResponseUtil.prepareResponse(response, Message.ValueEnum.GET_ACCOUNTS_MSG.getValue());
+    }
+
+    /**
      * @param userHandle
      * @param userPrivateKey
      * @param accountName
