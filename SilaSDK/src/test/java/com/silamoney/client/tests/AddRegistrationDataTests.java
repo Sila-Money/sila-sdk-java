@@ -20,6 +20,7 @@ import com.silamoney.client.domain.PhoneResponse;
 import com.silamoney.client.domain.UserHandleMessage;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
+import com.silamoney.client.testsutils.RandomSSNGenerator;
 import org.junit.Test;
 
 public class AddRegistrationDataTests {
@@ -66,9 +67,10 @@ public class AddRegistrationDataTests {
 
         @Test
         public void Response200Identity() throws Exception {
+                String newIdentity = RandomSSNGenerator.generateRandomSSN();
                 UserHandleMessage user = UserHandleMessage.builder().userHandle(DefaultConfigurations.getUserHandle())
                                 .userPrivateKey(DefaultConfigurations.getUserPrivateKey()).build();
-                IdentityMessage message = IdentityMessage.builder().identityAlias("SSN").identityValue("975865809")
+                IdentityMessage message = IdentityMessage.builder().identityAlias("SSN").identityValue(newIdentity)
                                 .build();
                 ApiResponse response = api.addIdentity(user, message);
                 assertEquals(200, response.getStatusCode());
