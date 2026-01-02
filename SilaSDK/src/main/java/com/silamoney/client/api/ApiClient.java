@@ -28,7 +28,7 @@ public class ApiClient {
     private String basePath;
 
     private static final String PRODUCT = "SilaSDK-java";
-    private static final String VERSION = "1.2.0";
+    private static final String VERSION = "1.3.0";
 
     /**
      * Gets the api base path.

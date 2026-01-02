@@ -20,6 +20,9 @@ public class ResponseUtil {
     }
 
     public static ApiResponse prepareResponse(Type messageClass, HttpResponse<?> response) {
+        if (response == null) {
+            return new ApiResponse(500, null, "The server response was null.", false);
+        }
         int statusCode = response.statusCode();
         if (statusCode == 400) {
             return new ApiResponse(statusCode, response.headers().map(),
@@ -33,6 +36,9 @@ public class ResponseUtil {
     }
 
     public static ApiResponse prepareFileResponse(HttpResponse<?> response) {
+        if (response == null) {
+            return new ApiResponse(500, null, "The server response was null.", false);
+        }
         int statusCode = response.statusCode();
         if (statusCode == 400) {
             return new ApiResponse(statusCode, response.headers().map(),
@@ -44,6 +50,9 @@ public class ResponseUtil {
         return new ApiResponse(statusCode, response.headers().map(), response.body().toString(), statusCode == 200);
     }
     public static ApiResponse prepareRefundResponse(Type messageClass, HttpResponse<?> response) {
+        if (response == null) {
+            return new ApiResponse(500, null, "The server response was null.", false);
+        }
         int statusCode = response.statusCode();
         if (statusCode == 400) {
             return new ApiResponse(statusCode, response.headers().map(),
@@ -65,6 +74,9 @@ public class ResponseUtil {
      * @return ApiResponse
      */
     public static ApiResponse prepareResponse(HttpResponse<?> response, String msg) {
+        if (response == null) {
+            return new ApiResponse(500, null, "The server response was null.", false);
+        }
         int statusCode = response.statusCode();
 
         boolean success = true;
