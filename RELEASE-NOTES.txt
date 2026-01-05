@@ -1,5 +1,6 @@
 v1.3.0
     - Added SSN randomization for tests
+    - Removed calls to MX from tests and mocked related tests
 
 v1.2.0
     -Adding support for account_number filter in /get_accounts.
