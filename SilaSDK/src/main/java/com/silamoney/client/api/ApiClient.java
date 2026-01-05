@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.silamoney.client.domain.UploadDocument;
-import org.apache.http.HttpEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 
 /**
  *
@@ -119,7 +119,7 @@ public class ApiClient {
         multipart.writeTo(outStream);
         request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
         outStream.close();
-        request.header("Content-Type", multipart.getContentType().getValue());
+        request.header("Content-Type", multipart.getContentType());
         addTimeout(request);
         return httpClient.send(request.build(), BodyHandlers.ofString());
     }
@@ -154,7 +154,7 @@ public class ApiClient {
         multipart.writeTo(outStream);
         request.POST(HttpRequest.BodyPublishers.ofByteArray(outStream.toByteArray()));
         outStream.close();
-        request.header("Content-Type", multipart.getContentType().getValue());
+        request.header("Content-Type", multipart.getContentType());
         addTimeout(request);
         return httpClient.send(request.build(), BodyHandlers.ofString());
     }

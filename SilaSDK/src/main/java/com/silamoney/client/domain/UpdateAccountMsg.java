@@ -1,7 +1,7 @@
 package com.silamoney.client.domain;
 
 import com.google.gson.annotations.SerializedName;
-import org.apache.http.util.TextUtils;
+import org.apache.hc.core5.util.TextUtils;
 
 public class UpdateAccountMsg {
     @SerializedName("header")
