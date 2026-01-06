@@ -3,8 +3,6 @@ package com.silamoney.client.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.concurrent.TimeUnit;
-
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.CheckKYCResponse;
@@ -25,7 +23,6 @@ public class CheckKYCTests {
         CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
 
         while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending")){
-            TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey());
 
             parsedResponse = (CheckKYCResponse) response.getData();
@@ -46,7 +43,6 @@ public class CheckKYCTests {
         parsedResponse = (CheckKYCResponse) response.getData();
 
         while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending")) {
-            TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getUser2Handle(), DefaultConfigurations.getUser2PrivateKey());
 
             parsedResponse = (CheckKYCResponse) response.getData();
@@ -67,7 +63,6 @@ public class CheckKYCTests {
         parsedResponse = (CheckKYCResponse) response.getData();
 
         while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending") && !parsedResponse.getMessage().contains("Business has passed verification")) {
-            TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getBusinessHandle(), DefaultConfigurations.getBusinessPrivateKey());
 
             parsedResponse = (CheckKYCResponse) response.getData();
@@ -90,14 +85,11 @@ public class CheckKYCTests {
     @Test
     public void Response200withCko() throws Exception {
 
-        Thread.sleep(1000);
-
         ApiResponse response = api.checkKYC(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
 
         CheckKYCResponse parsedResponse = (CheckKYCResponse) response.getData();
 
         while (parsedResponse.getStatus().contains("FAILURE") && parsedResponse.getMessage().contains("pending")) {
-            TimeUnit.SECONDS.sleep(5);
             response = api.checkKYC(DefaultConfigurations.getUser5Handle(), DefaultConfigurations.getUser5PrivateKey());
 
             parsedResponse = (CheckKYCResponse) response.getData();

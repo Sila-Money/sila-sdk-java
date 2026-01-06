@@ -12,8 +12,6 @@ import com.silamoney.client.testsutils.DefaultConfigurations;
 
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  *
  * @author Karlo Lorenzana
@@ -61,8 +59,6 @@ public class LinkBusinessMemberTests {
                 assertEquals(DefaultConfigurations.getBusinessRole("administrator").getName(),
                                 ((LinkBusinessMemberResponse) response.getData()).getRole());
                 assertEquals("test details", ((LinkBusinessMemberResponse) response.getData()).getDetails());
-
-                TimeUnit.SECONDS.sleep(40);
 
                 response = api.unlinkBusinessMember(DefaultConfigurations.getUser2Handle().toLowerCase(),
                         DefaultConfigurations.getUser2PrivateKey(), DefaultConfigurations.getBusinessHandle(),

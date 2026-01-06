@@ -137,10 +137,35 @@ public class LinkAccountTests {
 
 	@Test
 	public void Response200SuccessWithMX() throws Exception {
-		api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+		// Mocking the ApiResponse and HttpResponse
+		ApiResponse apiResponseMock = Mockito.mock(ApiResponse.class);
+		HttpResponse<String> httpResponseMock = Mockito.mock(HttpResponse.class);
+		HttpHeaders httpHeadersMock = Mockito.mock(HttpHeaders.class);
+
+		// Mocking the behavior of apiResponseMock and httpResponseMock
+		Mockito.when(apiResponseMock.getStatusCode()).thenReturn(200);
+		Mockito.when(apiResponseMock.getData()).thenReturn(httpResponseMock);
+		Mockito.when(httpResponseMock.statusCode()).thenReturn(200);
+		Mockito.when(httpResponseMock.body()).thenReturn(
+				"{" +
+						"\"success\":true," +
+						"\"status\":\"SUCCESS\"," +
+						"\"message\":\"Bank account successfully linked.\"," +
+						"\"account_name\":\"defaultmx\"," +
+						"\"provider\":\"MX\"" +
+						"}"
+		);
+
+		Map<String, List<String>> headersMap = new HashMap<>();
+		headersMap.put("Content-Type", List.of("application/json"));
+		Mockito.when(httpHeadersMock.map()).thenReturn(headersMap);
+		Mockito.when(httpResponseMock.headers()).thenReturn(httpHeadersMock);
+
+		// Mocking the callApi method to return the mocked HttpResponse
+		Mockito.when(apiClient.callApi(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(httpResponseMock);
 
 		ApiResponse response = api.linkAccountMX(DefaultConfigurations.getUserHandle(),
-				DefaultConfigurations.getUserPrivateKey(),DefaultConfigurations.getProviderToken(),"mx","processor");
+				DefaultConfigurations.getUserPrivateKey(), "mock_auth_code", "mx","processor");
 
 		assertEquals(200, response.getStatusCode());
 		LinkAccountResponse parsedResponse = (LinkAccountResponse) response.getData();

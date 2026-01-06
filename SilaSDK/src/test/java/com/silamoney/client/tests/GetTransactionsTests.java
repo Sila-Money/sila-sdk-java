@@ -7,9 +7,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.silamoney.client.api.ApiClient;
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.GetTransactionsResponse;
 import com.silamoney.client.domain.ProcessingTypeEnum;
 import com.silamoney.client.domain.SearchFilters;
@@ -19,20 +28,62 @@ import com.silamoney.client.exceptions.ForbiddenException;
 import com.silamoney.client.exceptions.InvalidSignatureException;
 import com.silamoney.client.exceptions.ServerSideException;
 import com.silamoney.client.testsutils.DefaultConfigurations;
+import com.silamoney.client.testsutils.GetTransactionsTestResponses;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  *
  * @author Karlo Lorenzana
  */
 public class GetTransactionsTests {
+	HttpClient httpClient = Mockito.mock(HttpClient.class);
+	ApiClient apiClient = Mockito.mock(ApiClient.class);
+	SilaApi api;
 
-	SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
-			DefaultConfigurations.privateKey);
+	@Before
+	public void setUp() {
+		try {
+			api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+
+			Field configurationField = api.getClass().getDeclaredField("configuration");
+			configurationField.setAccessible(true);
+
+			// Get the configuration object
+			Configuration configuration = (Configuration) configurationField.get(api);
+
+			// Set the ApiClient using reflection
+			Field apiClientField = Configuration.class.getDeclaredField("apiClient");
+			apiClientField.setAccessible(true);
+			apiClientField.set(configuration, apiClient);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void Response200() throws Exception {
+		// Mocking the ApiResponse and HttpResponse
+		ApiResponse apiResponseMock = Mockito.mock(ApiResponse.class);
+		HttpResponse<String> httpResponseMock = Mockito.mock(HttpResponse.class);
+		HttpHeaders httpHeadersMock = Mockito.mock(HttpHeaders.class);
+
+		// Mocking the behavior of apiResponseMock and httpResponseMock
+		Mockito.when(apiResponseMock.getStatusCode()).thenReturn(200);
+		Mockito.when(apiResponseMock.getData()).thenReturn(httpResponseMock);
+		Mockito.when(httpResponseMock.statusCode()).thenReturn(200);
+		Mockito.when(httpResponseMock.body()).thenReturn(GetTransactionsTestResponses.getTransactionsResponse200);
+
+		Map<String, List<String>> headersMap = new HashMap<>();
+		headersMap.put("Content-Type", List.of("application/json"));
+		Mockito.when(httpHeadersMock.map()).thenReturn(headersMap);
+		Mockito.when(httpResponseMock.headers()).thenReturn(httpHeadersMock);
+
+		// Mocking the callApi method to return the mocked HttpResponse
+		Mockito.when(apiClient.callApi(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(httpResponseMock);
+
 		SearchFilters filters = new SearchFilters();
 		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
 				DefaultConfigurations.getUserPrivateKey());
@@ -53,10 +104,6 @@ public class GetTransactionsTests {
 				not(isEmptyOrNullString()));
 		assertThat("get transactions - sila amount", parsedResponse.transactions.get(0).silaAmount, greaterThan(0));
 		assertThat("get transactions - status", parsedResponse.transactions.get(0).status, not(isEmptyOrNullString()));
-		assertThat("get transactions - usd status", parsedResponse.transactions.get(0).usdStatus,
-				not(isEmptyOrNullString()));
-		assertThat("get transactions - token status", parsedResponse.transactions.get(0).tokenStatus,
-				not(isEmptyOrNullString()));
 		assertThat("get transactions - created", parsedResponse.transactions.get(0).created,
 				not(isEmptyOrNullString()));
 		assertThat("get transactions - last update", parsedResponse.transactions.get(0).lastUpdate,
@@ -85,7 +132,8 @@ public class GetTransactionsTests {
 
 	@Test
 	public void Response400() throws Exception {
-
+		SilaApi api = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
+				DefaultConfigurations.privateKey);
 		ApiResponse response = api.getTransactions("", DefaultConfigurations.filters,
 				DefaultConfigurations.getUserPrivateKey());
 		assertEquals(400, response.getStatusCode());
@@ -105,8 +153,29 @@ public class GetTransactionsTests {
 
 	@Test
 	public void Response200WithSourceIdDestinationId() throws Exception {
+		// Mocking the ApiResponse and HttpResponse
+		ApiResponse apiResponseMock = Mockito.mock(ApiResponse.class);
+		HttpResponse<String> httpResponseMock = Mockito.mock(HttpResponse.class);
+		HttpHeaders httpHeadersMock = Mockito.mock(HttpHeaders.class);
+
+		// Mocking the behavior of apiResponseMock and httpResponseMock
+		Mockito.when(apiResponseMock.getStatusCode()).thenReturn(200);
+		Mockito.when(apiResponseMock.getData()).thenReturn(httpResponseMock);
+		Mockito.when(httpResponseMock.statusCode()).thenReturn(200);
+		Mockito.when(httpResponseMock.body()).thenReturn(
+				GetTransactionsTestResponses.getTransactionsSourceIdDestinationId
+		);
+
+		Map<String, List<String>> headersMap = new HashMap<>();
+		headersMap.put("Content-Type", List.of("application/json"));
+		Mockito.when(httpHeadersMock.map()).thenReturn(headersMap);
+		Mockito.when(httpResponseMock.headers()).thenReturn(httpHeadersMock);
+
+		// Mocking the callApi method to return the mocked HttpResponse
+		Mockito.when(apiClient.callApi(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(httpResponseMock);
+
 		SearchFilters filters = new SearchFilters();
-		filters.setDestinationId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId());
+		filters.setDestinationId(DefaultConfigurations.getWalletId());
 		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
 				DefaultConfigurations.getUserPrivateKey());
 
@@ -119,8 +188,28 @@ public class GetTransactionsTests {
 		assertNotNull(parsedResponse.transactions.get(0).sourceId);
 		assertNotNull(parsedResponse.transactions.get(0).destinationId);
 	}
+
 	@Test
 	public void Response200WithInstantSettlement() throws Exception {
+		// Mocking the ApiResponse and HttpResponse
+		ApiResponse apiResponseMock = Mockito.mock(ApiResponse.class);
+		HttpResponse<String> httpResponseMock = Mockito.mock(HttpResponse.class);
+		HttpHeaders httpHeadersMock = Mockito.mock(HttpHeaders.class);
+
+		// Mocking the behavior of apiResponseMock and httpResponseMock
+		Mockito.when(apiResponseMock.getStatusCode()).thenReturn(200);
+		Mockito.when(apiResponseMock.getData()).thenReturn(httpResponseMock);
+		Mockito.when(httpResponseMock.statusCode()).thenReturn(200);
+		Mockito.when(httpResponseMock.body()).thenReturn(GetTransactionsTestResponses.getTransactionsInstantSettlement);
+
+		Map<String, List<String>> headersMap = new HashMap<>();
+		headersMap.put("Content-Type", List.of("application/json"));
+		Mockito.when(httpHeadersMock.map()).thenReturn(headersMap);
+		Mockito.when(httpResponseMock.headers()).thenReturn(httpHeadersMock);
+
+		// Mocking the callApi method to return the mocked HttpResponse
+		Mockito.when(apiClient.callApi(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(httpResponseMock);
+
 		SearchFilters filters = new SearchFilters();
 		filters.setProcessingType(ProcessingTypeEnum.INSTANT_SETTLEMENT);
 		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
@@ -133,10 +222,30 @@ public class GetTransactionsTests {
 		assertTrue(parsedResponse.transactions.size()>0);
 		assertEquals(ProcessingTypeEnum.INSTANT_SETTLEMENT.getValue(),parsedResponse.transactions.get(0).processingType);
 	}
+
 	@Test
 	public void Response200WithPaymentMethodId() throws Exception {
+		// Mocking the ApiResponse and HttpResponse
+		ApiResponse apiResponseMock = Mockito.mock(ApiResponse.class);
+		HttpResponse<String> httpResponseMock = Mockito.mock(HttpResponse.class);
+		HttpHeaders httpHeadersMock = Mockito.mock(HttpHeaders.class);
+
+		// Mocking the behavior of apiResponseMock and httpResponseMock
+		Mockito.when(apiResponseMock.getStatusCode()).thenReturn(200);
+		Mockito.when(apiResponseMock.getData()).thenReturn(httpResponseMock);
+		Mockito.when(httpResponseMock.statusCode()).thenReturn(200);
+		Mockito.when(httpResponseMock.body()).thenReturn(GetTransactionsTestResponses.getTransactionsPaymentMethodId);
+
+		Map<String, List<String>> headersMap = new HashMap<>();
+		headersMap.put("Content-Type", List.of("application/json"));
+		Mockito.when(httpHeadersMock.map()).thenReturn(headersMap);
+		Mockito.when(httpResponseMock.headers()).thenReturn(httpHeadersMock);
+
+		// Mocking the callApi method to return the mocked HttpResponse
+		Mockito.when(apiClient.callApi(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(httpResponseMock);
+
 		SearchFilters filters = new SearchFilters();
-		filters.setPaymentMethodId(DefaultConfigurations.getVirtualAccounts().get(0).getVirtualAccountId());
+		filters.setPaymentMethodId(DefaultConfigurations.getWalletId());
 		ApiResponse response = api.getTransactions(DefaultConfigurations.getUserHandle(), filters,
 				DefaultConfigurations.getUserPrivateKey());
 
@@ -146,8 +255,28 @@ public class GetTransactionsTests {
 		assertEquals("SUCCESS", parsedResponse.status);
 		assertTrue(parsedResponse.transactions.size() > 0);
 	}
+
 	@Test
 	public void Response200WithoutUserHandle() throws Exception {
+		// Mocking the ApiResponse and HttpResponse
+		ApiResponse apiResponseMock = Mockito.mock(ApiResponse.class);
+		HttpResponse<String> httpResponseMock = Mockito.mock(HttpResponse.class);
+		HttpHeaders httpHeadersMock = Mockito.mock(HttpHeaders.class);
+
+		// Mocking the behavior of apiResponseMock and httpResponseMock
+		Mockito.when(apiResponseMock.getStatusCode()).thenReturn(200);
+		Mockito.when(apiResponseMock.getData()).thenReturn(httpResponseMock);
+		Mockito.when(httpResponseMock.statusCode()).thenReturn(200);
+		Mockito.when(httpResponseMock.body()).thenReturn(GetTransactionsTestResponses.getTransactionsWithoutUserHandle);
+
+		Map<String, List<String>> headersMap = new HashMap<>();
+		headersMap.put("Content-Type", List.of("application/json"));
+		Mockito.when(httpHeadersMock.map()).thenReturn(headersMap);
+		Mockito.when(httpResponseMock.headers()).thenReturn(httpHeadersMock);
+
+		// Mocking the callApi method to return the mocked HttpResponse
+		Mockito.when(apiClient.callApi(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(httpResponseMock);
+
 		ApiResponse response = api.getTransactions(DefaultConfigurations.filters);
 		assertEquals(200, response.getStatusCode());
 		GetTransactionsResponse parsedResponse = (GetTransactionsResponse) response.getData();

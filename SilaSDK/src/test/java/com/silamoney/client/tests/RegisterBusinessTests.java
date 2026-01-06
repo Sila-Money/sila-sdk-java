@@ -8,7 +8,10 @@ import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import org.junit.Test;
 
 /**
@@ -53,14 +56,16 @@ public class RegisterBusinessTests {
 	@Test
 	public void Response_003_200() throws Exception {
 		BusinessType businessType = DefaultConfigurations.getBusinessTypes().get(0);
-		LocalDate registrationDate = new LocalDate(1989, 01, 31);
+		Date registrationDate = Date.from(
+				LocalDate.of(1989, 1, 31).atStartOfDay(ZoneId.systemDefault()).toInstant()
+		);
 		NaicsCategoryDescription naicsCategory = DefaultConfigurations.getDefaultNaicCategoryDescription();
 		BusinessUser user = new BusinessUser(DefaultConfigurations.getBusinessHandle(), "Office",
 				"123 Main Street", null, "New City", "OR", "97204-1234",
 				"503-123-4567", "example@silamoney.com", "975865809",
 				DefaultConfigurations.getBusinessCryptoAddress(), "entity name", businessType,
 				"https://www.website.com", "doing business as", naicsCategory, "US",
-				"OR", registrationDate.toDate());
+				"OR", registrationDate);
 		ApiResponse response = api.registerBusiness(user);
 
 		assertEquals(200, response.getStatusCode());

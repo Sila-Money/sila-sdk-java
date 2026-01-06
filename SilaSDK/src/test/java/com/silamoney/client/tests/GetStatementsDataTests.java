@@ -4,7 +4,6 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.*;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.web3j.crypto.*;
 import org.web3j.crypto.exception.CipherException;
@@ -14,6 +13,9 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -128,7 +130,9 @@ public class GetStatementsDataTests {
         searchFilters.setMonth("11-2022");
 
         String newUserHandle = "javaSDK-UserNew-" + new Random().nextInt();
-        LocalDate birthdate = new LocalDate(2001, 6, 22);
+        Date birthdate = Date.from(
+                LocalDate.of(2001, 6, 22).atStartOfDay(ZoneId.systemDefault()).toInstant()
+        );
         String userPrivateKey = "";
 
         try {
@@ -143,9 +147,8 @@ public class GetStatementsDataTests {
 
         new User(newUserHandle, "Example", "User", "123 Main Street",
                 null, "New City", "OR", "97204-1234", "503-123-4567",
-                newUserHandle + "@silamoney.com", "975865809",
-                userPrivateKey,
-                birthdate.toDate());
+                newUserHandle + "@silamoney.com", "975865809", userPrivateKey, birthdate
+        );
 
         ApiResponse response = api.getStatementsData(newUserHandle, userPrivateKey, searchFilters);
         assertEquals(200, response.getStatusCode());

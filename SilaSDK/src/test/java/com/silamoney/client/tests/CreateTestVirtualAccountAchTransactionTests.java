@@ -4,7 +4,9 @@ import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,8 +17,10 @@ public class CreateTestVirtualAccountAchTransactionTests {
 
     @Test
     public void Response200() throws Exception {
-        LocalDate date = new LocalDate(1990, 01, 31);
-        ApiResponse response = api.createTestVirtualAccountAchTransaction(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey(), 50, DefaultConfigurations.getVirtualAccounts().get(0).getAccountNumber(), date.toDate(), 22, "entityName", "PAYROLL", "SILA INC");
+        Date date = Date.from(
+                LocalDate.of(1990, 1, 31).atStartOfDay(ZoneId.systemDefault()).toInstant()
+        );
+        ApiResponse response = api.createTestVirtualAccountAchTransaction(DefaultConfigurations.getUserHandle(), DefaultConfigurations.getUserPrivateKey(), 50, DefaultConfigurations.getVirtualAccounts().get(0).getAccountNumber(), date, 22, "entityName", "PAYROLL", "SILA INC");
         assertEquals(200, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertEquals("SUCCESS", parsedResponse.getStatus());
