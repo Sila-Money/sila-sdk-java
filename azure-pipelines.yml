@@ -18,47 +18,18 @@ steps:
     scannerMode: 'Other'
 
 - task: Maven@4
-  displayName: 'Maven Package'
+  displayName: 'Build, Test and Analyze'
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: false
-    goals: 'package'
-    options: '-B -DskipTests clean'
-
-- task: Maven@4
-  displayName: 'Maven Test'
-  inputs:
-    mavenPomFile: 'SilaSDK/pom.xml'
-    goals: 'test'
+    goals: 'clean verify'
+    options: '-B'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/*.xml'
     codeCoverageToolOption: 'JaCoCo'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.17'
     jdkArchitectureOption: 'x64'
-    mavenVersionOption: 'Default'
-    mavenOptions: '-Xmx3072m'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
-
-- task: Maven@4
-  displayName: 'Maven SonarQube Test'
-  inputs:
-    mavenPomFile: 'SilaSDK/pom.xml'
-    goals: 'sonar:sonar'
-    publishJUnitResults: false
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
-    jdkArchitectureOption: 'x64'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+    sonarQubeRunAnalysis: true
 
 - task: SonarQubePublish@7
   displayName: 'Publish Quality Gate'

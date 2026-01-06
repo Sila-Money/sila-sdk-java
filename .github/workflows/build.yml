@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -f SilaSDK/pom.xml
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -f SilaSDK/pom.xml
   request:
     name: Request reviews on opened PRs
     needs: build
