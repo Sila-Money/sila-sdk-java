@@ -10,9 +10,23 @@ pr: none
 pool:
   vmImage: 'ubuntu-latest'
 
+# Build and test on every supported LTS JDK. Java 17 is the SDK floor and runs the Sonar analysis.
+strategy:
+  matrix:
+    jdk17:
+      jdkHome: $(JAVA_HOME_17_X64)
+      runSonar: 'true'
+    jdk21:
+      jdkHome: $(JAVA_HOME_21_X64)
+      runSonar: 'false'
+    jdk25:
+      jdkHome: $(JAVA_HOME_25_X64)
+      runSonar: 'false'
+
 steps:
 - task: SonarQubePrepare@7
   displayName: 'Prepare SonarQube analysis'
+  condition: and(succeeded(), eq(variables['runSonar'], 'true'))
   inputs:
     SonarQube: 'Sila SonarQube'
     scannerMode: 'Other'
@@ -25,13 +39,14 @@ steps:
     options: '-B'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/*.xml'
+    testRunTitle: '$(System.JobName)'
     codeCoverageToolOption: 'JaCoCo'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
-    jdkArchitectureOption: 'x64'
-    sonarQubeRunAnalysis: true
+    javaHomeOption: 'Path'
+    jdkDirectory: '$(jdkHome)'
+    sonarQubeRunAnalysis: $(runSonar)
 
 - task: SonarQubePublish@7
   displayName: 'Publish Quality Gate'
+  condition: and(succeeded(), eq(variables['runSonar'], 'true'))
   inputs:
     pollingTimeoutSec: '300'
