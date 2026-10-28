@@ -1,3 +1,10 @@
+v1.4.0
+    - Raised the minimum Java version from 11 to 17
+    - Upgraded httpclient5 to 5.6.4, bcprov-jdk18on to 1.86, jackson-databind to 2.21.7 and Netty to 4.2.19.Final for security
+    - Replaced live sandbox calls in tests with a local WireMock server
+    - Azure pipeline now builds and tests on Java 17, 21 and 25
+    - Updated the SDK version sent in the User-Agent header
+
 v1.3.0
     - Added SSN randomization for tests
     - Removed calls to MX from tests and mocked related tests
