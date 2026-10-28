@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/check_partner_kyc"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "check_partner_kyc/200_success.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

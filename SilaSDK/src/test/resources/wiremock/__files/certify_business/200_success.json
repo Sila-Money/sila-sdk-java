@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Business successfully certified.",
+  "reference": "mock-reference",
+  "response_time_ms": "42"
+}

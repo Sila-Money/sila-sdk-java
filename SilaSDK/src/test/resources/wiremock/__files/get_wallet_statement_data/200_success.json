@@ -1,0 +1,37 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Statements returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "12",
+  "statements": [
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$100.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$100.00",
+          "running_balance": "$100.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    }
+  ],
+  "page": 1,
+  "returned_count": 1,
+  "total_count": 1,
+  "pagination": {
+    "returned_count": 1,
+    "total_count": 1,
+    "current_page": 1,
+    "total_pages": 1
+  }
+}

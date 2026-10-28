@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "{{jsonPath request.body '$.query_user_handle'}} has passed ID verification!",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "entity_type": "individual",
+  "verification_status": "passed"
+}

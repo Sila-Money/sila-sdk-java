@@ -1,0 +1,25 @@
+{
+  "priority": 6,
+  "request": {
+    "method": "POST",
+    "url": "/update_virtual_account",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.ach_credit_enabled == true)]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.ach_debit_enabled == true)]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "update_virtual_account/200_ach_credit_debit_enabled.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

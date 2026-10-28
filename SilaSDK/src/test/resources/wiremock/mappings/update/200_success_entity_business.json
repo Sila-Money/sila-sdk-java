@@ -1,0 +1,25 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/update/entity",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.header.user_handle",
+          "matches": "(?i)javasdk-user4-.*"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "update/200_success_entity_business.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

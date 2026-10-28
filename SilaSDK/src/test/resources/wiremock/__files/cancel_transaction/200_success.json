@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Transaction d5d6b3a3-6c6f-4c39-8e3f-3a6a6c0e3c11 has been canceled.",
+  "reference": "mock-reference",
+  "response_time_ms": "171"
+}

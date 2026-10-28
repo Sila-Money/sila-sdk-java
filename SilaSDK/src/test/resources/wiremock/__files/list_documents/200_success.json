@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Documents returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "documents": [
+    {
+      "user_handle": "{{lower (jsonPath request.body '$.header.user_handle')}}",
+      "document_id": "6f2c4a0e-8b1d-4c3e-9f7a-2d5b8e1c0a94",
+      "name": "logo-geko",
+      "filename": "logo-geko",
+      "hash": "3a1e5b9c0d7f2e4a6b8c1d3e5f7a9b0c2d4e6f8a1b3c5d7e9f0a2b4c6d8e0f1a",
+      "type": "doc_birth_certificate",
+      "size": "4592",
+      "created": "2026-01-01T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "returned_count": 1,
+    "total_count": 1,
+    "current_page": 1,
+    "total_pages": 1
+  }
+}

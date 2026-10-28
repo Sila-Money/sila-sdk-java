@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Bank account successfully linked with status \"instantly_verified\".",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "account_name": "default",
+  "match_score": 0.825,
+  "account_owner_name": "Jane Doe",
+  "entity_name": "Jane Doe"
+}

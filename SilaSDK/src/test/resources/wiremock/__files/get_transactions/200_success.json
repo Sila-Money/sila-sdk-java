@@ -1,0 +1,92 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "reference": "mock-reference",
+  "page": 1,
+  "returned_count": 2,
+  "total_count": 2,
+  "pagination": {
+    "returned_count": 2,
+    "total_count": 2,
+    "current_page": 1,
+    "total_pages": 1
+  },
+  "transactions": [
+    {
+      "user_handle": "javasdk-user1-mock",
+      "reference_id": "ref-1",
+      "transaction_id": "12345678-abcd-1234-abcd-1234567890aa",
+      "transaction_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdee",
+      "transaction_type": "issue",
+      "sila_amount": 1000,
+      "status": "success",
+      "usd_status": "success",
+      "token_status": "success",
+      "created": "2025-03-09T17:45:59.709910Z",
+      "last_update": "2025-03-09T17:46:14.709920Z",
+      "created_epoch": 1741542359,
+      "last_update_epoch": 1741542374,
+      "descriptor": "test descriptor",
+      "descriptor_ach": "test descriptor",
+      "ach_name": "SILA INC",
+      "processing_type": "STANDARD_ACH",
+      "bank_account_name": "default",
+      "sila_ledger_type": "WALLET",
+      "source_id": "37559d1e-2848-4109-a7d8-a8b250c6e863",
+      "destination_id": "ebd20435-02d4-4fe2-8573-777e712974e8",
+      "sec_code": "PPD",
+      "timeline": [
+        {
+          "date": "2025-03-09T17:45:59.716909Z",
+          "date_epoch": 1741542359,
+          "status": "queued"
+        },
+        {
+          "date": "2025-03-09T17:46:14.728691Z",
+          "date_epoch": 1741542374,
+          "status": "success"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "reference_id": "ref-2",
+      "transaction_id": "12345678-abcd-1234-abcd-1234567890ab",
+      "transaction_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdee",
+      "transaction_type": "redeem",
+      "sila_amount": 200,
+      "status": "failed",
+      "usd_status": "success",
+      "token_status": "success",
+      "created": "2025-03-09T17:45:59.709910Z",
+      "last_update": "2025-03-09T17:46:14.709920Z",
+      "created_epoch": 1741542359,
+      "last_update_epoch": 1741542374,
+      "descriptor": "test descriptor",
+      "descriptor_ach": "test descriptor",
+      "ach_name": "SILA INC",
+      "processing_type": "STANDARD_ACH",
+      "bank_account_name": "default",
+      "sila_ledger_type": "WALLET",
+      "source_id": "37559d1e-2848-4109-a7d8-a8b250c6e863",
+      "destination_id": "ebd20435-02d4-4fe2-8573-777e712974e8",
+      "sec_code": "PPD",
+      "timeline": [
+        {
+          "date": "2025-03-09T17:45:59.716909Z",
+          "date_epoch": 1741542359,
+          "status": "queued"
+        },
+        {
+          "date": "2025-03-09T17:46:14.728691Z",
+          "date_epoch": 1741542374,
+          "status": "success"
+        }
+      ],
+      "error_code": "ACH_RETURN",
+      "error_msg": "An ACH return was received for this transaction.",
+      "return_code": "R01",
+      "return_desc": "Insufficient funds"
+    }
+  ]
+}

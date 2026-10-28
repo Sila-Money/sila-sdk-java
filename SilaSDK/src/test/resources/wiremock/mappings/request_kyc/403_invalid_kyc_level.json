@@ -1,0 +1,19 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/request_kyc",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.kyc_level == 'FAIL')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 403,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "request_kyc/403_invalid_kyc_level.json"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Handle is available.",
+  "reference": "mock-reference",
+  "response_time_ms": "10"
+}

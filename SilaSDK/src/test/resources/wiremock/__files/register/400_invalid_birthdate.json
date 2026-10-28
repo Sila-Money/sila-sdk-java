@@ -1,0 +1,12 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Bad request.",
+  "reference": "mock-reference",
+  "response_time_ms": "11",
+  "validation_details": {
+    "entity": {
+      "birthdate": "Birthdate is invalid. Entity must be between 18 and 125 years old."
+    }
+  }
+}

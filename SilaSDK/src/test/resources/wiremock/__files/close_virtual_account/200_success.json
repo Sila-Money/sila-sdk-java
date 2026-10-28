@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Virtual account successfully closed.",
+  "reference": "mock-reference",
+  "response_time_ms": "15",
+  "virtual_account": {
+    "virtual_account_id": "{{jsonPath request.body '$.virtual_account_id'}}",
+    "virtual_account_name": "virtual_account",
+    "account_number": "{{jsonPath request.body '$.account_number'}}",
+    "routing_number": "123456789",
+    "account_type": "VIRTUAL_ACCOUNT",
+    "active": false,
+    "closed": true,
+    "created_epoch": "1698364800",
+    "closed_epoch": "1698451200",
+    "ach_credit_enabled": false,
+    "ach_debit_enabled": false,
+    "statements_enabled": false
+  }
+}

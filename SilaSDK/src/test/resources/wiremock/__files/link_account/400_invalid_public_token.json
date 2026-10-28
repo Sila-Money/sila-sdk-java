@@ -1,0 +1,10 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Bad request: public_token is invalid.",
+  "reference": "mock-reference",
+  "validation_details": {
+    "public_token": "Provided public token is invalid or expired."
+  },
+  "response_time_ms": "12"
+}

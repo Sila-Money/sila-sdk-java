@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "{{jsonPath request.body '$.header.user_handle'}} was successfully registered.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "business_uuid": "9f280665-629f-45bf-a694-133c86bffd5e"
+}

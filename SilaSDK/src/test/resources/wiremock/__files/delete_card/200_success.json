@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Card deleted successfully.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "card_name": "cko12345",
+  "provider": "cko"
+}

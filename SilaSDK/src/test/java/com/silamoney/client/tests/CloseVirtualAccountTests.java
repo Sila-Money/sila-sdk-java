@@ -7,7 +7,6 @@ import com.silamoney.client.domain.VirtualAccountResponse;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +23,6 @@ public class CloseVirtualAccountTests {
         assertEquals("SUCCESS", parsedResponse.getStatus());
         String virtualAccountId=parsedResponse.getVirtualAccount().getVirtualAccountId();
         String accountNumber=parsedResponse.getVirtualAccount().getAccountNumber();
-        TimeUnit.SECONDS.sleep(4);
          response = api.closeVirtualAccount(DefaultConfigurations.getUserHandle(),
                 DefaultConfigurations.getUserPrivateKey(), virtualAccountId,accountNumber);
         assertEquals(200, response.getStatusCode());

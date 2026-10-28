@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/close_virtual_account"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "close_virtual_account/200_success.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

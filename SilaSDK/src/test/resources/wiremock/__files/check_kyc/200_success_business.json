@@ -1,0 +1,62 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Business has passed verification!",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "entity_type": "business",
+  "verification_status": "passed",
+  "verification_history": [
+    {
+      "verification_id": "4e5f6a7b-8c9d-4e0f-9a1b-2c3d4e5f6a7b",
+      "verification_status": "passed",
+      "kyc_level": "KYB-STANDARD",
+      "requested_at": 1700000400,
+      "updated_at": 1700000460,
+      "reasons": [],
+      "tags": [
+        "Instant Pass"
+      ],
+      "score": 0.95
+    }
+  ],
+  "valid_kyc_levels": [
+    "DEFAULT",
+    "KYB-STANDARD"
+  ],
+  "certification_status": "certified",
+  "certification_history": [
+    {
+      "administrator_user_handle": "javasdk-user1-mock",
+      "created": 1700000500,
+      "created_epoch": 1700000500,
+      "expires_after": 1731536500,
+      "beneficial_owner_certifications": []
+    }
+  ],
+  "members": [
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "role": "administrator",
+      "details": "test details",
+      "ownership_stake": null,
+      "verification_status": "passed",
+      "verification_required": "false",
+      "verification_id": "3d4e5f6a-7b8c-4d9e-8f0a-1b2c3d4e5f6a"
+    },
+    {
+      "user_handle": "javasdk-user2-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "role": "beneficial_owner",
+      "details": "test details",
+      "ownership_stake": 0.66,
+      "verification_status": "passed",
+      "verification_required": "true",
+      "verification_id": "5f6a7b8c-9d0e-4f1a-8b2c-3d4e5f6a7b8c",
+      "beneficial_owner_certification_status": "certified"
+    }
+  ]
+}

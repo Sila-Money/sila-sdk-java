@@ -1,0 +1,208 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Statements returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "12",
+  "statements": [
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$100.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$100.00",
+          "running_balance": "$100.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$200.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$200.00",
+          "running_balance": "$200.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$300.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$300.00",
+          "running_balance": "$300.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$400.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$400.00",
+          "running_balance": "$400.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$500.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$500.00",
+          "running_balance": "$500.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$600.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$600.00",
+          "running_balance": "$600.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$700.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$700.00",
+          "running_balance": "$700.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$800.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$800.00",
+          "running_balance": "$800.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$900.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$900.00",
+          "running_balance": "$900.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    },
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "date": "06-2023",
+      "wallet_id": "1220126f-aae1-417c-baee-e664fedb71da",
+      "beginning_balance": "$0.00",
+      "ending_balance": "$1000.00",
+      "transactions": [
+        {
+          "settled_date": "2023-06-08T19:58:25.686126Z",
+          "description": "Credit from default",
+          "category": "Credit",
+          "amount": "$1000.00",
+          "running_balance": "$1000.00",
+          "descriptor": "test descriptor"
+        }
+      ]
+    }
+  ],
+  "page": 1,
+  "returned_count": 10,
+  "total_count": 10,
+  "pagination": {
+    "returned_count": 10,
+    "total_count": 10,
+    "current_page": 1,
+    "total_pages": 1
+  }
+}

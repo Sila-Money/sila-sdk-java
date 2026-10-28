@@ -1,0 +1,10 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Bad request: business_uuid is not valid.",
+  "reference": "mock-reference",
+  "validation_details": {
+    "business_uuid": "No business found with this UUID for this app."
+  },
+  "response_time_ms": "12"
+}

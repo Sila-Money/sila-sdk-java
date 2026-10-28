@@ -1,0 +1,10 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Bad request.",
+  "reference": "mock-reference",
+  "validation_details": {
+    "transaction_id": "This field is required."
+  },
+  "response_time_ms": "12"
+}

@@ -1,0 +1,13 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/check_handle",
+    "bodyPatterns": [{ "matchesJsonPath": "$.header[?(@.user_handle == '')]" }]
+  },
+  "response": {
+    "status": 400,
+    "headers": { "Content-Type": "application/json" },
+    "bodyFileName": "check_handle/400_empty_handle.json"
+  }
+}

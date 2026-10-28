@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Successfully updated identity.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "identity": {
+    "uuid": "e1a2b3c4-0003-4d5e-8f9a-0b1c2d3e4f03",
+    "added_epoch": 1700000200,
+    "modified_epoch": 1700000300,
+    "identity_type": "SSN",
+    "identity": "*******1234"
+  }
+}

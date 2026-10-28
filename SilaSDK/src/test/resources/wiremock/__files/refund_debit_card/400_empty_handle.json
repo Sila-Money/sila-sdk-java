@@ -1,0 +1,13 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Bad request.",
+  "reference": "mock-reference",
+  "validation_details": {
+    "header": {
+      "user_handle": "This field may not be blank."
+    },
+    "transaction_id": "This field is required."
+  },
+  "response_time_ms": "12"
+}

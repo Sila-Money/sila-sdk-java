@@ -1,0 +1,22 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/get_payment_methods",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.search_filters.payment_method_types",
+          "equalToJson": "[\"blockchain_address\"]"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_payment_methods/200_blockchain_address_filter.json"
+  }
+}

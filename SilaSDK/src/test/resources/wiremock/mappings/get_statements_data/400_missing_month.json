@@ -1,0 +1,19 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/get_statements_data",
+    "bodyPatterns": [
+      {
+        "doesNotMatch": ".*\"month\".*"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_statements_data/400_missing_month.json"
+  }
+}

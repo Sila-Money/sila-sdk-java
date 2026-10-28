@@ -1,0 +1,12 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Bad request.",
+  "reference": "mock-reference",
+  "response_time_ms": "8",
+  "validation_details": {
+    "header": {
+      "user_handle": "This field may not be blank."
+    }
+  }
+}

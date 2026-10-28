@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "reference": "mock-reference",
+  "response_time_ms": "51",
+  "message": "{{jsonPath request.body '$.header.user_handle'}} has been made a {{jsonPath request.body '$.role'}} for business {{jsonPath request.body '$.header.business_handle'}}.",
+  "role": "{{jsonPath request.body '$.role'}}",
+  "details": "{{jsonPath request.body '$.details'}}",
+  "verification_uuid": null
+}

@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Successfully updated entity.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "user_handle": "{{lower (jsonPath request.body '$.header.user_handle')}}",
+  "entity_type": "individual",
+  "entity": {
+    "created_epoch": 1700000000,
+    "entity_name": "{{jsonPath request.body '$.entity_name'}}",
+    "birthdate": "{{jsonPath request.body '$.birthdate'}}",
+    "first_name": "{{jsonPath request.body '$.first_name'}}",
+    "last_name": "{{jsonPath request.body '$.last_name'}}"
+  }
+}

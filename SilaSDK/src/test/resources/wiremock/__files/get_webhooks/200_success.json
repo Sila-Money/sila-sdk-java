@@ -1,0 +1,42 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Webhooks returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "12",
+  "webhooks": [
+    {
+      "uuid": "1a6a8b6e-6bd1-4c63-9e8f-1f1f4f1b2c3d",
+      "user_handle": "javasdk-user1-mock",
+      "event_type": "kyc_update",
+      "endpoint_name": "mock_endpoint",
+      "endpoint_url": "https://example.com/webhook",
+      "created_epoch": "1698364800",
+      "last_update_epoch": "1698364860",
+      "next_attempt_epoch": null,
+      "delivered": true,
+      "attempts": 1,
+      "processing": false,
+      "details": {
+        "entity": "javasdk-user1-mock",
+        "kyc": "PASSED"
+      },
+      "responses": [
+        {
+          "status_code": 200,
+          "response_body": "OK",
+          "response_time_ms": 120
+        }
+      ]
+    }
+  ],
+  "page": 1,
+  "returned_count": 1,
+  "total_count": 1,
+  "pagination": {
+    "returned_count": 1,
+    "total_count": 1,
+    "current_page": 1,
+    "total_pages": 1
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/get_document",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.document_id",
+          "doesNotMatch": "6f2c4a0e-8b1d-4c3e-9f7a-2d5b8e1c0a94"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_document/404_document_not_found.json"
+  }
+}

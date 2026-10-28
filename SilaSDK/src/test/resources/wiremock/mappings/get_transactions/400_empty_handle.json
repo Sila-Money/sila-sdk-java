@@ -1,0 +1,19 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/get_transactions",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.header[?(@.user_handle == '')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_transactions/400_empty_handle.json"
+  }
+}

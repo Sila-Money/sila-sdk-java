@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Bank account deleted successfully.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "account_name": "default"
+}

@@ -1,0 +1,84 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "reference": "mock-reference",
+  "response_time_ms": "61",
+  "user_handle": "{{lower (jsonPath request.body '$.header.user_handle')}}",
+  "entity_type": "business",
+  "entity": {
+    "created_epoch": 1700000100,
+    "entity_name": "entity name",
+    "birthdate": "1989-01-31",
+    "business_type": "corporation",
+    "business_uuid": "9f280665-629f-45bf-a694-133c86bffd5e",
+    "naics_code": 721,
+    "naics_category": "Accommodation and Food Services",
+    "naics_subcategory": "Accommodation",
+    "doing_business_as": "doing business as",
+    "business_website": "https://www.website.com",
+    "registration_state": "OR"
+  },
+  "addresses": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "a1b2c3d4-0001-4e5f-9a0b-1c2d3e4f5a01",
+      "nickname": "",
+      "street_address_1": "123 Main Street",
+      "street_address_2": "",
+      "city": "New City",
+      "state": "OR",
+      "country": "US",
+      "postal_code": "97204-1234"
+    }
+  ],
+  "identities": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "b1b2c3d4-0002-4e5f-9a0b-1c2d3e4f5a02",
+      "identity_type": "EIN",
+      "identity": "*****5809"
+    }
+  ],
+  "emails": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "a1b2c3d4-0003-4e5f-9a0b-1c2d3e4f5a03",
+      "email": "example@silamoney.com"
+    }
+  ],
+  "phones": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "a1b2c3d4-0004-4e5f-9a0b-1c2d3e4f5a04",
+      "phone": "5031234567",
+      "sms_confirmation_requested": false,
+      "sms_confirmed": false
+    }
+  ],
+  "memberships": [],
+  "members": [
+    {
+      "user_handle": "javasdk-user1-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "role": "administrator",
+      "details": "test details",
+      "verification_status": "passed",
+      "verification_required": "false"
+    },
+    {
+      "user_handle": "javasdk-user2-mock",
+      "first_name": "Example",
+      "last_name": "User",
+      "role": "beneficial_owner",
+      "details": "test details",
+      "ownership_stake": 0.66,
+      "verification_status": "passed",
+      "verification_required": "true"
+    }
+  ]
+}

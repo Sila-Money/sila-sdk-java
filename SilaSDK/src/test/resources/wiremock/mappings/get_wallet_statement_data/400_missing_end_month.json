@@ -1,0 +1,19 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/get_wallet_statement_data",
+    "bodyPatterns": [
+      {
+        "doesNotMatch": ".*\"end_month\".*"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_wallet_statement_data/400_missing_end_month.json"
+  }
+}

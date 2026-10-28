@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Failed to authenticate app signature. The app is not allowed to access this user.",
+  "reference": "mock-reference",
+  "response_time_ms": "9"
+}

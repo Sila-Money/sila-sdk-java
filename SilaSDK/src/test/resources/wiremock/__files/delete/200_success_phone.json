@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Successfully deleted phone with UUID {{jsonPath request.body '$.uuid'}}.",
+  "reference": "mock-reference",
+  "response_time_ms": "42"
+}

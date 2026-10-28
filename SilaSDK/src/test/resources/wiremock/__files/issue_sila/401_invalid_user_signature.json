@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "reference": "mock-reference",
+  "response_time_ms": "14",
+  "message": "Failed to authenticate user signature. The derived address does not match the address registered for this user handle."
+}

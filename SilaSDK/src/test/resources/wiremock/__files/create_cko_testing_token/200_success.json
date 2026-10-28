@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Testing token created successfully.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "token": "tok_ubfj2q76miwundwlk72vxt2i7q"
+}

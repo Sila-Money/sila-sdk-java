@@ -24,7 +24,7 @@ import lombok.Setter;
 
 public class DefaultConfigurations {
 
-    public static String host = Environments.SilaEnvironment.SANDBOX.getUrl();
+    public static String host = MockSilaServer.getBaseUrl();
      public static String appHandle = "arc_sandbox_test_app01";
      public static String privateKey = "9c17e7b767b8f4a63863caf1619ef3e9967a34b287ce58542f3eb19b5a72f076";
     public static String walletWithStatements = "1220126f-aae1-417c-baee-e664fedb71da";

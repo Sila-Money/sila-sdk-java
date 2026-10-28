@@ -72,7 +72,7 @@ public class GetDocumentTypesTests {
 
     @Test
     public void Response403Success() throws Exception {
-        SilaApi badApi = new SilaApi(DefaultConfigurations.appHandle,
+        SilaApi badApi = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                 "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
         ApiResponse response = badApi.getDocumentTypes();
         assertEquals(403, response.getStatusCode());

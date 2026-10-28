@@ -1,0 +1,43 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "NAICS categories retrieved.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "naics_categories": {
+    "Accommodation and Food Services": [
+      {
+        "code": 721,
+        "subcategory": "Accommodation"
+      },
+      {
+        "code": 722,
+        "subcategory": "Food Services and Drinking Places"
+      }
+    ],
+    "Construction": [
+      {
+        "code": 236,
+        "subcategory": "Construction of Buildings"
+      },
+      {
+        "code": 237,
+        "subcategory": "Heavy and Civil Engineering Construction"
+      },
+      {
+        "code": 238,
+        "subcategory": "Specialty Trade Contractors"
+      }
+    ],
+    "Information": [
+      {
+        "code": 511,
+        "subcategory": "Publishing Industries (except Internet)"
+      },
+      {
+        "code": 518,
+        "subcategory": "Data Processing, Hosting, and Related Services"
+      }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Business types retrieved.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "business_types": [
+    {
+      "uuid": "1a2b3c4d-0001-4e5f-8a9b-0c1d2e3f4a01",
+      "name": "corporation",
+      "label": "Corporation",
+      "requires_certification": true
+    },
+    {
+      "uuid": "1a2b3c4d-0002-4e5f-8a9b-0c1d2e3f4a02",
+      "name": "llc",
+      "label": "Limited Liability Company",
+      "requires_certification": true
+    },
+    {
+      "uuid": "1a2b3c4d-0003-4e5f-8a9b-0c1d2e3f4a03",
+      "name": "partnership",
+      "label": "Partnership",
+      "requires_certification": true
+    },
+    {
+      "uuid": "1a2b3c4d-0004-4e5f-8a9b-0c1d2e3f4a04",
+      "name": "sole_proprietorship",
+      "label": "Sole Proprietorship",
+      "requires_certification": false
+    },
+    {
+      "uuid": "1a2b3c4d-0005-4e5f-8a9b-0c1d2e3f4a05",
+      "name": "trust",
+      "label": "Trust",
+      "requires_certification": true
+    },
+    {
+      "uuid": "1a2b3c4d-0006-4e5f-8a9b-0c1d2e3f4a06",
+      "name": "non_profit",
+      "label": "Non-Profit",
+      "requires_certification": true
+    },
+    {
+      "uuid": "1a2b3c4d-0007-4e5f-8a9b-0c1d2e3f4a07",
+      "name": "unincorporated_association",
+      "label": "Unincorporated Association",
+      "requires_certification": true
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Cards returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "cards": [
+    {
+      "card_id": "8f8ad6bf-4a11-4bd8-9ff5-4e7ab1bd0bb4",
+      "card_name": "cko12345",
+      "card_last_4": "1157",
+      "card_type": "DEBIT",
+      "expiration": "2027-12",
+      "active": true,
+      "pull_enabled": true,
+      "push_enabled": true,
+      "push_availability": "Immediate",
+      "country": "US",
+      "currency": "USD"
+    }
+  ],
+  "pagination": {
+    "returned_count": 1,
+    "total_count": 1,
+    "current_page": 1,
+    "total_pages": 1
+  }
+}
