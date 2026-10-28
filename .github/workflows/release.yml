@@ -57,7 +57,6 @@ jobs:
         run: |
           mvn -B clean deploy \
             -Prelease \
-            -DskipTests \
             -s SilaSDK/settings.xml \
             -f SilaSDK/pom.xml
 

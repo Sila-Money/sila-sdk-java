@@ -1,0 +1,19 @@
+{
+  "priority": 4,
+  "request": {
+    "method": "POST",
+    "url": "/get_business_roles",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.header[?(@.app_handle == '')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "common/400_empty_app_handle.json"
+  }
+}

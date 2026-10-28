@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Refund submitted to the processing queue.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "transaction_id": "{{jsonPath request.body '$.transaction_id'}}"
+}

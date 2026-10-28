@@ -1,0 +1,19 @@
+{
+  "priority": 4,
+  "request": {
+    "method": "POST",
+    "url": "/refund_debit_card",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.header[?(@.user_handle == '')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "refund_debit_card/400_empty_handle.json"
+  }
+}

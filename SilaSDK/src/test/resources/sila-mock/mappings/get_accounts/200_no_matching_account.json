@@ -1,0 +1,19 @@
+{
+  "priority": 6,
+  "request": {
+    "method": "POST",
+    "url": "/get_accounts",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.search_filters.account_number"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_accounts/200_no_matching_account.json"
+  }
+}
