@@ -1,0 +1,19 @@
+{
+  "priority": 4,
+  "request": {
+    "method": "POST",
+    "url": "/delete_wallet",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.header[?(@.user_handle == '')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "common/400_empty_handle.json"
+  }
+}

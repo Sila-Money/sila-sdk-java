@@ -1,0 +1,22 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/redeem_sila",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.business_uuid",
+          "doesNotMatch": "9f280665-629f-45bf-a694-133c86bffd5e"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "common/400_invalid_business_uuid.json"
+  }
+}

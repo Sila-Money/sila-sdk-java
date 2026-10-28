@@ -1,7 +1,0 @@
-{
-  "success": false,
-  "status": "FAILURE",
-  "message": "Failed to authenticate app signature. The derived address does not match any registered address for this app.",
-  "reference": "mock-reference",
-  "response_time_ms": "9"
-}
