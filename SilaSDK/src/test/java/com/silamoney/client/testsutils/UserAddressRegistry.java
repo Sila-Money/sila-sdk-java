@@ -54,10 +54,6 @@ public class UserAddressRegistry implements ServeEventListener {
                 .add(SignatureRecovery.normalize(address));
     }
 
-    boolean isRegistered(String handle) {
-        return addresses.containsKey(handle.toLowerCase(Locale.ROOT));
-    }
-
     boolean hasAddress(String handle, String address) {
         Set<String> registered = addresses.get(handle.toLowerCase(Locale.ROOT));
         return registered != null && registered.contains(SignatureRecovery.normalize(address));
