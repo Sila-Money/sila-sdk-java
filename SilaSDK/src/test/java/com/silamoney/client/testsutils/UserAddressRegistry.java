@@ -15,8 +15,9 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 /**
- * Remembers the crypto addresses each user handle registered (register and register_wallet),
- * so InvalidUserSignatureMatcher can check usersignature like the real API.
+ * Remembers the crypto addresses each user handle registered (register and register_wallet, plus the
+ * default users DefaultConfigurations seeds), so InvalidUserSignatureMatcher can check usersignature
+ * like the real API.
  */
 public class UserAddressRegistry implements ServeEventListener {
 
@@ -29,8 +30,9 @@ public class UserAddressRegistry implements ServeEventListener {
         return NAME;
     }
 
+    // Record before the response is sent, so a request signed with the new key straight afterwards is accepted.
     @Override
-    public void afterComplete(ServeEvent serveEvent, Parameters parameters) {
+    public void beforeResponseSent(ServeEvent serveEvent, Parameters parameters) {
         int status = serveEvent.getResponse().getStatus();
         if (status < 200 || status >= 300) {
             return;
@@ -45,6 +47,11 @@ public class UserAddressRegistry implements ServeEventListener {
         } else if ("/register_wallet".equals(url)) {
             add(body, "wallet", "blockchain_address");
         }
+    }
+
+    void register(String handle, String address) {
+        addresses.computeIfAbsent(handle.toLowerCase(Locale.ROOT), h -> ConcurrentHashMap.newKeySet())
+                .add(SignatureRecovery.normalize(address));
     }
 
     boolean isRegistered(String handle) {
@@ -68,8 +75,7 @@ public class UserAddressRegistry implements ServeEventListener {
         String handle = string(body, "header", "user_handle");
         String address = string(body, object, field);
         if (handle != null && address != null) {
-            addresses.computeIfAbsent(handle.toLowerCase(Locale.ROOT), h -> ConcurrentHashMap.newKeySet())
-                    .add(SignatureRecovery.normalize(address));
+            register(handle, address);
         }
     }
 

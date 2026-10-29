@@ -13,6 +13,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 public class MockSilaServer {
 
     private static WireMockServer server;
+    private static UserAddressRegistry registry;
 
     private MockSilaServer() {
     }
@@ -25,7 +26,7 @@ public class MockSilaServer {
      */
     public static synchronized String getBaseUrl(String appPrivateKey) {
         if (server == null) {
-            UserAddressRegistry registry = new UserAddressRegistry();
+            UserAddressRegistry addresses = new UserAddressRegistry();
             WireMockServer started = null;
             try {
                 // The constructor loads the mappings, so a bad mapping file fails here.
@@ -34,8 +35,8 @@ public class MockSilaServer {
                         .usingFilesUnderClasspath("sila-mock")
                         .maxRequestJournalEntries(100)
                         .extensions(new InvalidAuthSignatureMatcher(appPrivateKey),
-                                new InvalidUserSignatureMatcher(registry),
-                                registry));
+                                new InvalidUserSignatureMatcher(addresses),
+                                addresses));
                 started.start();
             } catch (RuntimeException e) {
                 if (started != null) {
@@ -45,8 +46,22 @@ public class MockSilaServer {
             }
             WireMockServer running = started;
             Runtime.getRuntime().addShutdownHook(new Thread(running::stop));
+            registry = addresses;
             server = running;
         }
         return server.baseUrl();
+    }
+
+    /**
+     * Registers a user with the mock server, as if it had called /register. Does nothing when the
+     * mock server is not in use (SILA_TEST_HOST is set).
+     *
+     * @param handle the user handle.
+     * @param cryptoAddress the address of the key the user signs requests with.
+     */
+    public static synchronized void registerUser(String handle, String cryptoAddress) {
+        if (registry != null) {
+            registry.register(handle, cryptoAddress);
+        }
     }
 }

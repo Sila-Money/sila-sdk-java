@@ -532,4 +532,15 @@ public class DefaultConfigurations {
     public static String getUser6PrivateKey() {
         return user6PrivateKey;
     }
+
+    // Register the default users with the mock server, so tests that check usersignature also work
+    // when their class runs without RegisterTests. This block must stay last: it runs after the
+    // other static fields are set.
+    static {
+        MockSilaServer.registerUser(getUserHandle(), getUserCryptoAddress());
+        MockSilaServer.registerUser(getUser2Handle(), getUser2CryptoAddress());
+        MockSilaServer.registerUser(getUser3Handle(), getUser3CryptoAddress());
+        MockSilaServer.registerUser(getBusinessHandle(), getBusinessCryptoAddress());
+        MockSilaServer.registerUser(getUser5Handle(), getUser5CryptoAddress());
+    }
 }

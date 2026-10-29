@@ -9,7 +9,8 @@ import com.github.tomakehurst.wiremock.matching.RequestMatcherExtension;
  * Matches requests whose usersignature header was not made with a key registered for the
  * header's user_handle, so the mock server can answer 401 like the real API.
  *
- * Handles that were not registered in this JVM are not checked, so a test class can still run alone.
+ * The DefaultConfigurations users are registered when that class loads, so their checks also work when a
+ * test class runs alone. Other handles are checked only after they register through /register.
  */
 public class InvalidUserSignatureMatcher extends RequestMatcherExtension {
 
