@@ -15,6 +15,7 @@ import java.util.UUID;
 import com.silamoney.client.domain.*;
 
 import org.web3j.crypto.exception.CipherException;
+import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
@@ -31,6 +32,9 @@ public class DefaultConfigurations {
     public static String host = Optional.ofNullable(System.getenv("SILA_TEST_HOST"))
             .orElseGet(() -> MockSilaServer.getBaseUrl(privateKey));
     public static String walletWithStatements = "1220126f-aae1-417c-baee-e664fedb71da";
+    // A sandbox user that has statements. Its handle is not generated, so it does not register in the tests.
+    public static String statementsUserHandle = "user_handle1_1686776339cudgjmzwckh4ohh";
+    public static String statementsUserPrivateKey = "c087fb917b921f930355b97edda0ab29a5ea40963cef376be999e6aedf0efe0e";
     public static String ckoPublicKey="pk_sbox_i2uzy5w5nsllogfsc4xdscorcii";
     private static String userHandle;
     @Getter
@@ -542,5 +546,6 @@ public class DefaultConfigurations {
         MockSilaServer.registerUser(getUser3Handle(), getUser3CryptoAddress());
         MockSilaServer.registerUser(getBusinessHandle(), getBusinessCryptoAddress());
         MockSilaServer.registerUser(getUser5Handle(), getUser5CryptoAddress());
+        MockSilaServer.registerUser(statementsUserHandle, Credentials.create(statementsUserPrivateKey).getAddress());
     }
 }

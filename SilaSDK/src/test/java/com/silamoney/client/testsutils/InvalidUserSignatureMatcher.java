@@ -20,8 +20,11 @@ public class InvalidUserSignatureMatcher extends RequestMatcherExtension {
 
     public static final String NAME = "invalid-user-signature";
 
-    // The sandbox answers these with a 200 for any usersignature, also for a handle that never registered.
-    private static final Set<String> UNCHECKED_PATHS = Set.of("/statements", "/get_statements_data",
+    // The sandbox answers these with a 200 for any usersignature: for a handle that never registered, and
+    // also with a registered user's statements for a wrong key (checked 2026-10-29, /statements too). Their
+    // tests use handles that never registered and expect that 200. /statements is checked here, because
+    // its tests sign as the seeded DefaultConfigurations.statementsUserHandle.
+    private static final Set<String> UNCHECKED_PATHS = Set.of("/get_statements_data",
             "/get_wallet_statement_data");
 
     private final UserAddressRegistry registry;
