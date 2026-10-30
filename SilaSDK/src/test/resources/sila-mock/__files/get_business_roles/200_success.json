@@ -1,0 +1,24 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Business roles retrieved.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "business_roles": [
+    {
+      "uuid": "7c1e2d3f-0001-4a5b-9c6d-1e2f3a4b5c01",
+      "name": "controlling_officer",
+      "label": "Controlling Officer"
+    },
+    {
+      "uuid": "7c1e2d3f-0002-4a5b-9c6d-1e2f3a4b5c02",
+      "name": "beneficial_owner",
+      "label": "Beneficial Owner"
+    },
+    {
+      "uuid": "7c1e2d3f-0003-4a5b-9c6d-1e2f3a4b5c03",
+      "name": "administrator",
+      "label": "Administrator"
+    }
+  ]
+}

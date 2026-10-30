@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Transaction submitted to the processing queue.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "descriptor": "test descriptor",
+  "transaction_id": "d5d6b3a3-6c6f-4c39-8e3f-3a6a6c0e3c11",
+  "destination_address": "0xF08D203754F8960C3655Aa00Bde006DB78fdBf5d"
+}

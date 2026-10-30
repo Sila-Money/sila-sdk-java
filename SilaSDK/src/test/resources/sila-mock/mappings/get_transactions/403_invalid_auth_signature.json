@@ -1,0 +1,17 @@
+{
+  "priority": 0,
+  "request": {
+    "method": "POST",
+    "url": "/get_transactions",
+    "customMatcher": {
+      "name": "invalid-auth-signature"
+    }
+  },
+  "response": {
+    "status": 403,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_transactions/403_invalid_auth_signature.json"
+  }
+}

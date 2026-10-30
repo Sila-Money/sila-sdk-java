@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Bank account balance returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "available_balance": 100,
+  "current_balance": 110,
+  "masked_account_number": "*5678",
+  "routing_number": 123456789,
+  "account_name": "default"
+}

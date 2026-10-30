@@ -1,0 +1,22 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/cancel_transaction",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.transaction_id",
+          "absent": true
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "cancel_transaction/400_missing_transaction_id.json"
+  }
+}

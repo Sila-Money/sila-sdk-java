@@ -8,12 +8,14 @@ import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
 import com.silamoney.client.domain.*;
 
 import org.web3j.crypto.exception.CipherException;
+import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
@@ -24,10 +26,15 @@ import lombok.Setter;
 
 public class DefaultConfigurations {
 
-    public static String host = Environments.SilaEnvironment.SANDBOX.getUrl();
      public static String appHandle = "arc_sandbox_test_app01";
      public static String privateKey = "9c17e7b767b8f4a63863caf1619ef3e9967a34b287ce58542f3eb19b5a72f076";
+    // Set SILA_TEST_HOST (for example the sandbox url) to run the suite against a real environment.
+    public static String host = Optional.ofNullable(System.getenv("SILA_TEST_HOST"))
+            .orElseGet(() -> MockSilaServer.getBaseUrl(privateKey));
     public static String walletWithStatements = "1220126f-aae1-417c-baee-e664fedb71da";
+    // A sandbox user that has statements. Its handle is not generated, so it does not register in the tests.
+    public static String statementsUserHandle = "user_handle1_1686776339cudgjmzwckh4ohh";
+    public static String statementsUserPrivateKey = "c087fb917b921f930355b97edda0ab29a5ea40963cef376be999e6aedf0efe0e";
     public static String ckoPublicKey="pk_sbox_i2uzy5w5nsllogfsc4xdscorcii";
     private static String userHandle;
     @Getter
@@ -528,5 +535,17 @@ public class DefaultConfigurations {
     }
     public static String getUser6PrivateKey() {
         return user6PrivateKey;
+    }
+
+    // Register the default users with the mock server, so tests that check usersignature also work
+    // when their class runs without RegisterTests. This block must stay last: it runs after the
+    // other static fields are set.
+    static {
+        MockSilaServer.registerUser(getUserHandle(), getUserCryptoAddress());
+        MockSilaServer.registerUser(getUser2Handle(), getUser2CryptoAddress());
+        MockSilaServer.registerUser(getUser3Handle(), getUser3CryptoAddress());
+        MockSilaServer.registerUser(getBusinessHandle(), getBusinessCryptoAddress());
+        MockSilaServer.registerUser(getUser5Handle(), getUser5CryptoAddress());
+        MockSilaServer.registerUser(statementsUserHandle, Credentials.create(statementsUserPrivateKey).getAddress());
     }
 }

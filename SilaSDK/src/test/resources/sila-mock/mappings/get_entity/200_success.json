@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/get_entity"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "get_entity/200_success.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

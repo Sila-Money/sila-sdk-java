@@ -1,0 +1,22 @@
+{
+  "priority": 7,
+  "request": {
+    "method": "POST",
+    "url": "/register",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.entity[?(@.type == 'business')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "register/200_success_business.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

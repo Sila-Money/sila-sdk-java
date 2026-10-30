@@ -6,12 +6,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import com.silamoney.client.api.ApiResponse;
 import com.silamoney.client.api.SilaApi;
+import com.silamoney.client.config.Configuration;
 import com.silamoney.client.domain.BaseResponse;
 import com.silamoney.client.domain.DocumentTypesResponse;
+import com.silamoney.client.domain.Environments;
 import com.silamoney.client.domain.PaginationMessage;
 import com.silamoney.client.testsutils.DefaultConfigurations;
 
@@ -72,12 +75,21 @@ public class GetDocumentTypesTests {
 
     @Test
     public void Response403Success() throws Exception {
-        SilaApi badApi = new SilaApi(DefaultConfigurations.appHandle,
+        SilaApi badApi = new SilaApi(DefaultConfigurations.host, DefaultConfigurations.appHandle,
                 "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266");
         ApiResponse response = badApi.getDocumentTypes();
         assertEquals(403, response.getStatusCode());
         BaseResponse parsedResponse = (BaseResponse) response.getData();
         assertFalse(parsedResponse.getSuccess());
         assertEquals("FAILURE", parsedResponse.getStatus());
+    }
+
+    @Test
+    public void DefaultConstructorUsesSandbox() throws Exception {
+        SilaApi sandboxApi = new SilaApi(DefaultConfigurations.appHandle, DefaultConfigurations.privateKey);
+        Field configurationField = SilaApi.class.getDeclaredField("configuration");
+        configurationField.setAccessible(true);
+        Configuration configuration = (Configuration) configurationField.get(sandboxApi);
+        assertEquals(Environments.SilaEnvironment.SANDBOX.getUrl(), configuration.getBasePath());
     }
 }

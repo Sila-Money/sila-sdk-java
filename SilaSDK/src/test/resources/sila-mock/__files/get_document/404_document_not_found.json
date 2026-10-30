@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Document not found.",
+  "reference": "mock-reference",
+  "response_time_ms": "42"
+}

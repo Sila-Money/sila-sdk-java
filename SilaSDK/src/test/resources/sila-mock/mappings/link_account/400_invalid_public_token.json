@@ -1,0 +1,22 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/link_account",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.public_token",
+          "doesNotMatch": "^(mock_token|public-sandbox-.+)$"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "link_account/400_invalid_public_token.json"
+  }
+}

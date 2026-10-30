@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Blockchain address {{jsonPath request.body '$.wallet.blockchain_address'}} registered.",
+  "reference": "mock-reference",
+  "response_time_ms": "18",
+  "wallet_nickname": "{{jsonPath request.body '$.wallet.nickname'}}",
+  "wallet_id": "{{randomValue type='UUID'}}",
+  "statements_enabled": true
+}

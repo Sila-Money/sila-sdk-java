@@ -1,0 +1,22 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/register",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.entity.birthdate",
+          "matches": "^1900-.*"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "register/400_invalid_birthdate.json"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Requested KYC level FAIL is not a valid KYC level for this app.",
+  "reference": "mock-reference",
+  "response_time_ms": "42"
+}

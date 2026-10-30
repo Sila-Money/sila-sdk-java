@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Webhook successfully queued for retry.",
+  "reference": "mock-reference",
+  "response_time_ms": "12"
+}

@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/delete/email"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "delete/200_success_email.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

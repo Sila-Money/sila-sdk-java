@@ -1,0 +1,115 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Document type details returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "document_types": [
+    {
+      "name": "doc_birth_certificate",
+      "label": "Birth certificate",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_green_card",
+      "label": "Permanent Resident Card (green card)",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_lease",
+      "label": "Lease agreement",
+      "identity_type": "contract"
+    },
+    {
+      "name": "doc_marriage",
+      "label": "Marriage certificate",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_mortgage",
+      "label": "Mortgage statement",
+      "identity_type": "contract"
+    },
+    {
+      "name": "doc_name_change",
+      "label": "Name change certificate",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_paystub",
+      "label": "Pay stub",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_bank_statement",
+      "label": "Bank statement",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_insurance",
+      "label": "Insurance policy document",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_property_tax",
+      "label": "Property tax statement",
+      "identity_type": "tax"
+    },
+    {
+      "name": "doc_ssa",
+      "label": "Social Security Administration letter",
+      "identity_type": "ssn"
+    },
+    {
+      "name": "doc_tax_1040",
+      "label": "Tax return (Form 1040)",
+      "identity_type": "tax"
+    },
+    {
+      "name": "doc_tax_1099",
+      "label": "Form 1099",
+      "identity_type": "tax"
+    },
+    {
+      "name": "doc_tax_w2",
+      "label": "Form W-2",
+      "identity_type": "tax"
+    },
+    {
+      "name": "doc_tax_w4",
+      "label": "Form W-4",
+      "identity_type": "tax"
+    },
+    {
+      "name": "doc_utility",
+      "label": "Utility bill",
+      "identity_type": "utility"
+    },
+    {
+      "name": "doc_vehicle_registration",
+      "label": "Vehicle registration",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_voter_registration",
+      "label": "Voter registration card",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_divorce_decree",
+      "label": "Divorce decree",
+      "identity_type": "other"
+    },
+    {
+      "name": "doc_court_order",
+      "label": "Court order",
+      "identity_type": "other"
+    }
+  ],
+  "pagination": {
+    "returned_count": 20,
+    "total_count": 33,
+    "current_page": 1,
+    "total_pages": 2
+  }
+}

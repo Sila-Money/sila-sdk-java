@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/update/identity"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "update/200_success_identity.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

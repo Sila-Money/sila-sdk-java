@@ -1,0 +1,22 @@
+{
+  "priority": 6,
+  "request": {
+    "method": "POST",
+    "url": "/register_wallet",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.wallet[?(@.statements_enabled == true)]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "register_wallet/200_statements_enabled.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/register_wallet"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "register_wallet/200_success.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

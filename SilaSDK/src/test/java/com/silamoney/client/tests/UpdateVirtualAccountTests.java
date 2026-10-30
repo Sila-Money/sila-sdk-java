@@ -76,4 +76,16 @@ public class UpdateVirtualAccountTests {
         assertEquals(200, response.getStatusCode());
     }
 
+    @Test
+    public void Register200WithoutActive() throws Exception {
+        VirtualAccount virtualAccount=DefaultConfigurations.getVirtualAccounts().get(0);
+        ApiResponse response = api.updateVirtualAccount(DefaultConfigurations.getUserHandle(),
+                DefaultConfigurations.getUserPrivateKey(), virtualAccount.getVirtualAccountId(), "renamed", null);
+        assertEquals(200, response.getStatusCode());
+        VirtualAccountResponse parsedResponse = (VirtualAccountResponse) response.getData();
+
+        assertNotNull(parsedResponse.getStatus());
+        assertEquals("renamed", parsedResponse.getVirtualAccount().getVirtualAccountName());
+    }
+
 }

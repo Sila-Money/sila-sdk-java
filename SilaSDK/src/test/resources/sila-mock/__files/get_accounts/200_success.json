@@ -1,0 +1,14 @@
+[
+  {
+    "account_number": "*5678",
+    "routing_number": "123456789",
+    "account_name": "default",
+    "account_type": "CHECKING",
+    "account_status": "active",
+    "active": true,
+    "account_link_status": "processor_token",
+    "match_score": 0.825,
+    "account_owner_name": "Jane Doe",
+    "entity_name": "Jane Doe"
+  }
+]

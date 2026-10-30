@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Statement resend request successful.",
+  "reference": "mock-reference",
+  "response_time_ms": "299"
+}

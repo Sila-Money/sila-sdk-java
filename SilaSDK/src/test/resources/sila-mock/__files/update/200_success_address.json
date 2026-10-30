@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Successfully updated address.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "address": {
+    "uuid": "e1a2b3c4-0004-4d5e-8f9a-0b1c2d3e4f04",
+    "added_epoch": 1700000200,
+    "modified_epoch": 1700000300,
+    "nickname": "{{jsonPath request.body '$.address_alias'}}",
+    "street_address_1": "{{jsonPath request.body '$.street_address_1'}}",
+    "street_address_2": "{{jsonPath request.body '$.street_address_2'}}",
+    "city": "{{jsonPath request.body '$.city'}}",
+    "state": "{{jsonPath request.body '$.state'}}",
+    "country": "{{jsonPath request.body '$.country'}}",
+    "postal_code": "{{jsonPath request.body '$.postal_code'}}"
+  }
+}

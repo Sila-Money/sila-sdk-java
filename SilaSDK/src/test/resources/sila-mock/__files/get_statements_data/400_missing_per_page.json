@@ -1,0 +1,12 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Bad request.",
+  "reference": "mock-reference",
+  "response_time_ms": "8",
+  "validation_details": {
+    "search_filters": {
+      "per_page": "Ensure this value is greater than or equal to 1."
+    }
+  }
+}

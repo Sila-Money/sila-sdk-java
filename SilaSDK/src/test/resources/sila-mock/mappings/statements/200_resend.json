@@ -1,0 +1,14 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "PUT",
+    "urlPathPattern": "/statements/[^/]+"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "statements/200_resend.json"
+  }
+}

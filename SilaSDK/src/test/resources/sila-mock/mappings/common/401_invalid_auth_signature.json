@@ -1,0 +1,17 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "ANY",
+    "urlPattern": ".*",
+    "customMatcher": {
+      "name": "invalid-auth-signature"
+    }
+  },
+  "response": {
+    "status": 401,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "common/401_invalid_auth_signature.json"
+  }
+}

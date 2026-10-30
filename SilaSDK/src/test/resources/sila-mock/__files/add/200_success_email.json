@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Successfully added email.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "email": {
+    "uuid": "e1a2b3c4-0001-4d5e-8f9a-0b1c2d3e4f01",
+    "added_epoch": 1700000200,
+    "modified_epoch": 1700000200,
+    "email": "{{jsonPath request.body '$.email'}}"
+  }
+}

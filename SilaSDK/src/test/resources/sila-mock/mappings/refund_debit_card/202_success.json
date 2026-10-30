@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "url": "/refund_debit_card"
+  },
+  "response": {
+    "status": 202,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "refund_debit_card/202_success.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

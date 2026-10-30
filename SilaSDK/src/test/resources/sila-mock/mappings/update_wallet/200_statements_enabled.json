@@ -1,0 +1,22 @@
+{
+  "priority": 6,
+  "request": {
+    "method": "POST",
+    "url": "/update_wallet",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.statements_enabled == true)]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "update_wallet/200_statements_enabled.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

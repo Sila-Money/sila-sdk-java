@@ -1,0 +1,48 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Payment methods returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "171",
+  "payment_methods": [
+    {
+      "payment_method_type": "bank_account",
+      "bank_account_id": "2f6c9a2e-6d4b-4b8a-9e3a-1f2d3c4b5a69",
+      "account_number": "*5678",
+      "routing_number": "123456789",
+      "account_name": "default",
+      "account_type": "CHECKING",
+      "account_status": "active",
+      "account_link_status": "processor_token",
+      "match_score": 0.825,
+      "entity_name": "Jane Doe",
+      "account_owner_name": "Jane Doe"
+    },
+    {
+      "payment_method_type": "blockchain_address",
+      "blockchain_address_id": "1a5ab1e3-3a56-4c1f-8a7b-1b52b6d0f8c2",
+      "blockchain_address": "0x65a796a4bD3AaF6370791BefFb1A86EAcfdBc3C1",
+      "blockchain_network": "ETH",
+      "nickname": "default",
+      "default": true
+    },
+    {
+      "payment_method_type": "card",
+      "card_id": "8f8ad6bf-4a11-4bd8-9ff5-4e7ab1bd0bb4",
+      "card_name": "cko12345",
+      "card_last_4": "1157",
+      "card_type": "DEBIT",
+      "pull_enabled": true,
+      "push_enabled": true,
+      "push_availability": "Immediate",
+      "country": "US",
+      "currency": "USD"
+    }
+  ],
+  "pagination": {
+    "returned_count": 3,
+    "total_count": 3,
+    "current_page": 1,
+    "total_pages": 1
+  }
+}

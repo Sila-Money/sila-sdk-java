@@ -1,0 +1,19 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "POST",
+    "url": "/documents",
+    "bodyPatterns": [
+      {
+        "doesNotContain": "\"document_type\""
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "documents/400_missing_document_type.json"
+  }
+}

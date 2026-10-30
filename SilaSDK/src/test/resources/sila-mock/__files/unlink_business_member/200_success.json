@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "reference": "mock-reference",
+  "response_time_ms": "48",
+  "message": "{{jsonPath request.body '$.header.user_handle'}} has been unlinked as a {{jsonPath request.body '$.role'}} for business {{jsonPath request.body '$.header.business_handle'}}.",
+  "role": "{{jsonPath request.body '$.role'}}"
+}

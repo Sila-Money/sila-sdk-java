@@ -1,0 +1,66 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "reference": "mock-reference",
+  "response_time_ms": "61",
+  "user_handle": "{{lower (jsonPath request.body '$.header.user_handle')}}",
+  "entity_type": "individual",
+  "entity": {
+    "created_epoch": 1700000000,
+    "entity_name": "Example User",
+    "birthdate": "1950-01-31",
+    "first_name": "Example",
+    "last_name": "User"
+  },
+  "addresses": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "a1b2c3d4-0001-4e5f-9a0b-1c2d3e4f5a01",
+      "nickname": "",
+      "street_address_1": "123 Main Street",
+      "street_address_2": "",
+      "city": "New City",
+      "state": "OR",
+      "country": "US",
+      "postal_code": "97204-1234"
+    }
+  ],
+  "identities": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "a1b2c3d4-0002-4e5f-9a0b-1c2d3e4f5a02",
+      "identity_type": "SSN",
+      "identity": "*******1234"
+    }
+  ],
+  "emails": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "a1b2c3d4-0003-4e5f-9a0b-1c2d3e4f5a03",
+      "email": "example@silamoney.com"
+    }
+  ],
+  "phones": [
+    {
+      "added_epoch": 1700000000,
+      "modified_epoch": 1700000000,
+      "uuid": "a1b2c3d4-0004-4e5f-9a0b-1c2d3e4f5a04",
+      "phone": "5031234567",
+      "sms_confirmation_requested": false,
+      "sms_confirmed": false
+    }
+  ],
+  "memberships": [
+    {
+      "business_handle": "javasdk-user4-mock",
+      "entity_name": "entity name",
+      "role": "beneficial_owner",
+      "details": "test details",
+      "ownership_stake": 0.66,
+      "certification_token": "8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b"
+    }
+  ]
+}

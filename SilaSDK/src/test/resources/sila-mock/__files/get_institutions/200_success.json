@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Institutions returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "institutions": [
+    {
+      "name": "1ST ADVANTAGE BANK",
+      "office_code": "O",
+      "routing_number": "081520018",
+      "record_type_code": "1",
+      "change_date": "041513",
+      "new_routing_number": "000000000",
+      "address": {
+        "address_alias": "",
+        "street_address_1": "240 SALT LICK RD",
+        "city": "SAINT PETERS",
+        "state": "MO",
+        "country": "US",
+        "postal_code": "63376"
+      },
+      "phone": "6363970700",
+      "institution_status_code": "1",
+      "data_view_code": "1",
+      "products": [
+        "STANDARD_ACH",
+        "SAME_DAY_ACH"
+      ]
+    }
+  ],
+  "page": 1,
+  "returned_count": 1,
+  "total_count": 1,
+  "pagination": {
+    "returned_count": 1,
+    "total_count": 1,
+    "current_page": 1,
+    "total_pages": 1
+  }
+}

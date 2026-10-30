@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "status": "FAILURE",
+  "message": "Cannot delete the only address registered to an entity; add another address first.",
+  "reference": "mock-reference",
+  "response_time_ms": "42"
+}

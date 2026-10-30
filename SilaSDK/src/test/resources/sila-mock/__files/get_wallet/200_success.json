@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Wallet returned.",
+  "reference": "mock-reference",
+  "response_time_ms": "12",
+  "wallet": {
+    "wallet_id": "8f3a2b1c-4d5e-4f60-8a7b-9c0d1e2f3a4b",
+    "nickname": "wallet_test",
+    "default": true,
+    "frozen": false,
+    "blockchain_address": "0x65a796a4bD3AaF09F8cB0c6E1d5BBf3a1d9f0e72",
+    "blockchain_network": "ETH",
+    "statements_enabled": true
+  },
+  "is_whitelisted": true,
+  "sila_balance": 0.0,
+  "sila_available_balance": 0.0,
+  "sila_pending_balance": 0.0
+}

@@ -1,0 +1,19 @@
+{
+  "priority": 7,
+  "request": {
+    "method": "POST",
+    "url": "/documents",
+    "bodyPatterns": [
+      {
+        "contains": "\"file_metadata\""
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "documents/200_success_multiple.json"
+  }
+}

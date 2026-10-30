@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "status": "SUCCESS",
+  "message": "Successfully updated entity.",
+  "reference": "mock-reference",
+  "response_time_ms": "42",
+  "user_handle": "{{lower (jsonPath request.body '$.header.user_handle')}}",
+  "entity_type": "business",
+  "entity": {
+    "created_epoch": 1700000100,
+    "entity_name": "New Company",
+    "birthdate": "1989-01-31",
+    "business_type": "corporation",
+    "naics_code": "721",
+    "naics_category": "Accommodation and Food Services",
+    "naics_subcategory": "Accommodation",
+    "business_uuid": "9f280665-629f-45bf-a694-133c86bffd5e",
+    "doing_business_as": "NC",
+    "business_website": "https://somedomain.go",
+    "registration_state": "IA"
+  }
+}
