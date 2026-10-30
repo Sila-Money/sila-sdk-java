@@ -9,12 +9,10 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.Map;
 
+import com.silamoney.client.util.SdkInfo;
 import com.silamoney.clientrefactored.configuration.Environment;
 
 public class ApiClient {
-
-    private static final String PRODUCT = "SilaSDK-java";
-    private static final String VERSION = "1.4.0";
 
     private HttpClient httpClient;
     private String basePath;
@@ -46,7 +44,7 @@ public class ApiClient {
 
     private HttpRequest prepareRequest(String path, Map<String, String> headers, String body) {
         var request = HttpRequest.newBuilder().uri(URI.create(basePath + path));
-        headers.put("User-Agent", PRODUCT + '/' + VERSION);
+        headers.put("User-Agent", SdkInfo.USER_AGENT);
 
         headers.entrySet().forEach(entry -> request.header(entry.getKey(), entry.getValue()));
         addTimeout(request);
