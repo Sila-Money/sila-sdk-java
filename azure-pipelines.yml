@@ -20,15 +20,12 @@ strategy:
     jdk17:
       jdkHome: $(JAVA_HOME_17_X64)
       runSonar: 'true'
-      coverageTool: 'JaCoCo'
     jdk21:
       jdkHome: $(JAVA_HOME_21_X64)
       runSonar: 'false'
-      coverageTool: 'None'
     jdk25:
       jdkHome: $(JAVA_HOME_25_X64)
       runSonar: 'false'
-      coverageTool: 'None'
 
 steps:
 # If the image does not export the JAVA_HOME_<n>_X64 variable, jdkHome stays as the literal macro text. Stop here with a clear error.
@@ -66,10 +63,17 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/*.xml'
     testRunTitle: '$(System.JobName)'
-    codeCoverageToolOption: '$(coverageTool)'
+    # The pom already runs JaCoCo. The task's JaCoCo option adds a second jacoco-maven-plugin, and Maven rejects the pom.
+    codeCoverageToolOption: 'None'
     javaHomeOption: 'Path'
     jdkDirectory: '$(jdkHome)'
     sonarQubeRunAnalysis: $(runSonar)
+
+- task: PublishCodeCoverageResults@2
+  displayName: 'Publish code coverage'
+  condition: and(succeeded(), eq(variables['runSonar'], 'true'))
+  inputs:
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/SilaSDK/target/site/jacoco/jacoco.xml'
 
 - task: SonarQubePublish@7
   displayName: 'Publish Quality Gate'
