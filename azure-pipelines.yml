@@ -7,12 +7,52 @@ trigger:
 - master
 pr: none
 
+# Pinned so the JAVA_HOME_<n>_X64 variables below match this image's toolset (it ships JDK 17, 21 and 25).
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-24.04'
+
+variables:
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+
+# Build and test on every supported LTS JDK. Java 17 is the SDK floor and runs the Sonar analysis and coverage.
+strategy:
+  matrix:
+    jdk17:
+      jdkHome: $(JAVA_HOME_17_X64)
+      runSonar: 'true'
+      coverageTool: 'JaCoCo'
+    jdk21:
+      jdkHome: $(JAVA_HOME_21_X64)
+      runSonar: 'false'
+      coverageTool: 'None'
+    jdk25:
+      jdkHome: $(JAVA_HOME_25_X64)
+      runSonar: 'false'
+      coverageTool: 'None'
 
 steps:
+# If the image does not export the JAVA_HOME_<n>_X64 variable, jdkHome stays as the literal macro text. Stop here with a clear error.
+- script: |
+    if [ ! -x "$JDK_PATH/bin/java" ]; then
+      echo "##vso[task.logissue type=error]No JDK found at '$JDK_PATH'. Check that this image provides this JDK version."
+      exit 1
+    fi
+    "$JDK_PATH/bin/java" -version
+  displayName: 'Check JDK'
+  env:
+    JDK_PATH: $(jdkHome)
+
+- task: Cache@2
+  displayName: 'Cache Maven repository'
+  inputs:
+    key: 'maven | "$(Agent.OS)" | SilaSDK/pom.xml'
+    restoreKeys: |
+      maven | "$(Agent.OS)"
+    path: $(MAVEN_CACHE_FOLDER)
+
 - task: SonarQubePrepare@7
   displayName: 'Prepare SonarQube analysis'
+  condition: and(succeeded(), eq(variables['runSonar'], 'true'))
   inputs:
     SonarQube: 'Sila SonarQube'
     scannerMode: 'Other'
@@ -22,16 +62,17 @@ steps:
   inputs:
     mavenPomFile: 'SilaSDK/pom.xml'
     goals: 'clean verify'
-    options: '-B'
+    options: '-B -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/*.xml'
-    codeCoverageToolOption: 'JaCoCo'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
-    jdkArchitectureOption: 'x64'
-    sonarQubeRunAnalysis: true
+    testRunTitle: '$(System.JobName)'
+    codeCoverageToolOption: '$(coverageTool)'
+    javaHomeOption: 'Path'
+    jdkDirectory: '$(jdkHome)'
+    sonarQubeRunAnalysis: $(runSonar)
 
 - task: SonarQubePublish@7
   displayName: 'Publish Quality Gate'
+  condition: and(succeeded(), eq(variables['runSonar'], 'true'))
   inputs:
     pollingTimeoutSec: '300'
