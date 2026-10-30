@@ -1,5 +1,5 @@
 # Sila SDK for Java
-For this SDK you will need to use JDK 11 or later.
+For this SDK you will need to use JDK 17 or later.
 
 **NOTE**: This SDK is a release candidate.
 

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silamoney.client</groupId>
     <artifactId>SilamoneySDK</artifactId>
-    <version>1.3.1</version>
+    <version>1.4.0</version>
     <packaging>jar</packaging>
 
     <name>Silamoney SDK</name>
@@ -39,7 +39,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
+        <lombok.version>1.18.42</lombok.version>
         <sonar.projectKey>Sila-Money_sila-sdk-java</sonar.projectKey>
         <sonar.projectName>sila-sdk-java</sonar.projectName>
         <sonar.coverage.jacoco.xmlReportPaths>**/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
@@ -51,7 +52,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-bom</artifactId>
-                <version>4.2.9.Final</version>
+                <version>4.2.19.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -67,17 +68,17 @@
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <version>5.6</version>
+            <version>5.6.4</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.83</version>
+            <version>1.86</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.42</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -93,7 +94,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.20.1</version>
+            <version>2.21.7</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -172,13 +173,26 @@
     </profiles>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <release>11</release>
+                    <!-- JDK 23+ no longer runs annotation processors found on the classpath. -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -192,6 +206,9 @@
                     <excludes>
                         <exclude>**/*Tests.java</exclude>
                     </excludes>
+                    <systemPropertyVariables>
+                        <sdk.version>${project.version}</sdk.version>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
